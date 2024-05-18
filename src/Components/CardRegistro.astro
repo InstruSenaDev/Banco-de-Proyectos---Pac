@@ -1,37 +1,39 @@
 ---
 title: "Registro"
+
 ---
 
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-        <link href="/src/styles/Registro.css" rel="stylesheet" />
-		
-	</head>
-    <body>
-        <div class="form-container">
-            <form id="formularioRegistro">
-                <div>
-                    <label for="nombreCompleto">Nombre Completo:</label>
-                    <input type="text" id="nombreCompleto" name="nombreCompleto" required>
-                </div>
-                <div>
-                    <label for="email">Correo:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div>
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="password" id="contraseña" name="contraseña" required>
-                </div>
-                <div>
-                    <label for="confirmarcontraseña">Confirmar Contraseña:</label>
-                    <input type="password" id="confirmarcontraseña" name="confirmarcontraseña" required>
-                </div>
-                <button type="submit">Registrarse</button>
-            </form>
-        </div>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet" />
+    <link href="/src/style/registro.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2 class="Registro" >REGISTRO</h2>
+        <form id="formularioRegistro">
+            <div>
+                <label for="nombreCompleto"></label>
+                <input type="text" value="Nombre Completo" id="nombreCompleto" name="nombreCompleto" required>
+            </div>
+            <div>
+                <label for="email"></label>
+                <input type="email" value="Correo:" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="contraseña"></label>
+                <input type="password" value="Contraseña:" id="contraseña" name="contraseña" required>
+            </div>
+            <div>
+                <label for="confirmarcontraseña"></label>
+                <input type="password"  value="Confirmar Contraseña:" id="confirmarcontraseña" name="confirmarcontraseña" required>
+            </div>
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+</body>
 </html>
-
