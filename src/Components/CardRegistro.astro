@@ -10,15 +10,20 @@ title: "Registro"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet" />
     <link href="/src/style/registro.css" rel="stylesheet" />
-    <title>Document</title>
+    <title>PAC</title>
 </head>
 <body>
     <div class="form-container">
+        <img class="Logo" src="/public/img/Logo.png">
         <h2 class="Registro" >REGISTRO</h2>
         <form id="formularioRegistro">
             <div>
                 <label for="nombreCompleto"></label>
-                <input type="text" value="Nombre Completo" id="nombreCompleto" name="nombreCompleto" required>
+                <input type="text" value="Nombre Completo:" id="nombreCompleto" name="nombreCompleto" required>
+            </div>
+            <div>
+                <label for="numerodeDocuemnto"></label>
+                <input type="text" value="Numero de Docuemnto:" id="numerodeDocumento" name="numerodeDocument" required>
             </div>
             <div>
                 <label for="email"></label>
@@ -32,6 +37,15 @@ title: "Registro"
                 <label for="confirmarcontraseña"></label>
                 <input type="password"  value="Confirmar Contraseña:" id="confirmarcontraseña" name="confirmarcontraseña" required>
             </div>
+            <div>
+                <label for="telefono"></label>
+                <input type="text" value="Telefono:" id="telefono" name="telefono" required>
+            </div>
+            <div>
+                <label for="nombredelaEmpresa"></label>
+                <input type="text" value="Nombre de la Empresa:" id="nombredelaEmpresa" name="nombredelaEmpresa" required>
+            </div>
+            <img class="registro" src="/public/img/registro.png">
             <button type="submit">Registrarse</button>
         </form>
     </div>
