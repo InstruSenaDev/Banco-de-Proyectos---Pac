@@ -1,31 +1,93 @@
 ---
-title: "Inicio"
+title: "Inicio";
+
 ---
 
 <html lang="en">
-	<head>
-		<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+    <head>
+        <link
+            href="https://fonts.googleapis.com/css?family=Inter&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap"
+            rel="stylesheet"
+        />
         <link href="/src/styles/Inico.css" rel="stylesheet" />
-		
-	</head>
+    </head>
     <body>
         <div class="form-container">
-            <form id="formularioInicio">
-                <div>
-                    <label for="nombreCompleto">Correo electronico:</label>
-                    <input type="text" id="nombreCompleto" name="nombreCompleto" required>
+            <form action="#" class="form">
+                <div>logo sena</div>
+                <h3>LOGIN</h3>
+                <input class="campo" type="text" name="email" placeholder="Email" />
+                <input class="campo" type="password" name="password" placeholder="Password" />
+                <div class="btn">
+                    <button type="submit">Iniciar sesion</button>
                 </div>
-
-                <div>
-                    <label for="contraseña">Contraseña:</label>
-                    <input type="password" id="contraseña" name="contraseña" required>
+                <div class="bottom form">
+                    <div class="no-account">No tienens cuenta?</div>
+                    <a href="#" class="signup">Registrarse</a>
                 </div>
-
-                <button type="submit">Inicar sesion</button>
             </form>
         </div>
-    </body>
-</html>
 
+        <div class="img-container">
+            <img class="Nino" src="/public/img/ninoinicio.png" width="530" height="550">
+        </div>
+
+    </body>
+
+    <style>
+        body {
+            font-family: "Josefin Sans", sans-serif;
+            background-color: #ffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 120px;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .campo {
+        background-color: rgba(245, 246, 250, 1);
+        width:200px;
+        height: 25px;
+        border-radius: 5px;
+        border: 1px solid rgba(213, 213, 213, 1);
+        margin-bottom: 15px;
+    }
+/*-------------------------*/
+
+.img-container {
+    width: auto;
+    height: auto,
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+
+    </style>
+</html>
