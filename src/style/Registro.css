@@ -1,104 +1,91 @@
-
-
 body {
     font-family: "Josefin Slab", serif;
     font-optical-sizing: auto;
     background-color: #ffffff;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
     margin: 0;
+    padding-left: 250px;
+    padding-top: 70px;
 }
-
+.registroImagen{
+    width: 800px;
+    margin-left: 250px;
+    margin-bottom: 250px;
+}
 .Registro {
     position: absolute;
     top: 220px;
-    left: 380px;
+    left: 390px;
     color: black;
     font-size: 33px;
 }
 
-#formularioRegistro input[type="text"],
-#formularioRegistro input[type="email"],
-#formularioRegistro input[type="password"] {
-    font-size: 30px;
-    padding: 10px;
-    width: 120%;
-    box-sizing: border-box;
-    margin-bottom: 30px;
+#formularioRegistro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+#formularioRegistro input {
+    background: #F5F6FA;
+    width: 350px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid #D5D5D5;
+    padding: 7px;
+    
+    padding-left: 20px;
     font-family: "Josefin Slab", serif;
     font-size: 18px;
 }
+
 .form-container {
     padding: 30px;
     border-radius: 10px;
     width: 360px;
-    height: 263px;
-    position: absolute;
-    left: 230px;
-    top: 260px;
+    position: relative;
+    text-align: left; 
 }
-#formularioRegistro div {
-    margin-bottom: -10px;
 
-}
 
 #formularioRegistro label {
     display: block;
-    border-color: #A3E784;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 18px;
 }
-#formularioRegistro input {
-    padding: 30px;
-    border: 1px solid #D5D5D5;
-    background: #F5F6FA;
-    border-radius: 4px;
-    height: 60px;
 
-}
-#formularioRegistro button {
+.btnRegistro {
     width: 200px;
-    height: 57px;
+    height: 50px;
     padding: 10px;
-    top: 980px;
-    left: 320px;
     background-color: #A3E784;
     border: none;
     color: #000000;
     border-radius: 5px;
     cursor: pointer;
     font-size: 20px;
-    font-family: "Josefin Slab", serif;
+    margin-top: 20px;
+    align-self: center; 
 }
 
-#formularioRegistro button:hover {
-    background-color: #0056b3;
-}
 
-.registro{
-    width: 1000px;
-    height: 800px;
+.Logo {
+    width: 340px;
+    height: 130px;
     position: absolute;
     top: 80px;
-    left: 840px;
+    left: 300px;
 }
 
-.Logo{
-    width: 300px;
-    height: 140px;
-    position: absolute;
-    top: 80px;
-    left: 320px;
-}
-
-.inicio{
+.inicio {
     width: 660px;
-    color: rgba(0,0,0,1);
+  
     position: absolute;
-    top: 980px;
+    top: 800px;
     left: 320px;
-    font-size: 20px;
     text-align: left;
 }
 
@@ -106,13 +93,13 @@ body {
     display: inline-block;
     position: relative;
     padding-left: 35px;
-    margin-bottom: 12px;
+    padding-top: 10px;
+    margin-bottom: 30px;
     cursor: pointer;
     font-size: 22px;
     user-select: none;
 }
 
-/* Ocultar el checkbox real */
 .checkbox-container input {
     position: absolute;
     opacity: 0;
@@ -121,7 +108,7 @@ body {
 
 .checkmark {
     position: absolute;
-    top: 0;
+    top: 2;
     left: 0;
     height: 25px;
     width: 25px;
@@ -129,39 +116,38 @@ body {
     border-radius: 4px;
 }
 
-/* Cambio de color al hacer clic */
 .checkbox-container input:checked ~ .checkmark {
-    background-color:#A3E784;
+    background-color: #A3E784;
 }
 
-/* Estilo del checkmark al estar marcado */
 .checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
 
-
 @media (max-width: 1000px) {
-    .registro{
-    display:none;
+    .registro {
+        display: none;
     }
-
 }
 
-body{
-    position: static;
-    overflow: hidden;
-}
-
-@media (max-width: 780px){
-    .registro{
-        display:none;
+@media (max-width: 780px) {
+    .registro {
+        display: none;
         width: 75%;
-
     }
 }
-body{
+
+body {
     position: static;
     overflow: hidden;
 }
+
+
+
+
+
+
+
+
