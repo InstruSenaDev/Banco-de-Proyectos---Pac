@@ -10,10 +10,6 @@ export default {
 		  'custom-green': 'rgba(163, 231, 132, 1)', // Define el color personalizado
 		},
 
-		margin: {
-			'45': '45px',  // Clase personalizada para el margen superior
-			'25': '25px',  // Clase personalizada para el margen inferior
-		  },
 	  },
 	},
 	variants: {
