@@ -21,10 +21,14 @@ import Carpag from "../components/carpag.astro"
             }
     
             body {  
-            overflow: hidden;
+                overflow: hidden;
             display: flex;
             justify-content: space-between;
             margin: 0px auto;
+            font-size: 1vw; 
+        }
+
+
             .font-josefin-slab {
         font-family: 'Josefin Slab', serif;
     }
@@ -34,23 +38,25 @@ import Carpag from "../components/carpag.astro"
     .font-inter {
         font-family: 'Inter', sans-serif;
     }
-            }
+
+  
+       
             
 
         </style>
         <title>Astro</title>
     </head>
 
-    <body class="   h-screen w-full  flex justify-center items-center  p-[5%]       ">
-        <div class="w-full      "> 
-    <div class=" w-[100%]   m-auto flex  max-[768px]:m-[50px] mt-[3%] ">
-        <div class=" w-[90%] flex-col mt-[8%] "> 
-            <h1 class=" text-[90px]  leading-[5rem]  font-josefin-slab max-[768px]:text-[60px] ">  Bienvenido
-                <h2 class=" text-[70px]   font-['serif' max-[768px]:text-[50px] ] text-[#A3E784] ">  Aprendiz
-                    <p class=" text-[15px] mt-[5%] text-black  font-josefin-sans leading-[1rem] w-[85%] ">  <b> ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla!  Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito? </b></p>
+   
+        <div class=" h-screen w-full  flex justify-center items-center flex-col p-[5%]      "> 
+    <div class=" w-[70%]   m-auto flex  max-[768px]:m-[15px] ">
+        <div class=" w-[90%] flex-col mt-[10%] "> 
+            <h1 class=" text-[6vw]  leading-[1rem]  font-josefin-slab max-[768px]:text-[15vw] mb-[5%]  ">  Bienvenido
+                <h2 class=" text-[5vw] mt-[3%]   font-['serif' max-[768px]:text-[50px] ] text-[#A3E784] ">  Aprendiz
+                    <p class=" text-[1vw] mt-[5%] text-black  font-josefin-sans leading-[1.1rem]  max-[768px]:text-[15px] mb-[8%] "> ¿Tienes una idea que quema en tu mente? ¡Es hora de compartirla!  Únete a nuestro banco de proyectos y convierte tu visión en realidad. ¿Estás listo para dar el primer paso hacia el éxito? </b></p>
         </div>
              <div class=" w-full   max-[768px]:hidden  flex  items-center  "> 
-                        <img class=" w-[30em]   max-[768px]:hidden  mt-[30px]  " src="/img/mujer.png" alt="Olvido de contraseña" />
+                        <img class=" w-[35em]   max-[768px]:hidden    " src="/img/mujer.png" alt="Olvido de contraseña" />
                 </div>    
              </div> 
     
@@ -59,7 +65,7 @@ import Carpag from "../components/carpag.astro"
             </div>
         </div>
     </div>
-    </body>
+
     
 </html>
 
