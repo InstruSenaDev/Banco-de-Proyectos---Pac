@@ -1,6 +1,7 @@
 ---
 
 import CartaUsuario from "../Components/CartaUsuario.astro"
+import Sidebard from "../Components/Sidebard.astro"
 
 
 ---
@@ -27,28 +28,32 @@ import CartaUsuario from "../Components/CartaUsuario.astro"
         </style>
 
 	</head>
-	<body class="bg-white  items-center h-screen m-0   overflow-hidden p-8">
+    
+<body class="bg-white flex flex-col items-center justify-center h-screen  overflow-hidden ">
+    <Sidebard Text="hhhh" />
+    <div class="w-full max-w-7xl flex-grow">
+       
+        <div class="flex items-start">
             
-            
-            <div class="flex h-full">
-                
-
-                <div class="flex flex-col items-start w-1/2 p-8">
-                    <span class="text-9xl font-josefin-slab mb-30">Bienvenido</span>
-                    <span class="text-8xl text-Verde font-Inter mb-30">USUARIO</span>
-                    <span class="text-1xl font-josefin-Inter mb-10 w-30">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
-                        aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.</span>
-
-                        <div class="relative flex items-center justify-center h-full">
-                            <CartaUsuario Text="Carga masiva de aprendices"/>
-                            <CartaUsuario Text="Crear usuarios"/>
-                            
-                        </div>
-                </div>
-
-                <div class="w-1/2 flex justify-center items-center ">
-                    <img class="w-50 h-96 top-20 absolute" src="/public/img/usuario.png" alt="Principal Image">
-                </div>
+            <div class="w-1/2 p-8">
+                <span class="text-9xl font-josefin-slab mb-4">Bienvenido</span>
+                <span class="text-8xl text-[#A3E784] font-inter mb-4">USUARIO</span>
+                <p class="text-3xl font-josefin-slab mb-8 mt-20">Hola! querido usuario aqui podras reistrar tus proyectos o si ya tienes podras visualizarlos y saber el estado en el que se encuentra, ten una buena experiencia en el aplicativo.</p>
             </div>
-	</body>
+
+            <div class="w-1/2 flex justify-center items-center">
+                <img class="w-97 h-auto" src="/public/img/usuario.png" alt="Imagen Principal">
+            </div>
+
+        </div>
+
+        <div class="flex justify-center mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
+                <CartaUsuario Text="Ver todos los proyectos" />
+                <CartaUsuario Text="Ver proyectos" />
+                
+            </div>
+        </div>
+    </div>
+</body>
 </html>
