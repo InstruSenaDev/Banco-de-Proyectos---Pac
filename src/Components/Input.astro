@@ -2,14 +2,15 @@
 interface Props {
 placeholder: string;
 type:"text" | "email" | "password" | "number";
+Text: String
 }
 
-const { placeholder, type} = Astro.props;
+const { placeholder, type, Text} = Astro.props;
 
 ---
 
     <div>
-        <label for=""></label>
+        <label class="pace-y-2 w-1/2 font-josefin-slab font-semibold text-black">{Text}</label>
         <input 
         type={type} 
         placeholder={placeholder} 

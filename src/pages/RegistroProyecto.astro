@@ -1,0 +1,59 @@
+---
+
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import Input from "../Components/Input.astro"
+import Sidebard from "../Components/Sidebard.astro"
+---
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+		<title>PAC</title>
+
+        <style>
+    
+
+            body {
+                font-family: "Josefin Slab", serif;
+                font-optical-sizing: auto;
+            }
+        </style>
+
+	</head>
+    <body class=" bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll bg-[#F5F6FA] ">
+        
+
+            <div class=" text-center p-8">
+                <span class="font-serif"> Crear usuario </span>
+            </div>
+            <div class="p-10 w-3/3 h-full bg-white rounded-lg border-none border-Borde_gris adsolute mx-40">
+                <div class=" p-20 flex justify-center items-center">
+                        <div class="flex justify-center space-x-10 ">
+
+                            <div class="flex-box flex flex-col space-y-8 w-1/2">
+                                <Input type="text"  Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac"  />
+                                <Input type="text"  Text="Sector Impactado" placeholder="Impacto Del Proyecto:"  />
+                                <Input type="text"  Text="Responsable" placeholder="Responsable Del Proyecto"  />
+                                <Input type="text"  Text="Disponibilidad Para Reuniones Con El Equipo Desarrollador" placeholder=""  />
+
+                                <div class=" flex-col space-y-8 w-1/2 grid gap-x-8 gap-y-4 grid-cols-3" >
+                              <BotonPrincipal Text="Semanal"/>
+                              <BotonPrincipal Text="Quincenal"/>
+                              <BotonPrincipal Text="Mensual"/>
+                                </div>
+
+                               
+                          
+
+                            </div>
+
+                
+            </div>
+    </body>
+</html>
