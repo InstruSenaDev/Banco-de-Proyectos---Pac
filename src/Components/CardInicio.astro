@@ -1,55 +1,45 @@
----
-title: "Inicio";
-
-
----
-
-
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link
-            href="https://fonts.googleapis.com/css?family=Inter&display=swap"
-            rel="stylesheet"
-        />
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: "Josefin Slab", serif;
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Josefin Slab", serif;
             font-optical-sizing: auto;
-            }
-        </style>
+        }
+    </style>
+</head>
+<body>
+    <div class="flex h-screen items-center justify-center gap-x-72 "> <!--contenedor principal -->
 
-    
-    </head>
-    <body>
-        <div class="flex h-screen items-center justify-center gap-x-72 "> <!--contenedor principal -->
+        <div class="flex content-center"> <!--contenedor del formulario -->
+            <form action="#" class="form flex flex-col w-96 items-center gap-28">
 
-        <div class=" flex content-center"> <!--contenedor del formulario -->
-            <form action="#" class="form flex flex-col w-96 items-center gap-60 bg-orange-300 " >
-
-                <div class= "logo-sena flex m-auto items-center justify-center w-52 h-20 bg-custom-green rounded-bl-[35px] rounded-br-[35px]  "> <!--caja del logo -->
-                    <img class="sena w-14 h-14 " src="/public/img/logoSena.png" width="10" height="10">
+                <div class="logo-sena flex m-auto items-center justify-center w-52 h-20 bg-custom-green rounded-bl-[35px] rounded-br-[35px]"> <!--caja del logo -->
+                    <img class="sena w-14 h-14" src="/public/img/logoSena.png" width="10" height="10">
                 </div>
 
                 <div class="login flex flex-col items-center gap-4">
-                    <h3 class="text-3xl">LOGIN</h3>
+                    <div class="text-3xl pb-8">LOGIN</div>
                     
                     <input class="w-96 h-12 bg-gray-200 rounded border border-gray-300 p-[7px] 
-                    pl-[20px] transition-transform outline-none focus:translate-y-1.25 " type="text" name="email" placeholder="Email" />
+                    pl-[20px] transition-transform outline-none focus:translate-y-1.25" type="text" name="email" placeholder="Email" />
     
                     <input class="w-96 h-12 bg-gray-200 rounded border border-gray-300 p-[7px] 
                     pl-[20px] transition-transform outline-none focus:translate-y-1.25" type="password" name="password" placeholder="Password" />
             
-                    <button class="w-44 h-11 bg-custom-green rounded border-none" type="submit">Iniciar sesion</button>
+                    <div class="flex justify-end w-full">
+                    <a href="#" class="text-blue-500 ">Forget password</a>
+                 </div>
+                    
+                    <button class="w-44 h-11 bg-custom-green rounded border-none" type="submit">LOGIN</button>
                 </div>
 
-                <div class="boton items-center text-center ">
-                    <div class=" flex">No tienes cuenta?</div>
+                <div class="boton items-center text-center mb-3">
+                    <div class="flex">¿No tienes cuenta?</div>
                     <a href="#" class="signup">Registrarse</a>
                 </div>
 
@@ -58,13 +48,9 @@ title: "Inicio";
         </div>
 
         <div>
-            <img class="w-[800px] h-[800px]" src="..//../public/img/nino.png" alt="">
+            <img class="w-[800px] h-[800px]" src="../../public/img/nino.png" alt="">
         </div>
 
     </div>
-
-
-    </body>
-
- 
+</body>
 </html>
