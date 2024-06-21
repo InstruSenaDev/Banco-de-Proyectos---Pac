@@ -2,6 +2,7 @@
 
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import Input from "../Components/Input.astro"
+import RadioButton from "../Components/RadioButton.astro"
 import Sidebard from "../Components/Sidebard.astro"
 ---
 
@@ -26,34 +27,44 @@ import Sidebard from "../Components/Sidebard.astro"
         </style>
 
 	</head>
-    <body class=" bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll bg-[#F5F6FA] ">
+    <body class="bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll bg-[#F5F6FA]">
         
 
             <div class=" text-center p-8">
-                <span class="font-serif"> Crear usuario </span>
+                <span class="font-serif text-3xl">Registra Tu Proyecto</span>
             </div>
             <div class="p-10 w-3/3 h-full bg-white rounded-lg border-none border-Borde_gris adsolute mx-40">
-                <div class=" p-20 flex justify-center items-center">
-                        <div class="flex justify-center space-x-10 ">
+                <div class="p-10 flex justify-center items-center">
+                        <div class="w-full max-w-2xl">
 
-                            <div class="flex-box flex flex-col space-y-8 w-1/2">
+                            <div class="flex flex-col space-y-8">
                                 <Input type="text"  Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac"  />
                                 <Input type="text"  Text="Sector Impactado" placeholder="Impacto Del Proyecto:"  />
                                 <Input type="text"  Text="Responsable" placeholder="Responsable Del Proyecto"  />
-                                <Input type="text"  Text="Disponibilidad Para Reuniones Con El Equipo Desarrollador" placeholder=""  />
-
-                                <div class=" flex-col space-y-8 w-1/2 grid gap-x-8 gap-y-4 grid-cols-3" >
-                              <BotonPrincipal Text="Semanal"/>
-                              <BotonPrincipal Text="Quincenal"/>
-                              <BotonPrincipal Text="Mensual"/>
+                                
+                                <div class="space-y-2">
+                                    <label class="font-josefin-slab font-semibold text-black">
+                                        Disponibilidad Para Reuniones Con El Equipo Desarrollador
+                                    </label>
                                 </div>
 
-                               
-                          
-
+                                <div class="grid grid-cols-3 gap-4">
+                                <BotonPrincipal Text="Semanal"/>
+                                <BotonPrincipal Text="Quincenal"/>
+                                <BotonPrincipal Text="Mensual"/>
                             </div>
-
-                
+                            <div class="grid grid-cols-3 gap-x-8 gap-y-4 mt-4">
+                                <RadioButton Text="Lunes"/>
+                                <RadioButton Text="Martes"/>
+                                <RadioButton Text="Miércoles"/>
+                                <RadioButton Text="Jueves"/>
+                                <RadioButton Text="Viernes"/>
+                                <RadioButton Text="Sábado"/>
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
             </div>
-    </body>
-</html>
+        </body>
+        </html>
