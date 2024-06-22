@@ -2,10 +2,10 @@
 export interface Props {
   href: string;
   label: string;
-  badge?: string;
+ 
 }
 
-const { href, label, badge } = Astro.props;
+const { href, label,  } = Astro.props;
 ---
 
 <li>
@@ -19,6 +19,6 @@ const { href, label, badge } = Astro.props;
     <span class="flex-1 ms-3 whitespace-nowrap">
       <slot name="label">{label}</slot>
     </span>
-    {badge && <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">{badge}</span>}
+    
   </a>
 </li>
