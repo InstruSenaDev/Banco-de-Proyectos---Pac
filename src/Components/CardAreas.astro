@@ -1,0 +1,33 @@
+---
+import BotonSegundo from './BotonSegundo.astro';
+interface Props {
+Text: string;
+
+}
+
+const {Text} = Astro.props;
+---
+
+<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+    .font-josefin-sans {
+        font-family: 'Josefin Sans', sans-serif;
+    }
+    .font-inter {
+        font-family: 'Inter', sans-serif;
+    }
+</style>
+
+
+
+<div class="w-200 h-80 bg-[#FBFCFF] rounded-xl border-2 border-[#FBFCFF] shadow-lg  flex flex-col items-center justify-center adsolute p-8 m-8">
+    <h2 class="text-2xl font-josefin-slab mb-4 text-center leading-tight p-4 font-bold "> {Text} </h2>
+    <BotonSegundo Text="Seleccionar"/>
+
+</div>
