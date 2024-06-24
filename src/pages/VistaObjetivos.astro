@@ -1,13 +1,10 @@
 ---
 
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
-import Input from "../Components/Input.astro"
-import RadioButton from "../Components/RadioButton.astro"
 
 import NavbarI from "../Components/NavbarI.astro"
-import BotonSegundo from "../Components/BotonSegundo.astro"
-import Card from "../Components/Card.astro"
-import CardAreas from "../Components/CardAreas.astro"
+
+import BarraPreguntas from "../Components/BarraPreguntas.astro"
 ---
 
 
@@ -33,22 +30,25 @@ import CardAreas from "../Components/CardAreas.astro"
 	</head>
     <body class="bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll bg-[#F5F6FA]">
         <NavbarI Text="Navbar" />
-    
-        <div class="flex justify-center min-h-screen w-150px">
+
+        <div class="flex justify-center  min-h-screen">
             <div class="p-10 w-full max-w-7xl my-10 bg-white rounded-lg border-none border-Borde_gris">
-                <div class="flex flex-col space-y-8">
-                   
+            <div class="flex flex-col space-y-8">
+                <div class="text-left mb-4">
+                    <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” y “NO” en cada pregunta</h1>
+                </div>
     
-                    <div class="flex justify-center">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                            <CardAreas Text="Gestión Empresarial"/>
-                            <CardAreas Text="Gestión Empresarial"/>
-                            <CardAreas Text="Gestión Empresarial"/>
-                            <CardAreas Text="Gestión Empresarial"/>
-                        </div>
-                    </div>
+                <div class="flex justify-center">
+                    <BarraPreguntas Text1="objetivos" Text2="Si" Text3= "No"/>
+
+
+
+
+
+                    
                 </div>
             </div>
         </div>
+    </div>
     </body>
     </html>
