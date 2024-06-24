@@ -4,7 +4,7 @@ import Input from "../Components/Input.astro"
 import Button_Inicio from "../Components/Button_Inicio.astro"
 import SelectBox_Identidad from "../Components/SelectBox_Identidad.astro"
 import SelectBox_Rol from "../Components/SelectBox_Rol.astro"
-import TypeRadio from "../Components/TypeRadio.astro"
+import Button_Radio from "../Components/Button_Radio.astro"
 
 ---
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ import TypeRadio from "../Components/TypeRadio.astro"
         <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-		<title>PAC</title>
+		<title>Crear usuario</title>
 
         <style>
             .font-josefin-slab {
@@ -31,7 +31,7 @@ import TypeRadio from "../Components/TypeRadio.astro"
 
 	</head>
     <body class=" bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll ">
-        <Navbar Text="SuperAdmin"/>
+        <Navbar Text="SuperAdmin" />
 
             <div class=" text-center p-8">
                 <span class="font-serif"> Crear usuario </span>
@@ -53,9 +53,9 @@ import TypeRadio from "../Components/TypeRadio.astro"
 
                                 <div class=" space-y-11">
                                 <div class="flex-box flex flex-col space-y-6">
-                                    <h1 class="font-josefin-slab text-black ">Estado:</h1>
-                                    <div class="flex space-x-4">
-                                        <TypeRadio Text="Activo" Text="Inactivo"/>
+                                    <h1 class="font-josefin-slab text-black font-semibold ">Estado:</h1>
+                                    <div class="flex space-x-8">
+                                        <Button_Radio Text="Activo"/> <Button_Radio Text="Inactivo"/>
                                     </div>
                                 </div>
                                 </div>
