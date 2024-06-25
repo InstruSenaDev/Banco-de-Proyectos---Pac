@@ -16,70 +16,43 @@ Items;
                 font-family: "Josefin Slab", serif;
                 font-optical-sizing: auto;
             }
-    
+
             .sidebar {
-                width: 64px;
-                transition: width 0.3s;
-                overflow: hidden;
-            }
+            width: 60px; /* Ancho inicial */
+            transition: width 0.3s ease;
+        }
+        .sidebar:hover {
+            width: 200px; /* Ancho expandido al pasar el cursor */
+        }
+        .sidebar ul span {
+            display: none; /* Oculta los nombres de los proyectos inicialmente */
+        }
+        .sidebar:hover ul span {
+            display: inline-block; /* Muestra los nombres de los proyectos al pasar el cursor */
+        }
     
-            .sidebar.expanded {
-                width: 256px;
-            }
-    
-            .sidebar ul li span {
-                display: none;
-            }
-    
-            .sidebar.expanded ul li span {
-                display: inline;
-            }
         </style>
     </head>
-    <body class="bg-gray-100">
+    <body>
 
-      <aside id="logo-sidebar" class="sidebar fixed top-0 left-0 z-40 h-screen bg-gray-50 transition-transform">
+      <aside class="sidebar fixed top-0 left-0 z-40 h-screen bg-gray-50 transition-transform">
             <div class="h-full px-3 py-4 overflow-y-auto dark:bg-custom-green">
                 <a href="#" class="flex items-center ps-2.5 mb-5">
-                    <button id="botonDespliegue">
-                        <img src="../../public/img/logo.svg" class="min-h-7 min-w-7 me-3 sm:h-7" alt="Sena logo" />
-                    </button>
+                    <img src="..//../public/img/logo.svg" alt="Logo" class="w-8 h-8"
                     <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-black">PAC</span>
                 </a>
                 <ul class="space-y-2 font-medium">
 
-                    <Items slot="icon" href="hover" label="Proyecto" />
-                    <Items slot="icon" href="hover" label="Proyecto" />
-                    <Items slot="icon" href="hover" label="Proyecto" />
-                    <Items slot="icon" href="hover" label="Proyecto" />
-                    <Items slot="icon" href="hover" label="Proyecto" />
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items icon="fa-solid fa-user" href="hover" label="Proyecto" />
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
 
                 </ul>
             </div>
         </aside>
     
-        <script type="module">
-            document.addEventListener('DOMContentLoaded', function () {
-                var sidebar = document.getElementById('logo-sidebar');
-                var toggleButton = document.getElementById('botonDespliegue');
-    
-                toggleButton.addEventListener('click', function(event) {
-                    sidebar.classList.toggle('expanded');
-                    event.stopPropagation();  // Evita que el evento se propague al documento
-                });
-    
-                sidebar.addEventListener('click', function(event) {
-                    event.stopPropagation();  // Evita que el evento se propague al documento
-                });
-    
-                document.addEventListener('click', function() {
-                    if (sidebar.classList.contains('expanded')) {
-                        sidebar.classList.remove('expanded');
-                    }
-                });
-            });
-        </script>
-
 
     </body>
 </html>
