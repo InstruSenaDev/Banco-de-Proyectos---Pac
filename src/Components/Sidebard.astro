@@ -1,0 +1,58 @@
+---
+import Items from "./items.astro";
+Items;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            body {
+                font-family: "Josefin Slab", serif;
+                font-optical-sizing: auto;
+            }
+
+            .sidebar {
+            width: 60px; /* Ancho inicial */
+            transition: width 0.3s ease;
+        }
+        .sidebar:hover {
+            width: 200px; /* Ancho expandido al pasar el cursor */
+        }
+        .sidebar ul span {
+            display: none; /* Oculta los nombres de los proyectos inicialmente */
+        }
+        .sidebar:hover ul span {
+            display: inline-block; /* Muestra los nombres de los proyectos al pasar el cursor */
+        }
+    
+        </style>
+    </head>
+    <body>
+
+      <aside class="sidebar fixed top-0 left-0 z-40 h-screen bg-gray-50 transition-transform">
+            <div class="h-full px-3 py-4 overflow-y-auto dark:bg-custom-green">
+                <a href="#" class="flex items-center ps-2.5 mb-5">
+                    <img src="..//../public/img/logo.svg" alt="Logo" class="w-8 h-8"
+                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-black">PAC</span>
+                </a>
+                <ul class="space-y-2 font-medium">
+
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items icon="fa-solid fa-user" href="hover" label="Proyecto" />
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items icon="fas fa-home" href="hover" label="Proyecto" />
+
+                </ul>
+            </div>
+        </aside>
+    
+
+    </body>
+</html>

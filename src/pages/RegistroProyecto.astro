@@ -9,13 +9,20 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
 import PostLayout from "../layouts/PostLayout.astro"
 ---
 
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+</style>
 
 <PostLayout title="1" title2="Registro Proyecto">
     <div class="w-full max-w-2xl">
 
             
 
-        <div class="flex   flex-col space-y-8">
+        <div class="flex font-josefin-slab flex-col space-y-8">
             <Input type="text"  Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac"  />
             <Input type="text"  Text="Sector Impactado" placeholder="Impacto Del Proyecto:"  />
             <Input type="text"  Text="Responsable" placeholder="Responsable Del Proyecto"  />
@@ -26,7 +33,7 @@ import PostLayout from "../layouts/PostLayout.astro"
                 </label>
             </div>
 
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-3 gap-4" >
             <BotonPrincipal Text="Semanal"/>
             <BotonPrincipal Text="Quincenal"/>
             <BotonPrincipal Text="Mensual"/>
