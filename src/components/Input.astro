@@ -9,6 +9,13 @@ interface Props {
 const { placeholder, type, Text } = Astro.props;
 ---
 
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+</style>
 
 <div class="space-y-2 w-full">
     <label class="font-josefin-slab font-semibold text-black">{Text}</label>
