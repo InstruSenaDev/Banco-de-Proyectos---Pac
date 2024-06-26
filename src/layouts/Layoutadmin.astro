@@ -1,5 +1,4 @@
 ---
-import PostLayout from "./PostLayout.astro";
 
 interface Props { //TypeScript
     title: string;
@@ -8,7 +7,12 @@ interface Props { //TypeScript
 const { title } = Astro.props;
 ---
 
-<main class="h-1/4 w-1/2 bg-black" >
+<main class="h-screen w-screen bg-black" >
+
+    <div class="h-64 w-auto bg-blackg" >
+
+    </div>
+    
     <slot>
 
 </main>
