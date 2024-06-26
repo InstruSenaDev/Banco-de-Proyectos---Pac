@@ -1,0 +1,16 @@
+---
+import PostLayout from "./PostLayout.astro";
+
+interface Props { //TypeScript
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<main class="h-1/4 w-1/2 bg-black" >
+    <slot>
+
+</main>
+
+
