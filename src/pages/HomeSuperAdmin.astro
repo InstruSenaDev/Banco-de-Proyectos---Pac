@@ -1,7 +1,7 @@
 ---
-import Card_Home from "../Components/Card_Home.astro"
+import Card from "../Components/Card.astro"
 import Navbar from "../Components/Navbar.astro"
-import Sidebar_Simulador from "../Components/Sidebar_Simulador.astro"
+import Sidebar from "../Components/Sidebard.astro"
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +30,7 @@ import Sidebar_Simulador from "../Components/Sidebar_Simulador.astro"
             <Navbar Text="SuperAdmin" />
             
             <div class="flex h-full">
-                <Sidebar_Simulador />
+                <Sidebar />
 
                 <div class="flex flex-col items-start w-1/2 p-8">
                     <span class="text-9xl  font-josefin-slab mb-30">Bienvenido</span>
@@ -39,15 +39,15 @@ import Sidebar_Simulador from "../Components/Sidebar_Simulador.astro"
                         aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.</span>
 
                         <div class="p-50 relative flex items-center justify-center h-full ">
-                            <Card_Home Text="Carga masiva de aprendices"/>
-                            <Card_Home Text="Crear usuarios"/>
-                            <Card_Home Text="Crear Area"/>
+                            <Card  Text="Carga masiva de aprendices"/>
+                            <Card  Text="Crear usuarios"/>
+                            <Card  Text="Crear Area" />
                         </div>
 
                         <div class="p-50 relative flex items-center justify-center h-full">
-                            <Card_Home Text="Crear Registro del proyecto"/>
-                            <Card_Home Text="Crear Objetivos"/>
-                            <Card_Home Text="Crear Alcance"/>
+                            <Card  Text="Crear Registro del proyecto"  />
+                            <Card  Text="Crear Objetivos"  />
+                            <Card  Text="Crear Alcance" />
                         </div>
                 </div>
 

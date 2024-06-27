@@ -1,10 +1,10 @@
 ---
 import Input from "../Components/Input.astro"
-import Button_Inicio from "../Components/Button_Inicio.astro"
-import SelectBox_Identidad from "../Components/SelectBox_Identidad.astro"
-import SelectBox_Rol from "../Components/SelectBox_Rol.astro"
-import Button_Radio from "../Components/Button_Radio.astro"
-import Layout from '../layouts/PostLayout.astro';
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import SelectBoxTI from "../Components/SelectBoxTI.astro"
+import SelectBoxRol from "../Components/SelectBoxRol.astro"
+import RadioButton from "../Components/RadioButton.astro"
+import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
@@ -15,24 +15,24 @@ import Layout from '../layouts/PostLayout.astro';
     }
 </style>
 
-<Layout title="Crear Uasuaio" title2="Craer Usario">
+<LayoutsCrearUsuario title="Crear Uasuaio" title2="Craer Usario">
 
         <div class="flex-box flex flex-col space-y-8 w-1/2">
             <Input Text="Nombre del usuario:" placeholder="Jairo Ramirez" type="text"/>
-            <SelectBox_Identidad Text="Tipo de documento"/>
+            <SelectBoxTI Text="Tipo de documento"/>
             <Input Text="Número de documento:" placeholder="1112343546" type="text"/>
             <Input Text="Correo Electrónico:" placeholder="jairoramirez@misena.edu.co" type="email"/>
         </div>
 
         <div class="Flex-box flex flex-col space-y-8 w-1/2">
             <Input Text="Contraseña:" placeholder=".............." type="password"/>
-            <SelectBox_Rol Text="Rol del usuario:"/>
+            <SelectBoxRol Text="Rol del usuario:"/>
 
             <div class=" space-y-11">
             <div class="flex-box flex flex-col space-y-6">
                 <h1 class="font-josefin-slab text-black font-semibold ">Estado:</h1>
                 <div class="flex space-x-8">
-                    <Button_Radio Text="Activo"/> <Button_Radio Text="Inactivo"/>
+                    <RadioButton Text="Activo"/> <RadioButton Text="Inactivo"/>
                 </div>
             </div>
             </div>
@@ -41,11 +41,11 @@ import Layout from '../layouts/PostLayout.astro';
             </div>
 
             <div class="flex justify-end">
-                <Button_Inicio Text="Guardar"/>
+                <BotonPrincipal Text="Guardar"/>
             </div>
         </div>
     </div>
 </div>
 </div>
-        </Layout>
+        </LayoutsCrearUsuario>
     
