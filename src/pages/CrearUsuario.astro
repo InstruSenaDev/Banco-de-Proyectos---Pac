@@ -19,15 +19,19 @@ import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
 
         <div class="flex-box flex flex-col space-y-8 w-1/2">
             <Input Text="Nombre del usuario:" placeholder="Jairo Ramirez" type="text"/>
-            <SelectBoxTI Text="Tipo de documento"/>
+            <div class=" w-1/2">
+                <SelectBoxTI Text="Tipo de documento"/>
+            </div>
             <Input Text="Número de documento:" placeholder="1112343546" type="text"/>
             <Input Text="Correo Electrónico:" placeholder="jairoramirez@misena.edu.co" type="email"/>
         </div>
 
         <div class="Flex-box flex flex-col space-y-8 w-1/2">
             <Input Text="Contraseña:" placeholder=".............." type="password"/>
-            <SelectBoxRol Text="Rol del usuario:"/>
-
+            <div class=" w-1/2">
+                 <SelectBoxRol Text="Rol del usuario:"/>
+            </div>
+           
             <div class=" space-y-11">
             <div class="flex-box flex flex-col space-y-6">
                 <h1 class="font-josefin-slab text-black font-semibold ">Estado:</h1>
@@ -36,7 +40,7 @@ import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
                 </div>
             </div>
             </div>
-            <div class="flex-box flex flex-col space-y-3 w-1/2 ">
+            <div class="flex-box flex flex-col space-y-5 w-1/2 ">
                     <Input Text="Celular:" placeholder="3245678900" type="text"/>
             </div>
 

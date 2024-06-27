@@ -1,7 +1,7 @@
 ---
 import Card from "../Components/Card.astro"
 import Navbar from "../Components/Navbar.astro"
-import Sidebar from "../Components/Sidebard.astro"
+import Sidebard from "../Components/Sidebard.astro"
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -25,34 +25,38 @@ import Sidebar from "../Components/Sidebard.astro"
             }
         </style>
 
-	</head>
-	<body class="bg-cover bg-center shadow-md h-full max-[768px] max-[768px]:p-[20px] overflow-y-scroll ">
-            <Navbar Text="SuperAdmin" />
-            
-            <div class="flex h-full">
-                <Sidebar />
+	</head> 
+  
 
-                <div class="flex flex-col items-start w-1/2 p-8">
+	<body class=" px-56 bg-cover bg-center shadow-md h-full max-[768px] max-[768px]:p-[20px] overflow-y-scroll ">
+         <Sidebard/>
+      
+                <div class="flex flex-col items-start w-1/2 p-10">
                     <span class="text-9xl  font-josefin-slab mb-30">Bienvenido</span>
                     <span class="text-8xl text-Verde font-Inter mb-30">SUPERADMIN</span>
                     <span class="text-1xl font-josefin-Inter mb-10 w-30">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
                         aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.</span>
 
-                        <div class="p-50 relative flex items-center justify-center h-full ">
+                        <div class="px-24 py-12 relative flex items-center justify-center h-full ">
                             <Card  Text="Carga masiva de aprendices"/>
-                            <Card  Text="Crear usuarios"/>
+                            <a href="/CrearUsuario">
+                                <Card  Text="Crear usuarios"/>
+                                </a>
+                            
                             <Card  Text="Crear Area" />
                         </div>
 
-                        <div class="p-50 relative flex items-center justify-center h-full">
-                            <Card  Text="Crear Registro del proyecto"  />
+                        <div class="px-24 relative flex items-center justify-center h-full">
+                            <a href="/CrearFichas"> 
+                                <Card  Text="Crear fichas"  />
+                            </a>
                             <Card  Text="Crear Objetivos"  />
                             <Card  Text="Crear Alcance" />
                         </div>
                 </div>
 
-                <div class="w-1/2 flex justify-center items-center ">
-                    <img class="w-50 h-96 top-20 absolute" src="/Img/image.png" alt="Principal Image">
+                <div class=" flex justify-end">
+                    <img class="w-50 h-96 top-6 absolute" src="/Img/image.png" alt="Principal Image">
                 </div>
             </div>
 	</body>
