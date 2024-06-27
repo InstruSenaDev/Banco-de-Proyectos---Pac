@@ -4,7 +4,8 @@ export interface Props {
   title2:  string;
 }
 const { title, title2 } = Astro.props;
-
+import Navbar from '../Components/Navbar.astro';
+import Sidebar from '../Components/Sidebar.astro';
 ---
 
 <!DOCTYPE html>
@@ -18,7 +19,8 @@ const { title, title2 } = Astro.props;
 		<title>{title}</title>
 
   <body>
-
+    <Sidebar/>
+    <Navbar Text='SuperAdmin'/>
     <div class=" text-center p-8">
         <span class="font-serif text-2xl"> {title2} </span>
     </div>
@@ -52,4 +54,3 @@ const { title, title2 } = Astro.props;
 
   </body>
 </html>
-

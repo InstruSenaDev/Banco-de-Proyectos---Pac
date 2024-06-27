@@ -1,10 +1,7 @@
 ---
 import PostLayout from "../layouts/PostLayout.astro"
 import Input from "../Components/Input.astro"
-import Botonp from "../Components/botonp.astro"
-
-Input
-Botonp
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
 
 
 ---
@@ -38,13 +35,13 @@ Botonp
                     <div class="text-3xl pb-8">LOGIN</div>
                     
                     <Input type="text" placeholder="E-mail"></Input>
-                    <Input type="text" placeholder="Password"></Input>
+                    <Input type="password" placeholder="Password"></Input>
             
                     <div class="flex justify-end w-full">
                     <a href="#" class="text-blue-500 ">Forget password</a>
                  </div>
 
-                    <Botonp Text="Login"></Botonp>
+                    <BotonPrincipal Text="Login"></BotonPrincipal>
                     
                 </div>
 
