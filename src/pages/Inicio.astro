@@ -27,18 +27,19 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
         <div class="flex content-center"> <!--contenedor del formulario -->
             <form action="#" class="form flex flex-col w-96 items-center gap-28">
 
-                <div class="logo-sena flex m-auto items-center justify-center w-52 h-20 bg-custom-green rounded-bl-[35px] rounded-br-[35px]"> <!--caja del logo -->
-                    <img class="sena w-14 h-14" src="/public/img/logoSena.png" width="10" height="10">
+                <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
+                    <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
                 </div>
 
-                <div class="login flex flex-col items-center gap-4">
+                <div class="login flex flex-col items-center gap-4 min-w-96 ">
                     <div class="text-3xl pb-8">LOGIN</div>
                     
-                    <Input type="text" placeholder="E-mail"></Input>
-                    <Input type="password" placeholder="Password"></Input>
+                    <Input type="text" placeholder="E-mail" Text=""></Input>
+                
+                    <Input type="password" placeholder="Password" Text=""></Input>
             
                     <div class="flex justify-end w-full">
-                    <a href="#" class="text-blue-500 ">Forget password</a>
+                    <a href="#" class="text-blue-500 underline decoration-1 ">Forget password</a>
                  </div>
 
                     <BotonPrincipal Text="Login"></BotonPrincipal>
