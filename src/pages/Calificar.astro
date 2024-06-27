@@ -1,5 +1,5 @@
 ---
-
+import CardProyect from "../Components/CardProyect.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import Input from "../Components/Input.astro"
 import RadioButton from "../Components/RadioButton.astro"
@@ -16,39 +16,44 @@ import Layoutjess from "../layouts/Layoutjess.astro"
     }
 </style>
 
-<Layoutjess title="1" title2="Registro Proyecto">
-    <div class="w-full max-w-2xl">
-
-            
-
-        <div class="flex font-josefin-slab flex-col space-y-8">
-            <Input type="text"  Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac"  />
-            <Input type="text"  Text="Sector Impactado" placeholder="Impacto Del Proyecto:"  />
-            <Input type="text"  Text="Responsable" placeholder="Responsable Del Proyecto"  />
-            
-            <div class="space-y-2">
-                <label class="font-josefin-slab font-semibold text-black">
-                    Disponibilidad Para Reuniones Con El Equipo Desarrollador
-                </label>
+<Layoutjess title="1" title2="Proyectos">
+    <div class="flex flex-col items-center">
+        <div class="w-full max-w-7xl">
+            <div class="flex justify-star mb-4 ml-9">
+                <div class="grid grid-cols-4 gap-x-8 gap-y-4 mt-4">
+                    <RadioButton Text="Aceptado"/>
+                    <RadioButton Text="Rechazado"/>
+                    <RadioButton Text="Devueltos"/>
+                    <RadioButton Text="Todos"/>
+                </div>
             </div>
 
-            <div class="grid grid-cols-3 gap-4" >
-            <BotonPrincipal Text="Semanal"/>
-            <BotonPrincipal Text="Quincenal"/>
-            <BotonPrincipal Text="Mensual"/>
+            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab">
+                <CardProyect Text="Banco de proyectos">
+                    <BotonSegundo Text="Ver"/>
+                </CardProyect>
+
+                <CardProyect Text="Banco de proyectos">
+                    <BotonSegundo Text="Ver"/>
+                </CardProyect>
+
+                <CardProyect Text="Banco de proyectos">
+                    <BotonSegundo Text="Ver"/>
+                </CardProyect>
+
+                <CardProyect Text="Banco de proyectos">
+                    <BotonSegundo Text="Ver"/>
+                </CardProyect>
+
+                <CardProyect Text="Banco de proyectos">
+                    <BotonSegundo Text="Ver"/>
+                </CardProyect>
+
+                <CardProyect Text="Banco de proyectos">
+                    <BotonSegundo Text="Ver"/>
+                </CardProyect>
+            </div>
         </div>
-        <div class="grid grid-cols-3 gap-x-8 gap-y-4 mt-4">
-            <RadioButton Text="Lunes"/>
-            <RadioButton Text="Martes"/>
-            <RadioButton Text="Miércoles"/>
-            <RadioButton Text="Jueves"/>
-            <RadioButton Text="Viernes"/>
-            <RadioButton Text="Sábado"/>
-        </div>
-        
-        <BotonSegundo Text="Guardar"/>
     </div>
-
-</div>
-
 </Layoutjess>
+
