@@ -1,12 +1,11 @@
 ---
 
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
-import Input from "../Components/Input.astro"
-import RadioButton from "../Components/RadioButton.astro"
 
 import NavbarI from "../Components/Navbar.astro"
+
+import BarraPreguntas from "../Components/BarraPreguntas.astro"
 import BotonSegundo from "../Components/BotonSegundo.astro"
-import Card from "../Components/Card.astro"
 ---
 
 
@@ -36,21 +35,24 @@ import Card from "../Components/Card.astro"
         <div class="flex justify-center  min-h-screen">
             <div class="p-10 w-full max-w-7xl my-10 bg-white rounded-lg border-none border-Borde_gris">
             <div class="flex flex-col space-y-8">
-                <div class="text-left mb-4">
-                    <span class="font-josefin-slab text-3xl font-bold text-black">Áreas de Proyectos</span>
-                    <h1 class="font-josefin-slab text-2xl text-black">Por favor seleccione el área en la cual se centrará su proyecto</h1>
-                </div>
+               
     
                 <div class="flex justify-center">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <Card Text="Gestión Empresarial"/>
-                        <Card Text="Gestión Empresarial"/>
-                        <Card Text="Gestión Empresarial"/>
-                        <Card Text="Gestión Empresarial"/>
-                    </div>
-                    </div>
+                    <BarraPreguntas Text1="Alcance Del Proyecto" Text2="" Text3= ""/>
+                    
                 </div>
+
+                <a href="/VistaAlcance">
+                <BotonSegundo Text="Siguiente"></BotonSegundo>
+                </a>
+
+                <a href="/VistaObjetivos">
+                <BotonPrincipal Text="Volver"></BotonPrincipal>
+                </a>
+                
+
             </div>
         </div>
+    </div>
     </body>
     </html>
