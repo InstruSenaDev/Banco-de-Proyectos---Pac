@@ -1,37 +1,10 @@
 ---
 import Card from "../Components/Card.astro"
-import Navbar from "../Components/Navbar.astro"
-import Sidebard from "../Components/Sidebard.astro"
+import LayoutsHome from "../layouts/LayoutsHome.astro"
 ---
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-        <meta charset="UTF-8">
-        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-		<title>SUPERADMIN</title>
 
-        <style>
-            .font-josefin-slab {
-                font-family: 'Josefin Slab', serif;
-            }
-            .font-josefin-sans {
-                font-family: 'Josefin Sans', sans-serif;
-            }
-            .font-inter {
-                font-family: 'Inter', sans-serif;
-            }
-        </style>
-
-	</head> 
-  
-
-	<body class=" px-56 bg-cover bg-center shadow-md h-full max-[768px] max-[768px]:p-[20px] overflow-y-scroll ">
-         <Sidebard/>
-      
-                <div class="flex flex-col items-start w-1/2 p-10">
+        <LayoutsHome  title="Crear Uasuaio" title2="Craer Usario">
+                <div class="flex flex-col items-start w-1/2 p-10 ">
                     <span class="text-9xl  font-josefin-slab mb-30">Bienvenido</span>
                     <span class="text-8xl text-Verde font-Inter mb-30">SUPERADMIN</span>
                     <span class="text-1xl font-josefin-Inter mb-10 w-30">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
@@ -56,8 +29,8 @@ import Sidebard from "../Components/Sidebard.astro"
                 </div>
 
                 <div class=" flex justify-end">
-                    <img class="w-50 h-96 top-6 absolute" src="/Img/image.png" alt="Principal Image">
+                    <img class="w-50 h-96 top-24 absolute" src="/Img/image.png" alt="Principal Image">
                 </div>
-            </div>
-	</body>
-</html>
+            </div> 
+        </LayoutsHome>
+
