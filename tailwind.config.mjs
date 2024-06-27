@@ -5,6 +5,7 @@ export default {
 		extend: {colors: {
 		
 			'Color_carta': '#FBFCFF',
+			'custom-green': 'rgba(163, 231, 132, 1)',
 	
 			},},
 	},
