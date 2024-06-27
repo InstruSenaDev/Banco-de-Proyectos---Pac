@@ -1,0 +1,42 @@
+---
+import LayoutsCrearUsuario from '../layouts/LayoutUsuario.astro';
+import Button from "../Components/botton.astro"
+import Input from '../Components/Input.astro';
+import SelectBoxTI from "../Components/SelectBoxTI.astro"
+---
+
+
+<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+
+<style>
+    .font-josefin-slab {
+        font-family: 'Josefin Slab', serif;
+    }
+</style>
+
+
+<LayoutsCrearUsuario title="Editar Perfil" title2="Editar Perfil">
+    <div class="Flex-box flex flex-col space-y-8 w-1/2">
+        <Input  placeholder="Jairo Ramirez" type="text" Text="Nombre completo"/>
+          <SelectBoxTI Text="Tipo de documento"/>
+        <Input  placeholder="1112343546" type="text" Text="Numero de docuemnto"/>
+        <Input   placeholder="3245678900" type="text"Text="Telefono"/>
+      
+    </div>
+
+    <div class="Flex-box flex flex-col space-y-8 w-1/2">
+        <Input  placeholder="jairoramirez@misena.edu.co" type="email"Text="Correo"/>
+       
+        <Input  type="text" Text="Nombre De la Empresa" placeholder="Nombre De la Empresa:" />
+        <Input placeholder="" type="password" Text="Contraseña"/>
+        <Input placeholder="" type="password" Text="Confirmar Contraseña"/>
+      
+    </div>
+
+
+    
+</div>
+</div>
+</div>
+
+</LayoutsCrearUsuario>
