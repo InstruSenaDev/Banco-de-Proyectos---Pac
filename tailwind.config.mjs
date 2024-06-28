@@ -1,6 +1,6 @@
 export default {
 	content: [
-	'./src/**/*.{astro,html,js,jsx,md,mdx,svelve,ts,tsx,vue}',
+	'./src/**/*.{astro,html,js,jsx,md,mdx,svelve,ts,tsx,vue}'
 	],
 	theme: {
 	extend: {
