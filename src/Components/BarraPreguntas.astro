@@ -28,17 +28,26 @@ const {Text1, Text2, Text3} = Astro.props;
 
 
 
-<div class="w-full h-20 bg-[#A3E784]  border-2 border-[#ffffff]   flex flex-col justify-center adsolute p-8 ">
-
+<div class="w-full bg-[#A3E784] ">
     
-    <div class="flex justify-between items-center">
-        <span class="text-2xl font-josefin-slab font-bold">{Text1}</span> 
-        <div class="flex space-x-10">
-            <span class="text-2xl font-josefin-slab font-bold">{Text2}</span>
-            <span class="text-2xl font-josefin-slab font-bold">{Text3}</span>
+    <div class="grid gap-4">
+        <div class="grid grid-cols-12 items-center border-b py-2 mt-15 h-20">
+            <div class="col-span-10">
+                <span class="text-2xl font-josefin-slab font-bold pl-12">{Text1}</span>
+            </div>
+            <div class="text-2xl font-josefin-slab font-bold pl-12">
+                <p>{Text2}</p>
+        
+            </div>
+            <div class="text-2xl font-josefin-slab font-bold pl-10">
+                <p>{Text3}</p>
+            </div>
         </div>
-
+        
     </div>
     
 </div>
+
+
+
 

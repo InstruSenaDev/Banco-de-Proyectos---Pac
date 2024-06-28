@@ -6,7 +6,7 @@ export interface Props {
 }
 const { title, title2, title3 } = Astro.props;
 import Navbar from '../Components/Navbar.astro';
-import Sidebard from '../Components/Sidebard.astro';
+import Menu from '../Components/Menu.astro';
 ---
 
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ import Sidebard from '../Components/Sidebard.astro';
 		<title>{title}</title>
 
   <body>
-    <Sidebard/>
+    <Menu/>
     <Navbar Text='SuperAdmin'/>
    
     <div class="flex justify-center  min-h-screen">
