@@ -3,6 +3,8 @@ import Navbar from "../Components/Navbar.astro"
 import Input from "../Components/Input.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import LayoutsCrearFichas from "../layouts/LayoutsCrearFichas.astro"
+import Layoutprincipal from "../layouts/Layoutprincipal.astro";
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 ---
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
 
@@ -12,16 +14,15 @@ import LayoutsCrearFichas from "../layouts/LayoutsCrearFichas.astro"
     }
 </style>
 
-<LayoutsCrearFichas title="Crear Uasuaio" title2="Craer Usario">
-                            <div class="flex flex-col space-y-8 w-1/2 justify-center items-center">
-                            <Input Text="Nombre del programa:" placeholder="Sistemas" type="text"/>
-                            <Input Text="Número de ficha:" placeholder="2694265" type="text"/>
+<Layoutprincipal title="Crear Fichas">
+    <Layoutcontenido title="Crear Fichas">
+        <div class="flex flex-col space-y-8 w-1/2 justify-center items-center">
+            <Input Text="Nombre del programa:" placeholder="Sistemas" type="text"/>
+            <Input Text="Número de ficha:" placeholder="2694265" type="text"/>
 
-                            <div class="justify-center">
-                                <BotonPrincipal Text="Guardar"/>
-                            </div>
-                        </div>
-</LayoutsCrearFicha>
-
-
-    
+            <div class="justify-center">
+                <BotonPrincipal Text="Guardar"/>
+            </div>
+        </div>
+    </Layoutcontenido>
+</Layoutprincipal>

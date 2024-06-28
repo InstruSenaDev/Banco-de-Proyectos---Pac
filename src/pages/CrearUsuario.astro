@@ -5,6 +5,8 @@ import SelectBoxTI from "../Components/SelectBoxTI.astro"
 import SelectBoxRol from "../Components/SelectBoxRol.astro"
 import RadioButton from "../Components/RadioButton.astro"
 import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
+import Layoutprincipal from "../layouts/Layoutprincipal.astro";
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
@@ -15,8 +17,8 @@ import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
     }
 </style>
 
-<LayoutsCrearUsuario title="Crear Uasuaio" title2="Crear Usario">
-
+<Layoutprincipal title="Crear Usuario">
+    <Layoutcontenido title="Crear Usuario">
         <div class="flex-box flex flex-col space-y-8 w-1/2">
             <Input Text="Nombre del usuario:" placeholder="Ej: Pepito Perez" type="text"/>
             <div class=" w-1/2">
@@ -51,5 +53,6 @@ import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
     </div>
 </div>
 </div>
-        </LayoutsCrearUsuario>
-    
+
+    </Layoutcontenido>
+</Layoutprincipal>
