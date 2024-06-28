@@ -1,58 +1,41 @@
 ---
-
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
-
-import NavbarI from "../Components/Navbar.astro"
-
-import BarraPreguntas from "../Components/BarraPreguntas.astro"
-import BotonSegundo from "../Components/BotonSegundo.astro"
+import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
+import Card from "../Components/Card.astro";
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
+import BarraPreguntas from "../Components/BarraPreguntas.astro";
+import BotonPrincipal from "../Components/BotonPrincipal.astro";
+import BotonSegundo from "../Components/BotonSegundo.astro";
 ---
 
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-        <meta charset="UTF-8">
-        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-		<title>PAC</title>
+<LayoutPrincipal title="">
 
-        <style>
-    
 
-            body {
-                font-family: "Josefin Slab", serif;
-                font-optical-sizing: auto;
-            }
-        </style>
+<Layoutcontenido title="">
 
-	</head>
-    <body class="bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll bg-[#F5F6FA]">
-        <NavbarI Text="Navbar" />
+    <div class="flex justify-center  min-h-screen">
+        <div class="p-10 w-full max-w-7xl my-10 bg-white rounded-lg border-none border-Borde_gris">
+        <div class="flex flex-col space-y-8">
+           
 
-        <div class="flex justify-center  min-h-screen">
-            <div class="p-10 w-full max-w-7xl my-10 bg-white rounded-lg border-none border-Borde_gris">
-            <div class="flex flex-col space-y-8">
-               
-    
-                <div class="flex justify-center">
-                    <BarraPreguntas Text1="Alcance Del Proyecto" Text2="" Text3= ""/>
-                    
-                </div>
-
-                <a href="/VistaAlcance">
-                <BotonSegundo Text="Siguiente"></BotonSegundo>
-                </a>
-
-                <a href="/VistaObjetivos">
-                <BotonPrincipal Text="Volver"></BotonPrincipal>
-                </a>
+            <div class="flex justify-center">
+                <BarraPreguntas Text1="Alcance Del Proyecto" Text2="" Text3= ""/>
                 
-
             </div>
+
+            <a href="/VistaAlcance">
+            <BotonSegundo Text="Siguiente"></BotonSegundo>
+            </a>
+
+            <a href="/VistaObjetivos">
+            <BotonPrincipal Text="Volver"></BotonPrincipal>
+            </a>
+            
+
         </div>
     </div>
-    </body>
-    </html>
+</div>
+
+</Layoutcontenido>
+
+</LayoutPrincipal>

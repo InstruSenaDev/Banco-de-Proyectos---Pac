@@ -1,61 +1,41 @@
 ---
+import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
+import Card from "../Components/Card.astro";
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
+import BotonSegundo from "../Components/BotonSegundo.astro";
+import BotonPrincipal from "../Components/BotonPrincipal.astro";
+import BarraPreguntas from "../Components/BarraPreguntas.astro";
 
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
-
-import NavbarI from "../Components/Navbar.astro"
-
-import BarraPreguntas from "../Components/BarraPreguntas.astro"
-import BotonSegundo from "../Components/BotonSegundo.astro"
 ---
 
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-        <meta charset="UTF-8">
-        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-		<title>PAC</title>
+<LayoutPrincipal title="">
 
-        <style>
-    
 
-            body {
-                font-family: "Josefin Slab", serif;
-                font-optical-sizing: auto;
-            }
-        </style>
+<Layoutcontenido title="">
 
-	</head>
-    <body class="bg-Gris_Oscuro bg-cover bg-center h-screen overflow-y-scroll bg-[#F5F6FA]">
-        <NavbarI Text="Navbar" />
+    <div class="flex justify-center  min-h-screen">
+        <div class="p-10 w-full max-w-7xl my-10 bg-white rounded-lg border-none border-Borde_gris">
+        <div class="flex flex-col space-y-8">
+            <div class="text-left mb-4">
+                <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” y “NO” en cada pregunta</h1>
+            </div>
 
-        <div class="flex justify-center  min-h-screen">
-            <div class="p-10 w-full max-w-7xl my-10 bg-white rounded-lg border-none border-Borde_gris">
-            <div class="flex flex-col space-y-8">
-                <div class="text-left mb-4">
-                    <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” y “NO” en cada pregunta</h1>
-                </div>
-    
-                <div class="flex justify-center">
-                    <BarraPreguntas Text1="objetivos" Text2="Si" Text3= "No"/>
-                    
-                </div>
-
-                <div class="flex space-x-4 place-items-center">
-                <a href="/VistaAlcance">
-                <BotonSegundo Text="Siguiente"></BotonSegundo>
-                <BotonPrincipal Text="Volver"></BotonPrincipal>
-                </a>
-                </div>
+            <div class="flex justify-center">
+                <BarraPreguntas Text1="objetivos" Text2="Si" Text3= "No"/>
                 
-                
-                    
+            </div>
 
+            <div class="flex space-x-4 place-items-center">
+            <a href="/VistaAlcance">
+            <BotonSegundo Text="Siguiente"></BotonSegundo>
+            <BotonPrincipal Text="Volver"></BotonPrincipal>
+            </a>
             </div>
         </div>
     </div>
-    </body>
-    </html>
+</div>
+
+</Layoutcontenido>
+
+</LayoutPrincipal>
