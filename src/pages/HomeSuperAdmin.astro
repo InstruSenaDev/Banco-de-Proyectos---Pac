@@ -5,22 +5,21 @@ import Card from "../Components/Card.astro"
 
 <Layoutprincipal title="">
     
-        <div class="flex flex-col items-start w-1/2 p-10 ">
+        <div class=" px-56 flex flex-col items-start w-1/2 p-10 ">
             <span class="text-9xl  font-josefin-slab mb-30">Bienvenido</span>
             <span class="text-8xl text-Verde font-Inter mb-30">SUPERADMIN</span>
             <span class="text-1xl font-josefin-Inter mb-10 w-30">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
                 aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.</span>
 
-                <div class="px-24 py-12 relative flex items-center justify-center h-full ">
+                <div class="px-32 space-x-20 py-12 relative flex items-center justify-center h-full ">
                     <Card  Text="Carga masiva de aprendices"/>
                     <a href="/CrearUsuario">
                         <Card  Text="Crear usuarios"/>
                         </a>
-
                     <Card  Text="Crear Area" />
                 </div>
 
-                <div class="px-24 relative flex items-center justify-center h-full">
+                <div class="px-32 space-x-20 relative flex items-center justify-center h-full">
                     <a href="/CrearFichas"> 
                         <Card  Text="Crear fichas"  />
                     </a>

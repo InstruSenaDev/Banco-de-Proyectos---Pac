@@ -1,12 +1,4 @@
 ---
-import { useState } from 'react';
-import Modal from '../components/Modal.astro';
-
-const [isOpen, setIsOpen] = useState(false);
-
-const openModal = () => setIsOpen(true);
-const closeModal = () => setIsOpen(false);
-
 import Input from "../Components/Input.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import SelectBoxTI from "../Components/SelectBoxTI.astro"
@@ -15,6 +7,7 @@ import RadioButton from "../Components/RadioButton.astro"
 import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
 import Layoutprincipal from "../layouts/Layoutprincipal.astro";
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
+import Modal from "../Components/Modal.astro"
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
@@ -36,7 +29,7 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
             <Input Text="Correo Electrónico:" placeholder="Ej: ejemplo@gmail.com" type="email"/>
         </div>
 
-        <div class="Flex-box flex flex-col space-y-8 w-1/2">
+        <div class="flex-box flex flex-col space-y-8 w-1/2">
             <Input Text="Contraseña:" placeholder=".............." type="password"/>
             <div class=" w-1/2">
                  <SelectBoxRol Text="Rol del usuario:"/>
@@ -54,20 +47,30 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
                     <Input Text="Celular:" placeholder="Ej: 312456789" type="text"/>
             </div>
 
-            <div class="flex justify-end">
+            <div class="flex justify-end show-modal">
                 <BotonPrincipal Text="Guardar"/>
             </div>
+        </div>
         </div>
     </div>
 </div>
 </div>
-<div class="min-h-screen flex items-center justify-center">
-    <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick={openModal}>
-      Open Modal
-    </button>
-  </div>
 
-  <Modal isOpen={isOpen} onClose={closeModal} />
+   <Modal > 
 
+<script>
+    const modal = document.querySelector('.modal');
+
+    const showModal = document.querySelector('.show-modal');
+    const closeModal = document.querySelector('.close-modal')
+
+    showModal?.addEventListener('click', function(){
+        modal?.classList.remove('hidden')
+    });
+
+    closeModal?.addEventListener('click', function(){
+        modal?.classList.add('hidden')
+    });
+</script>
     </Layoutcontenido>
 </Layoutprincipal>
