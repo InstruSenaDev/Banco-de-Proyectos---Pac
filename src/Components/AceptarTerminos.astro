@@ -1,14 +1,20 @@
 ---
 title: "Aceptarterminos"
+interface Props {
+  
+    Text: String;
+}
+
+const {  Text } = Astro.props;
 ---
 
 <label
   class="checkbox-container inline-block relative pl-[35px] pt-[10px] mb-15 cursor-pointer user-select-none"
   for="termsCheckbox"
 >
-  Aceptar términos y condiciones
+  <span>{Text}</span>
   <input type="checkbox" id="termsCheckbox" class="peer absolute opacity-0 cursor-pointer" />
-  <span class="checkmark absolute top-0 left-0 h-[25px] w-[25px] bg-[#eee] rounded-[4px] mt-2"></span>
+  <span class="checkmark absolute top-0 left-0 h-[25px] w-[25px] bg-[#eee] rounded-[4px] mt-2 "></span>
   <svg
     viewBox="0 0 69 89"
     class="absolute top-[10px] left-0 h-[20px] w-[20px] duration-500 ease-out [stroke-dasharray:100] [stroke-dashoffset:100] peer-checked:[stroke-dashoffset:0]"
@@ -29,3 +35,4 @@ title: "Aceptarterminos"
     background-color: #A3E784;
   }
 </style>
+<slot/>
