@@ -1,7 +1,26 @@
 ---
+interface Props {
+Text1: String
+}
 
+const {Text1} = Astro.props;
 ---
 
-<button title="Save" class="cursor-pointer flex items-center fill-[#FF8310] bg-[#FFA756] hover:bg-[#FFA756] active:border active:border-[#FFA756] rounded-md duration-100 p-2">
-    <span class="text-sm text-[#FF8310] font-bold pr-1">Aprobado</span>
-</button>
+
+<label class="flex justify-center items-center p-2 gap-2 h-8 w-28 border-[#FF8700] bg-[#ffaa2b6f] rounded-sm cursor-pointer hover:bg-[#ffb82b95]">
+  <span class="text-[#FF8700] text-base  font-semibold">{Text1}</span>
+</label>
+
+<style>
+  @keyframes spin {
+      0% {
+          transform: rotate(0deg);
+      }
+      100% {
+          transform: rotate(-360deg);
+      }
+  }
+  .button:hover .svg-icon {
+      animation: spin 2s linear infinite;
+  }
+</style>
