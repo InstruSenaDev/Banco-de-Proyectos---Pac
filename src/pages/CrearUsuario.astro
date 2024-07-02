@@ -4,10 +4,9 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import SelectBoxTI from "../Components/SelectBoxTI.astro"
 import SelectBoxRol from "../Components/SelectBoxRol.astro"
 import RadioButton from "../Components/RadioButton.astro"
-import LayoutsCrearUsuario from '../layouts/LayoutsCrearUsuario.astro';
-import Layoutprincipal from "../layouts/Layoutprincipal.astro";
+import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
-import Modal from "../Components/Modal.astro"
+import ModalUsuario from "../Components/ModalUsuario.astro"
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
@@ -32,9 +31,9 @@ import Modal from "../Components/Modal.astro"
         <div class="flex-box flex flex-col space-y-8 w-1/2">
             <Input Text="Contraseña:" placeholder=".............." type="password"/>
             <div class=" w-1/2">
-                 <SelectBoxRol Text="Rol del usuario:"/>
+                <SelectBoxRol Text="Rol del usuario:"/>
             </div>
-           
+
             <div class=" space-y-11">
             <div class="flex-box flex flex-col space-y-6">
                 <h1 class="font-josefin-slab text-black font-semibold ">Estado:</h1>
@@ -56,7 +55,7 @@ import Modal from "../Components/Modal.astro"
 </div>
 </div>
 
-   <Modal > 
+<ModalUsuario >
 
 <script>
     const modal = document.querySelector('.modal');

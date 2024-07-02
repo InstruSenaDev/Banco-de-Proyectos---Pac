@@ -23,14 +23,14 @@ import Sidebard from '../Components/Menu.astro';
     <Sidebard/>
     <Navbar Text='SuperAdmin'/>
     <div class=" px-56 bg-cover bg-center shadow-md h-full max-[768px] max-[768px]:p-[20px] overflow-y-scroll ">
-         <slot />
+        <slot />
     </div>
-   
+
     <style is:global>
 
         body {
-          overflow: hidden;
-         position: static;
+        overflow: hidden;
+        position: static;
         }
           :root {
             --accent: 124, 58, 237;
@@ -49,8 +49,5 @@ import Sidebard from '../Components/Menu.astro';
             font-family: 'Josefin Slab', serif, 'Josefin Sans', sans-serif, 'Inter', sans-serif
           }
         </style>
-  
     </body>
   </html>
-  
-  

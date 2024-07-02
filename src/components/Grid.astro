@@ -1,0 +1,18 @@
+---
+interface Props {
+
+    Text1: String;
+}
+
+const {  Text1, } = Astro.props;
+---
+
+<div class="w-full bg-white">
+    <div class="grid gap-4">
+        <div class="grid grid-cols-12 items-center border-b py-2 mt-15 h-14">
+            <div class="col-span-10 flex items-center">
+                <span class="text-base pl-12">{Text1}</span>
+            </div>
+        </div>
+    </div>
+</div>
