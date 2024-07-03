@@ -1,5 +1,5 @@
 ---
-import LayoutPrincipal from "../layouts/LayoutPrincipal.astro"
+import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
 import BarraPreguntas from "../Components/BarraPreguntas.astro"
 import Grid from "../Components/Grid.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
@@ -11,13 +11,15 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
         <div class="p-10 w-full max-w-7xl my-10">
             <div class="flex flex-col space-y-8">
                 <div class="text-left mb-4">
-                    <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” y “NO” en cada pregunta</h1>
+                    <h1 class="font-josefin-slab text-lg sm:text-lg md:text-3xl lg:text-4xl text-black">
+                        Por favor marque “SI” y “NO” en cada pregunta
+                    </h1>
                 </div>
 
-                <div class="flex justify-center">
+                <div class="flex justify-center ">
                     <BarraPreguntas Text1="Objetivos" Text2="Si" Text3="No"/>
                 </div>
-                <div class="text-lg font-bold mb-2 pl-12">
+                <div class="text-2xl font-bold mb-2 pl-12">
                     Operación y costos
                 </div>
 
@@ -26,12 +28,12 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
                 <Grid Text1="1. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa " ></Grid>
                 
 
-                <div class="flex justify-end space-x-4">
-                    <a href="/VistaAreas2">
-                        <BotonPrincipal Text="Volver"></BotonPrincipal>
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                    <a href="/VistaAreas2" class="">
+                        <BotonPrincipal Text="Volver" />
                     </a>
-                    <a href="/VistaAlcance">
-                        <BotonSegundo Text="Siguiente"></BotonSegundo>
+                    <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                        <BotonSegundo Text="Siguiente" />
                     </a>
                 </div>
             </div>
