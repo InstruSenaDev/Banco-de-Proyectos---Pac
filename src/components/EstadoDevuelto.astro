@@ -1,15 +1,12 @@
 ---
-interface Props {
-Text1: String
-}
-
-const {Text1} = Astro.props;
+import BotonEditar from "./BotonEditar.astro"
 ---
 
 
-<label class="flex justify-center items-center p-2 gap-2 h-8 w-28 border-[#FF8700] bg-[#ffaa2b6f] rounded-sm cursor-pointer hover:bg-[#ffb82b95]">
-  <span class="text-[#FF8700] text-base  font-semibold">{Text1}</span>
+<label class="flex justify-center items-center p-2 gap-2 h-8 w-28 border border-[#FF8700] bg-[#ffaa2b6f] rounded-sm  hover:bg-[#ffb82b95]">
+  <span class="text-[#FF8700] text-base font-semibold">Devuelto</span>
 </label>
+
 
 <style>
   @keyframes spin {

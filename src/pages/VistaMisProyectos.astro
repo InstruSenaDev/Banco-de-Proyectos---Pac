@@ -3,8 +3,8 @@ import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import BarraPreguntas from "../Components/BarraPreguntas.astro"
 import Grid from "../Components/Grid.astro"
 import EstadoAprobado from "../Components/EstadoAprobado.astro"
-import EstadoDevuelto from "../Components/EstadoDevuelto.astro"
 import EstadoRechazado from "../Components/EstadoRechazado.astro"
+import GridDevolver from "../Components/GridDevolver.astro"
 ---
 
 <Layoutprincipal title="">
@@ -16,14 +16,34 @@ import EstadoRechazado from "../Components/EstadoRechazado.astro"
                     <BarraPreguntas Text1="Objetivos" Text2="Estado" Text3=""/>
                 </div>
 
-                <Grid Text1="PAC"></Grid>
-                <Grid Text1="Boteritos"></Grid>
-                <Grid Text1="Software contable liviano" ></Grid>
-                <Grid Text1="Plataforma Banca II" ></Grid>
-                <Grid Text1="Libro de registro de operaciones diarias" ></Grid>
-                <Grid Text1="MISE"></Grid>
-                <Grid Text1="Agendamiento centro de estetica facial" ></Grid>
-                <Grid Text1="Mesa de soporte" ></Grid>
+                <Grid Text1="PAC">
+                    <EstadoAprobado/>
+                </Grid>
+
+                <GridDevolver Text1="Boteritos"></GridDevolver>
+
+                <GridDevolver Text1="Software contable liviano"></GridDevolver>
+
+                <Grid Text1="Plataforma Banca II" >
+                    <EstadoAprobado/>
+                </Grid>
+
+                <Grid Text1="Libro de registro de operaciones diarias" >
+                    <EstadoRechazado/>
+                </Grid>
+
+                <Grid Text1="MISE">
+                    <EstadoAprobado/>
+                </Grid>
+
+                <Grid Text1="Agendamiento centro de estetica facial" >
+                    <EstadoAprobado/>
+                </Grid>
+
+                <Grid Text1="Mesa de soporte" >
+                    <EstadoRechazado/>
+                </Grid>
+
             </div>
         </div>
     </div>

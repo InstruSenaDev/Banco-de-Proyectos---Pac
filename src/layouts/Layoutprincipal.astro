@@ -2,7 +2,7 @@
 import Navbar from "../Components/Navbar.astro";
 import Menu from "../Components/Menu.astro";
 import PostLayout from "./PostLayout.astro";
-
+import BotonDevolver from "../Components/BotonDevolver.astro";
 
 interface Props { //TypeScript
     title: string;
@@ -20,6 +20,12 @@ const { title } = Astro.props;
     <aside>
         <Menu/>
     </aside>
+        
+<div class="px-28">
+    <a href="/HomeSuperAdmin">
+    <BotonDevolver/>
+</a>
+</div>
 
     <slot/>
 </div>
