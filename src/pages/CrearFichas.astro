@@ -1,6 +1,7 @@
 ---
 import Input from "../Components/Input.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import BotonSegundo from "../Components/BotonSegundo.astro"
 import Layoutprincipal from "../layouts/Layoutprincipal.astro";
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import ModalFichas from "../Components/ModalFichas.astro"
@@ -19,8 +20,13 @@ import ModalFichas from "../Components/ModalFichas.astro"
             <Input Text="Nombre del programa:" placeholder="Sistemas" type="text"/>
             <Input Text="Número de ficha:" placeholder="2694265" type="text"/>
 
-            <div class="justify-center show-modal">
-                <BotonPrincipal Text="Guardar"/>
+            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <a href="/HomeSuperAdmin" class="">
+                    <BotonPrincipal Text="Volver" />
+                </a>
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                    <BotonSegundo Text="Guardar" />
+                </div>
             </div>
         </div>
         <ModalFichas >
