@@ -1,5 +1,5 @@
 ---
-import Layoutprincipal from "../layouts/Layoutprincipal.astro"
+import Layoutprincipal from "../layouts/LayoutPrincipal.astro"
 import BarraPreguntas from "../Components/BarraPreguntas.astro"
 import Grid from "../Components/Grid.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
@@ -17,18 +17,18 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
                 <div class="flex justify-center">
                     <BarraPreguntas Text1="Alcance" Text2="Si" Text3="No "/>
                 </div>
-                <div class="text-lg font-bold mb-2 pl-12">
+                <div class="text-2xl font-bold mb-2 pl-12">
                     Operación y costos
                 </div>
 
                 <Grid Text1="1. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa? "></Grid>
 
-                <div class="flex justify-end space-x-4">
-                    <a href="/VistaObjetivos">
-                        <BotonPrincipal Text="Volver"></BotonPrincipal>
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
+                    <a href="/VistaObjetivos" class="">
+                        <BotonPrincipal Text="Volver" />
                     </a>
-                    <a href="/VistaAlcance">
-                        <BotonSegundo Text="Siguiente"></BotonSegundo>
+                    <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8 ">
+                        <BotonSegundo Text="Siguiente" />
                     </a>
                 </div>
             </div>
