@@ -11,7 +11,7 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
         <div class="p-10 w-full max-w-7xl my-10">
             <div class="flex flex-col space-y-8">
                 <div class="text-left mb-4">
-                    <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” y “NO” en cada pregunta</h1>
+                    <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” o “NO” en cada pregunta</h1>
                 </div>
 
                 <div class="flex justify-center">
@@ -21,13 +21,14 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
                     Operación y costos
                 </div>
 
-                <Grid Text1="1. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa? "></Grid>
+                <Grid Text1="1. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa? "id1="termsCheckbox1-grid1" id2="termsCheckbox2-grid1"></Grid>
+                <Grid Text1="1. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa? "id1="termsCheckbox1-grid2" id2="termsCheckbox2-grid2"></Grid>
 
-                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                     <a href="/VistaObjetivos" class="">
                         <BotonPrincipal Text="Volver" />
                     </a>
-                    <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8 ">
+                    <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                         <BotonSegundo Text="Siguiente" />
                     </a>
                 </div>

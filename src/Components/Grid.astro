@@ -2,9 +2,11 @@
 import AceptarTerminos from './AceptarTerminos.astro';
 interface Props {
   Text1: string;
+  id1: string;
+  id2: string;
 }
 
-const { Text1 } = Astro.props;
+const { Text1, id1, id2 } = Astro.props;
 ---
 
 <div class="w-full bg-white">
@@ -14,10 +16,10 @@ const { Text1 } = Astro.props;
                 <span class="text-lg pl-12">{Text1}</span>
             </div>
             <div class="col-span-1 flex justify-center items-center mb-8 ">
-                <AceptarTerminos Text="" id="termsCheckbox1"></AceptarTerminos>
+                <AceptarTerminos Text="" id={id1}></AceptarTerminos>
             </div>
             <div class="col-span-1 flex justify-center items-center mb-8">
-                <AceptarTerminos Text="" id="termsCheckbox2"></AceptarTerminos>
+                <AceptarTerminos Text="" id={id2}></AceptarTerminos>
             </div>
         </div>
     </div>
