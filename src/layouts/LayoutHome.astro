@@ -1,7 +1,7 @@
 ---
-import Navbar from "../Components/Navbar.astro";
+import Navbar2 from "../Components/Navbar2.astro";
 import Menu from "../Components/Menu.astro";
-import PostLayout from "./PostLayout.astro";
+import PostLayout2 from "./PostLayout2.astro";
 
 
 interface Props { //TypeScript
@@ -10,11 +10,11 @@ interface Props { //TypeScript
 
 const { title } = Astro.props;
 ---
-
+<PostLayout2 title=""></PostLayout2>
 
     <div>
     <header class="w-full bg-white  ">
-        <Navbar Text="djcds"/>
+        <Navbar2 Text="djcds"/>
     </header>
 
     <aside>
@@ -25,3 +25,4 @@ const { title } = Astro.props;
     <slot/>
 </div>
 
+</PostLayout2>
