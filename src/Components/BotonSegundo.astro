@@ -1,9 +1,10 @@
 ---
 interface Props {
   Text: string;
+  class?: string;
 }
 
-const { Text } = Astro.props;
+const { Text, class: additionalClasses  } = Astro.props;
 ---
 
 <div class="flex justify-end">

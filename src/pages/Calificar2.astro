@@ -5,15 +5,15 @@ import Input from "../Components/Input.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import RadioButton from "../Components/RadioButton.astro"
 import BotonSegundo from "../Components/BotonSegundo.astro"
-
+import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro"
 ---
 
 
 <Layoutprincipal title="Detalle del proyecto">
 
-    <p class="text-3xl font-bold text-center m-8">Detalle del proyecto</p>
+    
 
-    <Layoutcontenido title="contenido">
+    <Layoutcontenido2 title="contenido" text1="Detalle del proyecto">
 
         <div class="w-1/2 mx-auto">
             <div class="flex font-josefin-slab flex-col space-y-8">
@@ -39,7 +39,7 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
                     </div>
                 </div>
 
-                <div class="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
+                <div class="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4 ">
                     <RadioButton Text="Lunes" />
                     <RadioButton Text="Martes" />
                     <RadioButton Text="Miércoles" />
@@ -48,15 +48,17 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
                     <RadioButton Text="Sábado" />
                 </div>
                 
-                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                    <a href="/VistaAreas1">
-                        <BotonSegundo Text="Siguiente" />
-                    </a>
-                </div>
             </div>
+
+            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <a href="/VistaAreas1">
+                    <BotonSegundo Text="Siguiente"  />
+                </a>
+            </div>
+
         </div>
 
-    </Layoutcontenido>
+    </Layoutcontenido2>
 
 
 </Layoutprincipal>
