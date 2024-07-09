@@ -1,62 +1,31 @@
 ---
-
+import LayoutHome from "../layouts/LayoutHome.astro";
 import CartaUsuario from "../Components/CartaUsuario.astro"
-import Menu from "../Components/Menu.astro"
-
-
 ---
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-        <meta charset="UTF-8">
-        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-		<title>PAC</title>
 
-        <style>
-            .font-josefin-slab {
-                font-family: 'Josefin Slab', serif;
-            }
-            .font-josefin-sans {
-                font-family: 'Josefin Sans', sans-serif;
-            }
-            .font-inter {
-                font-family: 'Inter', sans-serif;
-            }
-        </style>
-
-	</head>
-    
-<body class="bg-white flex flex-col items-center justify-center h-screen  overflow-hidden ">
-    
-    <div class="w-full max-w-7xl flex-grow">
-       
-        <div class="flex items-start">
-            
-            <div class="w-1/2 p-8">
-                <span class="text-9xl font-josefin-slab mb-4">Bienvenido</span>
-                <span class="text-8xl text-[#A3E784] font-inter mb-4">USUARIO</span>
-                <p class="text-3xl font-josefin-slab mb-8 mt-20">Hola! querido usuario aqui podras reistrar tus proyectos o si ya tienes podras visualizarlos y saber el estado en el que se encuentra, ten una buena experiencia en el aplicativo.</p>
+<LayoutHome title="">
+    <div class="flex flex-col items-center justify-center min-h-screen overflow-hidden">
+        <div class="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
+            <div class="flex flex-col md:flex-row items-start">
+                <div class="w-full md:w-1/2 p-4 md:p-8">
+                    <span class="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
+                    <span class="text-3xl sm:text-5xl md:text-8xl text-[#A3E784] font-inter mb-4 block">USUARIO</span>
+                    <p class="text-base sm:text-lg md:text-3xl font-josefin-slab mb-8 mt-4 md:mt-20">
+                        ¡Hola! querido usuario aqui podras registrar tus proyectos o si ya tienes podras visualizarlos y saber el estado en el que se encuentra, ten una buena experiencia en el aplicativo.
+                    </p>
+                </div>
+                <div class="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
+                    <img class="w-full max-w-md h-auto" src="/public/img/usuario.png" alt="Imagen Principal">
+                </div>
             </div>
-
-            <div class="w-1/2 flex justify-center items-center">
-                <img class="w-97 h-auto" src="/public/img/usuario.png" alt="Imagen Principal">
-            </div>
-
-        </div>
-
-        <div class="flex justify-center mt-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl" >
-
-                <a href="/RegistroProyecto">
-                <CartaUsuario Text="Registrar proyectos" />
-                </a>
-                <CartaUsuario Text="Ver proyectos" />
-                
+            <div class="flex justify-center mt-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
+                    <a href="/RegistroProyecto">
+                        <CartaUsuario Text="Registrar proyectos" />
+                    </a>
+                    <CartaUsuario Text="Ver proyectos" />
+                </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+    </LayoutHome>
