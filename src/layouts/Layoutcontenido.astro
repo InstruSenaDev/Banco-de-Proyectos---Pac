@@ -1,0 +1,18 @@
+---
+interface Props {
+    //TypeScript
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+
+    <main class="flex flex-col justify-center items-center min-h-auto min-w-full">
+        <div class="w-full flex justify-center ">
+            <h1 class="text-3xl font-josefin-slab text-center m-8">{title}</h1>
+        </div>
+        <div class=" p-20 w-2/4 h-full bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute mx-40 justify-center">
+            <slot />
+        </div>
+    </main>

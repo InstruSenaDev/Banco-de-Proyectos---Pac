@@ -1,50 +1,28 @@
 ---
 import LayoutsCrearUsuario from '../layouts/LayoutUsuario.astro';
-import Button from "../Components/botton.astro"
+import Button from "../Components/BotonPrincipal.astro"
 import Input from '../Components/Input.astro';
 import SelectBoxTI from "../Components/SelectBoxTI.astro"
+import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 ---
 
-
-<html lang="en">
-	<head>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-   
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-
-
-
-<style>
-    .font-josefin-slab {
-        font-family: 'Josefin Slab', serif;
-    }
-</style>
-
-
-<LayoutsCrearUsuario title="Editar Perfil" title2="Editar Perfil">
-    <div class="Flex-box flex flex-col space-y-8 w-1/2">
-        <Input  placeholder="Jairo Ramirez" type="text" Text="Nombre completo"/>
+<LayoutPrincipal title="Crear Usuario">
+    <Layoutcontenido title="Crear Usuario">
+    <div class="Flex-box flex flex-col space-y-8 w-1/2 p-[1em] ">
+        <Input  placeholder="Nombre completo" type="text" Text="Nombre completo" id='nombre'/>
           <SelectBoxTI Text="Tipo de documento"/>
-        <Input  placeholder="1112343546" type="text" Text="Numero de docuemnto"/>
-        <Input   placeholder="3245678900" type="text"Text="Telefono"/>
+        <Input  placeholder="Numero de docuemnto" type="text" Text="Numero de docuemnto" id='numeroDoc'/>
+        <Input   placeholder="Telefono" type="text"Text="Telefono" id='telefono'/>
       
     </div>
 
     <div class="Flex-box flex flex-col space-y-8 w-1/2">
-        <Input  placeholder="jairoramirez@misena.edu.co" type="email"Text="Correo"/>
+        <Input  placeholder="Correo" type="email"Text="Correo" id='correo'/>
        
-        <Input  type="text" Text="Nombre De la Empresa" placeholder="Nombre De la Empresa:" />
-        <Input placeholder="" type="password" Text="Contraseña"/>
-        <Input placeholder="" type="password" Text="Confirmar Contraseña"/>
+        <Input  type="text" Text="Nombre De la Empresa" placeholder="Nombre De la Empresa:" id='nombreEmpresa'/>
+        <Input placeholder="Contraseña" type="password" Text="Contraseña" id='contraseña'/>
+        <Input placeholder="Confirmar Contraseña" type="password" Text="Confirmar Contraseña" id='confiContraseña'/>
       
     </div>
 
@@ -54,4 +32,4 @@ import SelectBoxTI from "../Components/SelectBoxTI.astro"
 </div>
 </div>
 
-</LayoutsCrearUsuario>
+    </Layoutcontenido></LayoutPrincipal>
