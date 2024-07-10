@@ -3,13 +3,15 @@ import PostLayout from "../layouts/PostLayout.astro"
 import Input from "../Components/Input.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import AceptarTerminos from "../Components/AceptarTerminos.astro"
-
+import SelectBoxTI from "../Components/SelectBoxTI.astro"
 interface Props {
   id1: string;
   
 }
 
 const { id1, } = Astro.props;
+
+
 ---
 
 
@@ -46,7 +48,7 @@ const { id1, } = Astro.props;
 <body>
     <div class="flex h-screen items-center justify-center gap-x-72"> <!--contenedor principal -->
         <div class="flex content-center"> <!--contenedor del formulario -->
-            <form id="formu" class="form flex flex-col w-96 items-center gap-4">
+            <form id="formu" class="form flex flex-col w-96 items-center gap-4" action="/Inicio" method="post">
 
                 <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
                     <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
@@ -66,7 +68,7 @@ const { id1, } = Astro.props;
                     </div>
 
                     <div class="relative w-full">
-                        <Input type="text" Text="" placeholder="Tipo De Documento:" id="tipoDocumento"/>
+                        <SelectBoxTI Text=""/>
                     </div>
 
                     <div class="relative w-full">
@@ -84,24 +86,25 @@ const { id1, } = Astro.props;
                     </div>
 
                     <div class="relative w-full">
-                        <Input type="password" Text="" placeholder="Contraseña:" id="ContraseñaRegistro"/>
-                        <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePassword"></i>
+                        <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaRegistro"/>
+                        <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordRegistro"></i>
                         <span id="contrasenaError" class="error-message"></span>
                     </div>
                     
                     <div class="relative w-full">
-                        <Input type="password" Text="" placeholder="Confirmar Contraseña:" id="confirmarContraseña"/>
+                        <Input type="password" Text="" placeholder="Confirmar Contraseña:" id="confirmarContrasena"/>
+                        <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordConfirmacion"></i>
                         <span id="confirmarContrasenaError" class="error-message"></span>
-                        
                     </div>
                     
                     <div class="w-full flex items-start">
                         <AceptarTerminos Text="Aceptar Términos y Condiciones" id={id1} />
                     </div>
-                    
-                    <BotonPrincipal Text="Registrarse"></BotonPrincipal>
+                    <a href="/Inicio">
+                    <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
+                </a>
                     <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta? 
-                    <a href="#" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>        
+                    <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>        
                 </div>
             </form>
         </div>
@@ -116,8 +119,8 @@ const { id1, } = Astro.props;
             const formu = document.getElementById('formu') as HTMLFormElement;
             const nombre = document.getElementById('registroNombre') as HTMLInputElement;
             const correoRegistro = document.getElementById('CorreoRegistro') as HTMLInputElement;
-            const contrasenaRegistro = document.getElementById('ContraseñaRegistro') as HTMLInputElement;
-            const confirmarContrasena = document.getElementById('confirmarContraseña') as HTMLInputElement;
+            const contrasenaRegistro = document.getElementById('contrasenaRegistro') as HTMLInputElement;
+            const confirmarContrasena = document.getElementById('confirmarContrasena') as HTMLInputElement;
             const numeroDc = document.getElementById('numeroDc') as HTMLInputElement;
             const telefono = document.getElementById('telefono') as HTMLInputElement;
             const nombreError = document.getElementById('nombreError');
@@ -126,24 +129,26 @@ const { id1, } = Astro.props;
             const confirmarContrasenaError = document.getElementById('confirmarContrasenaError');
             const numeroDcError = document.getElementById('numeroDcError');
             const telefonoError = document.getElementById('telefonoError');
-            const togglePassword = document.getElementById('togglePassword');
-    
+            const togglePasswordRegistro = document.getElementById('togglePasswordRegistro');
+            const togglePasswordConfirmacion = document.getElementById('togglePasswordConfirmacion');
+
+
             if (formu) {
-                // Resetear el formulario
-                formu.reset();
+        // Resetear el formulario
+        formu.reset();
+    }
+
+    if (togglePasswordRegistro) {
+        // Toggle password visibility
+        togglePasswordRegistro.addEventListener('click', function() {
+            if (contrasenaRegistro) {
+                const type = contrasenaRegistro.getAttribute('type') === 'password' ? 'text' : 'password';
+                contrasenaRegistro.setAttribute('type', type);
             }
-    
-            if (togglePassword) {
-                // Toggle password visibility
-                togglePassword.addEventListener('click', function() {
-                    if (contrasenaRegistro) {
-                        const type = contrasenaRegistro.getAttribute('type') === 'password' ? 'text' : 'password';
-                        contrasenaRegistro.setAttribute('type', type);
-                    }
-                    this.classList.toggle('bx-show');
-                    this.classList.toggle('bx-hide');
-                });
-            }
+            this.classList.toggle('bx-show');
+            this.classList.toggle('bx-hide');
+        });
+    }
     
             if (formu) {
                 formu.addEventListener('submit', function(event) {
@@ -205,6 +210,9 @@ const { id1, } = Astro.props;
     
                     if (!valid) {
                         event.preventDefault();
+                    } else {
+                        // Aquí puedes redirigir al usuario a la página de destino después de enviar el formulario
+                        window.location.href = '/Inicio';
                     }
                 });
             }
@@ -215,6 +223,7 @@ const { id1, } = Astro.props;
                 }
             });
         });
+
     </script>
 </body>
 </html>
