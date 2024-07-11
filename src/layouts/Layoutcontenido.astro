@@ -6,13 +6,31 @@ interface Props {
 
 const { title } = Astro.props;
 ---
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+		<title>{title}</title>
+
+<body>
 
 
-    <main class="flex flex-col justify-center items-center min-h-auto min-w-full">
-        <div class="w-full flex justify-center ">
-            <h1 class="text-3xl font-josefin-slab text-center m-8">{title}</h1>
-        </div>
-        <div class=" p-20 w-2/4 h-full bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute mx-40 justify-center">
+
+    <div class="text-center px-20">
+        <span class="font-serif text-2xl"> {title} </span>
+
+    </div>
+
+<main class="flex justify-center  h-[100vh] ">
+    <div class="  flex-wrap  w-[70%] h-[80%] bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute mx-40 justify-center">
+        <div class=" flex flex-wrap justify-center  ">
             <slot />
         </div>
-    </main>
+    </div>
+
+
+</main>
