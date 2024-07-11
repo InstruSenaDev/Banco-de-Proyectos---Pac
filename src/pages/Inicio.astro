@@ -36,35 +36,31 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
 </head>
 <body>
     <div class="flex h-screen items-center justify-center gap-x-72 "> <!--contenedor principal -->
-
         <div class="flex content-center"> <!--contenedor del formulario -->
             <form action="/VistaUsuario" class="form flex flex-col w-96 items-center gap-28">
-              
-
                 <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
                     <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
                 </div>
 
                 <div class="login flex flex-col items-center gap-4 min-w-96 ">
                     <div class="text-3xl pb-8">INICIO DE SESIÓN</div>
-                    
-                   
+
                     <div class="relative w-full">
                         <Input type="email" Text="" placeholder="Correo:" id="CorreoInicio"/>
                         <span id="correoError" class="error-message"></span>
                     </div>
-                
+
                     <div class="relative w-full">
                         <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaInicio"/>
                         <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordInicio"></i>
                         <span id="contrasenaError" class="error-message"></span>
                     </div>
-            
+
                     <div class="flex justify-end w-full">
                     <a href="/OlvidarContraseña" class="text-blue-500 underline decoration-1 ">¿Olvidaste tu contraseña?</a>
-                 </div>
+                    </div>
 
-                 <a href="/VistaUsuario">
+                <a href="/VistaUsuario">
                     <BotonPrincipal Text="Iniciar Sesión" id="Login"></BotonPrincipal>
                 </a>
                 </div>
@@ -79,36 +75,34 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
             <img class="w-[800px] h-[800px]" src="../../public/img/nino.png" alt="">
         </div>
     </div>
-    <script> 
-        document.addEventListener ('DOMContentLoaded', function() {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const formu = document.getElementById('formu') as HTMLFormElement;
-            const correoInicio = document.getElementById('correoInicio') as HTMLInputElement;
-            const contrasenaInicio = document.getElementById('contrasenaInicio') as HTMLInputElement;
+            const correoInicio = document.getElementById('correoInicio') as HTMLFormElement;
+            const contrasenaInicio = document.getElementById('contrasenaInicio') as HTMLFormElement;
             const togglePasswordInicio = document.getElementById('togglePasswordInicio');
             const correoError = document.getElementById('correoError');
             const contrasenaError = document.getElementById('contrasenaError');
-            
-            
+
+
             if (formu) {
         // Resetear el formulario
         formu.reset();
 
     }
-    
-    
+
     if (togglePasswordInicio) {
         // Toggle password visibility
         togglePasswordInicio.addEventListener('click', function() {
             if (contrasenaInicio) {
                 const type = contrasenaInicio.getAttribute('type') === 'password' ? 'text' : 'password';
                 contrasenaInicio.setAttribute('type', type);
-                
             }
             this.classList.toggle('bx-show');
             this.classList.toggle('bx-hide');
         });
     }
-    
+
             if (formu) {
                 formu.addEventListener('submit', function(event) {
                     let valid = true;
@@ -123,16 +117,17 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
                     } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
                         valid = false;
                         if (correoError) correoError.textContent = 'El correo electrónico debe tener formato válido.';
-                    } 
-    
-                    // Validación de la contraseña
+                    }
+
+                    /// Validación de la contraseña
                     const contrasenaValue = contrasenaInicio ? contrasenaInicio.value : '';
                     if (!contrasenaValue || contrasenaValue.length < 8) {
                         valid = false;
                         if (contrasenaError) contrasenaError.textContent = 'La contraseña debe tener al menos 8 caracteres.';
-                    } else if (!/[A-Z]/.test(contrasenaValue)) {
-                        valid = false;
-                        if (contrasenaError) contrasenaError.textContent = 'La contraseña debe contener al menos una letra mayúscula.';
+                    }
+
+                    if (!valid) {
+                        event.preventDefault();
                     }
                 });
             }
@@ -142,7 +137,6 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
                 }
             });
         });
-                
     </script>
 </body>
 </html>

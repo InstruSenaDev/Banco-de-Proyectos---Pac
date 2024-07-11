@@ -12,12 +12,7 @@ interface Props {
 }
 
 const { id1, } = Astro.props;
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> 60fb7531aa73c1ad1ad1033e7d9a3b007b87b8b6
 ---
 
 
@@ -62,7 +57,7 @@ const { id1, } = Astro.props;
 
                 <div class="registro flex flex-col items-center gap-2 min-w-96">
                     <div class="text-3xl">REGISTRO</div>
-                    
+
                     <div class="relative w-full">
                         <Input type="text" Text="" placeholder="Nombre Completo:" id="registroNombre" />
                         <span id="nombreError" class="error-message"></span>
@@ -96,21 +91,21 @@ const { id1, } = Astro.props;
                         <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordRegistro"></i>
                         <span id="contrasenaError" class="error-message"></span>
                     </div>
-                    
+
                     <div class="relative w-full">
                         <Input type="password" Text="" placeholder="Confirmar Contraseña:" id="confirmarContrasena"/>
                         <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordConfirmacion"></i>
                         <span id="confirmarContrasenaError" class="error-message"></span>
                     </div>
-                    
+
                     <div class="w-full flex items-start">
                         <AceptarTerminos Text="Aceptar Términos y Condiciones" id={id1} />
                     </div>
                     <a href="/Inicio">
                     <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
                 </a>
-                    <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta? 
-                    <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>        
+                    <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
+                    <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
                 </div>
             </form>
         </div>
@@ -155,7 +150,7 @@ const { id1, } = Astro.props;
             this.classList.toggle('bx-hide');
         });
     }
-    
+
             if (formu) {
                 formu.addEventListener('submit', function(event) {
                     let valid = true;
@@ -165,14 +160,14 @@ const { id1, } = Astro.props;
                     if (confirmarContrasenaError) confirmarContrasenaError.textContent = '';
                     if (numeroDcError) numeroDcError.textContent = '';
                     if (telefonoError) telefonoError.textContent = '';
-    
+
                     // Validación del nombre
                     const nombreValue = nombre ? nombre.value.trim() : '';
                     if (!nombreValue || !/^[A-Za-z\s]+$/.test(nombreValue)) {
                         valid = false;
                         if (nombreError) nombreError.textContent = 'Ingrese un nombre válido.';
                     }
-    
+
                     // Validación del correo electrónico
                     const correoValue = correoRegistro ? correoRegistro.value.trim() : '';
                     if (!correoValue) {
@@ -181,8 +176,8 @@ const { id1, } = Astro.props;
                     } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
                         valid = false;
                         if (correoError) correoError.textContent = 'El correo electrónico debe tener formato válido.';
-                    } 
-    
+                    }
+
                     // Validación de la contraseña
                     const contrasenaValue = contrasenaRegistro ? contrasenaRegistro.value : '';
                     if (!contrasenaValue || contrasenaValue.length < 8) {
@@ -199,21 +194,21 @@ const { id1, } = Astro.props;
                         valid = false;
                         if (confirmarContrasenaError) confirmarContrasenaError.textContent = 'Las contraseñas no coinciden.';
                     }
-    
+
                     // Validación del número de documento
                     const numeroDcValue = numeroDc ? numeroDc.value.trim() : '';
                     if (!numeroDcValue || isNaN(parseInt(numeroDcValue)) || numeroDcValue.length !== 10) {
                         valid = false;
                         if (numeroDcError) numeroDcError.textContent = 'Ingrese un número de documento válido de 10 dígitos.';
                     }
-    
+
                     // Validación del teléfono
                     const telefonoValue = telefono ? telefono.value.trim() : '';
                     if (telefonoValue.length !== 10 || isNaN(parseInt(telefonoValue))) {
                         valid = false;
                         if (telefonoError) telefonoError.textContent = 'Ingrese un número de teléfono válido de 10 dígitos.';
                     }
-    
+
                     if (!valid) {
                         event.preventDefault();
                     } else {
@@ -222,7 +217,7 @@ const { id1, } = Astro.props;
                     }
                 });
             }
-    
+
             window.addEventListener('pageshow', function(event) {
                 if (event.persisted && formu) {
                     formu.reset();
