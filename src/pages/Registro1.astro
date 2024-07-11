@@ -10,8 +10,6 @@ interface Props {
 }
 
 const { id1, } = Astro.props;
-
-
 ---
 
 
@@ -175,16 +173,16 @@ const { id1, } = Astro.props;
                     } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
                         valid = false;
                         if (correoError) correoError.textContent = 'El correo electrónico debe tener formato válido.';
-                    } else if (!/[A-Z]/.test(correoValue)) {
-                        valid = false;
-                        if (correoError) correoError.textContent = 'El correo electrónico debe contener al menos una letra mayúscula.';
-                    }
+                    } 
     
                     // Validación de la contraseña
                     const contrasenaValue = contrasenaRegistro ? contrasenaRegistro.value : '';
                     if (!contrasenaValue || contrasenaValue.length < 8) {
                         valid = false;
                         if (contrasenaError) contrasenaError.textContent = 'La contraseña debe tener al menos 8 caracteres.';
+                    } else if (!/[A-Z]/.test(contrasenaValue)) {
+                        valid = false;
+                        if (contrasenaError) contrasenaError.textContent = 'El correo electrónico debe contener al menos una letra mayúscula.';
                     }
 
                     // Validación de la confirmación de contraseña
