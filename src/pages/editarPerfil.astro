@@ -11,7 +11,7 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
     <Layoutcontenido title="Crear Usuario">
 
     <div class="w-full md:w-1/2" >   
-    <div class=" p-11 flex flex-col space-y-2   Flex-box    ">
+    <div class="  flex flex-col space-y-3   Flex-box    ">
         <h1>Nombre completo</h1>
         <Input  placeholder="Nombre completo" type="text" Text="" id='nombre'/>
         <h1>Tipo de documento</h1>
@@ -24,12 +24,15 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
     </div>
 
     <div class="w-full md:w-1/2" >
-    <div class=" p-11 flex flex-col space-y-2    Flex-box ">
-        <Input  placeholder="Correo" type="email"Text="Correo" id='correo'/>
-       
-        <Input  type="text" Text="Nombre De la Empresa" placeholder="Nombre De la Empresa:" id='nombreEmpresa'/>
-        <Input placeholder="Contraseña" type="password" Text="Contraseña" id='contraseña'/>
-        <Input placeholder="Confirmar Contraseña" type="password" Text="Confirmar Contraseña" id='confiContraseña'/>
+    <div class="  flex flex-col space-y-3  ml-[50px]  Flex-box ">
+        <h1>Correo:</h1>
+        <Input  placeholder="Correo" type="email"Text="" id='correo'/>
+        <h1>Nombre De la Empresa:</h1>
+        <Input  type="text" Text="" placeholder="Nombre De la Empresa" id='nombreEmpresa'/>
+        <h1>Contraseña</h1>
+        <Input placeholder="Contraseña" type="password" Text="" id='contraseña'/>
+        <h1>Confirmar Contraseña</h1>
+        <Input placeholder="Confirmar Contraseña" type="password" Text="" id='confiContraseña'/>
     </div>
 </div>
 
