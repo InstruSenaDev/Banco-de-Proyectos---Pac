@@ -14,7 +14,7 @@ import ModalPerfil from '../Components/ModalPerfil.astro';
     <Layoutcontenido title="Editar Perfil">
 
     <div class="w-full md:w-1/2 " >   
-    <div class="  flex flex-col space-y-2 p-[5%]  Flex-box     ">
+    <div class="  flex flex-col  p-[5%]  Flex-box     ">
         <h1>Nombre completo</h1>
         <Input  placeholder="Nombre completo" type="text" Text="" id='nombre'/>
         <h1>Tipo de documento</h1>
@@ -27,7 +27,7 @@ import ModalPerfil from '../Components/ModalPerfil.astro';
     </div>
 
     <div class="w-full md:w-1/2  " >
-    <div class="  flex flex-col space-y-2  p-[5%] Flex-box  ">
+    <div class="  flex flex-col  p-[5%] Flex-box  ">
         <h1>Correo:</h1>
         <Input  placeholder="Correo" type="email"Text="" id='correo'/>
         <h1>Nombre De la Empresa:</h1>
@@ -36,11 +36,12 @@ import ModalPerfil from '../Components/ModalPerfil.astro';
         <Input placeholder="Contraseña" type="password" Text="" id='contraseña'/>
         <h1>Confirmar Contraseña</h1>
         <Input placeholder="Confirmar Contraseña" type="password" Text="" id='confiContraseña'/>
+        <div class=" flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal" >
+            <BotonPrincipal Text='Guardar'/>
+        </div>
     </div>
 </div>
-<div class=" flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal" >
-    <BotonPrincipal Text='Guardar'/>
-</div>
+
 <ModalPerfil Text='Perfil actualizado'/>
 
 <script>
