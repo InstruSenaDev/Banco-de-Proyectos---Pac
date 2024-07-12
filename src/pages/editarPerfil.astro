@@ -1,17 +1,20 @@
 ---
-import LayoutsCrearUsuario from '../layouts/LayoutUsuario.astro';
-import Button from "../Components/BotonPrincipal.astro"
 import Input from '../Components/Input.astro';
 import SelectBoxTI from "../Components/SelectBoxTI.astro"
 import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
+import BotonPrincipal from '../Components/BotonPrincipal.astro';
+import ModalPerfil from '../Components/ModalPerfil.astro';
 ---
 
-<LayoutPrincipal title="Crear Usuario">
-    <Layoutcontenido title="Crear Usuario">
 
-    <div class="w-full md:w-1/2" >   
-    <div class="  flex flex-col space-y-3   Flex-box    ">
+
+
+<LayoutPrincipal title="Editar Perfil">
+    <Layoutcontenido title="Editar Perfil">
+
+    <div class="w-full md:w-1/2 " >   
+    <div class="  flex flex-col space-y-2 p-[5%]  Flex-box     ">
         <h1>Nombre completo</h1>
         <Input  placeholder="Nombre completo" type="text" Text="" id='nombre'/>
         <h1>Tipo de documento</h1>
@@ -23,8 +26,8 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
     </div>
     </div>
 
-    <div class="w-full md:w-1/2" >
-    <div class="  flex flex-col space-y-3  ml-[50px]  Flex-box ">
+    <div class="w-full md:w-1/2  " >
+    <div class="  flex flex-col space-y-2  p-[5%] Flex-box  ">
         <h1>Correo:</h1>
         <Input  placeholder="Correo" type="email"Text="" id='correo'/>
         <h1>Nombre De la Empresa:</h1>
@@ -35,8 +38,25 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
         <Input placeholder="Confirmar Contraseña" type="password" Text="" id='confiContraseña'/>
     </div>
 </div>
+<div class=" flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal" >
+    <BotonPrincipal Text='Guardar'/>
+</div>
+<ModalPerfil Text='Perfil actualizado'/>
 
+<script>
+    const modal = document.querySelector('.modal');
 
+    const showModal = document.querySelector('.show-modal');
+    const closeModal = document.querySelector('.close-modal')
+
+    showModal?.addEventListener('click', function(){
+        modal?.classList.remove('hidden')
+    });
+
+    closeModal?.addEventListener('click', function(){
+        modal?.classList.add('hidden')
+    });
+</script>
 
     </Layoutcontenido></LayoutPrincipal>
     

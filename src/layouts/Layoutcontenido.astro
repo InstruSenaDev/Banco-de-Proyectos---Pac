@@ -6,28 +6,17 @@ interface Props {
 
 const { title } = Astro.props;
 ---
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-        <meta charset="UTF-8">
-        <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-		<title>{title}</title>
-
-<body>
 
 
-
-    <div class="text-center px-20">
-        <span class="font-serif text-2xl"> {title} </span>
+ 
+    <div class="text-center px-20 mt-[1%] ">
+        <span class="text-2xl font-bold font-josefin-slab text-center "> {title} </span>
 
     </div>
 
-<main class="flex justify-center  h-[100vh] ">
-    <div class=" flex-wrap w-[70%] h-[80%] bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute  justify-center">
-        <div class=" flex flex-wrap justify-center  ">
+<main class="flex justify-center  h-[100vh] max-[768px]:h-[100%] ">
+    <div class="   flex-wrap w-[65%] max-[768px]:w-[70%] mt-[1%] h-[74%] bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute  justify-center ">
+        <div class=" flex flex-wrap justify-center w-[90%] ">
             <slot />
         </div>
     </div>
