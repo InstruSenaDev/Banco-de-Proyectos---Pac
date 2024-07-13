@@ -1,82 +1,113 @@
 ---
-import LayoutHome from "../layouts/LayoutHome.astro";
-import CartaUsuario from "../Components/CartaUsuario.astro"
-import PostLayout from "../layouts/PostLayout.astro";
-import PostLayout2 from "../layouts/PostLayout2.astro";
-import BotonPrincipal from "../Components/BotonPrincipal.astro";
-import Input from "../Components/Input.astro";
-import SelectBoxTI from "../Components/SelectBoxTI.astro";
-import AceptarTerminos from "../Components/AceptarTerminos.astro";
+import PostLayout from "../layouts/PostLayout.astro"
+import Input from "../Components/Input.astro"
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import AceptarTerminos from "../Components/AceptarTerminos.astro"
+import SelectBoxTI from "../Components/SelectBoxTI.astro"
+import LayoutFormulario from "../layouts/LayoutFormulario.astro"
 
+interface Props {
+  id1: string;
+  
+}
+
+const { id1, } = Astro.props;
 
 ---
 
 
-    <div class="contM justify-center flex flex-col-reverse md:flex-row ">
-        <div class="contM justify-center pt-3 flex flex-col. md:flex-row h-screen w-full items-center ">
-          <div class="cont bg-slate-500 px-8 grid justify-items-center bg-color4 h-5/6 rounded-s-lg text-color1 flex-col items-center ">
+    <style>
+        body {
+            font-family: "Josefin Slab", serif;
+            font-optical-sizing: auto;
+        }
+        .relative input {
+            padding-right: 2.5rem; /* Añade espacio a la derecha del input para el icono */
+        }
+        .relative i {
+            right: 1rem; /* Ajusta la posición del icono */
+        }
+        .error-message {
+            color: red;
+            font-size: 0.875rem; /* Tamaño de fuente pequeño */
+            margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
+            margin-bottom: 1rem; /* Espacio debajo del mensaje */
+            text-align: left; /* Alineación del texto */
+            width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+        }
+    </style>
 
-            <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
-                <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
-            </div>
-            <div class="relative w-full">
-                <Input type="text" Text="" placeholder="Nombre Completo:" id="registroNombre" />
-                <span id="nombreError" class="error-message"></span>
-            </div>
+<body>
+    <LayoutFormulario title="">
+        <div class=" flex xl:h-screen xl:w-full  h-auto sm:96 items-center justify-center xl:gap-x-72 "> <!--contenedor principal -->
+        <div class="flex content-center"> <!--contenedor del formulario -->
+            <form id="formu" class="form flex flex-col w-96 items-center gap-4" action="/Inicio" method="post">
 
-            <div class="relative w-full">
-                <Input type="text" Text="" placeholder="Número De Documento:" id="numeroDc" />
-                <span id="numeroDcError" class="error-message"></span>
-            </div>
+                <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
+                    <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
+                </div>
 
-            <div class="relative w-full">
-                <SelectBoxTI Text=""/>
-            </div>
+                <div class="registro flex flex-col items-center gap-2 min-w-96">
+                    <div class="text-3xl">REGISTRO</div>
 
-            <div class="relative w-full">
-                <Input type="email" Text="" placeholder="Correo:" id="CorreoRegistro"/>
-                <span id="correoError" class="error-message"></span>
-            </div>
+                    <div class="relative w-full">
+                        <Input type="text" Text="" placeholder="Nombre Completo:" id="registroNombre" />
+                        <span id="nombreError" class="error-message"></span>
+                    </div>
 
-            <div class="relative w-full">
-                <Input type="text" Text="" placeholder="Teléfono:" id="telefono" />
-                <span id="telefonoError" class="error-message"></span>
-            </div>
+                    <div class="relative w-full">
+                        <Input type="text" Text="" placeholder="Número De Documento:" id="numeroDc" />
+                        <span id="numeroDcError" class="error-message"></span>
+                    </div>
 
-            <div class="relative w-full">
-                <Input type="text" Text="" placeholder="Nombre De la Empresa:" id="nombreEmpresa"/>
-            </div>
+                    <div class="relative w-full">
+                        <SelectBoxTI Text=""/>
+                    </div>
 
-            <div class="relative w-full">
-                <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaRegistro"/>
-                <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordRegistro"></i>
-                <span id="contrasenaError" class="error-message"></span>
-            </div>
-            
-            <div class="relative w-full">
-                <Input type="password" Text="" placeholder="Confirmar Contraseña:" id="confirmarContrasena"/>
-                <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordConfirmacion"></i>
-                <span id="confirmarContrasenaError" class="error-message"></span>
-            </div>
-            
-            
-            <a href="/Inicio">
-            <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
-        </a>
-            <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta? 
-            <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>  
-          </div>
-    
-          <div class="cont2 px-8 grid justify-items-center  w-auto text-color1 flex-col items-center  rounded-e-xl h-auto ">
-            <form id="formuInicio" class="contform ">
-              <div class="conthf m-4 grid grid-flow-row sm:grid-flow-row-col gap-3 text-center bg-color3 hidden lg:block w-full lg:w-[800px]">
-                
-               
-                
-                <img class="w-[800px] h-[800px]" src="../../public/img/registro.png" alt="Registro">
-            </div>
-              </div>
+                    <div class="relative w-full">
+                        <Input type="email" Text="" placeholder="Correo:" id="CorreoRegistro"/>
+                        <span id="correoError" class="error-message"></span>
+                    </div>
+
+                    <div class="relative w-full">
+                        <Input type="text" Text="" placeholder="Teléfono:" id="telefono" />
+                        <span id="telefonoError" class="error-message"></span>
+                    </div>
+
+                    <div class="relative w-full">
+                        <Input type="text" Text="" placeholder="Nombre De la Empresa:" id="nombreEmpresa"/>
+                    </div>
+
+                    <div class="relative w-full">
+                        <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaRegistro"/>
+                        <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordRegistro"></i>
+                        <span id="contrasenaError" class="error-message"></span>
+                    </div>
+
+                    <div class="relative w-full">
+                        <Input type="password" Text="" placeholder="Confirmar Contraseña:" id="confirmarContrasena"/>
+                        <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordConfirmacion"></i>
+                        <span id="confirmarContrasenaError" class="error-message"></span>
+                    </div>
+
+                    <div class="w-full flex items-start">
+                        <AceptarTerminos Text="Aceptar Términos y Condiciones" id={id1} />
+                    </div>
+                    <a href="/Inicio">
+                    <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
+                </a>
+                    <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
+                    <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
+                </div>
             </form>
-          </div>
         </div>
-      </div>
+
+        <div class="hidden lg:block w-full lg:w-[800px]">
+            <img class="w-[800px] h-[800px]" src="../../public/img/registro.png" alt="Registro">
+        </div>
+
+    </div>
+</LayoutFormulario>
+    <script src="../js/Registro.js"></script>
+</body>
+</html>
