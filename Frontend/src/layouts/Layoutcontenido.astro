@@ -25,12 +25,10 @@ const { title } = Astro.props;
 
     </div>
 
-<main class="flex justify-center items-center min-h-screen min-w-full ">
-    <div class=" p-20 w-2/4 h-full bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute mx-40 justify-center">
-        <div class="flex justify-center space-x-10 ">
-            <slot />
+    <main class="flex justify-center  h-[100vh] max-[768px]:h-[100%] ">
+        <div class="   flex-wrap w-[65%] max-[768px]:w-[70%] mt-[1%] h-[74%] bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute  justify-center ">
+            <div class=" flex flex-wrap justify-center w-[90%] ">
+                <slot />
+            </div>
         </div>
-    </div>
-
-
-</main>
+    </main>

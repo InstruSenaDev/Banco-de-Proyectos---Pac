@@ -7,7 +7,7 @@ import SelectBoxRol from "../Components/SelectBoxRol.astro"
 import RadioButton from "../Components/RadioButton.astro"
 import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
-import ModalUsuario from "../Components/ModalUsuario.astro"
+import Modal from "../Components/Modal.astro"
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
@@ -21,32 +21,25 @@ import ModalUsuario from "../Components/ModalUsuario.astro"
 
 <Layoutprincipal title="Crear Usuario">
     <Layoutcontenido title="Crear Usuario">
-        <div class="flex-box flex flex-col space-y-8 w-1/2">
-            <Input Text="Nombre del usuario:" placeholder="Ej: Pepito Perez" type="text"/>
-            <div class=" w-1/2">
-                <SelectBoxTI Text="Tipo de documento"/>
-            </div>
-            <Input Text="Número de documento:" placeholder="Ej: 123456789" type="text"/>
-            <Input Text="Correo Electrónico:" placeholder="Ej: ejemplo@gmail.com" type="email"/>
+
+        <div class="w-full md:w-1/2" >  
+        <div class="  flex flex-col  p-[5%]  Flex-box">
+            <Input Text="Nombre del usuario:" placeholder="Ej: Pepito Perez" type="text" id=""/>
+            <SelectBoxTI Text="Tipo de documento"/>
+            <Input Text="Número de documento:" placeholder="Ej: 123456789" type="text" id=""/>
+            <Input Text="Correo Electrónico:" placeholder="Ej: ejemplo@gmail.com" type="email" id=""/>
+        </div>
         </div>
 
-        <div class="flex-box flex flex-col space-y-8 w-1/2">
-            <Input Text="Contraseña:" placeholder=".............." type="password"/>
-            <div class=" w-1/2">
-                <SelectBoxRol Text="Rol del usuario:"/>
-            </div>
 
-            <div class=" space-y-11">
-            <div class="flex-box flex flex-col space-y-6">
-                <h1 class="font-josefin-slab text-black font-semibold ">Estado:</h1>
-                <div class="flex space-x-8">
-                    <RadioButton Text="Activo"/> <RadioButton Text="Inactivo"/>
-                </div>
-            </div>
-            </div>
-            <div class="flex-box flex flex-col space-y-5 w-1/2 ">
-                    <Input Text="Celular:" placeholder="Ej: 312456789" type="text"/>
-            </div>
+        <div class="w-full md:w-1/2 ">
+        <div class="flex flex-col p-[5%] Flex-box">
+            <Input Text="Contraseña:" placeholder=".............." type="password" id=""/>
+            <SelectBoxRol Text="Rol del usuario:"/>
+            <h1 class="font-josefin-slab text-black font-semibold space-y-10 ">Estado:</h1>
+            <RadioButton Text="Activo"/> <RadioButton Text="Inactivo"/>
+            <Input Text="Celular:" placeholder="Ej: 312456789" type="text" id=""/>
+    
             <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <a href="/HomeSuperAdmin">
                     <BotonPrincipal Text="Volver" />
@@ -56,8 +49,10 @@ import ModalUsuario from "../Components/ModalUsuario.astro"
                 </div>
             </div>
         </div>
+    </div>
+    </div>
 
-<ModalUsuario >
+<Modal Text="Usuario registrado correctamente" >
 
 <script>
     const modal = document.querySelector('.modal');

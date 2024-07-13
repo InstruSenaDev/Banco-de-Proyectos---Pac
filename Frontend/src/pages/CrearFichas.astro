@@ -4,7 +4,7 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import BotonSegundo from "../Components/BotonSegundo.astro"
 import Layoutprincipal from "../layouts/Layoutprincipal.astro";
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
-import ModalFichas from "../Components/ModalFichas.astro"
+import Modal from "../Components/Modal.astro"
 ---
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
 
@@ -16,9 +16,10 @@ import ModalFichas from "../Components/ModalFichas.astro"
 
 <Layoutprincipal title="Crear Fichas">
     <Layoutcontenido title="Crear Fichas">
+        
         <div class="flex flex-col space-y-8 w-1/2 justify-center items-center">
-            <Input Text="Nombre del programa:" placeholder="Sistemas" type="text"/>
-            <Input Text="Número de ficha:" placeholder="2694265" type="text"/>
+            <Input Text="Nombre del programa:" placeholder="Sistemas" type="text" id=""/>
+            <Input Text="Número de ficha:" placeholder="2694265" type="text" id=""/>
 
             <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <a href="/HomeSuperAdmin" class="">
@@ -29,7 +30,7 @@ import ModalFichas from "../Components/ModalFichas.astro"
                 </div>
             </div>
         </div>
-        <ModalFichas >
+        <Modal Text="Ficha registrada correctamente" >
 
             <script>
                 const modal = document.querySelector('.modal');
