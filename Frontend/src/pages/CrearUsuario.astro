@@ -22,7 +22,7 @@ import Modal from "../Components/Modal.astro"
 <Layoutprincipal title="Crear Usuario">
     <Layoutcontenido title="Crear Usuario">
 
-        <div class="w-full md:w-1/2" >  
+        <div class="w-full md:w-1/2" >
         <div class="  flex flex-col  p-[5%]  Flex-box">
             <Input Text="Nombre del usuario:" placeholder="Ej: Pepito Perez" type="text" id=""/>
             <SelectBoxTI Text="Tipo de documento"/>
@@ -31,16 +31,18 @@ import Modal from "../Components/Modal.astro"
         </div>
         </div>
 
+        <div class="w-full md:w-1/2" >
+            <div class="  flex flex-col  p-[5%]  Flex-box">
+                    <Input Text="Contraseña:" placeholder=".............." type="password" id=""/>
+                    <SelectBoxRol Text="Tipo de Rol:"/>
+                    <h1> Estado:</h1>
+                    <div class="flex h-[56px] ">
+                    <RadioButton Text="Activo"/> <RadioButton Text="Inactivo"/>
+                </div>
+                    <h1>Celular:</h1>
+                    <Input Text="" placeholder="Ej: 312456789" type="text" id=""/>
 
-        <div class="w-full md:w-1/2 ">
-        <div class="flex flex-col p-[5%] Flex-box">
-            <Input Text="Contraseña:" placeholder=".............." type="password" id=""/>
-            <SelectBoxRol Text="Rol del usuario:"/>
-            <h1 class="font-josefin-slab text-black font-semibold space-y-10 ">Estado:</h1>
-            <RadioButton Text="Activo"/> <RadioButton Text="Inactivo"/>
-            <Input Text="Celular:" placeholder="Ej: 312456789" type="text" id=""/>
-    
-            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
                 <a href="/HomeSuperAdmin">
                     <BotonPrincipal Text="Volver" />
                 </a>
@@ -50,7 +52,7 @@ import Modal from "../Components/Modal.astro"
             </div>
         </div>
     </div>
-    </div>
+
 
 <Modal Text="Usuario registrado correctamente" >
 
