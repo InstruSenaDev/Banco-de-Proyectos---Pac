@@ -16,15 +16,17 @@ import Modal from "../Components/Modal.astro"
 
 <Layoutprincipal title="Crear Fichas">
     <Layoutcontenido title="Crear Fichas">
-        <div class="flex flex-col space-y-8 w-1/2 justify-center items-center">
-            <Input Text="Nombre del programa:" placeholder="Sistemas" type="text" id=""/>
-            <Input Text="Número de ficha:" placeholder="2694265" type="text" id=""/>
+            <div class="w-full md:w-1/2" >
+                <div class="  flex flex-col p-[5%] Flex-box">
+                    <Input Text="Nombre del programa:" placeholder="Sistemas" type="text" id=""/>
+                    <Input Text="Número de ficha:" placeholder="2694265" type="text" id=""/>
+                </div>
 
-            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+            <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4">
                 <a href="/HomeSuperAdmin" class="">
                     <BotonPrincipal Text="Volver" />
                 </a>
-                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4 show-modal">
                     <BotonSegundo Text="Guardar" />
                 </div>
             </div>

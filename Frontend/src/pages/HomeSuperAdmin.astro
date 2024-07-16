@@ -4,10 +4,13 @@ import Card from "../Components/Card.astro"
 ---
 
 <LayoutSuperAdmin  title="">
-        <div class=" px-56 flex flex-col items-start w-1/2 p-10 ">
-            <span class="text-9xl  font-josefin-slab mb-30">Bienvenido</span>
-            <span class="text-8xl text-Verde font-Inter mb-30">SUPERADMIN</span>
-            <span class="text-1xl font-josefin-Inter mb-10 w-30">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
+    <div class="flex flex-col items-center justify-center min-h-screen overflow-hidden">
+        <div class="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
+            <div class="flex flex-col md:flex-row items-start">
+                <div class="w-full md:w-1/2 p-4 md:p-8">
+            <span class="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
+            <span class="text-3xl sm:text-5xl md:text-8xl text-[#A3E784] font-inter mb-4 block">SUPERADMIN</span>
+            <span class="text-1xl sm:text-lg md:text-3xl font-josefin-Inter mb-10 w-30 mt-4 md:mt-20">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
                 aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.</span>
 
                 <div class="px-32 space-x-20 py-12 relative flex items-center justify-center h-full ">
@@ -38,8 +41,9 @@ import Card from "../Components/Card.astro"
                     </a>
                 </div>
         </div>
+            </div>
 
-        <div class=" flex justify-end">
+        <div class=" w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
             <img class="w-50 h-96 top-24 absolute" src="/Img/image.png" alt="Principal Image">
         </div>
     </div>
