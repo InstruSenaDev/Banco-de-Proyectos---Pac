@@ -39,7 +39,7 @@ const { id1, } = Astro.props;
         .error-message {
             color: red;
             font-size: 0.875rem; /* Tamaño de fuente pequeño */
-            margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
+           
             margin-bottom: 1rem; /* Espacio debajo del mensaje */
             text-align: left; /* Alineación del texto */
             width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
@@ -84,6 +84,7 @@ const { id1, } = Astro.props;
 
                     <div class="relative w-full">
                         <Input type="text" Text="" placeholder="Nombre De la Empresa:" id="nombreEmpresa"/>
+                        <div id="empresaError" class="error-message"></div> 
                     </div>
 
                     <div class="relative w-full">

@@ -27,6 +27,16 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
+router.post('/register', async (req, res) => {
+    try {
+        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol } = req.body;
+        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol });
+        res.status(201).json(newPerson);
+    } catch (error) {
+        console.error('Error al registrar persona:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 
 export default router;

@@ -31,5 +31,21 @@ async function getAllUsuario() {
     }
 }
 
+// Función para registrar una nueva persona
+async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol }) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol]
+        );
+        client.release();
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar persona:', error);
+        throw error;
+    }
+}
 
-export { getAllPersonas, getAllUsuario };
+
+export { getAllPersonas, getAllUsuario, registerPerson };
