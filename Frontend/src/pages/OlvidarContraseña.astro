@@ -3,7 +3,7 @@ import PostLayout from "../layouts/PostLayout.astro"
 import Input from "../Components/Input.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import AceptarTerminos from "../Components/AceptarTerminos.astro"
-
+import Modal from "../Components/Modal.astro"
 interface Props {
   id1: string;
   
@@ -49,7 +49,7 @@ const { id1, } = Astro.props;
                     
                     
                     <a href="/Inicio">
-                    <BotonPrincipal Text="Recuperar"></BotonPrincipal>
+                    <BotonPrincipal Text="Recuperar" class="show-modal"></BotonPrincipal>
                     </a>
 
                     <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta? 
@@ -62,4 +62,19 @@ const { id1, } = Astro.props;
             <img class="w-[800px] h-[800px]" src="../../public/img/registro.png" alt="Registro">
         </div>
     </div>
+    <Modal Text="Se le ha enviado un link a su correo">
+        <script>
+            const modal = document.querySelector('.modal');
+        
+            const showModal = document.querySelector('.show-modal');
+            const closeModal = document.querySelector('.close-modal')
+        
+            showModal?.addEventListener('click', function(){
+                modal?.classList.remove('hidden')
+            });
+        
+            closeModal?.addEventListener('click', function(){
+                modal?.classList.add('hidden')
+            });
+        </script>
 </body>

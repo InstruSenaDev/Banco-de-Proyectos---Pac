@@ -48,4 +48,7 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
 }
 
 
-export { getAllPersonas, getAllUsuario, registerPerson };
+export { 
+    getAllPersonas, 
+    getAllUsuario, 
+    registerPerson };

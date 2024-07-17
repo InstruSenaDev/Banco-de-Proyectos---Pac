@@ -27,6 +27,7 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
+// Ruta para registrar una nueva persona
 router.post('/register', async (req, res) => {
     try {
         const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol } = req.body;
@@ -37,6 +38,7 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 
 export default router;

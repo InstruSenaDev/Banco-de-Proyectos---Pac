@@ -48,7 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (formu) {
         formu.addEventListener('submit', async function(event) {
+            event.preventDefault();
             let valid = true;
+
             if (nombreError) nombreError.textContent = '';
             if (empresaError) empresaError.textContent = '';
             if (correoError) correoError.textContent = '';
@@ -116,19 +118,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 event.preventDefault();
             } else {
                 // Aquí enviamos los datos del formulario al servidor
-                event.preventDefault();
-                const tipodocumento = "CC"; // Esto puede venir del formulario si tienes un campo para tipo de documento
-                const idrol = 1; // Puedes ajustar esto según sea necesario
-
                 const data = {
                     nombre: nombreValue,
-                    tipodocumento: tipodocumento,
+                    tipodocumento: 'CC', // Esto puede venir del formulario si tienes un campo para tipo de documento
                     numerodocumento: numeroDcValue,
-                    nombreempresa: empresa.value.trim(),
+                    nombreempresa: empresa ? empresa.value.trim() : '',
                     telefono: telefonoValue,
                     correo: correoValue,
                     contraseña: contrasenaValue,
-                    idrol: idrol
+                    idrol: 1 // Puedes ajustar esto según sea necesario
                 };
 
                 try {
