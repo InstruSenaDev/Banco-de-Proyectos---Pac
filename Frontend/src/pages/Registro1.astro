@@ -99,12 +99,14 @@ const { id1, } = Astro.props;
                         <span id="confirmarContrasenaError" class="error-message"></span>
                     </div>
 
-                    <div class="w-full flex items-start">
-                        <AceptarTerminos Text="Aceptar Términos y Condiciones" id={id1} />
+                    <div class="relative w-full">
+                        <AceptarTerminos Text="Aceptar Términos y Condiciones" id="aceptarTerminos" />
+                        <span id="terminosError" class="error-message"></span>
                     </div>
+                    
                     <a href="/Inicio">
                     <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
-                </a>
+                    </a>
                     <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
                     <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
                 </div>

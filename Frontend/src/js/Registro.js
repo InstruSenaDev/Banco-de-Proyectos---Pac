@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmarContrasena = document.getElementById('confirmarContrasena');
     const numeroDc = document.getElementById('numeroDc');
     const telefono = document.getElementById('telefono');
+    const aceptarTerminos = document.getElementById('aceptarTerminos');
 
     const nombreError = document.getElementById('nombreError');
     const empresaError = document.getElementById('empresaError');
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const confirmarContrasenaError = document.getElementById('confirmarContrasenaError');
     const numeroDcError = document.getElementById('numeroDcError');
     const telefonoError = document.getElementById('telefonoError');
+    const terminosError = document.getElementById('terminosError');
     const togglePasswordRegistro = document.getElementById('togglePasswordRegistro');
     const togglePasswordConfirmacion = document.getElementById('togglePasswordConfirmacion');
 
@@ -54,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirmarContrasenaError) confirmarContrasenaError.textContent = '';
             if (numeroDcError) numeroDcError.textContent = '';
             if (telefonoError) telefonoError.textContent = '';
+            if (terminosError) terminosError.textContent = '';
 
             // Validación del nombre
             const nombreValue = nombre ? nombre.value.trim() : '';
@@ -101,6 +104,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!/^\d{10}$/.test(telefonoValue)) {
                 valid = false;
                 if (telefonoError) telefonoError.textContent = 'Ingrese un número de teléfono válido de 10 dígitos.';
+            }
+
+            // Validación de aceptación de términos y condiciones
+            if (!aceptarTerminos || !aceptarTerminos.checked) {
+                valid = false;
+                if (terminosError) terminosError.textContent = 'Debe aceptar los términos y condiciones.';
             }
 
             if (!valid) {
