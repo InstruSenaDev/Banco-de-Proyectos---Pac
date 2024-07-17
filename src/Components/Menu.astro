@@ -1,14 +1,6 @@
 ---
-import Itemss1 from "../Components/Itemss1.astro"
+import Items1 from "./Itemss1.astro";
 ---
-
-<!doctype html>
-<html lang="en" class="dark">
-    <head>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap"
-            rel="stylesheet"
-        />
 
         <style>
             body {
@@ -47,19 +39,19 @@ import Itemss1 from "../Components/Itemss1.astro"
             </svg>
         </button>
 
-        <aside id="sidebar" class="sidebar fixed top-0 left-0 z-40 h-screen bg-gray-50 transition-transform transform -translate-x-full md:translate-x-0">
+        <aside id="sidebar" class="sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-transform transform -translate-x-full md:translate-x-0">
             <div class="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
                 <a href="#" class="flex items-center ps-2.5 mb-5"></a>
                 <ul class="space-y-3 font-medium">
                     <div class="flex items-center">
-                        <img src="../public/img/logo.svg" alt="Logo" class="w-10 h-10 pb-2">
-                        <span class="text-xl font-semibold whitespace-nowrap text-black ml-2 pl-2">PAC</span>
+                        <img src="../public/Img/logo.svg" alt="Logo" class="w-10 h-10 pb-2">
+                        <span class="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">PAC</span>
                     </div>
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fa-solid fa-user" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items1 icon="fas fa-home" href="hover" label="Proyecto" />
+                    <Items1 icon="fa-solid fa-pen-to-square" href="hover" label="Proyecto" />
+                    <Items1 icon="fa-solid fa-check-to-slot" href="hover" label="Proyecto" />
+                    <Items1 icon="fa-solid fa-user" href="hover" label="Proyecto" />
+                    <Items1 icon="fas fa-home" href="hover" label="Proyecto" />
                 </ul>
             </div>
         </aside>
