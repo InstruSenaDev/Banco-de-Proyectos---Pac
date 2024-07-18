@@ -5,14 +5,26 @@ import Input from "../Components/Input.astro";
 import BotonPrincipal from "../Components/BotonPrincipal.astro";
 import BotonSegundo from "../Components/BotonSegundo.astro";
 import RadioButton from "../Components/RadioButton.astro";
+import Select from "../Components/Select.astro"
+
 ---
 <LayoutPrincipal2 title="">
     <Layoutcontenido2 title="" text1="Registrar Proyecto">
         <div class="w-1/2 mx-auto">
             <div class="flex font-josefin-slab flex-col space-y-8">
-                <Input type="text" Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac" id="Nombre Del Proyecto" />
-                <Input type="text" Text="Sector Impactado" placeholder="Impacto Del Proyecto:" id="Impacto del proyecto"/>
-                <Input type="text" Text="Responsable" placeholder="Responsable Del Proyecto" id="Responsable"/>
+                <div>
+                    <Input type="text" Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac" id="NombreDelProyecto" />
+                    <span id="errorNombreDelProyecto" class="text-red-500 text-sm"></span>
+                </div>
+                <div>
+                    <label for="ImpactoDelProyecto" class="block font-josefin-slab font-semibold text-black">Sector Impactado</label>
+                    <textarea id="ImpactoDelProyecto" placeholder="Impacto Del Proyecto:" maxlength="250" class="w-full p-2 border border-gray-300 rounded bg-[#F5F6FA]"></textarea>
+                    <span id="errorImpactoDelProyecto" class="text-red-500 text-sm"></span>
+                </div>
+                <div>
+                    <Input type="text" Text="Responsable" placeholder="Responsable Del Proyecto" id="Responsable" />
+                    <span id="errorResponsable" class="text-red-500 text-sm"></span>
+                </div>
                 
                 <div class="space-y-2">
                     <label class="font-josefin-slab font-semibold text-black">
@@ -22,16 +34,16 @@ import RadioButton from "../Components/RadioButton.astro";
 
                 <div class="grid sm:grid-cols-3 grid-cols-1 sm:gap-y-4 gap-4">
                     <div class="flex justify-center">
-                        <BotonPrincipal class="w-25" Text="Semanal" />
+                        <BotonPrincipal Text="Semanal" />
                     </div>
                     <div class="flex justify-center">
-                        <BotonPrincipal class="w-25" Text="Quincenal" />
+                        <BotonPrincipal  Text="Quincenal" />
                     </div>
                     <div class="flex justify-center">
-                        <BotonPrincipal class="w-25" Text="Mensual" />
+                        <BotonPrincipal  Text="Mensual" />
                     </div>
                 </div>
-
+              
                 <div class="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
                     <RadioButton Text="Lunes" />
                     <RadioButton Text="Martes" />
@@ -39,14 +51,17 @@ import RadioButton from "../Components/RadioButton.astro";
                     <RadioButton Text="Jueves" />
                     <RadioButton Text="Viernes" />
                     <RadioButton Text="Sábado" />
+                    
                 </div>
-                
+               
                 <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                    <a href="/VistaAreas1">
+                    <a id="nextPageLink" href="/VistaAreas1">
                         <BotonSegundo Text="Siguiente" />
                     </a>
                 </div>
             </div>
         </div>
+        <script src="../js/RegistroProyecto.js"></script>
+        
     </Layoutcontenido2>
 </LayoutPrincipal2>
