@@ -7,15 +7,6 @@ import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 ---
 
-<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-
-<style>
-    .font-josefin-slab {
-        font-family: 'Josefin Slab', serif;
-    }
-</style>
-
-
 <Layoutprincipal title="Proyectos">
 
     <Layoutcontenido title="contenido">
@@ -33,7 +24,7 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab">
                 <CardProyect Text="Banco de proyectos">
-                    <BotonSegundo Text="Ver"/>
+                    <a href="/Calificar2"><BotonSegundo Text="Ver"/></a>
                 </CardProyect>
 
                 <CardProyect Text="Banco de proyectos">
