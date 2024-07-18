@@ -1,26 +1,34 @@
-// Backend/app.js
 import express from 'express';
-import cors from 'cors';
-import dataRoutes from './routes/dataroutes.js';
+import bodyParser from 'body-parser';
+import { createClient } from '@supabase/supabase-js';
 
 const app = express();
-const PORT = 4000;
+const port = 3000;
 
-// Middleware para manejar solicitudes JSON y de URL codificadas
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+// Configura Supabase
+const supabaseUrl = 'https://lerzcumnybjpexgmttty.supabase.co';
+const supabaseKey = 'your-supabase-key';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Rutas de la API
-app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos
+app.use(bodyParser.json());
 
-// Manejo de errores
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
+app.post('/Registro1', async (req, res) => {
+    const { nombre, documento, correo, telefono, empresa, contrasena } = req.body;
+
+    // Insertar los datos en la tabla de usuarios
+    const { data, error } = await supabase
+        .from('personas')
+        .insert([
+            { nombre, documento, correo, telefono, empresa, contrasena }
+        ]);
+
+    if (error) {
+        return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ message: 'Usuario registrado con éxito', data });
 });
 
-// Iniciar el servidor
-app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
 });
