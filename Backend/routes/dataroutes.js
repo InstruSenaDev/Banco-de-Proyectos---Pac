@@ -1,7 +1,5 @@
-// Backend/routes/dataroutes.js
 import express from 'express';
-import { pool } from '../config/db.js';
-import { getAllPersonas, getAllUsuario } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -12,7 +10,7 @@ router.get('/personas', async (req, res) => {
         res.json(personas);
     } catch (error) {
         console.error('Error al obtener personas:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
 
@@ -23,7 +21,7 @@ router.get('/usuarios', async (req, res) => {
         res.json(usuarios);
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
 
@@ -35,10 +33,8 @@ router.post('/register', async (req, res) => {
         res.status(201).json(newPerson);
     } catch (error) {
         console.error('Error al registrar persona:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
-
-
 
 export default router;

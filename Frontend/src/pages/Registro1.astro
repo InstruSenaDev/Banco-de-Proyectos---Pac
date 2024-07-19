@@ -1,9 +1,10 @@
 ---
-import PostLayout from "../layouts/PostLayout.astro"
-import Input from "../Components/Input.astro"
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
-import AceptarTerminos from "../Components/AceptarTerminos.astro"
-import SelectBoxTI from "../Components/SelectBoxTI.astro"
+// Importar los componentes necesarios y asignar los props
+import PostLayout from "../layouts/PostLayout.astro";
+import Input from "../Components/Input.astro";
+import BotonPrincipal from "../Components/BotonPrincipal.astro";
+import AceptarTerminos from "../Components/AceptarTerminos.astro";
+import SelectBoxTI from "../Components/SelectBoxTI.astro";
 
 interface Props {
   id1: string;
@@ -44,10 +45,10 @@ const { id1 } = Astro.props;
 <body>
     <div class="flex h-screen items-center justify-center gap-x-72"> <!--contenedor principal -->
         <div class="flex content-center"> <!--contenedor del formulario -->
-            <form id="formu" class="form flex flex-col w-96 items-center gap-4" action="javascript:void(0);" method="post" onsubmit="registerUser(event)">
+            <form id="formu" class="form flex flex-col w-96 items-center gap-4" method="post">
 
                 <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
-                    <img class="sena w-20 h-20" src="/img/logoSena.png" alt="Logo Sena">
+                    <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
                 </div>
 
                 <div class="registro flex flex-col items-center gap-2 min-w-96">
@@ -64,7 +65,8 @@ const { id1 } = Astro.props;
                     </div>
 
                     <div class="relative w-full">
-                        <SelectBoxTI Text=""/>
+                        <SelectBoxTI Text="" id="tipoDocumento" />
+                        <span id="tipoDocumentoError" class="error-message"></span>
                     </div>
 
                     <div class="relative w-full">
@@ -101,11 +103,7 @@ const { id1 } = Astro.props;
                         <span id="terminosError" class="error-message"></span>
                     </div>
                     
-                    <a href="/Inicio">
-                        <button type="submit">
-                        <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
-                    </button>
-                </a>
+                    <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
                     <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
                     <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
                 </div>
@@ -113,45 +111,10 @@ const { id1 } = Astro.props;
         </div>
 
         <div class="hidden lg:block w-full lg:w-[800px]">
-            <img class="w-[800px] h-[800px]" src="/img/registro.png" alt="Registro">
+            <img class="w-[800px] h-[800px]" src="../../public/img/registro.png" alt="Registro">
         </div>
 
     </div>
-    <script>
-        async function registerUser(event) {
-            event.preventDefault();
-            
-            
-const nombre = (document.getElementById('registroNombre') as HTMLInputElement).value;
-const documento = (document.getElementById('numeroDc') as HTMLInputElement).value;
-const correo = (document.getElementById('CorreoRegistro') as HTMLInputElement).value;
-const telefono = (document.getElementById('telefono') as HTMLInputElement).value;
-const empresa = (document.getElementById('nombreEmpresa') as HTMLInputElement).value;
-const contrasena = (document.getElementById('contrasenaRegistro') as HTMLInputElement).value;
-
-            const response = await fetch('http://localhost:3000/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    nombre,
-                    documento,
-                    correo,
-                    telefono,
-                    empresa,
-                    contrasena,
-                }),
-            });
-
-            if (response.ok) {
-                console.log('Usuario registrado con éxito');
-            } else {
-                console.log('Error al registrar usuario');
-            }
-        }
-    </script>
+    <script src="../js/Registro.js"></script>
 </body>
 </html>
-
-
