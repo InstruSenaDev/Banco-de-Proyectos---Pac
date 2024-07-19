@@ -48,8 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (formu) {
         formu.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            let valid = true;
+          event.preventDefault();
+          let valid = true;
+
+          
 
             if (nombreError) nombreError.textContent = '';
             if (empresaError) empresaError.textContent = '';
@@ -114,47 +116,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (terminosError) terminosError.textContent = 'Debe aceptar los términos y condiciones.';
             }
 
-            if (!valid) {
-                event.preventDefault();
-            } else {
-                // Aquí enviamos los datos del formulario al servidor
-                const data = {
-                    nombre: nombreValue,
-                    tipodocumento: 'CC', // Esto puede venir del formulario si tienes un campo para tipo de documento
-                    numerodocumento: numeroDcValue,
-                    nombreempresa: empresa ? empresa.value.trim() : '',
-                    telefono: telefonoValue,
-                    correo: correoValue,
-                    contraseña: contrasenaValue,
-                    idrol: 1 // Puedes ajustar esto según sea necesario
-                };
+            const tipoDocumentoValue = document.getElementById('tipoDocumento').value;
+            const data = {
+                nombre: nombre.value.trim(),
+                tipodocumento: tipoDocumentoValue,
+                numerodocumento: numeroDc.value.trim(),
+                nombreempresa: empresa.value.trim(),
+                telefono: telefono.value.trim(),
+                correo: correoRegistro.value.trim(),
+                contraseña: contrasenaRegistro.value,
+                idrol: 2 // Hardcoded idrol value
+            };
+            
+            console.log('Datos enviados al servidor:', data);
 
-                try {
-                    const response = await fetch('/api/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    });
+    try {
+        const response = await fetch('http://localhost:4000/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
 
-                    if (response.ok) {
-                        // Redirigir al usuario a la página de destino después de enviar el formulario
-                        window.location.href = '/Inicio';
-                    } else {
-                        const errorData = await response.json();
-                        console.error('Error al registrar:', errorData);
-                    }
-                } catch (error) {
-                    console.error('Error al enviar la solicitud:', error);
-                }
-            }
-        });
+      // ...
+    } catch (error) {
+      console.error('Error al enviar la solicitud:', error);
     }
+  });
+}
+
+    // Otros eventos...
+});
 
     window.addEventListener('pageshow', function(event) {
         if (event.persisted && formu) {
             formu.reset();
         }
     });
-});
+

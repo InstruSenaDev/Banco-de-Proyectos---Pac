@@ -1,4 +1,3 @@
-// Backend/app.js
 import express from 'express';
 import cors from 'cors';
 import dataRoutes from './routes/dataroutes.js';

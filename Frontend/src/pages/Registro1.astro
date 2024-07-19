@@ -1,20 +1,17 @@
 ---
-import PostLayout from "../layouts/PostLayout.astro"
-import Input from "../Components/Input.astro"
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
-import AceptarTerminos from "../Components/AceptarTerminos.astro"
-import SelectBoxTI from "../Components/SelectBoxTI.astro"
-
+// Importar los componentes necesarios y asignar los props
+import PostLayout from "../layouts/PostLayout.astro";
+import Input from "../Components/Input.astro";
+import BotonPrincipal from "../Components/BotonPrincipal.astro";
+import AceptarTerminos from "../Components/AceptarTerminos.astro";
+import SelectBoxTI from "../Components/SelectBoxTI.astro";
 
 interface Props {
   id1: string;
-  
 }
 
-const { id1, } = Astro.props;
-
+const { id1 } = Astro.props;
 ---
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -39,7 +36,6 @@ const { id1, } = Astro.props;
         .error-message {
             color: red;
             font-size: 0.875rem; /* Tamaño de fuente pequeño */
-           
             margin-bottom: 1rem; /* Espacio debajo del mensaje */
             text-align: left; /* Alineación del texto */
             width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
@@ -49,7 +45,7 @@ const { id1, } = Astro.props;
 <body>
     <div class="flex h-screen items-center justify-center gap-x-72"> <!--contenedor principal -->
         <div class="flex content-center"> <!--contenedor del formulario -->
-            <form id="formu" class="form flex flex-col w-96 items-center gap-4" action="/Inicio" method="post">
+            <form id="formu" class="form flex flex-col w-96 items-center gap-4" method="post">
 
                 <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
                     <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
@@ -69,7 +65,8 @@ const { id1, } = Astro.props;
                     </div>
 
                     <div class="relative w-full">
-                        <SelectBoxTI Text=""/>
+                        <SelectBoxTI Text="" id="tipoDocumento" />
+                        <span id="tipoDocumentoError" class="error-message"></span>
                     </div>
 
                     <div class="relative w-full">
@@ -106,9 +103,7 @@ const { id1, } = Astro.props;
                         <span id="terminosError" class="error-message"></span>
                     </div>
                     
-                    <a href="/Inicio">
                     <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
-                    </a>
                     <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
                     <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
                 </div>

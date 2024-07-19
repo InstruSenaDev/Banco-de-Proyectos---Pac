@@ -1,4 +1,3 @@
-// Backend/controllers/datacontroller.js
 import { pool } from '../config/db.js';
 
 // Función para obtener todas las personas
@@ -31,7 +30,6 @@ async function getAllUsuario() {
     }
 }
 
-// Función para registrar una nueva persona
 async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol }) {
     try {
         const client = await pool.connect();
@@ -40,6 +38,7 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
             [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol]
         );
         client.release();
+        console.log('Persona registrada con éxito:', result.rows[0]);
         return result.rows[0];
     } catch (error) {
         console.error('Error al registrar persona:', error);
@@ -47,8 +46,4 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
     }
 }
 
-
-export { 
-    getAllPersonas, 
-    getAllUsuario, 
-    registerPerson };
+export { getAllPersonas, getAllUsuario, registerPerson };
