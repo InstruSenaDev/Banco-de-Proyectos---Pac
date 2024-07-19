@@ -1,7 +1,5 @@
-/ Backend/controllers/datacontroller.js
-import sgMail from '@sendgrid/mail';
+// Backend/controllers/datacontroller.js
 import { pool } from '../config/db.js';
-import { generateRandomPassword } from './generateRandomPassword.js'; // Asegúrate de tener esta función
 
 // Función para obtener todas las personas
 async function getAllPersonas() {
@@ -49,36 +47,8 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
     }
 }
 
-// Función para recuperar la contraseña
-async function recoverPassword(email) {
-    try {
-        // Generar una nueva contraseña aleatoria
-        const newPassword = generateRandomPassword(10); // Aquí especifica la longitud de la contraseña deseada
 
-        // Actualizar la contraseña en la base de datos
-        const client = await pool.connect();
-        const result = await client.query(
-            'UPDATE usuario SET contraseña = $1 WHERE correo = $2 RETURNING *',
-            [newPassword, email]
-        );
-        client.release();
-
-        // Aquí puedes implementar el envío del correo electrónico con la nueva contraseña
-        // Ejemplo con SendGrid:
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-        const msg = {
-            to: email,
-            from: 'tu@email.com', // Cambia esto a tu dirección de correo
-            subject: 'Recuperación de Contraseña',
-            text: `Tu nueva contraseña es: ${newPassword}`,
-        };
-        await sgMail.send(msg);
-
-        return result.rows[0]; // Devuelve los datos actualizados del usuario si es necesario
-    } catch (error) {
-        console.error('Error al recuperar contraseña:', error);
-        throw error;
-    }
-}
-
-export { getAllPersonas, getAllUsuario, registerPerson, recoverPassword };
+export { 
+    getAllPersonas, 
+    getAllUsuario, 
+    registerPerson };
