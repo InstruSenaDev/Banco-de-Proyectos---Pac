@@ -48,10 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (formu) {
         formu.addEventListener('submit', async function(event) {
-          event.preventDefault();
-          let valid = true;
-
-          
+            event.preventDefault();
+            let valid = true;
 
             if (nombreError) nombreError.textContent = '';
             if (empresaError) empresaError.textContent = '';
@@ -116,42 +114,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (terminosError) terminosError.textContent = 'Debe aceptar los términos y condiciones.';
             }
 
-            const tipoDocumentoValue = document.getElementById('tipoDocumento').value;
-            const data = {
-                nombre: nombre.value.trim(),
-                tipodocumento: tipoDocumentoValue,
-                numerodocumento: numeroDc.value.trim(),
-                nombreempresa: empresa.value.trim(),
-                telefono: telefono.value.trim(),
-                correo: correoRegistro.value.trim(),
-                contraseña: contrasenaRegistro.value,
-                idrol: 2 // Hardcoded idrol value
-            };
-            
-            console.log('Datos enviados al servidor:', data);
+            if (valid) {
+                const tipoDocumentoValue = document.getElementById('tipoDocumento').value;
+                const data = {
+                    nombre: nombre.value.trim(),
+                    tipodocumento: tipoDocumentoValue,
+                    numerodocumento: numeroDc.value.trim(),
+                    nombreempresa: empresa.value.trim(),
+                    telefono: telefono.value.trim(),
+                    correo: correoRegistro.value.trim(),
+                    contraseña: contrasenaRegistro.value,
+                    idrol: 2 // Hardcoded idrol value
+                };
 
-    try {
-        const response = await fetch('http://localhost:4000/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
+                console.log('Datos enviados al servidor:', data);
 
-      // ...
-    } catch (error) {
-      console.error('Error al enviar la solicitud:', error);
+                try {
+                    const response = await fetch('http://localhost:4000/api/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        console.log('Registro exitoso');
+                    } else {
+                        console.error('Error en el registro');
+                    }
+                } catch (error) {
+                    console.error('Error al enviar la solicitud:', error);
+                }
+            }
+        });
     }
-  });
-}
-
-    // Otros eventos...
-});
 
     window.addEventListener('pageshow', function(event) {
         if (event.persisted && formu) {
             formu.reset();
         }
     });
-
+});
