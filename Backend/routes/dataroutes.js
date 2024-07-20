@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllPersonas, getAllUsuario, registerPerson } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -33,6 +33,22 @@ router.post('/register', async (req, res) => {
         res.status(201).json(newPerson);
     } catch (error) {
         console.error('Error al registrar persona:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para iniciar sesión
+router.post('/login', async (req, res) => {
+    try {
+        const { correo, contraseña } = req.body;
+        const user = await loginPerson(correo, contraseña);
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(401).json({ error: 'Correo o contraseña incorrectos' });
+        }
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });

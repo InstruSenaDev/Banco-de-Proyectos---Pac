@@ -36,11 +36,25 @@ document.addEventListener("DOMContentLoaded", function () {
             hasError = true;
         }
 
-        // Si no hay errores, redirecciona a la siguiente página
-        if (!hasError) {
-            window.location.href = nextPageLink.href;
-        }
-        
-    });
-    
+ // Validación de los días de reunión
+ const dias = [
+    document.getElementById("checkboxLunes").checked,
+    document.getElementById("checkboxMartes").checked,
+    document.getElementById("checkboxMiercoles").checked,
+    document.getElementById("checkboxJueves").checked,
+    document.getElementById("checkboxViernes").checked,
+    document.getElementById("checkboxSabado").checked
+];
+
+const diasSeleccionados = dias.some(day => day);
+if (!diasSeleccionados) {
+    document.getElementById("errorDiasReunion").textContent = "Seleccione al menos un día para las reuniones.";
+    hasError = true;
+}
+
+// Si no hay errores, redirecciona a la siguiente página
+if (!hasError) {
+    window.location.href = nextPageLink.href;
+}
+});
 });

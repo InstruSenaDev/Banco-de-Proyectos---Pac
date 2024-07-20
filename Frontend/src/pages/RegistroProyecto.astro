@@ -45,13 +45,13 @@ import Select from "../Components/Select.astro"
                 </div>
               
                 <div class="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
-                    <RadioButton Text="Lunes" />
-                    <RadioButton Text="Martes" />
-                    <RadioButton Text="Miércoles" />
-                    <RadioButton Text="Jueves" />
-                    <RadioButton Text="Viernes" />
-                    <RadioButton Text="Sábado" />
-                    
+                    <RadioButton Text="Lunes" id="checkboxLunes" />
+                    <RadioButton Text="Martes" id="checkboxMartes" />
+                    <RadioButton Text="Miércoles" id="checkboxMiercoles" />
+                    <RadioButton Text="Jueves" id="checkboxJueves" />
+                    <RadioButton Text="Viernes" id="checkboxViernes" />
+                    <RadioButton Text="Sábado" id="checkboxSabado" />
+                    <span id="errorDiasReunion" class="text-red-500 text-sm sm:col-span-3 "></span>
                 </div>
                
                 <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">

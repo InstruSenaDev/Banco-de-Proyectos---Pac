@@ -55,4 +55,29 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
     }
 }
 
-export { getAllPersonas, getAllUsuario, registerPerson };
+
+// Función para iniciar sesión
+async function loginPerson(correo, contraseña) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM personas WHERE correo = $1', [correo]);
+        client.release();
+
+        if (result.rows.length > 0) {
+            const person = result.rows[0];
+            const match = await bcrypt.compare(contraseña, person.contraseña);
+            if (match) {
+                return { id: person.id, rol: person.idrol };  // Devuelve el rol del usuario
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        throw error;
+    }
+}
+
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson };
