@@ -1,10 +1,11 @@
 ---
 interface Props {
 Text: String,
+id?: string;
 
 }
 
-const {Text} = Astro.props;
+const {Text, id } = Astro.props;
 ---
 
 
@@ -27,8 +28,8 @@ const {Text} = Astro.props;
 
 
 <form class=" ">
-    <label  class="pace-y-2 w-1/2 font-josefin-slab font-semibold ">{Text}</label>
-    <select class="bg-[#F5F6FA] w-[100%] min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]">
+    <label for={id} class="pace-y-2 w-1/2 font-josefin-slab font-semibold ">{Text}</label>
+    <select id={id} class="bg-[#F5F6FA] w-[100%] min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]">
     </div>
     <option selected> Eligue una opcion </option>
     <option value="Intructor">Instructo</option>

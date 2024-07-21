@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const correoRegistro = document.getElementById('CorreoRegistro');
     const contrasenaRegistro = document.getElementById('contrasenaRegistro');
     const confirmarContrasena = document.getElementById('confirmarContrasena');
-    const 
     const numeroDc = document.getElementById('numeroDc');
     const telefono = document.getElementById('telefono');
     const aceptarTerminos = document.getElementById('aceptarTerminos');

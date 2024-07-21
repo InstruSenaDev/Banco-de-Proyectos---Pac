@@ -1,72 +1,109 @@
 ---
-import Items1 from "./Itemss1.astro";
+    import Items1 from "./Itemss1.astro";
+
+    // Obtiene el rol del usuario desde el localStorage
+    let userRole = 0; // Valor predeterminado del rol de usuario
+
+    // Verifica si la ventana está definida (asegura que el código se ejecuta en el navegador)
+    if (typeof window !== 'undefined') {
+        // Obtiene el rol del usuario almacenado en localStorage
+        const storedRole = localStorage.getItem('userRole');
+        // Si storedRole no es null, convierte el valor en un número entero; de lo contrario, usa 0
+        userRole = storedRole ? parseInt(storedRole, 10) : 0;
+    }
+
+    // Define los elementos del menú para cada rol de usuario
+    const menuItems = [
+        {
+            role: 1, // Rol: Administrador
+            items: [
+                { icon: "fas fa-home", label: "Dashboard", href: "/admin/dashboard" },
+                { icon: "fas fa-user", label: "Usuarios", href: "/admin/usuarios" },
+                { icon: "fas fa-cog", label: "Configuración", href: "/admin/configuracion" }
+            ]
+        },
+        {
+            role: 2, // Rol: Usuario
+            items: [
+                { icon: "fas fa-home", label: "Inicio", href: "/usuario/inicio" },
+                { icon: "fas fa-project-diagram", label: "Proyectos", href: "/usuario/proyectos" }
+            ]
+        },
+        {
+            role: 3, // Rol: Superadmin
+            items: [
+                { icon: "fas fa-home", label: "Usuario", href: "/CrearUsuario" },
+                { icon: "fas fa-user-shield", label: "Area", href: "/CraerFichas" },
+                { icon: "fas fa-cog", label: "Configuración", href: "/superadmin/configuracion" }
+            ]
+        },
+        {
+            role: 4, // Rol: Aprendiz
+            items: [
+                { icon: "fas fa-home", label: "Inicio", href: "/aprendiz/inicio" },
+                { icon: "fas fa-tasks", label: "Tareas", href: "/aprendiz/tareas" }
+            ]
+        }
+    ];
+
+    // Filtra los elementos del menú según el rol del usuario
+    const userMenuItems = menuItems.find(menu => menu.role === userRole)?.items || [];
 ---
 
-        <style>
-            body {
-                font-family: "Josefin Slab", serif;
-                font-optical-sizing: auto;
-            }
-
-            .sidebar {
-                width: 60px; /* Ancho inicial */
-                transition: width 0.3s ease, transform 0.3s ease;
-            }
-
-            .sidebar.open {
-                width: 200px; /* Ancho expandido al abrir */
-            }
-
-            .sidebar ul span {
-                display: none; /* Oculta los nombres de los proyectos inicialmente */
-            }
-
-            .sidebar.open ul span {
-                display: inline-block; /* Muestra los nombres de los proyectos al abrir */
-            }
-
-            .sidebar:hover {
-                width: 200px; /* Ancho expandido al pasar el cursor */
-            }
-        </style>
-    </head>
-    <body >
-        <!-- Botón para abrir el sidebar en pantallas pequeñas -->
-        <button id="menu-button" class="md:hidden p-4 fixed top-0 left-0 z-50">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
-        </button>
-
-        <aside id="sidebar" class="sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-transform transform -translate-x-full md:translate-x-0">
-            <div class="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
-                <a href="#" class="flex items-center ps-2.5 mb-5"></a>
-                <ul class="space-y-3 font-medium">
-                    <div class="flex items-center">
-                        <img src="../public/img/logo.svg" alt="Logo" class="w-10 h-10 pb-2">
-                        <span class="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">PAC</span>
-                    </div>
-                    <Items1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Items1 icon="fa-solid fa-user" href="hover" label="Proyecto" />
-                    <Items1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Items1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Items1 icon="fas fa-home" href="hover" label="Proyecto" />
-                </ul>
+<aside id="sidebar" class="sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-transform transform -translate-x-full md:translate-x-0">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
+        <a href="#" class="flex items-center ps-2.5 mb-5"></a>
+        <ul class="space-y-3 font-medium">
+            <div class="flex items-center">
+                <img src="../public/img/logo.svg" alt="Logo" class="w-10 h-10 pb-2">
+                <span class="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">PAC</span>
             </div>
-        </aside>
+            <!-- Renderiza los elementos del menú según el rol del usuario -->
+            {userMenuItems.map(item => (
+                <Items1 icon={item.icon} href={item.href} label={item.label} />
+            ))}
+        </ul>
+    </div>
+</aside>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const menuButton = document.getElementById('menu-button');
-                const sidebar = document.getElementById('sidebar');
+<style>
+    body {
+        font-family: "Josefin Slab", serif;
+        font-optical-sizing: auto;
+    }
 
-                if (menuButton && sidebar) {
-                    menuButton.addEventListener('click', () => {
-                        sidebar.classList.toggle('-translate-x-full');
-                        sidebar.classList.toggle('open');
-                    });
-                }
+    .sidebar {
+        width: 60px; /* Ancho inicial */
+        transition: width 0.3s ease, transform 0.3s ease;
+    }
+
+    .sidebar.open {
+        width: 200px; /* Ancho expandido al abrir */
+    }
+
+    .sidebar ul span {
+        display: none; /* Oculta los nombres de los proyectos inicialmente */
+    }
+
+    .sidebar.open ul span {
+        display: inline-block; /* Muestra los nombres de los proyectos al abrir */
+    }
+
+    .sidebar:hover {
+        width: 200px; /* Ancho expandido al pasar el cursor */
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuButton = document.getElementById('menu-button');
+        const sidebar = document.getElementById('sidebar');
+
+        if (menuButton && sidebar) {
+            menuButton.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full'); // Abre o cierra el sidebar en pantallas pequeñas
+                sidebar.classList.toggle('open'); // Expande o contrae el sidebar
             });
-        </script>
-    </body>
-</html>
+        }
+    });
+</script>

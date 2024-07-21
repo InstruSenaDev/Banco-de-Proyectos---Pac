@@ -8,7 +8,7 @@ import RadioButton from "../Components/RadioButton.astro"
 import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import Modal from "../Components/Modal.astro"
-import Modal2 from "../Components/Modal2.astro"
+
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
@@ -22,30 +22,56 @@ import Modal2 from "../Components/Modal2.astro"
 
 <Layoutprincipal title="Crear Usuario">
     <Layoutcontenido title="Crear Usuario">
-
         <div class="w-full md:w-1/2" >
         <div class="  flex flex-col p-[5%]  Flex-box">
-            <Input Text="Nombre del usuario:" placeholder="Ej: Pepito Perez" type="text" id=""/>
-            <SelectBoxTI Text="Tipo de documento"/>
-            <Input Text="Número de documento:" placeholder="Ej: 123456789" type="text" id=""/>
-            <Input Text="Correo Electrónico:" placeholder="Ej: ejemplo@gmail.com" type="email" id=""/>
+            <div class="relative w-full">
+                <Input type="text" Text="Nombre del usuario:" placeholder="Nombre Completo:" id="registroNombre" />
+                <span id="nombreError" class="error-message"></span>
+            </div>
+
+            <div class="relative w-full">
+                <SelectBoxTI Text="Tipo de documento" id="tipoDocumento" />
+                <span id="tipoDocumentoError" class="error-message"></span>
+            </div>
+
+            <div class="relative w-full">
+                <Input type="text" Text="Número de documento:" placeholder="Número De Documento:" id="numeroDc" />
+                <span id="numeroDcError" class="error-message"></span>
+            </div>
+
+            <div class="relative w-full">
+                <Input type="email" Text="Correo Electrónico:" placeholder="Correo:" id="CorreoInicio"/>
+                <span id="correoError" class="error-message"></span>
+            </div>
         </div>
         </div>
 
         <div class="w-full md:w-1/2" >
             <div class="  flex flex-col  p-[5%]  Flex-box">
-                    <Input Text="Contraseña:" placeholder=".............." type="password" id=""/>
-                    <SelectBoxRol Text="Tipo de Rol:"/>
+                <div class="relative w-full">
+                    <Input type="password" Text="Contraseña:" placeholder="Contraseña:" id="contrasenaInicio"/>
+                    <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordInicio"></i>
+                    <span id="contrasenaError" class="error-message"></span>
+                </div>
+
+                <div class="relative w-full">
+                    <SelectBoxRol Text="Tipo de Rol:" id="" />
+                    <span id="" class="error-message"></span>
+                </div>
+
                     <h1> Estado:</h1>
                     <div class="flex h-[56px] ">
-                    <RadioButton Text="Activo"/> <RadioButton Text="Inactivo"/>
+                    <RadioButton Text="Activo" id=""/> <RadioButton Text="Inactivo" id=""/>
                 </div>
-                    <h1>Celular:</h1>
-                    <Input Text="" placeholder="Ej: 312456789" type="text" id=""/>
+
+                <div class="relative w-full">
+                    <Input type="text" Text="Celular:" placeholder="Teléfono:" id="telefono" />
+                    <span id="telefonoError" class="error-message"></span>
+                </div>
 
             <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
                 <a href="/HomeSuperAdmin">
-                    <BotonPrincipal Text="Volver" />
+                    <BotonPrincipal Text="Volver" id="Registro" />
                 </a>
                 <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
                     <BotonSegundo Text="Guardar" />
@@ -54,8 +80,9 @@ import Modal2 from "../Components/Modal2.astro"
         </div>
     </div>
 
+<script src="../js/CrearUsuario.js"></script>
 
-<Modal2 Text="Usuario registrado correctamente" >
+<Modal Text="Usuario registrado correctamente" >
 
 <script>
     const modal = document.querySelector('.modal');
