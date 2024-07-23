@@ -32,7 +32,7 @@ async function getAllUsuario() {
 }
 
 // Función para registrar una nueva persona
-async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol }) {
+async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
     try {
         console.log('Contraseña original:', contraseña);
 
@@ -43,8 +43,8 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
 
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, hashedPassword, idrol] 
+            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrol, estado || null]
         );
         client.release();
         console.log('Persona registrada con éxito:', result.rows[0]);
@@ -54,6 +54,8 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
         throw error;
     }
 }
+
+
 
 
 // Función para iniciar sesión
@@ -80,4 +82,4 @@ async function loginPerson(correo, contraseña) {
     }
 }
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson };
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, };

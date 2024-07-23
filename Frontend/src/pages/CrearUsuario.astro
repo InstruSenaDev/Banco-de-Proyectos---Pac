@@ -5,92 +5,98 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
 import SelectBoxTI from "../Components/SelectBoxTI.astro"
 import SelectBoxRol from "../Components/SelectBoxRol.astro"
 import RadioButton from "../Components/RadioButton.astro"
-import Layoutprincipal from "../layouts/Layoutprincipal.astro"
+import LayoutPrincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import Modal from "../Components/Modal.astro"
-
 ---
-
-<link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
-
 <style>
-    .font-josefin-slab {
-        font-family: 'Josefin Slab', serif;
+    body {
+        font-family: "Josefin Slab", serif;
+        font-optical-sizing: auto;
     }
     .relative input {
-            padding-right: 2.5rem; /* Añade espacio a la derecha del input para el icono */
-        }
-        .relative i {
-            right: 1rem; /* Ajusta la posición del icono */
-        }
-        .error-message {
-            color: red;
-            font-size: 0.875rem; /* Tamaño de fuente pequeño */
-            margin-bottom: 1rem; /* Espacio debajo del mensaje */
-            text-align: left; /* Alineación del texto */
-            width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
-        }
+        padding-right: 2.5rem; /* Añade espacio a la derecha del input para el icono */
+    }
+    .relative i {
+        right: 1rem; /* Ajusta la posición del icono */
+    }
+    .error-message {
+        color: red;
+        font-size: 0.875rem; /* Tamaño de fuente pequeño */
+        margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
+        margin-bottom: 1rem; /* Espacio debajo del mensaje */
+        text-align: left; /* Alineación del texto */
+        width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+    }
 </style>
 
-<Layoutprincipal title="Crear Usuario">
+<LayoutPrincipal title="Crear Usuario">
     <Layoutcontenido title="Crear Usuario">
-        <form id="formu" class="w-full md:w-1/2">
-            <div class="  flex flex-col p-[5%]  Flex-box">
-                <div class="relative w-full">
-                    <Input type="text" Text="Nombre del usuario:" placeholder="Nombre Completo:" id="UsuarioNombre" />
-                    <span id="nombreError" class="error-message"></span>
-                </div>
-
-                <div class="relative w-full">
-                    <SelectBoxTI Text="Tipo de documento" id="tipoDocumento" />
-                    <span id="tipoDocumentoError" class="error-message"></span>
-                </div>
-
-                <div class="relative w-full">
-                    <Input type="text" Text="Número de documento:" placeholder="Número De Documento:" id="numeroDc" />
-                    <span id="numeroDcError" class="error-message"></span>
-                </div>
-
-                <div class="relative w-full">
-                    <Input type="email" Text="Correo Electrónico:" placeholder="Correo:" id="CorreoUsuario"/>
-                    <span id="correoError" class="error-message"></span>
-                </div>
+        <div class="w-full md:w-1/2 " >
+        <div class="flex flex-col  p-[5%]  Flex-box space-y-5">
+            <div>
+                <Input Text="Nombre del usuario:" placeholder="Nombre del usuario" type="text" id="nombreUsu"/>
+                <span id="nombreError" class="error-message"></span>
             </div>
 
-            <div class="w-full md:w-1/2" >
-             <div class="  flex flex-col  p-[5%]  Flex-box">
-                <div class="relative w-full">
-                    <Input type="password" Text="Contraseña:" placeholder="Contraseña:" id="contrasenaUsuario"/>
-                    <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordUsuario"></i>
-                    <span id="contrasenaError" class="error-message"></span>
-                </div>
+            <div>
+                <SelectBoxTI Text="Tipo de documento" id="tipoDoc"/>
+                <span id="tipoDocError" class="error-message"></span>
+            </div>
 
-                <div class="relative w-full">
-                    <SelectBoxRol Text="Tipo de Rol:" id="tipoRol" />
-                    <span id="tipoRolError" class="error-message"></span>
-                </div>
+            <div>
+                <Input  placeholder="Numero de documento" type="text" Text="Numero de documento" id='numeroDoc'/>
+                <span id="numeroDocError" class="error-message"></span>
+            </div>
 
-                <h1>Estado:</h1>
-                <div class="flex h-[56px]">
-                    <RadioButton Text="Activo" id="estadoActivo"/> 
-                    <RadioButton Text="Inactivo" id="estadoInactivo"/>
-                </div>
+            <div>
+                <Input  placeholder="Correo" type="email" Text="Correo:" id='correo'/>
+                <span id="correoError" class="error-message"></span>
+            </div>
+    </div>
+</div>
 
-                <div class="relative w-full">
-                    <Input type="text" Text="Celular:" placeholder="Teléfono:" id="telefono" />
-                    <span id="telefonoError" class="error-message"></span>
-                </div>
+<div class="w-full md:w-1/2" >
+    <div class="  flex flex-col  p-[5%]  Flex-box space-y-5">
+            <div>
+                <Input Text="Contraseña:" placeholder=".............." type="password" id="contrasena"/>
+                <span id="contrasenaError" class="error-message"></span>
+            </div>
 
-                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2">
-                    <a href="/HomeSuperAdmin">
-                        <BotonPrincipal Text="Volver" id="Usuario" />
-                    </a>
-                    <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
-                        <BotonSegundo Text="Guardar" />
-                    </div>
+            <div>
+                <SelectBoxRol Text="Tipo de Rol:" id="tipoRol"/>
+                <span id="tipoRolError" class="error-message"></span>
+            </div>
+
+            <div class="space-y-8">
+            <h1> Estado: </h1>
+            <div class="flex h-[23px] space-x-5 ">
+                <RadioButton Text="Activo" id="estadoActivo"/>
+                <RadioButton Text="Inactivo" id="estadoInactivo"/>
+            </div>
+            <span id="estadoError" class="error-message"></span>
+            </div>
+
+            <div>
+                <Input Text="Celular:" placeholder="Celular" type="text" id="celular"/>
+                <span id="celularError" class="error-message"></span>
+            </div>
+
+            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <a href="/HomeSuperAdmin">
+                    <BotonPrincipal Text="Volver" />
+                </a>
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                    <BotonSegundo Text="Guardar" id="guardarBtn"/>
                 </div>
             </div>
-        </form>
-    </Layoutcontenido>
+        </div>
+    </div>
+    </div>
+
+
+    <Modal Text="Usuario registrado correctamente"/>
+
     <script src="../js/CrearUsuario.js"></script>
-</Layoutprincipal>
+    </Layoutcontenido>
+</LayoutPrincipal>
