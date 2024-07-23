@@ -3,6 +3,7 @@ import Navbar from "../Components/Navbar.astro";
 import Menu from "../Components/Menu.astro";
 import PostLayout from "./PostLayout.astro";
 
+
 interface Props { //TypeScript
     title: string;
 }
@@ -10,16 +11,16 @@ interface Props { //TypeScript
 const { title } = Astro.props;
 ---
 
-<PostLayout {title}>
+<PostLayout title="Banco de proyectos">
     <div>
     <header class="w-full bg-white  ">
-        <Navbar Text="Karen"/>
+        <Navbar Text="djcds"/>
     </header>
 
     <aside>
         <Menu/>
+        
     </aside>
-</div>
 
     <slot/>
 </div>

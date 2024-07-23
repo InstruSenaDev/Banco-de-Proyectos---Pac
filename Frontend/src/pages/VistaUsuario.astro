@@ -4,20 +4,21 @@ import CartaUsuario from "../Components/CartaUsuario.astro"
 ---
 
 <LayoutHome title="">
-    <div class="flex flex-col items-center justify-center min-h-screen overflow-hidden">
-        <div class="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
-            <div class="flex flex-col md:flex-row items-start">
-                <div class="w-full md:w-1/2 p-4 md:p-8">
-                    <span class="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
-                    <span class="text-3xl sm:text-5xl md:text-8xl text-[#A3E784] font-inter mb-4 block">USUARIO</span>
-                    <p class="text-base sm:text-lg md:text-3xl font-josefin-slab mb-8 mt-4 md:mt-20">
+    <div class="w-full  flex justify-center items-center flex-col  "> 
+        <div class=" w-[60%] mr-[18%] m-auto flex  max-[768px]:w-[77%] ">
+            <div class=" w-[70%] flex-col mt-[10%] "> 
+                <h1 class=" text-[6vw]  leading-[1rem]  font-josefin-slab max-[768px]:text-[15vw] mb-[5%]  "> Bienvenido </h1>
+                    <h2 class=" text-[5vw] mt-[3%]   font-['serif' max-[768px]:text-[40px] ] text-[#A3E784] ">USUARIO </h2>
+                    <p class=" text-[1vw] mt-[5%] text-black  font-josefin-sans leading-[1.1rem]  max-[768px]:text-[15px] mb-[8%] ">
                         ¡Hola! querido usuario aqui podras registrar tus proyectos o si ya tienes podras visualizarlos y saber el estado en el que se encuentra, ten una buena experiencia en el aplicativo.
                     </p>
                 </div>
-                <div class="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
-                    <img class="w-full max-w-md h-auto" src="/public/img/usuario.png" alt="Imagen Principal">
+
+                <div class=" w-[60%]   max-[768px]:hidden  flex  items-center   "> 
+                    <img class="   max-[768px]:hidden    " src="/public/img/Principal.png" alt="Imagen Principal">
                 </div>
             </div>
+            
             <div class="flex justify-center mt-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
                     <a href="/RegistroProyecto">

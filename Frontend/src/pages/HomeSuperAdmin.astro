@@ -4,34 +4,36 @@ import Card from "../Components/Card.astro"
 ---
 
 <LayoutSuperAdmin  title="">
-    <div class="flex flex-col items-center justify-center min-h-screen overflow-hidden">
-        <div class="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
-            <div class="flex flex-col md:flex-row items-start">
-                <div class="w-full md:w-1/2 p-4 md:p-8">
-            <span class="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
-            <span class="text-3xl sm:text-5xl md:text-8xl text-[#A3E784] font-inter mb-4 block">SUPERADMIN</span>
-            <span class="text-1xl sm:text-lg md:text-3xl font-josefin-Inter mb-10 w-30 mt-4 md:mt-20">Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
-                aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.</span>
+    <div class="w-full  flex justify-center items-center flex-col  "> 
+        <div class=" w-[60%] mr-[18%] m-auto flex  max-[768px]:w-[77%] ">
+            <div class=" w-[70%] flex-col mt-[10%] "> 
+                <h1 class=" text-[6vw]  leading-[1rem]  font-josefin-slab max-[768px]:text-[15vw] mb-[5%]  "> Bienvenido </h1>
+                    <h2 class=" text-[5vw] mt-[3%]   font-['serif' max-[768px]:text-[40px] ] text-[#A3E784] ">SUPERADMIN </h2>
+                        <p class=" text-[1vw] mt-[5%] text-black  font-josefin-sans leading-[1.1rem]  max-[768px]:text-[15px] mb-[8%] "> Hola! querido SuperAdmin aqui podras cargar o crear los usuarios de
+                aprendices ycrear los usuarios de intructores, tambien podras crear areas, y editar.
+            </div>
+            <div class=" w-[60%]   max-[768px]:hidden  flex  items-center   "> 
+                <img class=" max-[768px]:hidden" src="/Img/image.png" alt="Olvido de contraseña" />
+        </div>    
+    </div>    
 
-                <div class="px-32 space-x-20 py-12 relative flex items-center justify-center h-full ">
-                    <a href="/">
-                        <Card  Text="Carga masiva de aprendices"/>
+    <div class=" w-full h-[60%]">
+                <div class="   w-[100%] h-[50%] flex justify-center items-center  flex-wrap  ">
+                    <a href="/CrearFichas">
+                        <Card  Text="Crear fichas"  />
                     </a>
-
+                    
                     <a href="/CrearUsuario">
                         <Card  Text="Crear usuarios"/>
-                    </a>
+                    </a> 
 
                     <a href="/">
                         <Card  Text="Crear Area" />
                     </a>
                 </div>
 
-                <div class="px-32 space-x-20 relative flex items-center justify-center h-full">
-                    <a href="/CrearFichas">
-                        <Card  Text="Crear fichas"  />
-                    </a>
-
+                <div class="w-full  flex items-center justify-center flex-wrap ">
+                    
                     <a href="/">
                         <Card  Text="Crear Objetivos"  />
                     </a>
@@ -39,13 +41,12 @@ import Card from "../Components/Card.astro"
                     <a href="/">
                         <Card  Text="Crear Alcance" />
                     </a>
+
+                    <a href="/">
+                        <Card  Text="Carga masiva de aprendices"/>
+                    </a>
                 </div>
-        </div>
             </div>
-
-        <div class=" w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
-            <img class="w-50 h-96 top-24 absolute" src="/Img/image.png" alt="Principal Image">
         </div>
-    </div>
+        
 </Layoutprincipal>
-

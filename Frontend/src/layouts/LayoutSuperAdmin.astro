@@ -10,19 +10,17 @@ interface Props { //TypeScript
 
 const { title } = Astro.props;
 ---
-<PostLayout2 title=""></PostLayout2>
-
+<PostLayout2 title="">
     <div>
-    <header class="w-full bg-white  ">
-        <Navbar2 Text="djcds"/>
-    </header>
-
-    <aside>
-        <Menu/>
-        
-    </aside>
-
-    <slot/>
-</div>
-
+        <header class="w-full bg-white  ">
+            <Navbar2 Text="djcds"/>
+        </header>
+    
+        <aside>
+            <Menu/>
+            
+        </aside>
+    
+        <slot/>
+    </div>
 </PostLayout2>

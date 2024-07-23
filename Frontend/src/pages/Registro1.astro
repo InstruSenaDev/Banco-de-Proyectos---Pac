@@ -7,7 +7,7 @@ import AceptarTerminos from "../Components/AceptarTerminos.astro";
 import SelectBoxTI from "../Components/SelectBoxTI.astro";
 
 interface Props {
-id1: string;
+  id1: string;
 }
 
 const { id1 } = Astro.props;
@@ -48,7 +48,7 @@ const { id1 } = Astro.props;
             <form id="formu" class="form flex flex-col w-96 items-center gap-4" method="post">
 
                 <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
-                    <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
+                    <img class="sena w-20 h-20" src="/Img/Logo.png" width="10" height="10">
                 </div>
 
                 <div class="registro flex flex-col items-center gap-2 min-w-96">
@@ -81,7 +81,7 @@ const { id1 } = Astro.props;
 
                     <div class="relative w-full">
                         <Input type="text" Text="" placeholder="Nombre De la Empresa:" id="nombreEmpresa"/>
-                        <div id="empresaError" class="error-message"></div>
+                        <div id="empresaError" class="error-message"></div> 
                     </div>
 
                     <div class="relative w-full">
@@ -102,8 +102,9 @@ const { id1 } = Astro.props;
                         </div>
                         <span id="terminosError" class="error-message"></span>
                     </div>
-                    
-                    <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
+                    <a href="/Inicio">
+                    <BotonPrincipal Text="Registrarse" id="Registro"/>
+                    </a>
                     <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
                     <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
                 </div>
@@ -111,7 +112,7 @@ const { id1 } = Astro.props;
         </div>
 
         <div class="hidden lg:block w-full lg:w-[800px]">
-            <img class="w-[800px] h-[800px]" src="../../public/img/registro.png" alt="Registro">
+            <img class="w-[800px] h-[800px]" src="/Img/registro.png" alt="Registro">
         </div>
 
     </div>
