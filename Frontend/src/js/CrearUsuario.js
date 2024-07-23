@@ -1,4 +1,3 @@
-// Evento para el botón de guardar
 document.addEventListener("DOMContentLoaded", function () {
     const guardarBtn = document.getElementById("guardarBtn");
 
@@ -13,9 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const modal = document.querySelector('.modal');
             modal.classList.remove('hidden');
 
-            const closeModal = document.querySelector('.close-modal')
+            const closeModal = document.querySelector('.close-modal');
             closeModal?.addEventListener('click', function() {
-                modal?.classList.add('hidden')
+                modal?.classList.add('hidden');
             });
 
             // Mapeo de roles
@@ -37,26 +36,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 estado: document.querySelector('input[name="estado"]:checked') ? document.querySelector('input[name="estado"]:checked').value : null // Campo opcional
             };
 
-            fetch('/api/register', {
+            console.log('Datos del formulario:', formData);
+
+            fetch('http://localhost:4000/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(formData)
             })
-            
             .then(response => {
-                // Comprobar si la respuesta es JSON
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.json().then(error => {
+                        throw new Error(`Error: ${error.error || 'Unknown error'}`);
+                    });
                 }
                 return response.json();
             })
             .then(data => {
                 console.log('Usuario registrado con éxito:', data);
+                // Mostrar un mensaje al usuario o redirigir
+                alert('Registro exitoso!');
             })
             .catch(error => {
                 console.error('Error al registrar usuario:', error);
+                alert('Error al registrar usuario. Por favor, intenta nuevamente.');
             });
         }
     });

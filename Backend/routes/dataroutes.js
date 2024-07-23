@@ -28,6 +28,7 @@ router.get('/usuarios', async (req, res) => {
 // Ruta para registrar una nueva persona
 router.post('/register', async (req, res) => {
     try {
+        console.log('Datos recibidos en la solicitud de registro:', req.body);
         const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado } = req.body;
         const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
         res.status(201).json(newPerson);
@@ -36,6 +37,7 @@ router.post('/register', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
 
 
 // Ruta para iniciar sesión

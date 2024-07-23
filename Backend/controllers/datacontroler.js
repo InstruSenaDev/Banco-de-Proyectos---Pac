@@ -34,11 +34,10 @@ async function getAllUsuario() {
 // Función para registrar una nueva persona
 async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
     try {
-        console.log('Contraseña original:', contraseña);
+        console.log('Datos recibidos en registerPerson:', { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
 
         // Cifrar la contraseña
         const hashedPassword = await bcrypt.hash(contraseña, 10);
-
         console.log('Contraseña cifrada:', hashedPassword);
 
         const client = await pool.connect();
@@ -54,9 +53,6 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
         throw error;
     }
 }
-
-
-
 
 // Función para iniciar sesión
 async function loginPerson(correo, contraseña) {
