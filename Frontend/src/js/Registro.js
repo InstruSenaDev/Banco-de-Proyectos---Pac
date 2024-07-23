@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     telefono: telefono.value.trim(),
                     correo: correoRegistro.value.trim(),
                     contraseña: contrasenaRegistro.value,
-                    idrol: 2 // Hardcoded idrol value
+                    idrol: 2 
                 };
 
                 console.log('Datos enviados al servidor:', data);
