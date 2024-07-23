@@ -25,7 +25,7 @@ import Modal from "../Components/Modal.astro"
         <div class="w-full md:w-1/2" >
         <div class="  flex flex-col p-[5%]  Flex-box">
             <div class="relative w-full">
-                <Input type="text" Text="Nombre del usuario:" placeholder="Nombre Completo:" id="registroNombre" />
+                <Input type="text" Text="Nombre del usuario:" placeholder="Nombre Completo:" id="UsuarioNombre" />
                 <span id="nombreError" class="error-message"></span>
             </div>
 
@@ -40,7 +40,7 @@ import Modal from "../Components/Modal.astro"
             </div>
 
             <div class="relative w-full">
-                <Input type="email" Text="Correo Electrónico:" placeholder="Correo:" id="CorreoInicio"/>
+                <Input type="email" Text="Correo Electrónico:" placeholder="Correo:" id="CorreoUsuario"/>
                 <span id="correoError" class="error-message"></span>
             </div>
         </div>
@@ -49,19 +49,19 @@ import Modal from "../Components/Modal.astro"
         <div class="w-full md:w-1/2" >
             <div class="  flex flex-col  p-[5%]  Flex-box">
                 <div class="relative w-full">
-                    <Input type="password" Text="Contraseña:" placeholder="Contraseña:" id="contrasenaInicio"/>
-                    <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordInicio"></i>
+                    <Input type="password" Text="Contraseña:" placeholder="Contraseña:" id="contrasenaUsuario"/>
+                    <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordUsuario"></i>
                     <span id="contrasenaError" class="error-message"></span>
                 </div>
 
                 <div class="relative w-full">
-                    <SelectBoxRol Text="Tipo de Rol:" id="" />
+                    <SelectBoxRol Text="Tipo de Rol:" id="UsuarioRol" />
                     <span id="" class="error-message"></span>
                 </div>
 
                     <h1 class=" font-josefin-slab font-semibold text-black"> Estado: </h1>
                     <div class="flex h-[56px] ">
-                    <RadioButton Text="Activo" id=""/> <RadioButton Text="Inactivo" id=""/>
+                    <RadioButton Text="Activo" id="ActivoUsuario"/> <RadioButton Text="Inactivo" id="InactivoUsuario"/>
                 </div>
 
                 <div class="relative w-full">
