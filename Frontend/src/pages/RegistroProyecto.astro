@@ -5,9 +5,8 @@ import Input from "../Components/Input.astro";
 import BotonPrincipal from "../Components/BotonPrincipal.astro";
 import BotonSegundo from "../Components/BotonSegundo.astro";
 import RadioButton from "../Components/RadioButton.astro";
-import Select from "../Components/Select.astro"
-
 ---
+
 <LayoutPrincipal2 title="">
     <Layoutcontenido2 title="" text1="Registrar Proyecto">
         <div class="w-1/2 mx-auto">
@@ -34,15 +33,15 @@ import Select from "../Components/Select.astro"
 
                 <div class="grid sm:grid-cols-3 grid-cols-1 sm:gap-y-4 gap-4">
                     <div class="flex justify-center">
-                        <BotonPrincipal Text="Semanal" />
+                        <BotonPrincipal Text="Semanal" id="btnSemanal" class="btn-frecuencia" />
                     </div>
                     <div class="flex justify-center">
-                        <BotonPrincipal  Text="Quincenal" />
+                        <BotonPrincipal Text="Quincenal" id="btnQuincenal" class="btn-frecuencia" />
                     </div>
                     <div class="flex justify-center">
-                        <BotonPrincipal  Text="Mensual" />
+                        <BotonPrincipal Text="Mensual" id="btnMensual" class="btn-frecuencia" />
                     </div>
-
+                    <span id="errorFrecuenciaReunion" class="text-red-500 text-sm sm:col-span-3"></span>
                 </div>
               
                 <div class="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">

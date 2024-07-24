@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (terminosError) terminosError.textContent = 'Debe aceptar los términos y condiciones.';
             }
 
+
             if (valid) {
                 const tipoDocumentoValue = document.getElementById('tipoDocumento').value;
                 const data = {

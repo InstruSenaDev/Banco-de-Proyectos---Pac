@@ -80,4 +80,27 @@ async function loginPerson(correo, contraseña) {
     }
 }
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson };
+// Función para registrar un nuevo proyecto
+async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona }) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad,  idalcance, idobjetivos, idarea, idficha, idpersona, dia,) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+            [nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona]
+        );
+        client.release();
+        console.log('Proyecto registrado con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar proyecto:', error);
+        throw error;
+    }
+}
+
+export { 
+    getAllPersonas, 
+    getAllUsuario, 
+    registerPerson, 
+    loginPerson,
+    registerProject
+};

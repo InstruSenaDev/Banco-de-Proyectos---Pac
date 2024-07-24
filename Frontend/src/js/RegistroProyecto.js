@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const nextPageLink = document.getElementById("nextPageLink");
 
-    nextPageLink.addEventListener("click", function (event) {
+    nextPageLink.addEventListener("click", async function (event) {
         // Previene la redirección por defecto
         event.preventDefault();
 
@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("errorImpactoDelProyecto").textContent = "";
         document.getElementById("errorResponsable").textContent = "";
         document.getElementById("errorDiasReunion").textContent = ""; // Limpiar mensaje de error de días de reunión
+        document.getElementById("errorFrecuenciaReunion").textContent = ""; // Limpiar mensaje de error de frecuencia
 
         // Bandera para saber si hay errores
         let hasError = false;
@@ -45,13 +46,71 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const diasSeleccionados = dias.some(day => day);
         if (!diasSeleccionados) {
-            document.getElementById("errorDiasReunion").textContent = "Seleccione al menos un día para las reuniones.";
+            document.getElementById("errorDiasReunion").textContent = "Seleccione un día para las reuniones.";
             hasError = true;
         }
 
-        // Si no hay errores, redirecciona a la siguiente página
-        if (!hasError) {
-            window.location.href = nextPageLink.href;
+        // Validación de la frecuencia de reunión
+        const btnSemanal = document.getElementById("btnSemanal");
+        const btnQuincenal = document.getElementById("btnQuincenal");
+        const btnMensual = document.getElementById("btnMensual");
+
+        let frecuencia = null;
+        if (btnSemanal.classList.contains("selected")) {
+            frecuencia = "Semanal";
+        } else if (btnQuincenal.classList.contains("selected")) {
+            frecuencia = "Quincenal";
+        } else if (btnMensual.classList.contains("selected")) {
+            frecuencia = "Mensual";
         }
+
+        if (!frecuencia) {
+            document.getElementById("errorFrecuenciaReunion").textContent = "Seleccione una frecuencia para las reuniones.";
+            hasError = true;
+        }
+
+        // Si no hay errores, enviar los datos al servidor
+        if (!hasError) {
+            const diasSeleccionadosStr = dias.map((checked, index) => checked ? ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"][index] : "").filter(day => day).join(", ");
+            
+            try {
+                const response = await fetch('http://localhost:4000/api/proyectos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre: nombreProyecto,
+                        impacto: impactoDelProyecto,
+                        responsable: responsable,
+                        disponibilidad: frecuencia,
+                        idalcance: '', 
+                        idobjetivos: '',
+                        idarea: '',
+                        idficha: '',
+                        idpersona: '',
+                        dia: diasSeleccionadosStr, 
+                    })
+                });
+            
+                if (response.ok) {
+                    window.location.href = nextPageLink.href;
+                } else {
+                    const errorText = await response.text(); // Lee la respuesta como texto
+                    console.error('Error al registrar proyecto:', errorText);
+                }
+            } catch (error) {
+                console.error('Error en la solicitud:', error);
+            }
+        }
+    });
+
+    // Función para manejar la selección de botones
+    const buttons = document.querySelectorAll('.btn-frecuencia');
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            buttons.forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected');
+        });
     });
 });

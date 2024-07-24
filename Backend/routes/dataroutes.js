@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerProject } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -53,4 +53,16 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Ruta para registrar un nuevo proyecto
+router.post('/proyectos', async (req, res) => {
+    try {
+        console.log('Solicitud recibida:', req.body); // Agrega esto para verificar la solicitud
+        const { nombre, impacto, responsable, disponibilidad, dias } = req.body;
+        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dias });
+        res.status(201).json(newProject);
+    } catch (error) {
+        console.error('Error al registrar proyecto:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
 export default router;
