@@ -7,60 +7,173 @@ import BotonPrincipal from '../Components/BotonPrincipal.astro';
 import ModalPerfil from '../Components/Modal.astro';
 ---
 
-
-
-
 <LayoutPrincipal title="Editar Perfil">
     <Layoutcontenido title="Editar Perfil">
-
-    <div class="w-full md:w-1/2 " >   
-    <div class="  flex flex-col  p-[5%]  Flex-box     ">
-        <h1>Nombre completo</h1>
-        <Input  placeholder="Nombre completo" type="text" Text="" id='nombre'/>
-        <h1>Tipo de documento</h1>
-          <SelectBoxTI Text=""/>
-          <h1>Numero de documento</h1>
-        <Input  placeholder="Numero de docuemnto" type="text" Text="" id='numeroDoc'/>
-        <h1>Telefono</h1>
-        <Input   placeholder="Telefono" type="text"Text="" id='telefono'/>
-    </div>
-    </div>
-
-    <div class="w-full md:w-1/2  " >
-    <div class="  flex flex-col  p-[5%] Flex-box  ">
-        <h1>Correo:</h1>
-        <Input  placeholder="Correo" type="email"Text="" id='correo'/>
-        <h1>Nombre De la Empresa:</h1>
-        <Input  type="text" Text="" placeholder="Nombre De la Empresa" id='nombreEmpresa'/>
-        <h1>Contraseña</h1>
-        <Input placeholder="Contraseña" type="password" Text="" id='contraseña'/>
-        <h1>Confirmar Contraseña</h1>
-        <Input placeholder="Confirmar Contraseña" type="password" Text="" id='confiContraseña'/>
-        <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-            <div class="">
-                <BotonPrincipal Text="Guardar" />
+        <div class="w-full md:w-1/2">
+            <div class="flex flex-col p-[5%] Flex-box">
+                <h1>Nombre completo</h1>
+                <Input placeholder="Nombre completo" type="text" Text="" id='nombre'/>
+                <div id="error-nombre" class="text-red-500"></div>
+                <h1>Tipo de documento</h1>
+                <SelectBoxTI Text=""/>
+                <h1>Numero de documento</h1>
+                <Input placeholder="Numero de documento" type="text" Text="" id='numeroDoc'/>
+                <div id="error-numeroDoc" class="text-red-500"></div>
+                <h1>Telefono</h1>
+                <Input placeholder="Telefono" type="text" Text="" id='telefono'/>
+                <div id="error-telefono" class="text-red-500"></div>
             </div>
         </div>
-    </div>
-    </div>
-</div>
+
+        <div class="w-full md:w-1/2">
+            <div class="flex flex-col p-[5%] Flex-box">
+                <h1>Correo:</h1>
+                <Input placeholder="Correo" type="email" Text="" id='correo'/>
+                <div id="error-correo" class="text-red-500"></div>
+                <h1>Nombre De la Empresa:</h1>
+                <Input type="text" Text="" placeholder="Nombre De la Empresa" id='nombreEmpresa'/>
+                <div id="error-nombreEmpresa" class="text-red-500"></div>
+                <h1>Contraseña</h1>
+                <Input placeholder="Contraseña" type="password" Text="" id='contraseña'/>
+                <div id="error-contraseña" class="text-red-500"></div>
+                <h1>Confirmar Contraseña</h1>
+                <Input placeholder="Confirmar Contraseña" type="password" Text="" id='confiContraseña'/>
+                <div id="error-confiContraseña" class="text-red-500"></div>
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                    <div>
+                        <BotonPrincipal Text="Guardar" id="guardarBtn"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Layoutcontenido>
+</LayoutPrincipal>
+
 
 <ModalPerfil Text='Perfil actualizado'/>
 
 <script>
-    const modal = document.querySelector('.modal');
-
-    const showModal = document.querySelector('.show-modal');
-    const closeModal = document.querySelector('.close-modal')
-
-    showModal?.addEventListener('click', function(){
-        modal?.classList.remove('hidden')
-    });
-
-    closeModal?.addEventListener('click', function(){
-        modal?.classList.add('hidden')
-    });
-</script>
-
-    </Layoutcontenido></LayoutPrincipal>
+    document.addEventListener('DOMContentLoaded', () => {
+        const nombre = document.getElementById('nombre');
+        const numeroDoc = document.getElementById('numeroDoc');
+        const telefono = document.getElementById('telefono');
+        const correo = document.getElementById('correo');
+        const nombreEmpresa = document.getElementById('nombreEmpresa');
+        const contraseña = document.getElementById('contraseña');
+        const confiContraseña = document.getElementById('confiContraseña');
     
+        const errorNombre = document.getElementById('error-nombre');
+        const errorNumeroDoc = document.getElementById('error-numeroDoc');
+        const errorTelefono = document.getElementById('error-telefono');
+        const errorCorreo = document.getElementById('error-correo');
+        const errorNombreEmpresa = document.getElementById('error-nombreEmpresa');
+        const errorContraseña = document.getElementById('error-contraseña');
+        const errorConfiContraseña = document.getElementById('error-confiContraseña');
+    
+        const guardarBtn = document.getElementById('guardarBtn');
+    
+        const validarFormulario = () => {
+            let esValido = true;
+    
+            // Validar nombre
+            if (nombre.value.trim() === '') {
+                errorNombre.textContent = 'El nombre completo es requerido.';
+                esValido = false;
+            } else if (!/^[a-zA-Z\s]+$/.test(nombre.value.trim())) {
+                errorNombre.textContent = 'El nombre solo puede contener letras y espacios.';
+                esValido = false;
+            } else if (nombre.value.trim().length > 20) {
+                errorNombre.textContent = 'El nombre no puede tener más de 20 caracteres.';
+                esValido = false;
+            } else {
+                errorNombre.textContent = '';
+            }
+    
+            // Validar numero de documento
+            if (numeroDoc.value.trim() === '') {
+                errorNumeroDoc.textContent = 'El número de documento es requerido.';
+                esValido = false;
+            } else if (!/^\d+$/.test(numeroDoc.value.trim())) {
+                errorNumeroDoc.textContent = 'El número de documento solo puede contener dígitos.';
+                esValido = false;
+                errorNumeroDoc.textContent = 'El número de documento  no puede tener espacios.';
+    esValido = false;
+            } else if (numeroDoc.value.trim().length < 10) {
+                errorNumeroDoc.textContent = 'El número de documento debe tener al menos 10 dígitos.';
+                esValido = false;
+            } else {
+                errorNumeroDoc.textContent = '';
+            }
+    
+          // Validar telefono
+if (telefono.value.trim() === '') {
+    errorTelefono.textContent = 'El teléfono es requerido.';
+    esValido = false;
+} else if (!/^\d+$/.test(telefono.value.trim())) {
+    errorTelefono.textContent = 'El teléfono solo puede contener dígitos.';
+    esValido = false;
+    errorTelefono.textContent = 'El teléfono no puede tener espacios.';
+    esValido = false;
+} else if (telefono.value.trim().length < 10) {
+    errorTelefono.textContent = 'El teléfono debe contener al menos 10 dígitos.';
+    esValido = false;
+} else {
+    errorTelefono.textContent = '';
+}
+    
+            // Validar correo
+            if (correo.value.trim() === '') {
+                errorCorreo.textContent = 'El correo es requerido.';
+                esValido = false;
+            } else if (!/\S+@\S+\.\S+/.test(correo.value.trim())) {
+                errorCorreo.textContent = 'El correo electrónico debe contener al menos un arroba (@) y un dominio.';
+                esValido = false;
+            } else {
+                errorCorreo.textContent = '';
+            }
+    
+            // Validar nombre de la empresa
+            if (nombreEmpresa.value.trim() === '') {
+                errorNombreEmpresa.textContent = 'El nombre de la empresa es requerido.';
+                esValido = false;
+            } else if (nombreEmpresa.value.trim().length > 50) {
+                errorNombreEmpresa.textContent = 'El nombre de la empresa no puede tener más de 50 caracteres.';
+                esValido = false;
+            } else {
+                errorNombreEmpresa.textContent = '';
+            }
+    
+            // Validar contraseña
+            if (contraseña.value.trim() === '') {
+                errorContraseña.textContent = 'La contraseña es requerida.';
+                esValido = false;
+            } else if (contraseña.value.trim().length < 8) {
+                errorContraseña.textContent = 'La contraseña debe tener al menos 8 caracteres.';
+                esValido = false;
+            } else {
+                errorContraseña.textContent = '';
+            }
+    
+            // Validar confirmar contraseña
+            if (confiContraseña.value.trim() === '') {
+                errorConfiContraseña.textContent = 'Debe confirmar su contraseña.';
+                esValido = false;
+            } else if (confiContraseña.value.trim() !== contraseña.value.trim()) {
+                errorConfiContraseña.textContent = 'Las contraseñas no coinciden.';
+                esValido = false;
+            } else {
+                errorConfiContraseña.textContent = '';
+            }
+    
+            return esValido;
+        };
+    
+        guardarBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (validarFormulario()) {
+                // Aquí puedes agregar el código para enviar el formulario
+                alert('Formulario válido. ¡Enviando datos!');
+            } 
+        });
+    });
+    </script>
