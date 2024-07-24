@@ -1,5 +1,41 @@
 ---
-import Modal2 from "../Components/Modal2.astro";
+import Layoutcontenido4 from "../layouts/Layoutcontenido4.astro"
+import Layoutprincipal from "../layouts/Layoutprincipal.astro"
+import Input from "../Components/Input.astro"
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import BotonSegundo from "../Components/BotonSegundo.astro"
+import Modal from "../Components/Modal.astro"
 ---
+<Layoutprincipal title=""> 
+<Layoutcontenido4 title="Crear Fichas">
 
-<Modal2/>
+    <div class="w-full md:w-1/2" >
+        <div class=" flex flex-col p-[5%] Flex-box space-y-12">
+            <div>
+                 <Input Text="Nombre del programa:" placeholder="Sistemas" type="text" id="nombre"/>
+                 <span id="nombreError" class="error-message"></span>
+            </div>
+           
+            <div>
+                <Input Text="Número de ficha:" placeholder="2694265" type="text" id="FichasNum"/>
+                <span id="FichasNumError" class="error-message"></span>
+            </div>
+           
+        </div>
+
+    <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4">
+        <a href="/HomeSuperAdmin" class="">
+            <BotonPrincipal Text="Volver" />
+        </a>
+        <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4 show-modal">
+            <BotonSegundo Text="Guardar" id="guardarBtn"/>
+        </div>
+    </div>
+</div>
+<Modal Text="Usuario registrado correctamente"/>
+
+<script src="../js/CrearFichas.js"></script>
+
+
+</Layoutcontenido4>
+</Layoutprincipal>

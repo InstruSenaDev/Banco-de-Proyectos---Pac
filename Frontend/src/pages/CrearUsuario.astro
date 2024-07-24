@@ -29,7 +29,7 @@ import Modal from "../Components/Modal.astro"
 <LayoutPrincipal title="Crear Usuario">
     <Layoutcontenido title="Crear Usuario">
         <div class="w-full md:w-1/2 " >
-        <div class="flex flex-col  p-[5%]  Flex-box space-y-5">
+        <div class="flex flex-col p-[5%] Flex-box space-y-5">
             <div>
                 <Input Text="Nombre del usuario:" placeholder="Nombre del usuario" type="text" id="nombreUsu"/>
                 <span id="nombreError" class="error-message"></span>
@@ -64,16 +64,16 @@ import Modal from "../Components/Modal.astro"
                 <span id="tipoRolError" class="error-message"></span>
             </div>
 
-            <div class="space-y-8">
+            <div class="space-y-4">
             <h1> Estado: </h1>
-            <div class="flex h-[23px] space-x-5 ">
+            <div class="flex h-[23px] ">
                 <RadioButton Text="Activo" id="estadoActivo"/>
                 <RadioButton Text="Inactivo" id="estadoInactivo"/>
             </div>
             <span id="estadoError" class="error-message"></span>
             </div>
 
-            <div>
+            <div class="space-y-3.5">
                 <Input Text="Celular:" placeholder="Celular" type="text" id="celular"/>
                 <span id="celularError" class="error-message"></span>
             </div>

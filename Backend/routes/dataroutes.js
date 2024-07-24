@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -56,5 +56,18 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
+// Ruta para registrar una nueva ficha
+router.post('/registerFicha', async (req, res) => {
+    try {
+        console.log('Datos recibidos en la solicitud de registro de ficha:', req.body);
+        const { nombre, numeroFicha, estado } = req.body;
+        const newFicha = await registerFicha({ nombre, numeroFicha, estado });
+        res.status(201).json(newFicha);
+    } catch (error) {
+        console.error('Error al registrar ficha:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
 
 export default router;

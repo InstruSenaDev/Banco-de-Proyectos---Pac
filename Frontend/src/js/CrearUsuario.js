@@ -55,12 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(data => {
                 console.log('Usuario registrado con éxito:', data);
-                // Mostrar un mensaje al usuario o redirigir
-                alert('Registro exitoso!');
             })
             .catch(error => {
                 console.error('Error al registrar usuario:', error);
-                alert('Error al registrar usuario. Por favor, intenta nuevamente.');
             });
         }
     });
@@ -94,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const numeroDocError = document.getElementById("numeroDocError");
         const numeroDocPattern = /^[0-9]{6,15}$/;
         if (!numeroDocPattern.test(numeroDoc.value.trim())) {
-            numeroDocError.textContent = "El número de documento debe tener solo números y una longitud de 10 dígitos.";
+            numeroDocError.textContent = "El número de documento debe tener una longitud de 10 dígitos.";
             isValid = false;
         } else {
             numeroDocError.textContent = "";

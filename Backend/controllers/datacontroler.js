@@ -78,5 +78,23 @@ async function loginPerson(correo, contraseña) {
     }
 }
 
+// Función para registrar una nueva ficha
+async function registerFicha({ nombre, numeroFicha, estado }) {
+    try {
+        console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha, estado });
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, };
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO ficha (nombre, numeroFicha, estado) VALUES ($1, $2, $3) RETURNING *',
+            [nombre, numeroFicha, estado]
+        );
+        client.release();
+        console.log('Ficha registrada con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar ficha:', error);
+        throw error;
+    }
+}
+
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha };

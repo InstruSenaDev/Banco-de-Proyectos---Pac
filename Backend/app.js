@@ -5,21 +5,18 @@ import dataRoutes from './routes/dataroutes.js';
 const app = express();
 const PORT = 4000;
 
-// Middleware para manejar solicitudes JSON y de URL codificadas
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-// Rutas de la API
-app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos
+// Asegúrate de que '/api' no esté interfiriendo con '/api/registerFicha'
+app.use('/api', dataRoutes); // Esto usa el prefijo '/api' para las rutas en 'dataRoutes'
 
-// Manejo de errores
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Internal server error', message: err.message });
+app.post('/api/registerFicha', (req, res) => {
+    console.log('Datos recibidos:', req.body);
+    res.status(200).json({ message: 'Ficha registrada' });
 });
 
-// Iniciar el servidor
 app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
