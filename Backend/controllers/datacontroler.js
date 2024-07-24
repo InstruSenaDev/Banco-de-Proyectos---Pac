@@ -78,4 +78,5 @@ async function loginPerson(correo, contraseña) {
     }
 }
 
+
 export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, };
