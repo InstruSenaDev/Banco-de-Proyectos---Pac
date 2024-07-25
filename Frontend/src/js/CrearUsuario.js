@@ -19,8 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Mapeo de roles
             const roleMap = {
+                'superadmin': 3,
                 'administrador': 1,
-                'aprendiz': 4
+                'aprendiz': 4,
             };
 
             // Obtener los datos del formulario

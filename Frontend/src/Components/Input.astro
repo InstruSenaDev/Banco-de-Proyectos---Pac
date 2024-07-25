@@ -11,7 +11,7 @@ const { placeholder, type, Text, id } = Astro.props;
 <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
-
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
 
 <style>
     .font-josefin-slab {
@@ -23,10 +23,15 @@ const { placeholder, type, Text, id } = Astro.props;
     .font-inter {
         font-family: 'Inter', sans-serif;
     }
+
+    .font-nunito-sans{
+            font-family: "Nunito Sans", sans-serif;
+            font-optical-sizing: auto;
+    }
 </style>
 
 <div class="space-y-2 w-full">
-    <label for={id} class="font-josefin-slab font-semibold text-black">{Text}</label>
+    <label for={id} class=".font-nunito-sans font-semibold text-black">{Text}</label>
     <input
         id={id}
         type={type}

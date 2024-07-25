@@ -1,41 +1,108 @@
 ---
-import Layoutcontenido4 from "../layouts/Layoutcontenido4.astro"
-import Layoutprincipal from "../layouts/Layoutprincipal.astro"
-import Input from "../Components/Input.astro"
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
-import BotonSegundo from "../Components/BotonSegundo.astro"
-import Modal from "../Components/Modal.astro"
+import Itemss1 from "../Components/Itemss1.astro";
+
+// Obtener el rol del usuario desde localStorage
+const userRole = localStorage.getItem('userRole') || 'default';
+
+// Configuración del menú basada en los roles del usuario
+const menuConfig = {
+  '1': [
+    { icon: 'fas fa-home', href: '/VistaProyectos', label: 'Proyectos' },
+    { icon: 'fa-solid fa-user', href: '/VistaAprobados', label: 'Vista Aprobados' },
+    { icon: 'fas fa-cog', href: '/AsignarProyecto', label: 'Asignar Proyecto' }
+  ],
+  '2': [
+    { icon: 'fas fa-home', href: '/VistaMisProyectos', label: 'Vista Mis proyectos' },
+    { icon: 'fas fa-project-diagram', href: '/EditarPerfil', label: 'Editar Perfil' }
+  ],
+  '3': [
+    { icon: 'fas fa-home', href: '/CrearFichas', label: 'Crear Usuario' },
+    { icon: 'fa-solid fa-users', href: '/CrearUsuario', label: 'Crear Fichas' },
+    { icon: 'fas fa-tools', href: '/EditarRegistro', label: 'Editar Registro' },
+    { icon: 'fas fa-tools', href: '/CargaMasiva', label: 'Cargar Aprendices' }
+  ],
+  '4': [
+    { icon: 'fas fa-home', href: '/ProyectosAsignados', label: 'Proyectos Asignados' },
+    { icon: 'fas fa-book', href: '/EditarPerfil', label: 'Editar Perfil' }
+  ]
+};
+
+const menuItems = menuConfig[userRole] || [];
 ---
-<Layoutprincipal title=""> 
-<Layoutcontenido4 title="Crear Fichas">
 
-    <div class="w-full md:w-1/2" >
-        <div class=" flex flex-col p-[5%] Flex-box space-y-12">
-            <div>
-                 <Input Text="Nombre del programa:" placeholder="Sistemas" type="text" id="nombre"/>
-                 <span id="nombreError" class="error-message"></span>
-            </div>
-           
-            <div>
-                <Input Text="Número de ficha:" placeholder="2694265" type="text" id="FichasNum"/>
-                <span id="FichasNumError" class="error-message"></span>
-            </div>
-           
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet"
+    />
+    <style>
+        body {
+            font-family: "Josefin Slab", serif;
+            font-optical-sizing: auto;
+        }
+
+        .sidebar {
+            width: 60px; /* Ancho inicial */
+            transition: width 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar.open {
+            width: 200px; /* Ancho expandido al abrir */
+        }
+
+        .sidebar ul span {
+            display: none; /* Oculta los nombres de los proyectos inicialmente */
+        }
+
+        .sidebar.open ul span {
+            display: inline-block; /* Muestra los nombres de los proyectos al abrir */
+        }
+
+        .sidebar:hover {
+            width: 200px; /* Ancho expandido al pasar el cursor */
+        }
+    </style>
+</head>
+<body>
+    <!-- Botón para abrir el sidebar en pantallas pequeñas -->
+    <button id="menu-button" class="md:hidden p-4 fixed top-0 left-0 z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+    </button>
+
+    <aside id="sidebar" class="sidebar fixed top-0 left-0 z-40 h-screen bg-Verde transition-transform transform -translate-x-full md:translate-x-0">
+        <div class="h-full px-3 py-4 overflow-y-auto dark:bg-custom-green">
+            <a href="#" class="flex items-center ps-2.5 mb-5"></a>
+            <ul id="menuItems" class="space-y-3 font-medium">
+                <div class="flex items-center">
+                    <img src="../public/img/Logo.png" alt="Logo" class="w-10 h-10 pb-2">
+                    <span class="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">PAC</span>
+                </div>
+                {menuItems.map(item => (
+                    <Itemss1 href={item.href} label={item.label} icon={item.icon} />
+                ))}
+            </ul>
         </div>
+    </aside>
 
-    <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4">
-        <a href="/HomeSuperAdmin" class="">
-            <BotonPrincipal Text="Volver" />
-        </a>
-        <div class="flex flex-col items-center space-y-2 sm:flex-row justify-center sm:space-y-0 sm:space-x-4 show-modal">
-            <BotonSegundo Text="Guardar" id="guardarBtn"/>
-        </div>
-    </div>
-</div>
-<Modal Text="Usuario registrado correctamente"/>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuButton = document.getElementById('menu-button');
+            const sidebar = document.getElementById('sidebar');
 
-<script src="../js/CrearFichas.js"></script>
+            const userRole = localStorage.getItem('userRole');
+            console.log('User Role:', userRole); // Depuración: Verifica el rol del usuario
 
-
-</Layoutcontenido4>
-</Layoutprincipal>
+            if (menuButton && sidebar) {
+                menuButton.addEventListener('click', () => {
+                    sidebar.classList.toggle('-translate-x-full');
+                    sidebar.classList.toggle('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

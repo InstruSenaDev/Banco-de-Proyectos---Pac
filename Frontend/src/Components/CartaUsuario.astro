@@ -11,6 +11,8 @@ const {Text} = Astro.props;
 <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+
 
 <style>
     .font-josefin-slab {
@@ -22,12 +24,17 @@ const {Text} = Astro.props;
     .font-inter {
         font-family: 'Inter', sans-serif;
     }
+
+    .font-nunito-sans{
+            font-family: "Nunito Sans", sans-serif;
+            font-optical-sizing: auto;
+    }
 </style>
 
 
 
 <div class="w-full sm:w-5/6 md:w-80 h-auto sm:h-60 bg-[#FBFCFF] rounded-xl border-2 border-[#FBFCFF] shadow-lg flex flex-col items-center justify-center p-4 sm:p-8 mb-4 sm:m-8">
-    <h2 class="text-base sm:text-xl md:text-2xl font-josefin-slab mb-2 sm:mb-4 text-center leading-tight p-2 sm:p-4 font-bold">
+    <h2 class="text-base sm:text-xl md:text-2xl font-nunito-sans mb-2 sm:mb-4 text-center leading-tight p-2 sm:p-4 font-bold">
         {Text}
     </h2>
     <button class="group cursor-pointer outline-none hover:rotate-90 duration-300">

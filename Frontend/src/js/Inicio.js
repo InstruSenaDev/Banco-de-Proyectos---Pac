@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const correoError = document.getElementById('correoError');
     const contrasenaError = document.getElementById('contrasenaError');
     const togglePasswordInicio = document.getElementById('togglePasswordInicio');
-  
+
     if (togglePasswordInicio) {
         togglePasswordInicio.addEventListener('click', function() {
             const type = contrasenaInicio.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.toggle('bx-hide');
         });
     }
-  
+
     if (formu) {
         formu.addEventListener('submit', async function(event) {
             event.preventDefault();
-  
+
             const correoValue = correoInicio ? correoInicio.value.trim() : '';
             const contrasenaValue = contrasenaInicio ? contrasenaInicio.value : '';
-  
+
             try {
                 const response = await fetch('http://localhost:4000/api/login', {
                     method: 'POST',
@@ -30,18 +30,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
                     body: JSON.stringify({ correo: correoValue, contraseña: contrasenaValue })
                 });
-  
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-  
+
                 const result = await response.json();
-  
+
                 if (result.error) {
                     correoError.textContent = result.error;
                     contrasenaError.textContent = result.error;
                 } else {
-                    // Redirige según el rol del usuario
+                    // Almacenar el rol en localStorage
+                    localStorage.setItem('userRole', result.rol);
+
+                    // Redirigir según el rol del usuario
                     switch (result.rol) {
                         case 1:
                             window.location.href = '/VistaAdministrador';
@@ -65,4 +68,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-  });
+});
