@@ -60,14 +60,12 @@ router.post('/login', async (req, res) => {
 // Ruta para registrar una nueva ficha
 router.post('/registerFicha', async (req, res) => {
     try {
-        console.log('Datos recibidos en la solicitud de registro de ficha:', req.body);
-        const { nombre, numeroFicha, estado } = req.body;
-        const newFicha = await registerFicha({ nombre, numeroFicha, estado });
+        const newFicha = await registerFicha(req.body);
         res.status(201).json(newFicha);
     } catch (error) {
-        console.error('Error al registrar ficha:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+        res.status(500).json({ error: 'Error al registrar ficha' });
     }
 });
+  
 
 export default router;

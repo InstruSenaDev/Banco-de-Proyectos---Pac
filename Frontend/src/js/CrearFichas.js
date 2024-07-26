@@ -21,35 +21,32 @@ document.addEventListener("DOMContentLoaded", function () {
             const formData = {
                 nombre: document.getElementById("nombreFicha").value.trim(),
                 numeroFicha: document.getElementById("FichasNum").value.trim(),
-                estado: document.querySelector('input[name="estado"]:checked')?.value // Agregado ? para manejar caso donde no hay radio seleccionado
+                estado: document.querySelector('input[name="estado"]:checked')?.value
             };
 
-            console.log('Enviando datos al servidor:', formData); // Log de los datos enviados
+            console.log('Datos del formulario:', formData); // Log de los datos enviados
 
-            async function registrarFicha() {
-                try {
-                    const response = await fetch('http://localhost:4000/api/registerFicha', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
+            fetch('http://localhost:4000/api/registerFicha', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(error => {
+                        throw new Error(`Error: ${error.error || 'Unknown error'}`);
                     });
-
-                    if (!response.ok) {
-                        const errorMessage = `HTTP error! Status: ${response.status} - ${response.statusText}`;
-                        throw new Error(errorMessage);
-                    }
-
-                    const data = await response.json();
-                    console.log('Ficha registrada:', data);
-                } catch (error) {
-                    console.error('Error al registrar ficha:', error);
                 }
-            }
-
-            registrarFicha(); // Asegúrate de llamar a la función para enviar la solicitud
-
+                return response.json();
+            })
+            .then(data => {
+                console.log('Ficha registrada con éxito:', data);
+            })
+            .catch(error => {
+                console.error('Error al registrar ficha:', error);
+            });
         }
     });
 

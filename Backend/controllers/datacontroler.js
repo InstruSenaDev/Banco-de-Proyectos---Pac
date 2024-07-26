@@ -85,7 +85,7 @@ async function registerFicha({ nombre, numeroFicha, estado }) {
 
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO ficha (nombre, numeroFicha, estado) VALUES ($1, $2, $3) RETURNING *',
+            'INSERT INTO ficha (nombre, numeroficha, estado) VALUES ($1, $2, $3) RETURNING *',
             [nombre, numeroFicha, estado]
         );
         client.release();
@@ -96,5 +96,6 @@ async function registerFicha({ nombre, numeroFicha, estado }) {
         throw error;
     }
 }
+
 
 export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha };
