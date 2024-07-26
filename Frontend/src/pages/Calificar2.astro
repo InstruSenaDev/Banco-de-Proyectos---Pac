@@ -6,6 +6,26 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro"
 import RadioButton from "../Components/RadioButton.astro"
 import BotonSegundo from "../Components/BotonSegundo.astro"
 import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro"
+
+
+// ID del proyecto que deseas mostrar
+const projectId = 1; // Cambia este ID según el proyecto que quieras mostrar
+
+// URL de la API con el ID del proyecto
+const API_URL = `https://669f9862b132e2c136fe7374.mockapi.io/bancodeproyectos/proyecto/${projectId}`;
+
+
+let projectData = null;
+try {
+  const response = await fetch(API_URL);
+  if (!response.ok) {
+    throw new Error(`Error: ${response.statusText}`);
+  }
+  projectData = await response.json();
+  console.log('Fetched project data:', projectData);  // Verifica si los datos se están obteniendo correctamente
+} catch (error) {
+  console.error('Fetch error:', error);
+}
 ---
 
 
@@ -17,9 +37,13 @@ import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro"
 
         <div class="w-1/2 mx-auto">
             <div class="flex font-josefin-slab flex-col space-y-8">
-                <Input type="text" Text="Nombre Del Proyecto" placeholder="Ejemplo: Pac" id=""/>
-                <Input type="text" Text="Sector Impactado" placeholder="Impacto Del Proyecto:" id="" />
-                <Input type="text" Text="Responsable" placeholder="Responsable Del Proyecto" id=""/>
+                {projectData.map((proyecto) => (
+                    <div ={proyecto.id} class="space-y-4">
+                      <Input type="text" Text="Nombre Del Proyecto" placeholder={proyecto.nombre} id="1" />
+                      <Input type="text" Text="Sector Impactado" placeholder={proyecto.sector} id="2" />
+                      <Input type="text" Text="Responsable" placeholder={proyecto.responsable} id="3" />
+                    </div>
+                  ))}
                 
                 <div class="space-y-2">
                     <label class="font-josefin-slab font-semibold text-black">
@@ -50,9 +74,9 @@ import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro"
                 
             </div>
 
-            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                   <a href="/Calificar3"> <BotonPrincipal Text="Siguiente"/> </a>
-                   <a href="/Calificar"> <BotonSegundo Text="Atras"/> </a>
+            <div class="flex flex-col items-center justify-center lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6 ">
+                   <a href="/Calificar3"> <BotonSegundo Text="Siguiente"/> </a>
+                   <a href="/Calificar"> <BotonPrincipal Text="Atras"/> </a>
             </div>
 
         </div>
