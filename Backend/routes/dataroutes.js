@@ -56,13 +56,23 @@ router.post('/login', async (req, res) => {
 // Ruta para registrar un nuevo proyecto
 router.post('/proyectos', async (req, res) => {
     try {
-        console.log('Solicitud recibida:', req.body); // Agrega esto para verificar la solicitud
-        const { nombre, impacto, responsable, disponibilidad, dias } = req.body;
-        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dias });
+        console.log('Solicitud recibida:', req.body); 
+        let { nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona } = req.body;
+
+        // Convertir cadenas vacías a null
+        idalcance = idalcance || null;
+        idobjetivos = idobjetivos || null;
+        idarea = idarea || null;
+        idficha = idficha || null;
+        idpersona = idpersona || null;
+
+        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona });
         res.status(201).json(newProject);
     } catch (error) {
         console.error('Error al registrar proyecto:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
+
 export default router;

@@ -85,8 +85,8 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
     try {
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad,  idalcance, idobjetivos, idarea, idficha, idpersona, dia,) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
-            [nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona]
+            'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad, idalcance, idobjetivos, idarea, idficha, idpersona, dia) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+            [nombre, impacto, responsable, disponibilidad, idalcance, idobjetivos, idarea, idficha, idpersona, dia]
         );
         client.release();
         console.log('Proyecto registrado con éxito:', result.rows[0]);

@@ -84,11 +84,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         impacto: impactoDelProyecto,
                         responsable: responsable,
                         disponibilidad: frecuencia,
-                        idalcance: '', 
-                        idobjetivos: '',
-                        idarea: '',
-                        idficha: '',
-                        idpersona: '',
+                        idalcance: idalcance.trim() === "" ? null : idalcance, 
+                        idobjetivos: idobjetivos.trim() === "" ? null : idobjetivos,
+                        idarea: idarea.trim() === "" ? null : idarea,
+                        idficha: idficha.trim() === "" ? null : idficha,
+                        idpersona: idpersona.trim() === "" ? null : idpersona,
                         dia: diasSeleccionadosStr, 
                     })
                 });
