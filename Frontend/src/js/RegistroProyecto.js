@@ -10,6 +10,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const impactoDelProyecto = document.getElementById("ImpactoDelProyecto").value.trim();
         const responsable = document.getElementById("Responsable").value.trim();
 
+        // Obtener valores de los campos adicionales
+        const idalcance = document.getElementById("idalcance") ? document.getElementById("idalcance").value.trim() : "";
+        const idobjetivos = document.getElementById("idobjetivos") ? document.getElementById("idobjetivos").value.trim() : "";
+        const idarea = document.getElementById("idarea") ? document.getElementById("idarea").value.trim() : "";
+        const idficha = document.getElementById("idficha") ? document.getElementById("idficha").value.trim() : "";
+        const idpersona = document.getElementById("idpersona") ? document.getElementById("idpersona").value.trim() : "";
+
         // Limpiar mensajes de error previos
         document.getElementById("errorNombreDelProyecto").textContent = "";
         document.getElementById("errorImpactoDelProyecto").textContent = "";

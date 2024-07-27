@@ -24,7 +24,11 @@ import RadioButton from "../Components/RadioButton.astro";
                     <Input type="text" Text="Responsable" placeholder="Responsable Del Proyecto" id="Responsable" />
                     <span id="errorResponsable" class="text-red-500 text-sm"></span>
                 </div>
-                
+                <input type="hidden" id="idalcance" value="" />
+<input type="hidden" id="idobjetivos" value="" />
+<input type="hidden" id="idarea" value="" />
+<input type="hidden" id="idficha" value="" />
+<input type="hidden" id="idpersona" value="" />
                 <div class="space-y-2">
                     <label class="font-josefin-slab font-semibold text-black">
                         Disponibilidad Para Reuniones Con El Equipo Desarrollador
@@ -51,6 +55,7 @@ import RadioButton from "../Components/RadioButton.astro";
                     <RadioButton Text="Jueves" id="checkboxJueves" />
                     <RadioButton Text="Viernes" id="checkboxViernes" />
                     <RadioButton Text="Sábado" id="checkboxSabado" />
+                    
                     <span id="errorDiasReunion" class="text-red-500 text-sm sm:col-span-3 "></span>
                 </div>
                
