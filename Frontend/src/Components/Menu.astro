@@ -1,39 +1,42 @@
 ---
-import Itemss1 from "../Components/Itemss1.astro";
+import Itemss1 from '../Components/Itemss1.astro';
 
-// Inicializa el rol del usuario
-let userRole;
- 
-if (typeof window !== 'undefined') {
-  // Recupera el rol del usuario desde localStorage
-  userRole = localStorage.getItem('userRole');
+interface MenuItem {
+  href: string;
+  label: string;
+  icon: string;
 }
 
-// Configuración del menú según el rol del usuario
-const menuConfig = {
-  '1': [
+let userRole = 'default';
+if (typeof window !== 'undefined') {
+  userRole = localStorage.getItem('userRole') || 'default';
+  console.log("User Role:", userRole);
+}
+
+const menuConfig: { [key: number]: MenuItem[] } = {
+  1: [
     { icon: 'fas fa-home', href: '/VistaProyectos', label: 'Proyectos' },
-    { icon: 'fa-solid fa-user', href: '/VistaAprobados', label: 'Vista Aprobados' },
+    { icon: 'fas fa-solid fa-user', href: '/VistaAprobados', label: 'Vista Aprobados' },
     { icon: 'fas fa-cog', href: '/AsignarProyecto', label: 'Asignar Proyecto' }
   ],
-  '2': [
+  2: [
     { icon: 'fas fa-home', href: '/VistaMisProyectos', label: 'Vista Mis proyectos' },
     { icon: 'fas fa-project-diagram', href: '/EditarPerfil', label: 'Editar Perfil' }
   ],
-  '3': [
+  3: [
     { icon: 'fas fa-home', href: '/CrearFichas', label: 'Crear Usuario' },
-    { icon: 'fa-solid fa-users', href: '/CrearUsuario', label: 'Crear Fichas' },
+    { icon: 'fas fa-solid fa-users', href: '/CrearUsuario', label: 'Crear Fichas' },
     { icon: 'fas fa-tools', href: '/EditarRegistro', label: 'Editar Registro' },
     { icon: 'fas fa-tools', href: '/CargaMasiva', label: 'Cargar Aprendices' }
   ],
-  '4': [
+  4: [
     { icon: 'fas fa-home', href: '/ProyectosAsignados', label: 'Proyectos Asignados' },
     { icon: 'fas fa-book', href: '/EditarPerfil', label: 'Editar Perfil' }
   ]
 };
 
-// Genera los elementos del menú según el rol
-const menuItems = menuConfig[userRole] || [];
+const menuItems: MenuItem[] = menuConfig[parseInt(userRole)] || [];
+console.log("Menu Items:", menuItems);
 ---
 
 <!doctype html>
@@ -50,29 +53,28 @@ const menuItems = menuConfig[userRole] || [];
         }
 
         .sidebar {
-            width: 60px; /* Ancho inicial */
+            width: 60px;
             transition: width 0.3s ease, transform 0.3s ease;
         }
 
         .sidebar.open {
-            width: 200px; /* Ancho expandido al abrir */
+            width: 200px;
         }
 
         .sidebar ul span {
-            display: none; /* Oculta los nombres de los proyectos inicialmente */
+            display: none;
         }
 
         .sidebar.open ul span {
-            display: inline-block; /* Muestra los nombres de los proyectos al abrir */
+            display: inline-block;
         }
 
         .sidebar:hover {
-            width: 200px; /* Ancho expandido al pasar el cursor */
+            width: 200px;
         }
     </style>
 </head>
 <body>
-    <!-- Botón para abrir el sidebar en pantallas pequeñas -->
     <button id="menu-button" class="md:hidden p-4 fixed top-0 left-0 z-50">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -81,7 +83,6 @@ const menuItems = menuConfig[userRole] || [];
 
     <aside id="sidebar" class="sidebar fixed top-0 left-0 z-40 h-screen bg-Verde transition-transform transform -translate-x-full md:translate-x-0">
         <div class="h-full px-3 py-4 overflow-y-auto dark:bg-custom-green">
-            <a href="#" class="flex items-center ps-2.5 mb-5"></a>
             <ul id="menuItems" class="space-y-3 font-medium">
                 <div class="flex items-center">
                     <img src="../public/img/Logo.png" alt="Logo" class="w-10 h-10 pb-2">
@@ -107,5 +108,6 @@ const menuItems = menuConfig[userRole] || [];
             }
         });
     </script>
+
 </body>
 </html>
