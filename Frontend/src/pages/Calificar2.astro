@@ -14,18 +14,6 @@ const projectId = 1; // Cambia este ID según el proyecto que quieras mostrar
 // URL de la API con el ID del proyecto
 const API_URL = `https://669f9862b132e2c136fe7374.mockapi.io/bancodeproyectos/proyecto/${projectId}`;
 
-
-let projectData = null;
-try {
-  const response = await fetch(API_URL);
-  if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
-  }
-  projectData = await response.json();
-  console.log('Fetched project data:', projectData);  // Verifica si los datos se están obteniendo correctamente
-} catch (error) {
-  console.error('Fetch error:', error);
-}
 ---
 
 
@@ -37,13 +25,13 @@ try {
 
         <div class="w-1/2 mx-auto">
             <div class="flex font-josefin-slab flex-col space-y-8">
-                {projectData.map((proyecto) => (
-                    <div ={proyecto.id} class="space-y-4">
-                      <Input type="text" Text="Nombre Del Proyecto" placeholder={proyecto.nombre} id="1" />
-                      <Input type="text" Text="Sector Impactado" placeholder={proyecto.sector} id="2" />
-                      <Input type="text" Text="Responsable" placeholder={proyecto.responsable} id="3" />
+                
+                    <div class="space-y-4">
+                      <Input type="text" Text="Nombre Del Proyecto" placeholder="" id="" />
+                      <Input type="text" Text="Sector Impactado" placeholder="" id="" />
+                      <Input type="text" Text="Responsable" placeholder="" id="" />
                     </div>
-                  ))}
+                 
                 
                 <div class="space-y-2">
                     <label class="font-josefin-slab font-semibold text-black">
