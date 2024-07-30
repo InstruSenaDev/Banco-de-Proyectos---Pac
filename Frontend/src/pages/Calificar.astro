@@ -6,21 +6,25 @@ import BotonSegundo from "../Components/BotonSegundo.astro"
 import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 
-
-//datos falsos
-const API_URL = 'https://669f9862b132e2c136fe7374.mockapi.io/bancodeproyectos/proyecto';
-
 let data = [];
-try {
-  const response = await fetch(API_URL);
-  if (!response.ok) {
-    throw new Error(`Error: ${response.statusText}`);
+
+// Función para obtener proyectos desde la API
+const fetchproyecto = async () => {
+  try {
+    const response = await fetch('http://localhost:4000/api/proyectos'); // Asegúrate de que la URL es correcta
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      console.error('Error al obtener los proyectos:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error de red al obtener los proyectos:', error);
   }
-  data = await response.json();
-  console.log('Fetched data:', data);  // Verifica si los datos se están obteniendo correctamente
-} catch (error) {
-  console.error('Fetch error:', error);
-}
+};
+
+
+// Llamar a la función para obtener los proyectos
+await fetchproyecto();
 ---
 
 <Layoutprincipal title="Proyectos">
@@ -39,15 +43,17 @@ try {
             </div>
 
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab">
-                {data.length > 0 ? (
-                  data.map((proyecto) => (
-                    <CardProyect Text={proyecto.nombre} >
-                      <BotonSegundo Text="Ver" />
-                    </CardProyect>
-                  ))
-                ) : (
-                  <p>No hay proyectos para mostrar.</p>
-                )}
+              {data.length > 0 ? (
+                data.map((proyecto) => (
+                  
+                  <CardProyect  Text={proyecto.nombre}>
+
+                    <a href={`/Calificar2/${proyecto.id}`}><BotonSegundo Text="Ver" /> </a>
+                  </CardProyect> 
+                ))
+              ) : (
+                <p class="text-center">No hay proyectos para mostrar.</p>
+              )}
               </div>
         </div>
     </div>

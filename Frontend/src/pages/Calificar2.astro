@@ -7,13 +7,28 @@ import RadioButton from "../Components/RadioButton.astro"
 import BotonSegundo from "../Components/BotonSegundo.astro"
 import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro"
 
+// Obtener el ID del proyecto de la URL
+const { id } = Astro.params;
 
-// ID del proyecto que deseas mostrar
-const projectId = 1; // Cambia este ID según el proyecto que quieras mostrar
+// Estado para almacenar los detalles del proyecto
+let data = {};
 
-// URL de la API con el ID del proyecto
-const API_URL = `https://669f9862b132e2c136fe7374.mockapi.io/bancodeproyectos/proyecto/${projectId}`;
+// Función para obtener los detalles del proyecto
+const fetchProyecto = async () => {
+  try {
+    const response = await fetch(`http://localhost:4000/api/proyectos/${id}`);
+    if (response.ok) {
+      data = await response.json();
+    } else {
+      console.error('Error al obtener el proyecto:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error de red al obtener el proyecto:', error);
+  }
+};
 
+// Llamar a la función para obtener los detalles del proyecto
+await fetchProyecto();
 ---
 
 
@@ -27,7 +42,7 @@ const API_URL = `https://669f9862b132e2c136fe7374.mockapi.io/bancodeproyectos/pr
             <div class="flex font-josefin-slab flex-col space-y-8">
                 
                     <div class="space-y-4">
-                      <Input type="text" Text="Nombre Del Proyecto" placeholder="" id="" />
+                      <Input type="text" Text="Nombre Del Proyecto" placeholder="" id=""/>
                       <Input type="text" Text="Sector Impactado" placeholder="" id="" />
                       <Input type="text" Text="Responsable" placeholder="" id="" />
                     </div>
@@ -63,8 +78,9 @@ const API_URL = `https://669f9862b132e2c136fe7374.mockapi.io/bancodeproyectos/pr
             </div>
 
             <div class="flex flex-col items-center justify-center lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6 ">
-                   <a href="/Calificar3"> <BotonSegundo Text="Siguiente"/> </a>
+                   
                    <a href="/Calificar"> <BotonPrincipal Text="Atras"/> </a>
+                   <a href="/Calificar3"> <BotonSegundo Text="Siguiente"/> </a>
             </div>
 
         </div>
