@@ -97,10 +97,29 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
     }
 }
 
-export { 
-    getAllPersonas, 
-    getAllUsuario, 
-    registerPerson, 
+// Función para obtener todas las preguntas junto con sus categorías
+async function getAllAlcances() {
+    try {
+        const client = await pool.connect();
+        const query = `
+            SELECT a.idalcance, a.descripcion, a.aplica, c.nombre as categoria 
+            FROM alcance a
+            JOIN categoriasalcance c ON a.idcategoriasalcance = c.idcategoriasalcance
+        `;
+        const result = await client.query(query);
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener alcances:', error);
+        throw error;
+    }
+}
+
+export {
+    getAllPersonas,
+    getAllUsuario,
+    registerPerson,
     loginPerson,
-    registerProject
+    registerProject,
+    getAllAlcances 
 };
