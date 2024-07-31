@@ -48,7 +48,10 @@ await fetchproyecto();
                   
                   <CardProyect  Text={proyecto.nombre}>
 
-                    <a href={`/Calificar2/${proyecto.id}`}><BotonSegundo Text="Ver" /> </a>
+                    <a href={`/Calificar2/${proyecto.id}`}>
+                      <BotonSegundo Text="Ver" />
+                    </a>
+
                   </CardProyect> 
                 ))
               ) : (

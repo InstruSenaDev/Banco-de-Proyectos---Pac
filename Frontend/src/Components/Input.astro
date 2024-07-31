@@ -4,9 +4,10 @@ interface Props {
     type: "text" | "email" | "password" | "number";
     Text: string;
     id: string; 
+    value: string;
 }
 
-const { placeholder, type, Text, id } = Astro.props;
+const { placeholder, type, Text, id, value } = Astro.props;
 ---
 
 <div class="space-y-2 w-full">
@@ -15,6 +16,7 @@ const { placeholder, type, Text, id } = Astro.props;
         id={id} 
         type={type} 
         placeholder={placeholder} 
+        value={value}
         required 
         class="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]">
 
