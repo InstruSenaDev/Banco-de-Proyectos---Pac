@@ -1,25 +1,36 @@
 ---
 export interface Props {
-  href: string;
-  label: string;
-  icon?: string; // Optional icon class
+  menuItems?: {
+    href: string;
+    label: string;
+    icon?: string;
+  }[];
 }
 
-const { href, label, icon } = Astro.props;
+const { menuItems = [] } = Astro.props; // Proporciona un valor predeterminado vacío si no se pasa `menuItems`
 ---
 
-<li>
-
-  <a href={href} class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
-
-    <div>
-      {icon ? <i class={icon + " flex-shrink-0 w-5 h-5  dark:text-black "} aria-hidden="true"></i> :
-      <svg class="" aria-hidden="true">
-        
-      </svg>}
-    </div>
-    <span class="flex-1 ms-3 whitespace-nowrap pl-3">
-      {label}
-    </span>
-  </a>
-</li>
+<ul class="space-y-3 font-medium">
+  {menuItems.length > 0 ? (
+    menuItems.map((item) => (
+      <li>
+        <a href={item.href} class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
+          <div>
+            {item.icon ? (
+              <i class={item.icon + " flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black"} aria-hidden="true"></i>
+            ) : (
+              <svg class="flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                <!-- SVG path here -->
+              </svg>
+            )}
+          </div>
+          <span class="flex-1 ms-3 whitespace-nowrap">
+            {item.label}
+          </span>
+        </a>
+      </li>
+    ))
+  ) : (
+    <li class="p-2 text-gray-500">No hay ítems disponibles</li>
+  )}
+</ul>
