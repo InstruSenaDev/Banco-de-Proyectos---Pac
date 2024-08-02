@@ -7,6 +7,7 @@ import Modal from "../Components/Modal.astro"
 import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro"
 import CardAreas from "../Components/CardAreas.astro"
 import { InputSelect } from "../Components/InputSelect";
+import SelectBoxArea from "../Components/SelectBoxArea.astro"
 
 ---
 <style>
@@ -35,15 +36,23 @@ import { InputSelect } from "../Components/InputSelect";
     <Layoutcontenido5 title="Tipos de Area">
         <div class="w-full md:w-1/2 " >
             <div class="flex flex-col p-[5%] Flex-box space-y-5">
-            <InputSelect>
-                
+                <div>
+                <SelectBoxArea Text="Eligue el area" id="">
+                    <span id="nombreError" class="error-message"></span>
+                </div>
+
+                <div>
+                    <Input Text="Nombre del usuario:" placeholder="Nombre del usuario" type="text" id="nombreUsu"/>
+                    <span id="nombreError" class="error-message"></span>
+                </div>
+
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                    <BotonSegundo Text="Guardar" id="guardarBtn"/>
+                </div>
+            </div>
+        </div>
+
             
-            
-            
-            </InputSelect>
-    
-                
-        
     <Modal Text="Areas agregadas"/>
 
     </Layoutcontenido>
