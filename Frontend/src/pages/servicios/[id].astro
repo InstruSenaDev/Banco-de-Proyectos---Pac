@@ -1,71 +1,57 @@
-<!-- ---
-import Layoutprincipal from '../../layouts/Layoutprincipal.astro';
-import Layoutcontenido2 from '../../layouts/Layoutcontenido2.astro';
-import { ListProject } from '../../Components/ListProject.jsx';
-import { ListItem } from '@tremor/react';
-import BotonPrincipal from '../../Components/BotonPrincipal.astro';
-import BotonSegundo from '../../Components/BotonSegundo.astro';
+---
+import Layoutprincipal from "../../layouts/Layoutprincipal.astro"
+import Layoutcontenido2 from "../../layouts/Layoutcontenido2.astro"
+import { ListProject } from "../../Components/ListProject";
+import BotonPrincipal from "../../Components/BotonPrincipal.astro";
+import BotonSegundo from "../../Components/BotonSegundo.astro";
+import { ListItem } from "@tremor/react"
 
 
-// Obtener rutas estáticas
-export async function getStaticPaths() {
-  // Obtener todos los proyectos
-  const response = await fetch('http://localhost:4000/api/proyectos');
-  const projects = await response.json();
+export const prerender = true;
 
-  // Generar rutas
-  const paths = projects.map((project) => ({
-    params: { id: project.id.toString() },
-  }));
 
-  return { paths };
-}
+// Obtén el parámetro `id` de la URL
+const { id } = Astro.params;
 
-// Obtener datos estáticos para cada ruta
-export async function getStaticProps({ params }) {
-  const { id } = params;
-  const response = await fetch(`http://localhost:4000/api/proyectos/${id}`);
-  
-  if (!response.ok) {
-    return { props: { project: null } }; // Manejo de error si no se encuentra el proyecto
-  }
+// Define el objeto del proyecto con valores predeterminados
+let proyecto = { nombre: '', impacto: '', responsable: '', disponibilidad:'', dia:'', idalcance:'', idobjetivos:'', idarea:'', idficha:'', idpersona:'' };
 
-  const project = await response.json();
 
-  return { props: { project } };
-}
+// Función para obtener la información del proyecto desde la API
+const fetchProyecto = async () => {
+    try {
+        const response = await fetch(`http://localhost:4000/api/proyectos/${id}`);
+        if (response.ok) {
+            proyecto = await response.json();
+        } else {
+            console.error('Error al obtener el proyecto:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error de red al obtener el proyecto:', error);
+    }
+};
 
-// Renderizar el componente
-const { project } = Astro.props;
-
-if (!project) {
-  return (
-    <Layoutprincipal title="Proyecto No Encontrado">
-      <h1>Proyecto No Encontrado</h1>
-      <p>Lo siento, este proyecto no existe.</p>
-    </Layoutprincipal>
-  );
-}
-
+// Llamar a la función para obtener el proyecto
+await fetchProyecto();
 ---
 
 <Layoutprincipal title="Detalle del proyecto">
-  <Layoutcontenido2 title="" text1="Detalle del proyecto">
-    <div class="lg:w-full w-full lg:h-auto">
-      <ListProject>
-        <ListItem>
-          <span class="text-xl">Nombre del proyecto</span>
-          <span class="text-xl">{project.nombre}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Sector impactado</span>
-          <span class="text-xl">{project.sector}</span>
-        </ListItem>
-      </ListProject>
-      <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6">
-        <a href="/Calificar"><BotonPrincipal client:visible Text="Atras"/></a>
-        <a href="/Calificar3"><BotonSegundo client:visible Text="Siguiente"/></a>
-      </div>
-    </div>
-  </Layoutcontenido2>
-</Layoutprincipal> -->
+    <Layoutcontenido2 title="" text1="Detalle del proyecto">
+        <div class="lg:w-full w-full lg:h-auto ">
+            <ListProject>
+                <ListItem>
+                    <span class="text-xl">Nombre del proyecto</span>
+                    <span class="text-xl">{proyecto.nombre}</span>
+                </ListItem>
+                <ListItem>
+                    <span class="text-xl">Sector impactado</span>
+                    <span class="text-xl">{proyecto.impacto}</span>
+                </ListItem>
+            </ListProject>
+            <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6 ">
+                <a href="/Calificar"> <BotonPrincipal client:visible Text="Atras"/> </a>
+                <a href="/Calificar3"> <BotonSegundo client:visible Text="Siguiente"/> </a>
+            </div>
+        </div>
+    </Layoutcontenido2>
+</Layoutprincipal>
