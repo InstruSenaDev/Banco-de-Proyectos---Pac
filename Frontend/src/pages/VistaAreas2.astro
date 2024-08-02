@@ -1,32 +1,56 @@
 ---
 import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
-import CardAreas from "../Components/CardAreas.astro";
+import Card from "../Components/Card.astro";
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro";
-import BotonSegundo from "../Components/BotonSegundo.astro";
----
 
+
+
+const areas = [
+  "Gestión de Recursos Humanos (HR)",
+  "Gestión de la Relación con Clientes (CRM)",
+  "Atención al Cliente y Soporte",
+  "Comercio Electrónico",
+  "Marketing y Publicidad",
+  "Desarrollo y Tecnología",
+  "Educación y Formación",
+  "Salud y Bienestar",
+  "Logística y Transporte",
+  "Creatividad y Diseño",
+  "Sector Público y ONGs",
+  "Otras Funcionalidades Especializadas",
+  
+];
+---
 
 <LayoutPrincipal title="">
 
+  <Layoutcontenido title="">
 
-<Layoutcontenido title="">
+    <div class="p-8">
+      <h1 class="text-3xl font-bold font-josefin-slab">Tipos De Áreas </h1>
+      <p class="text-lg font-josefin-slab">Por favor seleccione el área en la cual se centrará su proyecto</p>
+    </div>
 
     <div class="flex justify-center">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 ">
-            <CardAreas Text="1. Gestión De Recursos Humanos" Text2="Reclutamiento y Selección" Text3="d" Text4="c" Text5="Capacitacion y Desarrollo"/>
-            <CardAreas Text="2. Gestión de la Relación con Clientes" Text2="d" Text3="d" Text4="c" Text5="Capacitacion y Desarrollo"/>
-            <CardAreas Text="Gestión Empresarial" Text2="d" Text3="d" Text4="c" Text5="j"/>
-            <CardAreas Text="Gestión Empresarial" Text2="d" Text3="d" Text4="c" Text5="j"/>
-            
-        </div>
-        
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <!-- Usa un bucle para renderizar un componente Card para cada área -->
+        {areas.map(area => (
+          <a href={`/VistaItemsAreas?area=${encodeURIComponent(area)}`}>
+            <Card Text={area} />
+          </a>
+        ))}
+
+      </div>
     </div>
+
     <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-        <a href="/VistaAreas1" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8 ">
-            <BotonPrincipal Text="Volver" />
-        </a>
+      <a href="/RegistroProyecto" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8 ">
+        <BotonPrincipal Text="Volver" />
+      </a>
     </div>
-</Layoutcontenido>
+
+  </Layoutcontenido>
 
 </LayoutPrincipal>

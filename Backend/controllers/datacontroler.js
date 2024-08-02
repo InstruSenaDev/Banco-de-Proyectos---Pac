@@ -118,7 +118,7 @@ async function getAllAlcances() {
 async function getAllAreas() {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT idarea, area FROM area'); // Ajusta la consulta para devolver los campos idarea y area
+        const result = await client.query('SELECT idarea, area, estado FROM area');
         client.release();
         return result.rows;
     } catch (error) {
@@ -126,6 +126,7 @@ async function getAllAreas() {
         throw error;
     }
 }
+
 
 
 export {
