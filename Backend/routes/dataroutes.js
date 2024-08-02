@@ -1,7 +1,24 @@
 import express from 'express';
+import { supabase } from '../config/supabaseClient.js';
 import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha } from '../controllers/datacontroler.js';
 
 const router = express.Router();
+
+// routes/dataroutes.js
+router.post('/reset-password', async (req, res) => {
+    const { email } = req.body;
+
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'http://localhost:3000/update-password' // Cambia esta URL según tu configuración
+    });
+
+    if (error) {
+        console.error('Error al enviar el enlace de restablecimiento:', error);
+        return res.status(500).json({ error: 'Error al enviar el enlace de restablecimiento' });
+    }
+
+    res.status(200).json({ message: 'Enlace de restablecimiento enviado' });
+});
 
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {

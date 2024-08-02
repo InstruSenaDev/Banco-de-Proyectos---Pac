@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const correoValue = correoInicio ? correoInicio.value.trim() : '';
 
             try {
-                const response = await fetch('http://localhost:4000/api/forgot-password', {
+                const response = await fetch('http://localhost:4000/api/reset-password', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ correo: correoValue })
+                    body: JSON.stringify({ email: correoValue })
                 });
 
                 if (!response.ok) {
@@ -35,18 +35,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-});
 
+    const modal = document.querySelector('.modal');
+    const showModal = document.querySelector('.show-modal');
+    const closeModal = document.querySelector('.close-modal');
 
-const modal = document.querySelector('.modal');
+    showModal?.addEventListener('click', function() {
+        modal?.classList.remove('hidden');
+    });
 
-const showModal = document.querySelector('.show-modal');
-const closeModal = document.querySelector('.close-modal')
-
-showModal?.addEventListener('click', function(){
-    modal?.classList.remove('hidden')
-});
-
-closeModal?.addEventListener('click', function(){
-    modal?.classList.add('hidden')
+    closeModal?.addEventListener('click', function() {
+        modal?.classList.add('hidden');
+    });
 });
