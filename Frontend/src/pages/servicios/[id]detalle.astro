@@ -1,0 +1,53 @@
+---
+import Layoutprincipal from "../../layouts/Layoutprincipal.astro"
+import Layoutcontenido2 from "../../layouts/Layoutcontenido2.astro"
+import { ListProject } from "../../Components/ListProject";
+import BotonPrincipal from "../../Components/BotonPrincipal.astro";
+import BotonSegundo from "../../Components/BotonSegundo.astro";
+import { ListItem } from "@tremor/react"
+// import { fetch } from 'astro';
+
+// Obtén el parámetro `id` de la URL
+const { id } = Astro.params;
+
+// Define el objeto del proyecto con valores predeterminados
+let proyecto = { nombre: '', impacto: '' };
+
+// Función para obtener la información del proyecto desde la API
+const fetchProyecto = async () => {
+    try {
+        const response = await fetch(`http://localhost:4000/api/proyectos/${id}`);
+        if (response.ok) {
+            proyecto = await response.json();
+        } else {
+            console.error('Error al obtener el proyecto:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error de red al obtener el proyecto:', error);
+    }
+};
+
+// Llamar a la función para obtener el proyecto
+await fetchProyecto();
+---
+
+<Layoutprincipal title="Detalle del proyecto">
+    <Layoutcontenido2 title="" text1="Detalle del proyecto">
+        <div class="lg:w-full w-full lg:h-auto ">
+            <ListProject>
+                <ListItem>
+                    <span class="text-xl">Nombre del proyecto</span>
+                    <span class="text-xl">{proyecto.nombre}</span>
+                </ListItem>
+                <ListItem>
+                    <span class="text-xl">Sector impactado</span>
+                    <span class="text-xl">{proyecto.impacto}</span>
+                </ListItem>
+            </ListProject>
+            <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6 ">
+                <a href="/Calificar"> <BotonPrincipal client:visible Text="Atras"/> </a>
+                <a href="/Calificar3"> <BotonSegundo client:visible Text="Siguiente"/> </a>
+            </div>
+        </div>
+    </Layoutcontenido2>
+</Layoutprincipal>

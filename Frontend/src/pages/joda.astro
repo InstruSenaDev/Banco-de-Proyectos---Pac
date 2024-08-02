@@ -1,0 +1,67 @@
+---
+import Layoutprincipal from "../layouts/Layoutprincipal.astro"
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import RadioButton from "../Components/RadioButton.astro"
+import BotonSegundo from "../Components/BotonSegundo.astro"
+import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro"
+import {ListProject} from "../Components/ListProject.jsx"
+import { ListItem } from "@tremor/react"
+
+const { id } = Astro.params;
+let proyecto = {nombre: '', impacto: '' };
+
+const fetchProyecto = async () => {
+    try {
+        const response = await fetch(`http://localhost:4000/api/${id}/proyectos`);
+        if (response.ok) {
+            proyecto = await response.json();
+        }else {
+            console.error('Error al obtener el proyecto:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error de red al obtener el proyecto:', error);
+    }
+};
+
+await fetchProyecto();
+
+
+
+---
+
+
+<Layoutprincipal title="Detalle del proyecto">
+
+    <Layoutcontenido2 title="" text1="Detalle del proyecto">
+
+    <div class="lg:w-full w-full lg:h-auto ">
+
+        <ListProject>
+            <ListItem>
+                <span class="text-xl">Nombre del proyecto</span>
+                <span class="text-xl">{proyecto.nombre}</span>
+              </ListItem>
+              <ListItem>
+                <span class="text-xl">Sector impactado</span>
+                <span class="text-xl">{proyecto.impacto}</span>
+              </ListItem>
+
+
+        </ListProject>
+
+
+        <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6 ">
+                   
+            <a href="/Calificar"> <BotonPrincipal client:visible Text="Atras"/> </a>
+            <a href="/Calificar3"> <BotonSegundo client:visible Text="Siguiente"/> </a>
+        </div>
+    
+    </div>
+
+
+</Layoutcontenido2>
+
+
+</Layoutprincipal>
+

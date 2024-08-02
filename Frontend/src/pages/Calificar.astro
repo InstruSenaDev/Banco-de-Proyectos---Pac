@@ -46,11 +46,12 @@ await fetchproyecto();
               {data.length > 0 ? (
                 data.map((proyecto) => (
                   
-                  <CardProyect  Text={proyecto.nombre}>
+                  <CardProyect  Text={proyecto.nombre} id={proyecto.id}>
 
-                    <a href="/Calificar2/">
+                    <a href={`/joda/${proyecto.id}`}>
                       <BotonSegundo Text="Ver" />
                     </a>
+                    
 
                   </CardProyect> 
                 ))

@@ -1,0 +1,71 @@
+<!-- ---
+import Layoutprincipal from '../../layouts/Layoutprincipal.astro';
+import Layoutcontenido2 from '../../layouts/Layoutcontenido2.astro';
+import { ListProject } from '../../Components/ListProject.jsx';
+import { ListItem } from '@tremor/react';
+import BotonPrincipal from '../../Components/BotonPrincipal.astro';
+import BotonSegundo from '../../Components/BotonSegundo.astro';
+
+
+// Obtener rutas estáticas
+export async function getStaticPaths() {
+  // Obtener todos los proyectos
+  const response = await fetch('http://localhost:4000/api/proyectos');
+  const projects = await response.json();
+
+  // Generar rutas
+  const paths = projects.map((project) => ({
+    params: { id: project.id.toString() },
+  }));
+
+  return { paths };
+}
+
+// Obtener datos estáticos para cada ruta
+export async function getStaticProps({ params }) {
+  const { id } = params;
+  const response = await fetch(`http://localhost:4000/api/proyectos/${id}`);
+  
+  if (!response.ok) {
+    return { props: { project: null } }; // Manejo de error si no se encuentra el proyecto
+  }
+
+  const project = await response.json();
+
+  return { props: { project } };
+}
+
+// Renderizar el componente
+const { project } = Astro.props;
+
+if (!project) {
+  return (
+    <Layoutprincipal title="Proyecto No Encontrado">
+      <h1>Proyecto No Encontrado</h1>
+      <p>Lo siento, este proyecto no existe.</p>
+    </Layoutprincipal>
+  );
+}
+
+---
+
+<Layoutprincipal title="Detalle del proyecto">
+  <Layoutcontenido2 title="" text1="Detalle del proyecto">
+    <div class="lg:w-full w-full lg:h-auto">
+      <ListProject>
+        <ListItem>
+          <span class="text-xl">Nombre del proyecto</span>
+          <span class="text-xl">{project.nombre}</span>
+        </ListItem>
+        <ListItem>
+          <span class="text-xl">Sector impactado</span>
+          <span class="text-xl">{project.sector}</span>
+        </ListItem>
+      </ListProject>
+      <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6">
+        <a href="/Calificar"><BotonPrincipal client:visible Text="Atras"/></a>
+        <a href="/Calificar3"><BotonSegundo client:visible Text="Siguiente"/></a>
+      </div>
+    </div>
+  </Layoutcontenido2>
+</Layoutprincipal> -->
