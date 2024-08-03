@@ -83,6 +83,6 @@ router.post('/registerFicha', async (req, res) => {
         res.status(500).json({ error: 'Error al registrar ficha' });
     }
 });
-  
+
 
 export default router;

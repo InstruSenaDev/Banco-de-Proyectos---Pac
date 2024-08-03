@@ -1,10 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const formu = document.getElementById('formu');
     const correoInicio = document.getElementById('CorreoInicio');
     const correoError = document.getElementById('correoError');
 
     if (formu) {
-        formu.addEventListener('submit', async function(event) {
+        formu.addEventListener('submit', async function (event) {
             event.preventDefault();
 
             const correoValue = correoInicio ? correoInicio.value.trim() : '';
@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const showModal = document.querySelector('.show-modal');
     const closeModal = document.querySelector('.close-modal');
 
-    showModal?.addEventListener('click', function() {
+    showModal?.addEventListener('click', function () {
         modal?.classList.remove('hidden');
     });
 
-    closeModal?.addEventListener('click', function() {
+    closeModal?.addEventListener('click', function () {
         modal?.classList.add('hidden');
     });
 });
