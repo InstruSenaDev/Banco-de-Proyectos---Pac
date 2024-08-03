@@ -21,9 +21,12 @@ async function getAllProyectos() {
 // Función para obtener un proyecto por ID
 async function getProyectoById(id) {
     try {
-        const numericId = parseInt(id >=0 ); // Convertir a entero
+        const numericId = parseInt(id); // Convertir a entero
+        if (isNaN(numericId)) {
+            throw new Error('ID inválido');
+        }
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM proyecto WHERE idproyecto = $1', [idproyecto]);
+        const result = await client.query('SELECT * FROM proyecto WHERE idproyecto = $1', [numericId]);
         client.release();
         if (result.rows.length > 0) {
             return result.rows[0];
@@ -35,5 +38,4 @@ async function getProyectoById(id) {
         throw error;
     }
 }
-
 export { getAllProyectos, getProyectoById };
