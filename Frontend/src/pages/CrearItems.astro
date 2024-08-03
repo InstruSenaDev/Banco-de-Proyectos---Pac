@@ -7,7 +7,7 @@ import Modal from "../Components/Modal.astro"
 import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro"
 import CardAreas from "../Components/CardAreas.astro"
 import { InputSelect } from "../Components/InputSelect";
-import SelectBoxArea from "../Components/SelectBoxArea.astro"
+import SelectBoxTipo from "../Components/SelecBoxTipo.astro"
 
 ---
 <style>
@@ -33,18 +33,35 @@ import SelectBoxArea from "../Components/SelectBoxArea.astro"
 </style>
 
 <LayoutPrincipal title="">
-    <Layoutcontenido5 title="Tipos de Area">
+    <Layoutcontenido5 title="Items">
         <div class="w-full md:w-1/2 " >
-            <div class="flex flex-col p-[5%] Flex-box space-y-5">
+            <div class="flex flex-col p-[5%] Flex-box space-y-9">
                 <div>
-                    <SelectBoxArea Text="Area" id="tipoDoc"/>
+                    <SelectBoxTipo Text="Area" id="tipoDoc"/>
                     <span id="tipoDocError" class="error-message"></span>
+                </div>
+                
+               <div class=" space-y-3"> 
+                <div>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
+                    <span id="nombreError" class="error-message"></span>
                 </div>
 
                 <div>
-                    <Input Text="Tipo de Area" placeholder="Infrese tipo de area" type="text" id="nombreUsu"/>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
                     <span id="nombreError" class="error-message"></span>
                 </div>
+
+                <div>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
+                    <span id="nombreError" class="error-message"></span>
+                </div>
+
+                <div>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
+                    <span id="nombreError" class="error-message"></span>
+                </div>
+            </div>
 
                 <div class="flex justify-center items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
                     <a href="/VistaCrearRegistro"> 
