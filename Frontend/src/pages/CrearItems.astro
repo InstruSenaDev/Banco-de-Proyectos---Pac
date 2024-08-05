@@ -3,10 +3,8 @@ import Input from "../Components/Input.astro"
 import BotonSegundo from "../Components/BotonSegundo.astro"
 import RadioButton from "../Components/RadioButton.astro"
 import LayoutPrincipal from "../layouts/Layoutprincipal.astro"
-import Modal from "../Components/Modal.astro"
 import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro"
 import CardAreas from "../Components/CardAreas.astro"
-import { InputSelect } from "../Components/SelectBox
 import SelectBoxTipo from "../Components/SelecBoxTipo.astro"
 
 ---
@@ -37,45 +35,42 @@ import SelectBoxTipo from "../Components/SelecBoxTipo.astro"
         <div class="w-full md:w-1/2 " >
             <div class="flex flex-col p-[5%] Flex-box space-y-9">
                 <div>
-                    <SelectBoxTipo Text="Area" id="tipoDoc"/>
-                    <span id="tipoDocError" class="error-message"></span>
+                    <SelectBoxTipo Text="Area" id="Tipo"/>
+                    <span id="tipoError" class="error-message"></span>
                 </div>
-                
-               <div class=" space-y-3"> 
+
+            <div class=" space-y-3">
                 <div>
-                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreTipo"/>
                     <span id="nombreError" class="error-message"></span>
                 </div>
 
                 <div>
-                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreTipo"/>
                     <span id="nombreError" class="error-message"></span>
                 </div>
 
                 <div>
-                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreTipo"/>
                     <span id="nombreError" class="error-message"></span>
                 </div>
 
                 <div>
-                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreUsu"/>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="nombreTipo"/>
                     <span id="nombreError" class="error-message"></span>
                 </div>
             </div>
 
-                <div class="flex justify-center items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
-                    <a href="/VistaCrearRegistro"> 
+                <div class="flex justify-center items-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                    <a href="/VistaCrearRegistro">
                     <BotonSegundo Text="Guardar" id="guardarBtn"/>
                 </a>
                 </div>
-    
-                
 
             </div>
         </div>
 
-            
-    <Modal Text="Areas agregadas"/>
+        <script src=""></script>
 
     </Layoutcontenido>
 </LayoutPrincipal>
