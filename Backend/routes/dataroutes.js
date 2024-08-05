@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, registerTipoDeArea } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -21,6 +21,17 @@ router.get('/usuarios', async (req, res) => {
         res.json(usuarios);
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para obtener todas las áreas
+router.get('/areas', async (req, res) => {
+    try {
+        const areas = await getAllAreas();
+        res.json(areas);
+    } catch (error) {
+        console.error('Error al obtener áreas:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
@@ -66,6 +77,51 @@ router.post('/registerFicha', async (req, res) => {
         res.status(500).json({ error: 'Error al registrar ficha' });
     }
 });
-  
+
+
+// Ruta para registrar una nueva área
+router.post('/registerArea', async (req, res) => {
+    try {
+        const { area, estado } = req.body;
+        console.log('Datos recibidos en la solicitud:', req.body);
+        const newArea = await registerArea({ area, estado });
+        if (newArea.error) {
+            res.status(400).json({ error: newArea.error });
+        } else {
+            res.status(201).json(newArea);
+        }
+    } catch (error) {
+        console.error('Error al registrar área:', error.message, error.stack);
+        res.status(500).json({ error: 'Error al registrar área', details: error.message });
+    }
+});
+
+// Ruta para obtener tipos de área para una área específica
+router.get('/tipos-de-area/:areaId', async (req, res) => {
+    try {
+        const { idarea } = req.params;
+        const tiposDeArea = await getTiposDeArea(idarea);
+        res.json(tiposDeArea);
+    } catch (error) {
+        console.error('Error al obtener tipos de área:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para registrar un nuevo tipo de área
+router.post('/registerTipoDeArea', async (req, res) => {
+    try {
+        const { tiposdearea, estado, idarea } = req.body;
+        const newTipoDeArea = await registerTipoDeArea({tiposdearea, estado, idarea});
+        if (newTipoDeArea.error) {
+            res.status(400).json({ error: newTipoDeArea.error });
+        } else {
+            res.status(201).json(newTipoDeArea);
+        }
+    } catch (error) {
+        console.error('Error al registrar tipo de área:', error.message, error.stack);
+        res.status(500).json({ error: 'Error al registrar tipo de área', details: error.message });
+    }
+});
 
 export default router;

@@ -3,11 +3,15 @@ import Input from "../Components/Input.astro"
 import BotonSegundo from "../Components/BotonSegundo.astro"
 import RadioButton from "../Components/RadioButton.astro"
 import LayoutPrincipal from "../layouts/Layoutprincipal.astro"
-import Modal from "../Components/Modal.astro"
 import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro"
 import CardAreas from "../Components/CardAreas.astro"
-import { InputSelect } from "../Components/InputSelect";
 import SelectBoxArea from "../Components/SelectBoxArea.astro"
+
+const areas = [
+    { value: '1', label: 'Área 1' },
+    { value: '2', label: 'Área 2' },
+    // más opciones...
+];
 
 ---
 <style>
@@ -37,28 +41,32 @@ import SelectBoxArea from "../Components/SelectBoxArea.astro"
         <div class="w-full md:w-1/2 " >
             <div class="flex flex-col p-[5%] Flex-box space-y-5">
                 <div>
-                    <SelectBoxArea Text="Area" id="tipoDoc"/>
-                    <span id="tipoDocError" class="error-message"></span>
+                    <SelectBoxArea Text="Area" id="Area" options={areas}/>
+                    <span id="AreaError" class="error-message"></span>
                 </div>
 
                 <div>
-                    <Input Text="Tipo de Area" placeholder="Infrese tipo de area" type="text" id="nombreUsu"/>
-                    <span id="nombreError" class="error-message"></span>
+                    <Input Text="Tipo de Area" placeholder="Ingrese tipo de area" type="text" id="nombreTipoArea"/>
+                    <span id="TipoAreaError" class="error-message"></span>
                 </div>
 
-                <div class="flex justify-center items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
-                    <a href="/VistaCrearRegistro"> 
+                <div class="space-y-4">
+                    <h1>Estado:</h1>
+                    <div class="flex h-[23px]">
+                        <RadioButton Text="Activo" id="estadoActivo" />
+                        <RadioButton Text="Inactivo" id="estadoInactivo" />
+                    </div>
+                    <span id="estadoError" class="error-message"></span>
+                </div>
+
+                <div class="flex justify-center items-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
                     <BotonSegundo Text="Guardar" id="guardarBtn"/>
                 </a>
                 </div>
-    
-                
-
             </div>
         </div>
 
-            
-    <Modal Text="Areas agregadas"/>
+        <script src="../js/TipodeArea.js"></script>
 
     </Layoutcontenido>
 </LayoutPrincipal>
