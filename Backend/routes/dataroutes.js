@@ -20,6 +20,7 @@ router.get('/proyectos', async (req, res) => {
 router.get('/proyectos/:id', async (req, res) => {
     try {
         const { id } = req.params;
+        console.log(`ID recibido en el backend: ${id}`); // Verifica el valor del ID
         const proyecto = await getProyectoById(id);
 
         if (proyecto) {
