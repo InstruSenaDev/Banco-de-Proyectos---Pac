@@ -21,7 +21,7 @@ async function getAllProyectos() {
 // Función para obtener un proyecto por ID
 async function getProyectoById(id) {
     try {
-        const numericId = parseInt(id > 0); // Convertir a entero
+        const numericId = parseInt(id); // Convertir a entero
         if (isNaN(numericId)) {
             throw new Error('ID inválido');
         }
@@ -38,4 +38,5 @@ async function getProyectoById(id) {
         throw error;
     }
 }
+
 export { getAllProyectos, getProyectoById };
