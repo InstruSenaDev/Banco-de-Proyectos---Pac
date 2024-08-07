@@ -7,12 +7,24 @@ import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro"
 import CardAreas from "../Components/CardAreas.astro"
 import SelectBoxArea from "../Components/SelectBoxArea.astro"
 
-const areas = [
-    { value: '1', label: 'Área 1' },
-    { value: '2', label: 'Área 2' },
-    // más opciones...
-];
+// Función para obtener las áreas desde la API
+const fetchAreas = async () => {
+  try {
+    const response = await fetch('http://localhost:4000/api/areas');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data.map(area => ({ value: area.area, label: area.area }));
+  } catch (error) {
+    console.error('Error al obtener áreas:', error);
+    return []; 
+  }
+};
 
+
+// Obtén los datos
+const areas = await fetchAreas();
 ---
 <style>
     body {
@@ -40,10 +52,8 @@ const areas = [
     <Layoutcontenido5 title="Tipos de Area">
         <div class="w-full md:w-1/2 " >
             <div class="flex flex-col p-[5%] Flex-box space-y-5">
-                <div>
-                    <SelectBoxArea Text="Area" id="Area" options={areas}/>
-                    <span id="AreaError" class="error-message"></span>
-                </div>
+
+                <SelectBoxArea Text="Seleccione un área" options={areas} />
 
                 <div>
                     <Input Text="Tipo de Area" placeholder="Ingrese tipo de area" type="text" id="nombreTipoArea"/>
