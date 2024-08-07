@@ -154,31 +154,24 @@ async function getTiposDeArea(idarea) {
     }
 }
 
-/// Función para registrar un nuevo tipo de área
+// Función para registrar un nuevo tipo de área
 async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
     try {
-        console.log('Datos recibidos en registerTipoDeArea:', { tiposdearea, estado, idarea });
-
         const client = await pool.connect();
-
-        // Verificar si el tipo de área ya existe para esta área
         const checkQuery = 'SELECT COUNT(*) FROM tiposdearea WHERE idarea = $1 AND tiposdearea = $2';
         const checkResult = await client.query(checkQuery, [idarea, tiposdearea]);
 
         if (parseInt(checkResult.rows[0].count) > 0) {
-            console.log('El tipo de área ya existe.');
             client.release();
             return { error: 'El tipo de área ya existe.' };
         } else {
-            // Insertar el tipo de área si no existe
             const insertQuery = 'INSERT INTO tiposdearea (tiposdearea, estado, idarea) VALUES ($1, $2, $3) RETURNING *';
             const result = await client.query(insertQuery, [tiposdearea, estado, idarea]);
             client.release();
-            console.log('Tipo de área registrado con éxito:', result.rows[0]);
             return result.rows[0];
         }
     } catch (error) {
-        console.error('Error al registrar tipo de área:', error.message, error.stack);
+        console.error('Error al registrar tipo de área:', error);
         throw error;
     }
 }
@@ -187,5 +180,3 @@ async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
 
 
 export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, registerTipoDeArea };
-
-

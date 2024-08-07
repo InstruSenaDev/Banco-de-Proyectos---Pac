@@ -97,18 +97,18 @@ router.post('/registerArea', async (req, res) => {
 });
 
 // Ruta para registrar un nuevo tipo de área
-router.post('/registerTipoDeArea', async (req, res) => {
+router.post('/api/registerTipoDeArea', async (req, res) => {
     try {
         const { tiposdearea, estado, idarea } = req.body;
-        const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
-        if (newTipoDeArea.error) {
-            res.status(400).json({ error: newTipoDeArea.error });
-        } else {
-            res.status(201).json(newTipoDeArea);
+        console.log('Datos recibidos:', { tiposdearea, estado, idarea }); // Depuración
+        if (typeof idarea !== 'number' || isNaN(idarea)) {
+            return res.status(400).json({ error: 'El idarea debe ser un número.' });
         }
+        const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
+        res.status(201).json(newTipoDeArea);
     } catch (error) {
-        console.error('Error al registrar tipo de área:', error.message, error.stack);
-        res.status(500).json({ error: 'Error al registrar tipo de área', details: error.message });
+        console.error('Error en el registro de tipo de área:', error);
+        res.status(500).json({ error: 'Error interno del servidor.' });
     }
 });
 

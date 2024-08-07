@@ -5,16 +5,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const isValid = validateForm();
         if (isValid) {
-            const areaid = document.getElementById("Area").value;
-            const tipoDeArea = document.getElementById("nombreTipoArea").value.trim();
+            const idarea = Number(document.getElementById("Area").value); // Convertir a número
+            const tiposdearea = document.getElementById("nombreTipoArea").value.trim();
             const estado = document.querySelector('input[name="estado"]:checked')?.value;
 
             // Depuración: Mostrar valores capturados
-            console.log('Area ID:', areaid);
-            console.log('Tipo de Área:', tipoDeArea);
+            console.log('Area ID:', idarea);
+            console.log('Tipo de Área:', tiposdearea);
             console.log('Estado:', estado);
 
-            const formData = { areaid, tipoDeArea, estado };
+            const formData = { idarea, tiposdearea, estado };
 
             fetch('http://localhost:4000/api/registerTipoDeArea', {
                 method: 'POST',
