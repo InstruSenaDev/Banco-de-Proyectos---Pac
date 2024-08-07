@@ -6,7 +6,10 @@ import {
     loginPerson, 
     registerProject, 
     getAllAlcances, 
-    getAllAreas
+    getAllAreas,
+    getTiposDeAreaPorArea,
+    
+
 } from '../controllers/datacontroler.js';
 
 const router = express.Router();
@@ -103,4 +106,17 @@ router.get('/areas', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
     }
 });
+
+// Ruta para obtener los tipos de área de acuerdo al área seleccionada
+router.get('/tipos-de-area/:idArea', async (req, res) => {
+    try {
+      const idArea = req.params.idArea;
+      const tiposDeArea = await getTiposDeAreaPorArea(idArea);
+      res.json(tiposDeArea);
+    } catch (error) {
+      console.error('Error al obtener tipos de área:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+  });
+
 export default router;

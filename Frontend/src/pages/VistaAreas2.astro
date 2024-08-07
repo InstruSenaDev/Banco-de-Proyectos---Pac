@@ -5,52 +5,78 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import BotonPrincipal from "../Components/BotonPrincipal.astro";
 
 
+// Función para obtener los tipos de área
+async function fetchTiposDeArea(idArea) {
+  try {
+    const response = await fetch(`http://localhost:4000/api/tipos-de-area/${idArea}`);
+    if (!response.ok) {
+      throw new Error(`Error fetching tipos de area: ${response.statusText}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching tipos de area:', error);
+    return [];  // Devuelve un array vacío en caso de error
+  }
+}
 
-const areas = [
-  "Gestión de Recursos Humanos (HR)",
-  "Gestión de la Relación con Clientes (CRM)",
-  "Atención al Cliente y Soporte",
-  "Comercio Electrónico",
-  "Marketing y Publicidad",
-  "Desarrollo y Tecnología",
-  "Educación y Formación",
-  "Salud y Bienestar",
-  "Logística y Transporte",
-  "Creatividad y Diseño",
-  "Sector Público y ONGs",
-  "Otras Funcionalidades Especializadas",
-  
-];
+// Función para obtener las áreas
+async function fetchAreas() {
+  try {
+    const response = await fetch('http://localhost:4000/api/areas');
+    if (!response.ok) {
+      throw new Error(`Error fetching areas: ${response.statusText}`);
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Error fetching areas:', error);
+    return [];  // Devuelve un array vacío en caso de error
+  }
+}
+
+// Obtén el parámetro del área desde la URL
+const { searchParams } = new URL(import.meta.url);
+const areaSeleccionada = searchParams.get('area');
+
+console.log('Área seleccionada:', areaSeleccionada);
+
+// Si el parámetro `area` es nulo, es posible que la URL no esté configurada correctamente
+if (!areaSeleccionada) {
+  console.error('El parámetro "area" no está presente en la URL.');
+}
+
+// Obtén las áreas y tipos de área desde la API
+const areas = await fetchAreas();
+const area = areas.find(a => a.area === areaSeleccionada);
+
+// Manejo de tipos de área
+const tipos = area ? await fetchTiposDeArea(area.idarea) : [];
+
+console.log('Tipos de área:', tipos);
 ---
 
 <LayoutPrincipal title="">
-
   <Layoutcontenido title="">
-
     <div class="p-8">
-      <h1 class="text-3xl font-bold font-josefin-slab">Tipos De Áreas </h1>
-      <p class="text-lg font-josefin-slab">Por favor seleccione el área en la cual se centrará su proyecto</p>
+      <h1 class="text-3xl font-bold font-josefin-slab">Tipos de Área: {areaSeleccionada}</h1>
+      <p class="text-lg font-josefin-slab">Aquí están los tipos de área disponibles para "{areaSeleccionada}"</p>
     </div>
 
     <div class="flex justify-center">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-        <!-- Usa un bucle para renderizar un componente Card para cada área -->
-        {areas.map(area => (
-          <a href={`/VistaItemsAreas?area=${encodeURIComponent(area)}`}>
-            <Card Text={area} />
-          </a>
-        ))}
-
+        {tipos.length > 0 ? (
+          tipos.map(tipo => (
+            <Card Text={tipo.tiposdearea} />
+          ))
+        ) : (
+          <p class="text-lg font-josefin-slab">No se encontraron tipos de área para "{areaSeleccionada}".</p>
+        )}
       </div>
     </div>
 
     <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-      <a href="/RegistroProyecto" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8 ">
+      <a href="/VistaAreas1" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
         <BotonPrincipal Text="Volver" />
       </a>
     </div>
-
   </Layoutcontenido>
-
 </LayoutPrincipal>

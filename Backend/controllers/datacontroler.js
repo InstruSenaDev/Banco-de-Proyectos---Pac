@@ -127,8 +127,24 @@ async function getAllAreas() {
     }
 }
 
+async function getTiposDeAreaPorArea(idArea) {
+    try {
+      const client = await pool.connect();
+      const query = `
+        SELECT t.idtiposdearea, t.tiposdearea, t.estado
+        FROM tiposdearea t
+        WHERE t.idarea = $1
+      `;
+      const result = await client.query(query, [idArea]);
+      client.release();
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener tipos de área:', error);
+      throw error;
+    }
+  }
 
-
+  
 export {
     getAllPersonas,
     getAllUsuario,
@@ -136,5 +152,6 @@ export {
     loginPerson,
     registerProject,
     getAllAlcances,
-    getAllAreas
+    getAllAreas,
+    getTiposDeAreaPorArea
 };
