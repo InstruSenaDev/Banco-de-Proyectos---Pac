@@ -96,23 +96,11 @@ router.post('/registerArea', async (req, res) => {
     }
 });
 
-// Ruta para obtener tipos de área para una área específica
-router.get('/tipos-de-area/:areaId', async (req, res) => {
-    try {
-        const { idarea } = req.params;
-        const tiposDeArea = await getTiposDeArea(idarea);
-        res.json(tiposDeArea);
-    } catch (error) {
-        console.error('Error al obtener tipos de área:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-
 // Ruta para registrar un nuevo tipo de área
 router.post('/registerTipoDeArea', async (req, res) => {
     try {
         const { tiposdearea, estado, idarea } = req.body;
-        const newTipoDeArea = await registerTipoDeArea({tiposdearea, estado, idarea});
+        const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
         if (newTipoDeArea.error) {
             res.status(400).json({ error: newTipoDeArea.error });
         } else {
@@ -123,5 +111,6 @@ router.post('/registerTipoDeArea', async (req, res) => {
         res.status(500).json({ error: 'Error al registrar tipo de área', details: error.message });
     }
 });
+
 
 export default router;

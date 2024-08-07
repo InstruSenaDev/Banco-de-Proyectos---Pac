@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
     const guardarBtn = document.getElementById("guardarBtn");
-
     guardarBtn.addEventListener("click", function (event) {
         event.preventDefault();
 

@@ -154,7 +154,7 @@ async function getTiposDeArea(idarea) {
     }
 }
 
-// Función para registrar un nuevo tipo de área
+/// Función para registrar un nuevo tipo de área
 async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
     try {
         console.log('Datos recibidos en registerTipoDeArea:', { tiposdearea, estado, idarea });
@@ -182,6 +182,7 @@ async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
         throw error;
     }
 }
+
 
 
 

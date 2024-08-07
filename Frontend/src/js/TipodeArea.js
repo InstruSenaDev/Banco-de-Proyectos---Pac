@@ -1,36 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const areaSelect = document.getElementById("Area");
-
-    // Llenar el select con áreas
-    fetch('http://localhost:4000/api/registerTipoDeArea')
-        .then(response => response.json())
-        .then(data => {
-            data.areas.forEach(area => {
-                const option = document.createElement('option');
-                option.value = area.id;
-                option.textContent = area.nombre;
-                areaSelect.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error al obtener áreas:', error));
-
     const guardarBtn = document.getElementById("guardarBtn");
-
     guardarBtn.addEventListener("click", function (event) {
         event.preventDefault();
 
-        // Validar todos los campos
         const isValid = validateForm();
-
         if (isValid) {
-            // Obtener los datos del formulario
-            const formData = {
-                areaId: document.getElementById("Area").value,
-                tipoDeArea: document.getElementById("nombreTipoArea").value.trim(),
-                estado: document.querySelector('input[name="estado"]:checked')?.value
-            };
+            const areaid = document.getElementById("Area").value;
+            const tipoDeArea = document.getElementById("nombreTipoArea").value.trim();
+            const estado = document.querySelector('input[name="estado"]:checked')?.value;
 
-            console.log('Datos del formulario:', formData);
+            // Depuración: Mostrar valores capturados
+            console.log('Area ID:', areaid);
+            console.log('Tipo de Área:', tipoDeArea);
+            console.log('Estado:', estado);
+
+            const formData = { areaid, tipoDeArea, estado };
 
             fetch('http://localhost:4000/api/registerTipoDeArea', {
                 method: 'POST',
@@ -49,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(data => {
                 console.log('Tipo de Área registrado con éxito:', data);
-                // Redirigir a otra página después de un registro exitoso
                 window.location.href = '/VistaCrearRegistro';
             })
             .catch(error => {
@@ -61,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function validateForm() {
         let isValid = true;
 
-        // Validar Área
+        // Validar Area
         const Area = document.getElementById("Area");
         const AreaError = document.getElementById("AreaError");
         if (Area.selectedIndex === 0) {
@@ -71,12 +54,15 @@ document.addEventListener("DOMContentLoaded", function () {
             AreaError.textContent = "";
         }
 
-        // Validar Nombre del tipo de área (solo letras)
+        // Validar Nombre del tipo de área (solo letras y un solo número)
         const nombreTipoArea = document.getElementById("nombreTipoArea");
         const TipoAreaError = document.getElementById("TipoAreaError");
-        const nombrePattern = /^[A-Za-zÀ-ÿ\s.,]{2,50}$/;
-        if (!nombrePattern.test(nombreTipoArea.value.trim())) {
-            TipoAreaError.textContent = "El nombre debe contener solo letras";
+        const nombrePattern = /^[A-Za-zÀ-ÿ\s.,0-9()]{2,50}$/;
+        const nombreValue = nombreTipoArea.value.trim();
+        const digitCount = (nombreValue.match(/\d/g) || []).length;
+
+        if (!nombrePattern.test(nombreValue) || digitCount !== 1) {
+            TipoAreaError.textContent = "El nombre debe contener solo letras y un solo número.";
             isValid = false;
         } else {
             TipoAreaError.textContent = "";

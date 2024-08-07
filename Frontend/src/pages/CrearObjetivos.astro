@@ -6,7 +6,6 @@ import LayoutPrincipal from "../layouts/Layoutprincipal.astro"
 import Modal from "../Components/Modal.astro"
 import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro"
 import CardAreas from "../Components/CardAreas.astro"
-import { InputSelect } from "../Components/SelectBox
 import SelectBoxArea from "../Components/SelectBoxArea.astro"
 
 ---
@@ -37,7 +36,7 @@ import SelectBoxArea from "../Components/SelectBoxArea.astro"
         <div class="w-full md:w-1/2 " >
             <div class="flex flex-col p-[5%] Flex-box space-y-5">
                 <div>
-                    <SelectBoxArea Text="Area" id="tipoDoc"/>
+                    
                     <span id="tipoDocError" class="error-message"></span>
                 </div>
 
@@ -46,7 +45,7 @@ import SelectBoxArea from "../Components/SelectBoxArea.astro"
                     <span id="nombreError" class="error-message"></span>
                 </div>
 
-                <div class="flex justify-center items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                <div class="flex justify-center items-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
                     <a href="/VistaCrearRegistro"> 
                     <BotonSegundo Text="Guardar" id="guardarBtn"/>
                 </a>
