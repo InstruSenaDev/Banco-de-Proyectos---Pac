@@ -19,7 +19,6 @@ const fetchAreas = async () => {
   }
 };
 
-
 // Obtén los datos
 const areas = await fetchAreas();
 ---
@@ -36,7 +35,7 @@ const areas = await fetchAreas();
         <!-- Usa un bucle para renderizar un componente Card para cada área -->
         {areas.map((area, index) => (
           <Fragment key={index}>
-            <a href={`/VistaAreas2?area=${encodeURIComponent(area)}`}>
+            <a href={`/VistaAreas2?area=${encodeURIComponent(area.idarea)}`}>
               <Card Text={area} />
             </a>
           </Fragment>
