@@ -144,6 +144,21 @@ async function getTiposDeAreaPorArea(idArea) {
     }
   }
 
+  async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
+    try {
+      const client = await pool.connect();
+      const query = `
+        SELECT * FROM itemsarea
+        WHERE idarea = $1 AND idtiposdearea = $2
+      `;
+      const result = await client.query(query, [idArea, idTiposDeArea]);
+      client.release();
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      throw error;
+    }
+  }
   
 export {
     getAllPersonas,
@@ -153,5 +168,6 @@ export {
     registerProject,
     getAllAlcances,
     getAllAreas,
-    getTiposDeAreaPorArea
+    getTiposDeAreaPorArea,
+    getItemsPorAreaYTipo
 };

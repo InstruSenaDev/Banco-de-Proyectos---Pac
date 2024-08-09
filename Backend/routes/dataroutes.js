@@ -8,6 +8,7 @@ import {
     getAllAlcances, 
     getAllAreas,
     getTiposDeAreaPorArea,
+    getItemsPorAreaYTipo
     
 
 } from '../controllers/datacontroler.js';
@@ -119,4 +120,16 @@ router.get('/tipos-de-area/:idArea', async (req, res) => {
     }
   });
 
+  router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+    try {
+      const { idArea, idTiposDeArea } = req.params;
+      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
+      res.json(items);
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+  });
+
+  
 export default router;
