@@ -6,78 +6,66 @@ import Input from "../Components/Input.astro";
 import Modal from "../Components/Modal.astro";
 ---
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width" />
-        <meta name="generator" content={Astro.generator} />
-        <link
-            href="https://fonts.googleapis.com/css?family=Josefin+Slab"
-            rel="stylesheet"
-        />
-        <style>
-            /* Estilos personalizados con Tailwind CSS */
-            * {
-                box-sizing: border-box;
-            }
-            body {
-                overflow: hidden;
-                display: flex;
-                justify-content: space-between;
-                margin: 0px auto;
-            }
-        </style>
-        <title>Olvidar Contraseña</title>
-    </head>
-    <body
-        class="h-screen w-full m-auto p-[1%] max-[768px]:bg-[#00000046] max-[768px]:p-[20px] max-[768px]:flex flex-none"
-    >
-        <div
-            class="max-w-[100%] m-auto flex bg-white max-[768px]:max-w-[320px] rounded-[20px]"
-        >
-            <div class="w-[50em] flex flex-col mr-[15px]">
-                <div class="w-[80%] flex justify-center">
-                    <img
-                        class="ml-[25%] w-[320px] max-[768px]:ml-[33%]"
-                        src="/Img/image1.png"
-                        alt="Forgot Password Image"
-                    />
-                </div>
-                <h1
-                    class="font-['sans-serif'] pt-[15%] text-[33px] text-center max-[768px]:text-[35px] flex justify-center max-[768px]:ml-[23px] mt-[30px]"
-                >
-                    OLVIDAR CONTRASEÑA
-                </h1>
-                <form
-                    id="formu"
-                    class="p-[1em] flex-col justify-center items-center flex"
-                >
-                    <div class="relative mt-[30px] lg:w-[60%] max-[768px]:ml-5">
-                        <Input
-                            type="email"
-                            Text=""
-                            placeholder="Correo:"
-                            id="CorreoInicio"
-                        />
-                        <span id="correoError" class="error-message"></span>
-                    </div>
-                    <div class="mt-[30px] max-[768px]:mt-[10px]">
-                        <Botton Text="Recuperar" />
-                    </div>
-                </form>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Olvidar Contraseña</title>
+  <link rel="stylesheet" href="/path/to/your/styles.css"> <!-- Asegúrate de que la ruta sea correcta -->
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center bg-gray-100">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <h2 class="text-2xl font-bold text-gray-800 text-center">Recuperar Contraseña</h2>
+          <form id="reset-password-form" class="mt-6">
+            <div class="mb-4">
+              <label for="email" class="block text-gray-700 font-semibold">Correo Electrónico</label>
+              <input type="email" id="email" class="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full" required />
             </div>
-            <div class="flex w-[70em] max-[768px]:hidden">
-                <img
-                    class="w-[60em] h-[95%] max-[768px]:hidden ml-[10px]"
-                    src="/Img/olvidocontraseña.png"
-                    alt="Olvido de contraseña"
-                />
-            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg">Enviar enlace de recuperación</button>
+            <p id="message" class="mt-4 text-center"></p>
+          </form>
         </div>
-        <Modal Text="Se le ha enviado un link a su correo">
-            <!-- Asegúrate de que el script JS se cargue en el contexto correcto -->
-            <script type="module" src="../js/contraseña.js"></script>
-        </Modal>
-    </body>
+      </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('reset-password-form') as HTMLFormElement;
+      const messageElement = document.getElementById('message') as HTMLParagraphElement;
+      const emailInput = document.getElementById('email') as HTMLInputElement;
+
+      if (form && messageElement && emailInput) {
+        form.addEventListener('submit', async function(event) {
+          event.preventDefault();
+
+          const email = emailInput.value;
+
+          try {
+            const response = await fetch('http://localhost:4000/api/reset-password', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              messageElement.textContent = 'El enlace de restablecimiento fue enviado a tu correo.';
+              messageElement.classList.remove('text-red-500');
+              messageElement.classList.add('text-green-500');
+            } else {
+              messageElement.textContent = result.error;
+              messageElement.classList.add('text-red-500');
+            }
+          } catch (error) {
+            messageElement.textContent = 'Error al enviar el enlace de restablecimiento.';
+            messageElement.classList.add('text-red-500');
+          }
+        });
+      }
+    });
+  </script>
+</body>
 </html>
