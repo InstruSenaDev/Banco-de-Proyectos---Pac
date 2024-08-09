@@ -1,5 +1,6 @@
 import express from 'express';
 import { supabase } from '../config/supabaseClient.js';
+import { updatePassword, checkIfUserExists } from '../controllers/datacontroler.js';
 import transporter from '../config/nodemailerConfig.js';
 import { v4 as uuidv4 } from 'uuid';
 import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha } from '../controllers/datacontroler.js';
@@ -8,24 +9,29 @@ const router = express.Router();
 
 // Ruta para actualizar la contraseña
 router.post('/update-password', async (req, res) => {
-    const { email, token, newPassword } = req.body;
-
-    // Aquí puedes verificar el token y su validez antes de actualizar la contraseña
-    // Por simplicidad, se omite la validación del token en este ejemplo
+    const { email, newPassword } = req.body;
 
     try {
-        const updatedUser = await updatePassword(email, newPassword);
-        res.status(200).json({ message: 'Contraseña actualizada con éxito' });
+        const user = await updatePassword(email, newPassword);
+        res.status(200).json({ message: 'Contraseña actualizada con éxito', user });
     } catch (error) {
-        console.error('Error al actualizare la ccontraseña:', error);
-        res.status(500).json({ error: 'Error aleee actualizar la contraseña', details: error.message });
+        console.error('Error al actualizar la contraseña:', error);
+        res.status(500).json({ error: 'Error al actualizar la contraseña', details: error.message });
     }
 });
 
+// Ruta para solicitar el enlace de recuperación de contraseña
 router.post('/reset-password', async (req, res) => {
     const { email } = req.body;
 
     try {
+        // Verificar si el usuario existe
+        const userExists = await checkIfUserExists(email);
+
+        if (!userExists) {
+            return res.status(404).json({ error: 'Por favor regístrate para hacer el cambio de contraseña.' });
+        }
+
         const resetToken = uuidv4(); // Genera un token único
         const resetLink = `http://localhost:4321/UpdatePassword?token=${resetToken}&email=${encodeURIComponent(email)}`;
 
@@ -43,8 +49,6 @@ router.post('/reset-password', async (req, res) => {
         res.status(500).json({ error: `Error al enviar el enlace de restablecimiento: ${error.message}` });
     }
 });
-
-
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
     try {
@@ -75,7 +79,7 @@ router.post('/register', async (req, res) => {
         const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
         res.status(201).json(newPerson);
     } catch (error) {
-        console.error('Error al registrar persona:', error);
+        console.error('Error al registrareee persona:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });

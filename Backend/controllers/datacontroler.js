@@ -1,22 +1,37 @@
-import { pool } from '../config/db.js';
+
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import { pool } from '../config/db.js';
 
-// Función para actualizar la contraseña
-async function updatePassword(email, newPassword) {
+
+async function checkIfUserExists(correo) {
     try {
-        // Cifrar la nueva contraseña
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const client = await pool.connect();
+        const result = await client.query(
+            'SELECT * FROM personas WHERE correo = $1',
+            [correo]
+        );
+        client.release();
+
+        return result.rows.length > 0;
+    } catch (error) {
+        console.error('Error al verificar si el usuario existe:', error);
+        throw error;
+    }
+}
+
+async function updatePassword(correo, nuevaContraseña) {
+    try {
+        const hashedPassword = await bcrypt.hash(nuevaContraseña, 10);
 
         const client = await pool.connect();
         const result = await client.query(
             'UPDATE personas SET contraseña = $1 WHERE correo = $2 RETURNING *',
-            [hashedPassword, email]
+            [hashedPassword, correo]
         );
         client.release();
 
         if (result.rows.length > 0) {
-            console.log('Contraseña actualizada con éxito:', result.rows[0]);
             return result.rows[0];
         } else {
             throw new Error('Usuario no encontrado');
@@ -26,6 +41,7 @@ async function updatePassword(email, newPassword) {
         throw error;
     }
 }
+
 async function getAllPersonas() {
     try {
         console.log('Obteniendo todas las personas...');
@@ -122,4 +138,4 @@ async function registerFicha({ nombre, numeroFicha, estado }) {
 }
 
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, updatePassword };
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, checkIfUserExists, updatePassword };

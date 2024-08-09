@@ -1,14 +1,16 @@
 ---
 interface Props {
-Text: String
+  Text: string;
+  id?: string;
 }
 
-const {Text} = Astro.props;
+const { Text, id } = Astro.props;
 ---
 
 <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Josefin+Slab&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
 
 <style>
     .font-josefin-slab {
@@ -20,17 +22,20 @@ const {Text} = Astro.props;
     .font-inter {
         font-family: 'Inter', sans-serif;
     }
+    .font-nunito-sans{
+            font-family: "Nunito Sans", sans-serif;
+            font-optical-sizing: auto;
+    }
 </style>
 
 <form class=" ">
-    <label  class="pace-y-2 w-1/2 font-josefin-slab font-semibold ">{Text}</label>
-    <select class="bg-[#F5F6FA] w-[100%] min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]">
-    </div>
-    <option selected> Elije una opcion </option>
-    <option value="CC">Cédula de ciudadanía</option>
-    <option value="CE">Cédula de extranjeria</option>
-    <option value="TI">Tarjeta de identidad</option>
-    <option value="PEP">Permiso especial de permanencia</option>
-    <option value="PPT">Permiso de proteccion tempotal</option>
+    <label for={id} class="pace-y-2 w-1/2 .font-nunito-sans font-semibold">{Text}</label>
+    <select id={id} class="bg-[#F5F6FA] w-[100%] min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]">
+        <option selected>Elije una opción</option>
+        <option value="CC">Cédula de ciudadanía</option>
+        <option value="CE">Cédula de extranjería</option>
+        <option value="TI">Tarjeta de identidad</option>
+        <option value="PEP">Permiso especial de permanencia</option>
+        <option value="PPT">Permiso de protección temporal</option>
     </select>
 </form>

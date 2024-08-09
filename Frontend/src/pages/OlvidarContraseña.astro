@@ -5,7 +5,6 @@ import Botton from "../Components/BotonPrincipal.astro";
 import Input from "../Components/Input.astro";
 import Modal from "../Components/Modal.astro";
 ---
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,52 +19,66 @@ import Modal from "../Components/Modal.astro";
           <h2 class="text-2xl font-bold text-gray-800 text-center">Recuperar Contraseña</h2>
           <form id="reset-password-form" class="mt-6">
             <div class="mb-4">
-              <label for="email" class="block text-gray-700 font-semibold">Correo Electrónico</label>
-              <input type="email" id="email" class="mt-2 px-3 py-2 border border-gray-300 rounded-lg w-full" required />
+              <Input 
+                placeholder="Introduce tu correo electrónico" 
+                type="email" 
+                Text="Correo Electrónico" 
+                id="email"
+              />
             </div>
             <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg">Enviar enlace de recuperación</button>
             <p id="message" class="mt-4 text-center"></p>
           </form>
         </div>
-      </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('reset-password-form') as HTMLFormElement;
-      const messageElement = document.getElementById('message') as HTMLParagraphElement;
-      const emailInput = document.getElementById('email') as HTMLInputElement;
+    </div>
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('reset-password-form');
+    const messageElement = document.getElementById('message');
+    const emailInput = document.querySelector('#email') as HTMLInputElement; // Especifica el tipo HTMLInputElement
 
-      if (form && messageElement && emailInput) {
+    if (form && messageElement && emailInput) {
         form.addEventListener('submit', async function(event) {
-          event.preventDefault();
+            event.preventDefault();
 
-          const email = emailInput.value;
+            const email = emailInput.value;
 
-          try {
-            const response = await fetch('http://localhost:4000/api/reset-password', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ email })
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-              messageElement.textContent = 'El enlace de restablecimiento fue enviado a tu correo.';
-              messageElement.classList.remove('text-red-500');
-              messageElement.classList.add('text-green-500');
-            } else {
-              messageElement.textContent = result.error;
-              messageElement.classList.add('text-red-500');
+            // Validar formato de correo electrónico
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                messageElement.textContent = 'Introduce un correo electrónico válido.';
+                messageElement.classList.remove('text-green-500');
+                messageElement.classList.add('text-red-500');
+                return;
             }
-          } catch (error) {
-            messageElement.textContent = 'Error al enviar el enlace de restablecimiento.';
-            messageElement.classList.add('text-red-500');
-          }
+
+            try {
+                const response = await fetch('http://localhost:4000/api/reset-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    messageElement.textContent = 'El enlace de restablecimiento fue enviado a tu correo.';
+                    messageElement.classList.remove('text-red-500');
+                    messageElement.classList.add('text-green-500');
+                } else {
+                    messageElement.textContent = result.error || 'Por favor regístrate para hacer el cambio de contraseña.';
+                    messageElement.classList.remove('text-green-500');
+                    messageElement.classList.add('text-red-500');
+                }
+            } catch (error) {
+                messageElement.textContent = 'Error al enviar el enlace de restablecimiento.';
+                messageElement.classList.add('text-red-500');
+            }
         });
-      }
-    });
-  </script>
+    }
+});
+    </script>
 </body>
 </html>
