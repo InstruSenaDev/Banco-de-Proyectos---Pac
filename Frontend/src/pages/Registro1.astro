@@ -35,16 +35,23 @@ const { id1 } = Astro.props;
         }
         .error-message {
             color: red;
-            font-size: 0.875rem; /* Tamaño de fuente pequeño */
-            margin-bottom: 1rem; /* Espacio debajo del mensaje */
-            text-align: left; /* Alineación del texto */
-            width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+            font-size: 0.875rem; 
+            margin-bottom: 1rem; 
+            text-align: left; 
+            width: 100%; 
+        }
+        .success-message {
+            color: green;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            text-align: center;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div class="flex h-screen items-center justify-center gap-x-72"> <!--contenedor principal -->
-        <div class="flex content-center"> <!--contenedor del formulario -->
+    <div class="flex h-screen items-center justify-center gap-x-72">
+        <div class="flex content-center"> 
             <form id="formu" class="form flex flex-col w-96 items-center gap-4" method="post">
 
                 <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
@@ -104,6 +111,7 @@ const { id1 } = Astro.props;
                     </div>
                     
                     <BotonPrincipal Text="Registrarse" id="Registro"></BotonPrincipal>
+                    <span id="successMessage" class="success-message"></span>
                     <h3 class="w-[200px] h-[44px] py-[10px] cursor-pointer text-[15px] mt-3 self-center">Ya tienes cuenta?
                     <a href="/Inicio" class="text-blue-500 underline decoration-1">Iniciar Sesión</a></h3>
                 </div>

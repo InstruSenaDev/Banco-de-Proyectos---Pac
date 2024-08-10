@@ -16,13 +16,12 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro";
         right: 1rem; /* Ajusta la posición del icono */
     }
     .error-message {
-        color: red;
-        font-size: 0.875rem; /* Tamaño de fuente pequeño */
-        margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
-        margin-bottom: 1rem; /* Espacio debajo del mensaje */
-        text-align: left; /* Alineación del texto */
-        width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
-    }
+    color: red;
+    font-size: 0.875rem; 
+    margin-top: 0.25rem; /* Espacio entre el input y el mensaje de error */
+    text-align: left;
+    width: 100%;
+}
 </style>
 
 <LayoutFormulario title="Formulario">
@@ -36,16 +35,19 @@ import BotonPrincipal from "../Components/BotonPrincipal.astro";
                 <div class="login flex flex-col items-center 2xl:gap-4 2xl:min-w-96 w-56 sm:w-96 gap-y-4 sm:gap-y-7">
                     <div class="text-3xl 2xl:pb-8">LOGIN</div>
 
+
                     <div class="relative w-full">
                         <Input type="email" Text="" placeholder="Correo:" id="CorreoInicio"/>
                         <span id="correoError" class="error-message"></span>
                     </div>
-
+                    
                     <div class="relative w-full">
                         <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaInicio"/>
                         <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordInicio"></i>
                         <span id="contrasenaError" class="error-message"></span>
                     </div>
+
+                    <span id="globalError" class="error-message"></span>
 
                     <div class="flex justify-end w-full">
                         <a href="/OlvidarContraseña" class="text-blue-500 underline decoration-1">¿Olvidaste tu contraseña?</a>
