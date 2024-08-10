@@ -1,8 +1,8 @@
 ---
-import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
-import Card from "../Components/Card.astro";
-import Layoutcontenido from "../layouts/Layoutcontenido.astro"
-import BotonPrincipal from "../Components/BotonPrincipal.astro";
+import LayoutPrincipal from "../../layouts/LayoutPrincipal.astro";
+import Card from "../../Components/Card.astro";
+import Layoutcontenido from "../../layouts/Layoutcontenido.astro"
+import BotonPrincipal from "../../Components/BotonPrincipal.astro";
 
 const { id } = Astro.params;
 
@@ -52,7 +52,7 @@ export async function getStaticPaths() {
         {tipos.length > 0 ? (
           tipos.map(tipo => (
             <div :key={tipo.idtiposdearea}>
-              <a href={`/VistaItemsArea/${id}/${tipo.idtiposdearea}`}>
+              <a href={`/VistaItemsAreas/${id}/${tipo.idtiposdearea}`}>
               <Card Text={tipo.tiposdearea} />
               </a>
 

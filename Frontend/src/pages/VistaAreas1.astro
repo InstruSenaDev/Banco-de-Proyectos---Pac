@@ -33,7 +33,7 @@ const areas = await fetchAreas();
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {areas.map((area) => (
           <div :key={area.idarea}>
-            <a href={`/${area.idarea}`}>
+            <a href={`/Services/${area.idarea}`}>
               <Card Text={area.area} />
             </a>
           </div>
