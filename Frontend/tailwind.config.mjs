@@ -4,17 +4,15 @@ import colors from 'tailwindcss/colors';
 const config = {
   content: [
     './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    // Path to Tremor module
     './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
-  darkMode: 'class', // o 'media'
+  darkMode: 'class', 
   theme: {
     extend: {
       colors: {
-        'Color_carta': '#FBFCFF',
-        'Verde': '#A3E784',
-        'custom-green': 'rgba(163, 231, 132, 1)',
-        // light mode
+        colorCarta: '#FBFCFF',
+        verde: '#A3E784',
+        customGreen: 'rgba(163, 231, 132, 1)',
         tremor: {
           brand: {
             faint: colors.blue[50],
@@ -44,8 +42,7 @@ const config = {
             inverted: colors.white,
           },
         },
-        // dark mode
-        'dark-tremor': {
+        darkTremor: {
           brand: {
             faint: '#0B1229',
             muted: colors.blue[950],
@@ -76,11 +73,9 @@ const config = {
         },
       },
       boxShadow: {
-        // light
         'tremor-input': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
         'tremor-card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
         'tremor-dropdown': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        // dark
         'dark-tremor-input': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
         'dark-tremor-card': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
         'dark-tremor-dropdown': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
@@ -122,8 +117,9 @@ const config = {
     },
   ],
   plugins: [
-    require('@headlessui/tailwindcss'), require('@tailwindcss/forms'),
+    require('@headlessui/tailwindcss'),
+    require('@tailwindcss/forms'),
   ],
-}
+};
 
 export default config;
