@@ -122,7 +122,7 @@ const config = {
     },
   ],
   plugins: [
-    require('@headlessui/tailwindcss'),
+    require('@headlessui/tailwindcss'), require('@tailwindcss/forms'),
   ],
 }
 

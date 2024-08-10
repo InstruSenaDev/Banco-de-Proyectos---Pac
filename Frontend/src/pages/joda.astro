@@ -1,100 +1,45 @@
 ---
 import Layoutprincipal from "../layouts/Layoutprincipal.astro";
-import Layoutcontenido2 from "../layouts/Layoutcontenido2.astro";
+import BarraPreguntas from "../Components/BarraPreguntas.astro";
+import Grid from "../Components/Grid.astro";
 import BotonPrincipal from "../Components/BotonPrincipal.astro";
 import BotonSegundo from "../Components/BotonSegundo.astro";
-import { ListProject } from "../Components/ListProject.jsx";
-import { ListItem } from "@tremor/react";
+import { Evaluar } from "../Components/Evaluar";
 
-const { idproyecto } = Astro.params;
-
-
-
-let proyecto = {
-  nombre: '',
-  impacto: '',
-  responsable: '',
-  disponibilidad: '',
-  dia: '',
-  idalcance: '',
-  idobjetivos: '',
-  idarea: '',
-  idficha: '',
-  idpersona: ''
-};
-
-const fetchProyecto = async () => {
-  try {
-    const response = await fetch(`http://localhost:4000/api/proyectos/${idproyecto}`);
-    if (response.ok) {
-      proyecto = await response.json();
-      console.log('Proyecto obtenido:', proyecto);
-    } else {
-      console.error('Error al obtener el proyecto:', response.statusText);
-    }
-  } catch (error) {
-    console.error('Error de red al obtener el proyecto:', error);
-  }
-};
-
-await fetchProyecto();
 ---
 
-<Layoutprincipal title="Detalle del proyecto">
-  <Layoutcontenido2 title="" text1="Detalle del proyecto">
-    <div class="lg:w-full w-full lg:h-auto">
-      <ListProject>
-        <ListItem>
-          <span class="text-xl">Nombre del proyecto</span>
-          <span class="text-xl">{proyecto.nombre}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Sector impactado</span>
-          <span class="text-xl">{proyecto.impacto}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Responsable</span>
-          <span class="text-xl">{proyecto.responsable}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Disponibilidad</span>
-          <span class="text-xl">{proyecto.disponibilidad}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Día</span>
-          <span class="text-xl">{proyecto.dia}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Alcance</span>
-          <span class="text-xl">{proyecto.idalcance}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Objetivos</span>
-          <span class="text-xl">{proyecto.idobjetivos}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Área</span>
-          <span class="text-xl">{proyecto.idarea}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Ficha</span>
-          <span class="text-xl">{proyecto.idficha}</span>
-        </ListItem>
-        <ListItem>
-          <span class="text-xl">Persona</span>
-          <span class="text-xl">{proyecto.idpersona}</span>
-        </ListItem>
-      </ListProject>
+<Layoutprincipal title="">
+    <div class="flex justify-center min-h-screen">
+        <div class="p-10 w-full max-w-7xl my-10">
+            <div class="flex flex-col space-y-8">
+                <div class="text-left mb-4">
+                    <h1 class="font-josefin-slab text-2xl text-black">
+                        Evaluacion de criterios
+                    </h1>
+                </div>
 
+                <div class="flex justify-center ">
+                    <BarraPreguntas Text1="Objetivos" Text2="Si" Text3="No"/>
+                     
+                </div>
+                <div class="text-2xl font-bold mb-2 pl-12">
+                    Operación y costos
+                </div>
 
-      <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6">
-        <a href="/Calificar">
-          <BotonPrincipal  Text="Atrás" />
-        </a>
-        <a href="/Calificar3">
-          <BotonSegundo Text="Siguiente" />
-        </a>
-      </div>
+                <Grid Text1="1. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa?" id1="termsCheckbox1-grid1" id2="termsCheckbox2-grid1"></Grid> <Evaluar/>
+                <Grid Text1="2. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa?" id1="termsCheckbox1-grid2" id2="termsCheckbox2-grid2"></Grid> <Evaluar/>
+                <Grid Text1="3. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa?" id1="termsCheckbox1-grid3" id2="termsCheckbox2-grid3"></Grid> <Evaluar/>
+                
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+
+                    <a href= >
+                        <BotonPrincipal Text="Volver" />
+                    </a>
+                    <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                        <BotonSegundo Text="Siguiente" />
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </Layoutcontenido2>
 </Layoutprincipal>
