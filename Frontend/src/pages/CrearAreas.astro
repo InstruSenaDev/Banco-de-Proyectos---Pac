@@ -1,0 +1,53 @@
+---
+import Input from "../Components/Input.astro";
+import BotonSegundo from "../Components/BotonSegundo.astro";
+import RadioButton from "../Components/RadioButton.astro";
+import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
+import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro";
+---
+
+<style>
+    body {
+        font-family: "Nunito Sans", sans-serif;
+        font-optical-sizing: auto;
+    }
+    .relative input {
+        padding-right: 2.5rem;
+    }
+    .relative i {
+        right: 1rem;
+    }
+    .error-message {
+        color: red;
+        font-size: 0.875rem;
+        margin-top: -0.5rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        width: 100%;
+    }
+</style>
+
+<LayoutPrincipal title="">
+    <Layoutcontenido5 title="Crear Areas">
+        <div class="w-full md:w-1/2">
+            <div class="flex flex-col p-[5%] flex-box space-y-5">
+                <div>
+                    <Input Text="Area" placeholder="Area" type="text" id="nombreArea"/>
+                    <span id="nombreError" class="error-message"></span>
+                </div>
+                <div class="space-y-4">
+                    <h1>Estado:</h1>
+                    <div class="flex h-[23px]">
+                        <RadioButton Text="Activo" id="estadoActivo" />
+                        <RadioButton Text="Inactivo" id="estadoInactivo" />
+                    </div>
+                    <span id="estadoError" class="error-message"></span>
+                </div>
+                <div class="flex justify-center items-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <BotonSegundo Text="Agregar" id="guardarBtn"/>
+                </div>
+            </div>
+        </div>
+    </Layoutcontenido5>
+    <script src="../js/Areas.js"></script>
+</LayoutPrincipal>

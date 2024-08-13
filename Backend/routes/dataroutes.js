@@ -1,21 +1,17 @@
 import express from 'express';
-import { 
-    getAllPersonas, 
-    getAllUsuario, 
-    registerPerson, 
-    loginPerson, 
-    registerProject, 
-    getAllAlcances, 
-    getAllAreas,
-    getTiposDeAreaPorArea,
-    getItemsPorAreaYTipo
-    
+import cors from 'cors';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, registerTipoDeArea } from '../controllers/datacontroler.js';
 
-} from '../controllers/datacontroler.js';
+const app = express(); // Crear la instancia de Express
 
+// Configurar middleware
+app.use(cors()); // Permite todas las solicitudes cross-origin
+app.use(express.json()); // Para analizar JSON en el cuerpo de las solicitudes
+
+// Crear el enrutador
 const router = express.Router();
 
-// Ruta para obtener todas las personas
+// Definir rutas
 router.get('/personas', async (req, res) => {
     try {
         const personas = await getAllPersonas();
@@ -26,7 +22,7 @@ router.get('/personas', async (req, res) => {
     }
 });
 
-// Ruta para obtener todos los usuarios
+// Otros endpoints
 router.get('/usuarios', async (req, res) => {
     try {
         const usuarios = await getAllUsuario();
@@ -37,11 +33,20 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
-// Ruta para registrar una nueva persona
+router.get('/areas', async (req, res) => {
+    try {
+        const areas = await getAllAreas();
+        res.json(areas);
+    } catch (error) {
+        console.error('Error al obtener áreas:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
 router.post('/register', async (req, res) => {
     try {
-        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol } = req.body;
-        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol });
+        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado } = req.body;
+        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
         res.status(201).json(newPerson);
     } catch (error) {
         console.error('Error al registrar persona:', error);
@@ -49,7 +54,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Ruta para iniciar sesión
 router.post('/login', async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
@@ -65,71 +69,43 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Ruta para registrar un nuevo proyecto
-router.post('/proyectos', async (req, res) => {
+router.post('/registerFicha', async (req, res) => {
     try {
-        console.log('Solicitud recibida:', req.body); 
-        let { nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona } = req.body;
-
-        // Convertir cadenas vacías a null
-        idalcance = idalcance || null;
-        idobjetivos = idobjetivos || null;
-        idarea = idarea || null;
-        idficha = idficha || null;
-        idpersona = idpersona || null;
-
-        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona });
-        res.status(201).json(newProject);
+        const newFicha = await registerFicha(req.body);
+        res.status(201).json(newFicha);
     } catch (error) {
-        console.error('Error al registrar proyecto:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+        res.status(500).json({ error: 'Error al registrar ficha' });
     }
 });
 
-// Ruta para obtener todas las preguntas junto con sus categorías
-router.get('/alcances', async (req, res) => {
+router.post('/registerArea', async (req, res) => {
     try {
-        const alcances = await getAllAlcances();
-        res.json(alcances);
+        const { area, estado } = req.body;
+        const newArea = await registerArea({ area, estado });
+        if (newArea.error) {
+            res.status(400).json({ error: newArea.error });
+        } else {
+            res.status(201).json(newArea);
+        }
     } catch (error) {
-        console.error('Error al obtener alcances:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+        console.error('Error al registrar área:', error.message, error.stack);
+        res.status(500).json({ error: 'Error al registrar área', details: error.message });
     }
 });
 
-// Ruta para obtener todas las áreas
-router.get('/areas', async (req, res) => {
+router.post('/api/registerTipoDeArea', async (req, res) => {
     try {
-        const areas = await getAllAreas();
-        res.json(areas);
+        const { tiposdearea, estado, idarea } = req.body;
+        if (typeof idarea !== 'number' || isNaN(idarea)) {
+            return res.status(400).json({ error: 'El idarea debe ser un número.' });
+        }
+        const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
+        res.status(201).json(newTipoDeArea);
     } catch (error) {
-        console.error('Error al obtener áreas:', error);
-        res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
+        console.error('Error en el registro de tipo de área:', error);
+        res.status(500).json({ error: 'Error interno del servidor.' });
     }
 });
 
-// Ruta para obtener los tipos de área de acuerdo al área seleccionada
-router.get('/tipos-de-area/:idArea', async (req, res) => {
-    try {
-      const idArea = req.params.idArea;
-      const tiposDeArea = await getTiposDeAreaPorArea(idArea);
-      res.json(tiposDeArea);
-    } catch (error) {
-      console.error('Error al obtener tipos de área:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-  });
-
-  router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
-    try {
-      const { idArea, idTiposDeArea } = req.params;
-      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
-      res.json(items);
-    } catch (error) {
-      console.error('Error al obtener ítems:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-  });
-
-  
 export default router;
+

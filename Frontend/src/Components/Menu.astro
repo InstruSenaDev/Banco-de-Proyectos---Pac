@@ -49,33 +49,59 @@ import Itemss1 from "../Components/Itemss1.astro"
 
         <aside id="sidebar" class="sidebar fixed top-0 left-0 z-40 h-screen bg-gray-50 transition-transform transform -translate-x-full md:translate-x-0">
             <div class="h-full px-3 py-4 overflow-y-auto dark:bg-custom-green">
-                <a href="#" class="flex items-center ps-2.5 mb-5"></a>
-                <ul class="space-y-3 font-medium">
-                    <div class="flex items-center">
-                        <img src="../public/img/logo.svg" alt="Logo" class="w-10 h-10 pb-2">
-                        <span class="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">PAC</span>
-                    </div>
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fa-solid fa-user" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
-                    <Itemss1 icon="fas fa-home" href="hover" label="Proyecto" />
-                </ul>
-            </div>
-        </aside>
+                <a href="#" class="flex items-center ps-2.5 mb-5">
+                    <img src="../public/Img/logo.svg" alt="Logo" class="w-10 h-10 pb-2">
+                    <span class="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">PAC</span>
+                  </a>
+                  <ul id="menu-list" class="space-y-3 font-medium">
+                    <!-- Los elementos del menú se llenarán aquí con JavaScript -->
+                  </ul>
+                </div>
+            </aside>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const menuButton = document.getElementById('menu-button');
-                const sidebar = document.getElementById('sidebar');
-
-                if (menuButton && sidebar) {
-                    menuButton.addEventListener('click', () => {
-                        sidebar.classList.toggle('-translate-x-full');
-                        sidebar.classList.toggle('open');
-                    });
-                }
-            });
-        </script>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                  // Obtener el rol del usuario desde localStorage
+                  const userRole = localStorage.getItem('userRole');
+                  // Definir los ítems del menú para cada rol
+                  const menuItemsByRole = {
+                    1: [
+                      { icon: 'fas fa-home', href: '/VistaProyectos', label: 'Proyectos' },
+                      { icon: 'fas fa-solid fa-user', href: '/VistaAprobados', label: 'Vista Aprobados' },
+                      { icon: 'fas fa-cog', href: '/AsignarProyecto', label: 'Asignar Proyecto' }
+                    ],
+                    2: [
+                      { icon: 'fas fa-home', href: '/VistaMisProyectos', label: 'Vista Mis proyectos' },
+                      { icon: 'fas fa-project-diagram', href: '/editarPerfil', label: 'Editar Perfil' }
+                    ],
+                    3: [
+                      { icon: 'fas fa-home', href: '/CrearFichas', label: 'Crear Usuario' },
+                      { icon: 'fas fa-solid fa-users', href: '/CrearUsuario', label: 'Crear Fichas' },
+                      { icon: 'fas fa-tools', href: '/EditarRegistro', label: 'Editar Registro' },
+                      { icon: 'fas fa-tools', href: '/CargaMasiva', label: 'Cargar Aprendices' }
+                    ],
+                    4: [
+                      { icon: 'fas fa-home', href: '/ProyectosAsignados', label: 'Proyectos Asignados' },
+                      { icon: 'fas fa-book', href: '/editarPerfil', label: 'Editar Perfil' }
+                    ]
+                  };
+            
+                  // Obtener los ítems del menú basados en el rol del usuario
+                  const menuItems = menuItemsByRole[userRole] || [];
+                  const menuList = document.getElementById('menu-list');
+            
+                  // Renderizar los ítems del menú dinámicamente
+                  menuList.innerHTML = menuItems.map(item => `
+                    <li>
+                      <a href="${item.href}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
+                        <div>
+                          <i class="${item.icon} flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black" aria-hidden="true"></i>
+                        </div>
+                        <span class="flex-1 ms-3 whitespace-nowrap">${item.label}</span>
+                      </a>
+                    </li>
+                  `).join('');
+                });
+              </script>
     </body>
 </html>
