@@ -31,6 +31,21 @@ async function getAllUsuario() {
     }
 }
 
+//Funion para obtener todas las fichas
+async function getAllFichas() {
+    try {
+        console.log('Obteniendo todas las fichas')
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM ficha');
+        client.release();
+        console.log('Fichas obtenidas con exito:', result.rows);
+        return result.rows;
+    } catch (error){
+        console.error('Error al obtener fichas:', error);
+        throw error;
+    }
+}
+
 // Función para registrar una nueva persona
 async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
     try {
@@ -78,4 +93,22 @@ async function loginPerson(correo, contraseña) {
     }
 }
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson };
+async function registerFicha({ nombre, numeroFicha, estado }) {
+    try {
+        console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha, estado });
+
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO ficha (nombre, numeroFicha, estado) VALUES ($1, $2, $3) RETURNING *',
+            [nombre, numeroFicha, estado]
+        );
+        client.release();
+        console.log('Ficha registrada con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar ficha:', error);
+        throw error;
+    }
+}
+
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllFichas, registerFicha };

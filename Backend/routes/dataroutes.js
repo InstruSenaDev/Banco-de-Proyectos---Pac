@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllFichas, registerFicha } from '../controllers/datacontroler.js';
 
 const app = express(); // Crear la instancia de Express
 
@@ -11,7 +11,7 @@ app.use(express.json()); // Para analizar JSON en el cuerpo de las solicitudes
 // Crear el enrutador
 const router = express.Router();
 
-// Definir rutas
+// Obtener personas
 router.get('/personas', async (req, res) => {
     try {
         const personas = await getAllPersonas();
@@ -22,7 +22,7 @@ router.get('/personas', async (req, res) => {
     }
 });
 
-// Otros endpoints
+// Optener usuarios
 router.get('/usuarios', async (req, res) => {
     try {
         const usuarios = await getAllUsuario();
@@ -33,6 +33,18 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
+//Obtener fichas
+router.get('/fichas', async (req, res) => {
+    try {
+        const fichas = await getAllFichas();
+        res.json(fichas);
+    } catch (error) {
+        console.error('Error al obtener las fichas:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message});
+    }
+});
+
+//Registro usuarios
 router.post('/register', async (req, res) => {
     try {
         const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado } = req.body;
@@ -44,6 +56,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
+//Login
 router.post('/login', async (req, res) => {
     try {
         const { correo, contraseña } = req.body;
@@ -56,6 +69,19 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         console.error('Error al iniciar sesión:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+
+// Ruta para registrar una nueva ficha
+router.post('/registerFicha', async (req, res) => {
+    try {
+        const { nombre, numeroFicha, estado } = req.body;
+        const newFicha = await registerFicha({ nombre, numeroFicha, estado });
+        res.status(201).json(newFicha);
+    } catch (error) {
+    console.error('Error al registrar ficha:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 
