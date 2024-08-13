@@ -32,7 +32,6 @@ export async function getStaticPaths() {
     }
     const areas = await response.json();
 
-    // Generar rutas dinámicas para cada área y cada tipo de área
     const paths = await Promise.all(
       areas.map(async area => {
         const tiposDeAreaResponse = await fetch(`http://localhost:4000/api/tipos-de-area/${area.idarea}`);
@@ -42,26 +41,19 @@ export async function getStaticPaths() {
         const tiposDeArea = await tiposDeAreaResponse.json();
 
         return tiposDeArea.map(tipoDeArea => ({
-          params: { idarea: area.idarea.toString(), idtiposdearea: tipoDeArea.idtiposdearea.toString() }
+          params: { idarea: area.idarea.toString(), idtiposdearea: tipoDeArea.idtiposdearea.toString() },
+          path: `/${area.idarea}-${tipoDeArea.idtiposdearea}` // Update the path format to match the link format
         }));
       })
     );
 
-    return {
-      paths: paths.flat(),
-      fallback: false
-    };
+    return paths.flat(); // Return the flattened array of objects
   } catch (error) {
     console.error('Error generating paths:', error);
-    return {
-      paths: [],
-      fallback: false
-    };
+    return [];
   }
 }
-
 ---
-
 <LayoutPrincipal title="">
   <Layoutcontenido title="">
     <div class="p-8">
@@ -84,7 +76,7 @@ export async function getStaticPaths() {
     </div>
 
     <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-      <a href={`/VistaTiposDeAreas/${idarea}`} class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
+      <a href={`/Services/${idarea}`} class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
         <BotonPrincipal Text="Volver" />
       </a>
     </div>

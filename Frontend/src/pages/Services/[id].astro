@@ -31,7 +31,8 @@ export async function getStaticPaths() {
     const areas = await response.json();
 
     return areas.map(area => ({
-      params: { id: area.idarea.toString() }
+      params: { id: area.idarea.toString() },
+      path: `/${area.idarea}` // Update the path format to match the link format
     }));
   } catch (error) {
     console.error('Error generating paths:', error);
@@ -52,10 +53,9 @@ export async function getStaticPaths() {
         {tipos.length > 0 ? (
           tipos.map(tipo => (
             <div :key={tipo.idtiposdearea}>
-              <a href={`/VistaItemsAreas/${id}/${tipo.idtiposdearea}`}>
-              <Card Text={tipo.tiposdearea} />
+              <a href={`/${id}-${tipo.idtiposdearea}`}>
+                <Card Text={tipo.tiposdearea} />
               </a>
-
             </div>
           ))
         ) : (
