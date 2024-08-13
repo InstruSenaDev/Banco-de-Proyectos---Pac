@@ -31,19 +31,6 @@ async function getAllUsuario() {
     }
 }
 
-// Función para obtener todas las áreas
-async function getAllAreas() {
-    try {
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM area');
-        client.release();
-        return result.rows;
-    } catch (error) {
-        console.error('Error al obtener áreas:', error);
-        throw error;
-    }
-}
-
 // Función para registrar una nueva persona
 async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
     try {
@@ -91,93 +78,4 @@ async function loginPerson(correo, contraseña) {
     }
 }
 
-// Función para registrar una nueva ficha
-async function registerFicha({ nombre, numeroFicha, estado }) {
-    try {
-        console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha, estado });
-
-        const client = await pool.connect();
-        const result = await client.query(
-            'INSERT INTO ficha (nombre, numeroficha, estado) VALUES ($1, $2, $3) RETURNING *',
-            [nombre, numeroFicha, estado]
-        );
-        client.release();
-        console.log('Ficha registrada con éxito:', result.rows[0]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al registrar ficha:', error);
-        throw error;
-    }
-}
-
-// Función para registrar Área
-async function registerArea({ area, estado }) {
-    try {
-        console.log('Datos recibidos en registerArea:', { area, estado });
-
-        const client = await pool.connect();
-
-        // Verificar si el área ya existe
-        const checkQuery = 'SELECT COUNT(*) FROM area WHERE area = $1';
-        const checkResult = await client.query(checkQuery, [area]);
-
-        if (parseInt(checkResult.rows[0].count) > 0) {
-            console.log('El área ya existe.');
-            client.release();
-            return { error: 'El área ya existe.' };
-        } else {
-            // Insertar el área si no existe
-            const insertQuery = 'INSERT INTO area (area, estado) VALUES ($1, $2) RETURNING *';
-            const result = await client.query(insertQuery, [area, estado]);
-            client.release();
-            console.log('Área registrada con éxito:', result.rows[0]);
-            return result.rows[0];
-        }
-    } catch (error) {
-        console.error('Error al registrar área:', error.message, error.stack);
-        throw error;
-    }
-}
-
-
-// Función para obtener todos los tipos de área por un área específica
-async function getTiposDeArea(idarea) {
-    try {
-        console.log('Obteniendo tipos de área para el área con ID:', idarea);
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM tiposdearea WHERE idarea = $1', [idarea]);
-        client.release();
-        console.log('Tipos de área obtenidos con éxito:', result.rows);
-        return result.rows;
-    } catch (error) {
-        console.error('Error al obtener tipos de área:', error);
-        throw error;
-    }
-}
-
-// Función para registrar un nuevo tipo de área
-async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
-    try {
-        const client = await pool.connect();
-        const checkQuery = 'SELECT COUNT(*) FROM tiposdearea WHERE idarea = $1 AND tiposdearea = $2';
-        const checkResult = await client.query(checkQuery, [idarea, tiposdearea]);
-
-        if (parseInt(checkResult.rows[0].count) > 0) {
-            client.release();
-            return { error: 'El tipo de área ya existe.' };
-        } else {
-            const insertQuery = 'INSERT INTO tiposdearea (tiposdearea, estado, idarea) VALUES ($1, $2, $3) RETURNING *';
-            const result = await client.query(insertQuery, [tiposdearea, estado, idarea]);
-            client.release();
-            return result.rows[0];
-        }
-    } catch (error) {
-        console.error('Error al registrar tipo de área:', error);
-        throw error;
-    }
-}
-
-
-
-
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, registerTipoDeArea };
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson };

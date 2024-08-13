@@ -59,49 +59,18 @@ import Itemss1 from "../Components/Itemss1.astro"
                 </div>
             </aside>
 
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                  // Obtener el rol del usuario desde localStorage
-                  const userRole = localStorage.getItem('userRole');
-                  // Definir los ítems del menú para cada rol
-                  const menuItemsByRole = {
-                    1: [
-                      { icon: 'fas fa-home', href: '/VistaProyectos', label: 'Proyectos' },
-                      { icon: 'fas fa-solid fa-user', href: '/VistaAprobados', label: 'Vista Aprobados' },
-                      { icon: 'fas fa-cog', href: '/AsignarProyecto', label: 'Asignar Proyecto' }
-                    ],
-                    2: [
-                      { icon: 'fas fa-home', href: '/VistaMisProyectos', label: 'Vista Mis proyectos' },
-                      { icon: 'fas fa-project-diagram', href: '/editarPerfil', label: 'Editar Perfil' }
-                    ],
-                    3: [
-                      { icon: 'fas fa-home', href: '/CrearFichas', label: 'Crear Usuario' },
-                      { icon: 'fas fa-solid fa-users', href: '/CrearUsuario', label: 'Crear Fichas' },
-                      { icon: 'fas fa-tools', href: '/EditarRegistro', label: 'Editar Registro' },
-                      { icon: 'fas fa-tools', href: '/CargaMasiva', label: 'Cargar Aprendices' }
-                    ],
-                    4: [
-                      { icon: 'fas fa-home', href: '/ProyectosAsignados', label: 'Proyectos Asignados' },
-                      { icon: 'fas fa-book', href: '/editarPerfil', label: 'Editar Perfil' }
-                    ]
-                  };
-            
-                  // Obtener los ítems del menú basados en el rol del usuario
-                  const menuItems = menuItemsByRole[userRole] || [];
-                  const menuList = document.getElementById('menu-list');
-            
-                  // Renderizar los ítems del menú dinámicamente
-                  menuList.innerHTML = menuItems.map(item => `
-                    <li>
-                      <a href="${item.href}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
-                        <div>
-                          <i class="${item.icon} flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black" aria-hidden="true"></i>
-                        </div>
-                        <span class="flex-1 ms-3 whitespace-nowrap">${item.label}</span>
-                      </a>
-                    </li>
-                  `).join('');
-                });
-              </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const menuButton = document.getElementById('menu-button');
+                const sidebar = document.getElementById('sidebar');
+
+                if (menuButton && sidebar) {
+                    menuButton.addEventListener('click', () => {
+                        sidebar.classList.toggle('-translate-x-full');
+                        sidebar.classList.toggle('open');
+                    });
+                }
+            });
+        </script>
     </body>
 </html>
