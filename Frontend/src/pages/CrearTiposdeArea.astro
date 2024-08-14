@@ -9,7 +9,7 @@ import SelectBoxArea from "../Components/SelectBoxArea.astro"
 // Función para obtener las áreas desde la API
 const fetchAreas = async () => {
   try {
-    const response = await fetch('http://localhost:4000/api/areas');
+    const response = await fetch('http://localhost:4000/api/area');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -20,7 +20,6 @@ const fetchAreas = async () => {
     return []; 
   }
 };
-
 const areas = await fetchAreas();
 ---
 <style>

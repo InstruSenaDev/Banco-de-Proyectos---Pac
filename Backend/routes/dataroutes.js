@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllFichas, registerFicha } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, registerTipoDeArea  } from '../controllers/datacontroler.js';
 
 const app = express(); // Crear la instancia de Express
 
@@ -33,14 +33,14 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
-//Obtener fichas
-router.get('/fichas', async (req, res) => {
+//Obtener Areas
+router.get('/area', async (req, res) => {
     try {
-        const fichas = await getAllFichas();
-        res.json(fichas);
+        const area = await getAllAreas();
+        res.json(area);
     } catch (error) {
-        console.error('Error al obtener las fichas:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message});
+        console.error('Error al obtener áreas:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
 
@@ -71,17 +71,44 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
-
-
-// Ruta para registrar una nueva ficha
+//Registro ficha
 router.post('/registerFicha', async (req, res) => {
     try {
-        const { nombre, numeroFicha, estado } = req.body;
-        const newFicha = await registerFicha({ nombre, numeroFicha, estado });
+        const newFicha = await registerFicha(req.body);
         res.status(201).json(newFicha);
     } catch (error) {
-    console.error('Error al registrar ficha:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+        res.status(500).json({ error: 'Error al registrar ficha' });
+    }
+});
+
+// Ruta para registrar una nueva ficha
+router.post('/registerArea', async (req, res) => {
+    try {
+        const { area, estado } = req.body;
+        const newArea = await registerArea({ area, estado });
+        if (newArea.error) {
+            res.status(400).json({ error: newArea.error });
+        } else {
+            res.status(201).json(newArea);
+        }
+    } catch (error) {
+        console.error('Error al registrar área:', error.message, error.stack);
+        res.status(500).json({ error: 'Error al registrar área', details: error.message });
+    }
+});
+
+//Registro tipo de fichas
+router.post('/api/registerTipoDeArea', async (req, res) => {
+    try {
+        const { tiposdearea, estado, idarea } = req.body;
+        if (typeof idarea !== 'number' || isNaN(idarea)) {
+            return res.status(400).json({ error: 'El idarea debe ser un número.' });
+        }
+        const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
+        res.status(201).json(newTipoDeArea);
+    } catch (error) {
+        console.error('Error en el registro de tipo de área:', error);
+        res.status(500).json({ error: 'Error interno del servidor.' });
     }
 });
 
