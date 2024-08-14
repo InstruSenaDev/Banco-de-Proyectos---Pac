@@ -1,5 +1,5 @@
 ---
-import { Title, Text } from '@tremor/react';
+import { Title, Text, Button} from '@tremor/react';
 import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import {CardBase} from '../Components/CardBase'
@@ -12,45 +12,52 @@ import { TableProject } from "../Components/TableProject"
 
     <Layoutcontenido title="contenido">
 
-        <div class="bg-slate-200 p-6 sm:p-10">
+        <div class="bg-[#A3E784] p-6 sm:p-10 rounded ">
             <Title>Bienvenido SuperAdmin</Title>
             <Text>Banco de Proyectos</Text>
         </div>
 
-        <TabState
-         Text1={'Pestaña1'} Text2={'Pestaña2'} client:visible/>
+        <TabState client:visible
+         Text1='Pestaña1' Text2='Pestaña2' />
 
-        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
-            <CardBase title={'Crear Area'} 
-            metricValue={50} 
+        <div class="flex flex-wrap  gap-4 mt-6 z-0 w-full">
+            <CardBase title={'Areas'} 
+            metricValue={20} 
             progressText={'Proyectos creados'} 
-            additionalText={'Proyectos'} client:visible/>
+            
+            buttonTex={'Ver detalle'} client:visible/>
+            
             <CardBase title={'Crear Instructores'} 
             metricValue={50} 
             progressText={'Proyectos creados'} 
-            additionalText={'Proyectos'} client:visible/>
+            
+            buttonTex={'Ver detalle'} client:visible/>
             <CardBase title={'Crear aprendices'} 
-            metricValue={50} 
+            metricValue={40} 
             progressText={'Proyectos creados'} 
-            additionalText={'Proyectos'} client:visible/>
+            
+            buttonTex={'Ver detalle'} client:visible/>
             <CardBase title={'Craer Objetivos'} 
-            metricValue={50} 
+            metricValue={90} 
             progressText={'Proyectos creados'} 
-            additionalText={'Proyectos'} client:visible/>
+            
+            buttonTex={'Ver detalle'} client:visible/>
             <CardBase title={'Crear Nose'} 
             metricValue={50} 
             progressText={'Proyectos creados'} 
-            additionalText={'Proyectos'} client:visible/>
+            
+            buttonTex={'Ver detalle'} client:visible/>
             <CardBase title={'Proyectos'} 
             metricValue={50} 
             progressText={'Proyectos creados'} 
-            additionalText={'Proyectos'} client:visible/>
+            
+            buttonTex={'Ver detalle'} client:visible/>
         </div>
 
-        <div class="w-full">
+         <!-- <div class="w-full">
             <TableProject/>
 
-        </div>
+        </div>  -->
 
 
 

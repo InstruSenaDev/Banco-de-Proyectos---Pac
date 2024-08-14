@@ -1,15 +1,16 @@
-import { Card, Metric, Text, Flex, ProgressBar } from '@tremor/react';
+import { Card, Metric, Text, Flex, ProgressBar, Button } from '@tremor/react';
 
-export function CardBase({title, metricValue, progressText, additionalText}) {
+export function CardBase({title, metricValue, progressText, buttonTex}) {
   return (
-    <Card className='max-w-sm'>
+    <Card className='max-w-sm 2xl:w-full 2xl:h-full md:w-44'>
       <Text>{title}</Text>
       <Metric>{metricValue}</Metric>
       <Flex className='mt-4'>
         <Text>{progressText}</Text>
-        <Text>{additionalText}</Text>
+        
+        <Button className='bg-green-600 mt-4 md:w-16'>{buttonTex}</Button>
       </Flex>
-      <ProgressBar value={50} color='green' className="mt-2" />
+      <ProgressBar value={20} color='transparent' className="hidden" />
     </Card>
   );
 

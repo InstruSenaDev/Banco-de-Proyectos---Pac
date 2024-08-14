@@ -18,8 +18,8 @@ const config = {
             faint: colors.blue[50],
             muted: colors.blue[200],
             subtle: colors.blue[400],
-            DEFAULT: colors.blue[500],
-            emphasis: colors.blue[700],
+            DEFAULT: colors.transparent[500],
+            emphasis: colors.transparent[700],
             inverted: colors.white,
           },
           background: {
