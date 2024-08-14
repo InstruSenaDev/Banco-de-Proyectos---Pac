@@ -9,7 +9,7 @@ import SelectBoxArea from "../Components/SelectBoxArea.astro"
 // Función para obtener las áreas desde la API
 const fetchAreas = async () => {
   try {
-    const response = await fetch('http://localhost:4000/api/areas');
+    const response = await fetch('http://localhost:4000/api/area');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -46,7 +46,7 @@ const areas = await fetchAreas();
 </style>
 
 <LayoutPrincipal title="">
-    <Layoutcontenido5 title="Tipos de Area">
+    <Layoutcontenido5 title="Items">
         <div class="w-full md:w-1/2 " >
             <div class="flex flex-col p-[5%] Flex-box space-y-5">
 
@@ -56,18 +56,20 @@ const areas = await fetchAreas();
                 </div>
 
                 <div>
-                    <Input Text="Tipo de Area" placeholder="Ingrese tipo de area" type="text" id="nombreTipoArea"/>
-                    <span id="TipoAreaError" class="error-message"></span>
+                    <Input Text="Items" placeholder="Ingrese Items" type="text" id="Items"/>
+                    <span id="ItemsError" class="error-message"></span>
                 </div>
 
-                <div class="space-y-4">
-                    <h1>Estado:</h1>
-                    <div class="flex h-[23px]">
-                        <RadioButton Text="Activo" id="estadoActivo" />
-                        <RadioButton Text="Inactivo" id="estadoInactivo" />
-                    </div>
-                    <span id="estadoError" class="error-message"></span>
+                <div>
+                    <Input Text="" placeholder="Ingrese Items" type="text" id="Items"/>
+                    <span id="ItemsError" class="error-message"></span>
                 </div>
+
+                <div>
+                    <Input Text="" placeholder="Ingrese Items" type="text" id="Items"/>
+                    <span id="ItemsError" class="error-message"></span>
+                </div>
+
 
                 <div class="flex justify-center items-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
                     <BotonSegundo Text="Guardar" id="guardarBtn"/>
