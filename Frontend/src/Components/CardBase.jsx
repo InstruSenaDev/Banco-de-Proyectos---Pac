@@ -1,9 +1,16 @@
-import { Card } from '@tremor/react';
+import { Card, Metric, Text, Flex, ProgressBar } from '@tremor/react';
 
-export function CardHero() {
+export function CardBase({title, metricValue, progressText, additionalText}) {
   return (
-    <Card className="mx-auto max-w-xs">
-      <p className="text-center text-slate-400">Card</p>
+    <Card className='max-w-sm'>
+      <Text>{title}</Text>
+      <Metric>{metricValue}</Metric>
+      <Flex className='mt-4'>
+        <Text>{progressText}</Text>
+        <Text>{additionalText}</Text>
+      </Flex>
+      <ProgressBar value={50} className="mt-2" />
     </Card>
   );
+
 }

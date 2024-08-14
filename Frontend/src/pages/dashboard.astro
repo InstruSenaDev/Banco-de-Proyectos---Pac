@@ -1,0 +1,51 @@
+---
+import CardProyect from "../Components/CardProyect.astro"
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import RadioButton from "../Components/RadioButton.astro"
+import BotonSegundo from "../Components/BotonSegundo.astro"
+import Layoutprincipal from "../layouts/Layoutprincipal.astro"
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
+import {CardBase} from '../Components/CardBase'
+import { TabState } from "../Components/TabState"
+
+---
+
+<Layoutprincipal title="Proyectos">
+
+    <Layoutcontenido title="contenido">
+
+        <TabState Text1={'Proyectos'} Text2={'Aprendices'} client:visible/>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <CardBase title={'Crear Area'} 
+            metricValue={50} 
+            progressText={'Proyectos creados'} 
+            additionalText={'Proyectos'} client:visible/>
+            <CardBase title={'Crear Instructores'} 
+            metricValue={50} 
+            progressText={'Proyectos creados'} 
+            additionalText={'Proyectos'} client:visible/>
+            <CardBase title={'Crear aprendices'} 
+            metricValue={50} 
+            progressText={'Proyectos creados'} 
+            additionalText={'Proyectos'} client:visible/>
+            <CardBase title={'Craer Objetivos'} 
+            metricValue={50} 
+            progressText={'Proyectos creados'} 
+            additionalText={'Proyectos'} client:visible/>
+            <CardBase title={'Crear Nose'} 
+            metricValue={50} 
+            progressText={'Proyectos creados'} 
+            additionalText={'Proyectos'} client:visible/>
+            <CardBase title={'Proyectos'} 
+            metricValue={50} 
+            progressText={'Proyectos creados'} 
+            additionalText={'Proyectos'} client:visible/>
+        </div>
+
+
+
+
+</Layoutcontenido>
+
+</Layoutprincipal>
