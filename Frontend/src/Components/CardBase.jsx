@@ -9,7 +9,7 @@ export function CardBase({title, metricValue, progressText, additionalText}) {
         <Text>{progressText}</Text>
         <Text>{additionalText}</Text>
       </Flex>
-      <ProgressBar value={50} className="mt-2" />
+      <ProgressBar value={50} color='green' className="mt-2" />
     </Card>
   );
 

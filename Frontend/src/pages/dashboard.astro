@@ -1,12 +1,10 @@
 ---
-import CardProyect from "../Components/CardProyect.astro"
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
-import RadioButton from "../Components/RadioButton.astro"
-import BotonSegundo from "../Components/BotonSegundo.astro"
+import { Title, Text } from '@tremor/react';
 import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import {CardBase} from '../Components/CardBase'
 import { TabState } from "../Components/TabState"
+import { TableProject } from "../Components/TableProject"
 
 ---
 
@@ -14,9 +12,15 @@ import { TabState } from "../Components/TabState"
 
     <Layoutcontenido title="contenido">
 
-        <TabState Text1={'Proyectos'} Text2={'Aprendices'} client:visible/>
+        <div class="bg-slate-200 p-6 sm:p-10">
+            <Title>Bienvenido SuperAdmin</Title>
+            <Text>Banco de Proyectos</Text>
+        </div>
 
-        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <TabState
+         Text1={'Pestaña1'} Text2={'Pestaña2'} client:visible/>
+
+        <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 z-0">
             <CardBase title={'Crear Area'} 
             metricValue={50} 
             progressText={'Proyectos creados'} 
@@ -43,6 +47,10 @@ import { TabState } from "../Components/TabState"
             additionalText={'Proyectos'} client:visible/>
         </div>
 
+        <div class="w-full">
+            <TableProject/>
+
+        </div>
 
 
 
