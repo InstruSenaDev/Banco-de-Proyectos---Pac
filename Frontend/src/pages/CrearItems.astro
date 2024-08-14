@@ -70,12 +70,23 @@ const areas = await fetchAreas();
                     <span id="ItemsError" class="error-message"></span>
                 </div>
 
+                <div class="space-y-4">
+                    <h1>Estado:</h1>
+                    <div class="flex h-[23px]">
+                        <RadioButton Text="Activo" id="estadoActivo" />
+                        <RadioButton Text="Inactivo" id="estadoInactivo" />
+                    </div>
+                    <span id="estadoError" class="error-message"></span>
+                </div>
+
 
                 <div class="flex justify-center items-center sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
                     <BotonSegundo Text="Guardar" id="guardarBtn"/>
                 </div>
             </div>
         </div>
+
+        <script src="../js/Items.js"></script>
     </Layoutcontenido5>
 </LayoutPrincipal>
 
