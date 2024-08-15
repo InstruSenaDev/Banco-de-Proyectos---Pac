@@ -17,7 +17,7 @@ const fetchAreas = async () => {
     return data.map(area => ({ value: area.id, label: area.area }));  // Ajustar para incluir ID
   } catch (error) {
     console.error('Error al obtener áreas:', error);
-    return []; 
+    return [];
   }
 };
 const areas = await fetchAreas();
@@ -73,7 +73,7 @@ const areas = await fetchAreas();
                 </div>
             </div>
         </div>
-        <script src="../js/TipodeArea.js"></script>
+        <script src="../js/TiposdeArea.js"></script>
     </Layoutcontenido5>
 </LayoutPrincipal>
 

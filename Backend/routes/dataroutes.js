@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, registerTipoDeArea  } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, getAllFichas, registerTipoDeArea  } from '../controllers/datacontroler.js';
 
 const app = express(); // Crear la instancia de Express
 
@@ -40,6 +40,17 @@ router.get('/area', async (req, res) => {
         res.json(area);
     } catch (error) {
         console.error('Error al obtener áreas:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+//Obtener Fichas
+router.get('/ficha', async (req, res) => {
+    try {
+        const ficha = await getAllFichas();
+        res.json(ficha);
+    } catch (error) {
+        console.error('Error al obtener ficha:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
@@ -97,19 +108,48 @@ router.post('/registerArea', async (req, res) => {
     }
 });
 
-//Registro tipo de fichas
+// Obtener tipos de área por área específica
+router.get('/tiposdearea/:idarea', async (req, res) => {
+    const idarea = Number(req.params.idarea); // Asegurarse de que idarea es un número
+
+    if (isNaN(idarea)) {
+        return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
+    }
+
+    try {
+        const tiposDeArea = await getTiposDeArea(idarea);
+        res.status(200).json(tiposDeArea);
+    } catch (error) {
+        console.error('Error al obtener tipos de área:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+});
+
+// Registro de tipo de área
 router.post('/api/registerTipoDeArea', async (req, res) => {
     try {
         const { tiposdearea, estado, idarea } = req.body;
+
         if (typeof idarea !== 'number' || isNaN(idarea)) {
-            return res.status(400).json({ error: 'El idarea debe ser un número.' });
+            return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
         }
+
         const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
+        if (newTipoDeArea.error) {
+            return res.status(400).json({ error: newTipoDeArea.error });
+        }
+
         res.status(201).json(newTipoDeArea);
     } catch (error) {
-        console.error('Error en el registro de tipo de área:', error);
-        res.status(500).json({ error: 'Error interno del servidor.' });
+        console.error('Error al registrar tipo de área:', error);
+        res.status(500).json({ error: 'Error interno del servidor.', details: error.message });
     }
+});
+
+// Middleware de manejo de errores
+router.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Error interno del servidor.', details: err.message });
 });
 
 export default router;
