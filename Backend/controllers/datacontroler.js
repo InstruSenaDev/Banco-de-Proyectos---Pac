@@ -44,6 +44,19 @@ async function getAllAreas() {
     }
 }
 
+// Función para obtener todas los tipos de area
+async function getAllTiposdeArea() {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM tipodearea');
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener áreas:', error);
+        throw error;
+    }
+}
+
 // Función para obtener todas las fichas
 async function getAllFichas() {
     try {
@@ -56,6 +69,7 @@ async function getAllFichas() {
         throw error;
     }
 }
+
 
 
 // Función para registrar una nueva persona
@@ -191,4 +205,4 @@ async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
 }
 
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllFichas, getAllAreas, getTiposDeArea, registerTipoDeArea };
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTiposdeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTiposDeArea, registerTipoDeArea };

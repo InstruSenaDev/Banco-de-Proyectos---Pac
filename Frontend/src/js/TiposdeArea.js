@@ -15,7 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log('Estado:', estado);
 
             const formData = { idarea, tiposdearea, estado };
+            console.log(formData);
 
+            // Asegúrate de usar JSON.stringify para convertir el objeto en una cadena JSON
             fetch('http://localhost:4000/api/registerTipoDeArea', {
                 method: 'POST',
                 headers: {
@@ -23,21 +25,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 body: JSON.stringify(formData)
             })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(error => {
-                        throw new Error(`Error: ${error.error || 'Unknown error'}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Tipo de Área registrado con éxito:', data);
-                window.location.href = '/VistaCrearRegistro';
-            })
-            .catch(error => {
-                console.error('Error al registrar tipo de área:', error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(error => {
+                            throw new Error(`Error: ${error.error || 'Unknown error'}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Tipo de Área registrado con éxito:', data);
+                    window.location.href = '/VistaCrearRegistro';
+                })
+                .catch(error => {
+                    console.error('Error al registrar tipo de área:', error);
+                });
         }
     });
 

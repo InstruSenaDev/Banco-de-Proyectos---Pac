@@ -8,7 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const idarea = Number(document.getElementById("Area").value); // Convertir a número
             const Items = document.getElementById("Items").value.trim();
             const estado = document.querySelector('input[name="estado"]:checked')?.value;
-            ç
+
+            // Aquí puedes continuar con el código para procesar los datos y enviarlos al servidor.
+        }
+    });
 
     function validateForm() {
         let isValid = true;
@@ -24,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Validar Nombre del tipo de área (solo letras y un solo número)
-        const Items = document.getElementById("nItems");
+        const Items = document.getElementById("Items");
         const ItemsError = document.getElementById("ItemsError");
         const nombrePattern = /^[A-Za-zÀ-ÿ\s.,0-9()]{2,50}$/;
         const nombreValue = Items.value.trim();

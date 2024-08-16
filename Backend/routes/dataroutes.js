@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, registerArea, getAllAreas, getTiposDeArea, getAllFichas, registerTipoDeArea  } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTiposdeArea, registerArea, getAllAreas, getTiposDeArea, getAllFichas, registerTipoDeArea  } from '../controllers/datacontroler.js';
 
 const app = express(); // Crear la instancia de Express
 
@@ -36,7 +36,18 @@ router.get('/usuarios', async (req, res) => {
 //Obtener Areas
 router.get('/area', async (req, res) => {
     try {
-        const area = await getAllAreas();
+        const area = await getAllTiposdeArea();
+        res.json(area);
+    } catch (error) {
+        console.error('Error al obtener áreas:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+//Obtener Tipos de area
+router.get('/tiposdearea', async (req, res) => {
+    try {
+        const area = await getAllTiposdeAreas();
         res.json(area);
     } catch (error) {
         console.error('Error al obtener áreas:', error);
