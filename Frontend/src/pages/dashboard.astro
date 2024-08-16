@@ -4,7 +4,7 @@ import Layoutprincipal from "../layouts/Layoutprincipal.astro"
 import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import {CardBase} from '../Components/CardBase'
 import { TabState } from "../Components/TabState"
-import { TableProject } from "../Components/TableProject"
+import Grid from '../Components/Grid.astro';
 
 ---
 
@@ -12,15 +12,15 @@ import { TableProject } from "../Components/TableProject"
 
     <Layoutcontenido title="contenido">
 
-        <div class="bg-[#A3E784] p-6 sm:p-10 rounded ">
-            <Title>Bienvenido SuperAdmin</Title>
-            <Text>Banco de Proyectos</Text>
+        <div class="bg-[#059669] p-6 sm:p-10 rounded ">
+            <Title className='text-white text-lg font-extrabold'>Bienvenido SuperAdmin</Title>
+            <Text className='text-white font-extrabold'>Banco de Proyectos</Text>
         </div>
 
-        <TabState client:visible
-         Text1='Pestaña1' Text2='Pestaña2' />
+        <!-- <TabState client:visible
+         Text1='Pestaña1' Text2='Pestaña2' /> -->
 
-        <div class="flex flex-wrap  gap-4 mt-6 z-0 w-full">
+        <div class="flex flex-wrap  gap-4 mt-16 z-0 w-full">
             <CardBase title={'Areas'} 
             metricValue={20} 
             progressText={'Proyectos creados'} 
@@ -54,10 +54,24 @@ import { TableProject } from "../Components/TableProject"
             buttonTex={'Ver detalle'} client:visible/>
         </div>
 
-         <!-- <div class="w-full">
-            <TableProject/>
+        <div class="border-[1px] rounded-t-lg mt-10">
 
-        </div>  -->
+            <!-- <div class="grid grid-cols-12 bg-[#059669] font-bold py-4 rounded-t-lg border-b">
+                <div class="text-white text-lg font-extrabold col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
+              </div>
+
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+            <Grid Text1='' id1='' id2='' name='' categoria=''/>
+
+        </div> -->
 
 
 

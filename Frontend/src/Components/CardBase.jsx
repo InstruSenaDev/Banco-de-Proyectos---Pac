@@ -8,7 +8,7 @@ export function CardBase({title, metricValue, progressText, buttonTex}) {
       <Flex className='mt-4'>
         <Text>{progressText}</Text>
         
-        <Button className='bg-green-600 mt-4 md:w-16'>{buttonTex}</Button>
+        <a className='text-green-500' href=""><u>Ver detalle</u></a>
       </Flex>
       <ProgressBar value={20} color='transparent' className="hidden" />
     </Card>

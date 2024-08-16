@@ -3,10 +3,9 @@ interface Props {
 Text1: string;
 Text2: string;
 Text3: String;
-Text4: String;
 }
 
-const {Text1, Text2, Text3, Text4} = Astro.props;
+const {Text1, Text2, Text3} = Astro.props;
 ---
 
 <style>
@@ -32,7 +31,6 @@ const {Text1, Text2, Text3, Text4} = Astro.props;
             <div class="col-span-2 flex items-center justify-center space-x-4">
                 <p class="text-2xl font-josefin-slab font-bold">{Text2}</p>
                 <p class="text-2xl font-josefin-slab font-bold">{Text3}</p>
-                <p class="text-2xl font-josefin-slab font-bold">{Text4}</p>
             </div>
         </div>
     </div>
