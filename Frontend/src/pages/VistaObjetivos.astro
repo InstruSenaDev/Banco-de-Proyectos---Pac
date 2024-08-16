@@ -5,7 +5,6 @@ import Grid from "../Components/Grid.astro";
 import BotonPrincipal from "../Components/BotonPrincipal.astro";
 import BotonSegundo from "../Components/BotonSegundo.astro";
 
-
 // Obtener idarea y idtiposdearea de los parámetros de la ruta
 const { idarea, idtiposdearea } = Astro.params;
 
@@ -38,6 +37,8 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
   acc[objetivo.categoria].push(objetivo);
   return acc;
 }, {} as Record<string, Objetivo[]>);
+
+
 ---
 
 <LayoutPrincipal title="">
@@ -54,18 +55,18 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
 
         <!-- Fila de títulos de la tabla -->
         <div class="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
-          <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">Tipos de objetivos</div>
-          <div class="col-span-12 md:col-span-8 text-center md:text-left pl-4">Pregunta</div>
+         
+          <div class="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipos de objetivos</div>
           <div class="hidden md:block col-span-1 text-center">Sí</div>
           <div class="hidden md:block col-span-1 text-center">No</div>
         </div>
 
         {Object.keys(groupedObjetivos).map((categoriaNombre) => (
           <>
-            <div class="grid grid-cols-12 bg-green-50 md:text-left px-6 ">
+            <div class=" grid-cols-12 bg-green-50  md:col-span-10 pl-4  col-span-12  flex  py-2">
               {categoriaNombre} 
             </div>
-
+          
             {groupedObjetivos[categoriaNombre].map((objetivo, index) => (
               <Grid 
                 Text1={`${index + 1}. ${objetivo.descripcion}`}
@@ -79,7 +80,7 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
         ))}
 
         <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-          <a href={`/${idarea}-${idtiposdearea}`} class="">
+          <a href={`/Services/${idarea}-${idtiposdearea}`} >
             <BotonPrincipal Text="Volver" />
           </a>
           <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">

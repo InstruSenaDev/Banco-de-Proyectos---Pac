@@ -49,15 +49,15 @@ const groupedAlcances = alcances.reduce((acc, alcance) => {
 
                  <!-- Fila de títulos de la tabla -->
                  <div class="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
-                    <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">Tipo de Alcance</div>
-                    <div class="col-span-12 md:col-span-8 text-center md:text-left pl-4">Pregunta</div>
+                  
+                    <div class="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipo de alcance</div>
                     <div class="hidden md:block col-span-1 text-center">Sí</div>
                     <div class="hidden md:block col-span-1 text-center">No</div>
                 </div>
 
                 {Object.keys(groupedAlcances).map((categoria) => (
                     <>
-                    <div class="grid grid-cols-12  bg-green-50  md:text-left px-6">   
+                    <div class="grid-cols-12 bg-green-50  md:col-span-10 pl-4  col-span-12  flex  py-2">   
                             {categoria}
                         </div>
                      

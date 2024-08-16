@@ -53,7 +53,7 @@ export async function getStaticPaths() {
         {tipos.length > 0 ? (
           tipos.map(tipo => (
             <div :key={tipo.idtiposdearea}>
-              <a href={`/${id}-${tipo.idtiposdearea}`}>
+              <a href={`/Services/${id}-${tipo.idtiposdearea}`}>
                 <Card Text={tipo.tiposdearea} />
               </a>
             </div>

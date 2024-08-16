@@ -17,14 +17,13 @@ const { Text1, id1, id2, name, categoria } = Astro.props;
     <div class="grid rounded-lg">
         <!-- Filas de la tabla -->
         <div class="grid grid-cols-12 items-center border-b py-4">
-            <!-- Columna Tipo de Objetivo -->
-            <div class="col-span-12 md:col-span-2 flex justify-start items-center px-6">
-                <span class="text-lg text-left">{categoria}</span> <!-- Mostrar la categoría aquí -->
-            </div>
+           
+           
             <!-- Columna Pregunta -->
-            <div class="col-span-12 md:col-span-8 flex items-center pl-4">
+            <div class="col-span-12 md:col-span-10 flex items-center pl-4">
                 <span class="text-lg">{Text1}</span> 
             </div>
+            
             <!-- Columna Sí -->
             <div class="col-span-6 md:col-span-1 flex justify-center items-center space-x-2">
                 <RadioButton2 Text='' id={id1} name={name} />
