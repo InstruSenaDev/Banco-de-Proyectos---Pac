@@ -6,10 +6,41 @@ document.addEventListener("DOMContentLoaded", function () {
         const isValid = validateForm();
         if (isValid) {
             const idarea = Number(document.getElementById("Area").value); // Convertir a número
-            const Items = document.getElementById("Items").value.trim();
-            const estado = document.querySelector('input[name="estado"]:checked')?.value;
+            const items = document.getElementById("Items").value.trim();
+            const estado = document.querySelector('input[name="estado"]:checked').value === 'Activo'; // Convertir a boolean
+            const idtiposdearea = Number(document.getElementById("TipoArea").value); // Supongo que tienes un select similar para 'Tipo de Área'
 
-            // Aquí puedes continuar con el código para procesar los datos y enviarlos al servidor.
+            // Datos para enviar al servidor
+            const data = {
+                items: items,
+                estado: estado,
+                idtiposdearea: idtiposdearea,
+                idarea: idarea
+            };
+
+            // Llamada al servidor para guardar los datos
+            fetch('http://localhost:4000/api/guardarItemArea', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(result => {
+                console.log('Resultado:', result);
+                alert('Datos guardados exitosamente');
+                // Aquí puedes agregar lógica adicional como redireccionar o limpiar el formulario
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al guardar los datos');
+            });
         }
     });
 

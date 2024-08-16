@@ -14,14 +14,14 @@ const fetchTiposDeArea = async () => {
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
-    return data.map(TiposDeArea => ({ value: TiposDeArea.id, label: TiposDeArea.TiposDeArea }));  // Ajustar para incluir ID
+    return data.map(area => ({ value: area.id, label: area.tiposdearea }));  // Ajustar para incluir ID
   } catch (error) {
-    console.error('Error al obtener tipos de area:', error);
+    console.error('Error al obtener tipos de área:', error);
     return []; 
   }
 };
 
-const TiposDeArea = await fetchTiposDeArea();
+const TiposDeArea = await fetchTiposDeArea();  // Obtenemos los tipos de área
 ---
 <style>
     body {

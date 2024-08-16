@@ -70,7 +70,18 @@ async function getAllFichas() {
     }
 }
 
-
+// Función para obtener todos los items en itemsarea
+async function getAllItemsArea() {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT * FROM itemsarea');
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener items:', error);
+        throw error;
+    }
+}
 
 // Función para registrar una nueva persona
 async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
@@ -204,5 +215,22 @@ async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
     }
 }
 
+// Función para registrar un nuevo item en itemsarea
+async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO itemsarea (items, estado, idtiposdearea, idarea) VALUES ($1, $2, $3, $4) RETURNING *',
+            [items, estado, idtiposdearea, idarea]
+        );
+        client.release();
+        console.log('Item registrado con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar item:', error);
+        throw error;
+    }
+}
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTiposdeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTiposDeArea, registerTipoDeArea };
+
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTiposdeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTiposDeArea, registerTipoDeArea, registerItemArea, getAllItemsArea };

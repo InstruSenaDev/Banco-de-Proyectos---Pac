@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTiposdeArea, registerArea, getAllAreas, getTiposDeArea, getAllFichas, registerTipoDeArea  } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTiposdeArea, registerArea, getAllAreas, getTiposDeArea, getAllFichas, registerTipoDeArea, registerItemArea, getAllItemsArea  } from '../controllers/datacontroler.js';
 
 const app = express(); // Crear la instancia de Express
 
@@ -63,6 +63,17 @@ router.get('/ficha', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener ficha:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para obtener todos los items en itemsarea
+router.get('/api/itemsArea', async (req, res) => {
+    try {
+        const items = await getAllItemsArea();
+        res.status(200).json(items);
+    } catch (error) {
+        console.error('Error al obtener items:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 });
 
@@ -154,6 +165,18 @@ router.post('/api/registerTipoDeArea', async (req, res) => {
     } catch (error) {
         console.error('Error al registrar tipo de área:', error);
         res.status(500).json({ error: 'Error interno del servidor.', details: error.message });
+    }
+});
+
+// Ruta para registrar un nuevo item en itemsarea
+router.post('/api/registerItemArea', async (req, res) => {
+    try {
+        const { items, estado, idtiposdearea, idarea } = req.body;
+        const newItem = await registerItemArea({ items, estado, idtiposdearea, idarea });
+        res.status(201).json(newItem);
+    } catch (error) {
+        console.error('Error al registrar item:', error);
+        res.status(500).json({ error: 'Error al registrar item.', details: error.message });
     }
 });
 
