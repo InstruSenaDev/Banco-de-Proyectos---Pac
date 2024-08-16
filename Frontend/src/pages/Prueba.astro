@@ -1,0 +1,89 @@
+---
+import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
+import BarraPreguntas from "../Components/BarraPreguntas.astro";
+import Grid from "../Components/Grid.astro";
+import BotonPrincipal from "../Components/BotonPrincipal.astro";
+import BotonSegundo from "../Components/BotonSegundo.astro";
+
+interface Objetivo {
+  idobjetivos: number;
+  descripcion: string;
+  idtiposdearea: number;
+  aplica: boolean;
+}
+
+let objetivos: Objetivo[] = [];
+
+try {
+  const response = await fetch('http://localhost:4000/api/objetivos');
+  if (!response.ok) {
+    throw new Error('La respuesta de la red no fue correcta');
+  }
+  objetivos = await response.json();
+} catch (error) {
+  console.error('No se han podido recuperar los objetivos:', error);
+}
+
+// Agrupar objetivos por tipo de área
+const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
+  if (!acc[objetivo.idtiposdearea]) {
+    acc[objetivo.idtiposdearea] = [];
+  }
+  acc[objetivo.idtiposdearea].push(objetivo);
+  return acc;
+}, {} as Record<number, Objetivo[]>);
+---
+
+<LayoutPrincipal title="">
+    <div class="flex justify-center min-h-screen">
+        <div class="p-10 w-full max-w-7xl my-10">
+            <div class="flex flex-col ">
+                <div class="text-left mb-4">
+                    <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” o “NO” en cada pregunta</h1>
+                </div>
+
+                <div class="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
+                    <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
+                </div>
+
+                 <!-- Fila de títulos de la tabla -->
+                 <div class="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
+                    <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">Tipo de Objetivo</div>
+                    <div class="col-span-12 md:col-span-8 text-center md:text-left pl-4">Pregunta</div>
+                    <div class="hidden md:block col-span-1 text-center">Sí</div>
+                    <div class="hidden md:block col-span-1 text-center">No</div>
+                </div>
+
+                {Object.keys(groupedObjetivos).map((tipoId) => {
+                  const tipo = Number(tipoId); // Convertir el id a número
+                  return (
+                    <>
+                      <div class="grid grid-cols-12 bg-green-50 md:text-left px-6">
+                          Tipo {tipo} {/* Aquí podrías reemplazar con el nombre real del tipo si está disponible */}
+                      </div>
+
+                      {groupedObjetivos[tipo].map((objetivo, index) => (
+                          <Grid 
+                              Text1={`${index + 1}. ${objetivo.descripcion}`}
+                              id1={`radioButton-grid${objetivo.idobjetivos}-si`}
+                              id2={`radioButton-grid${objetivo.idobjetivos}-no`}
+                              name={`pregunta${objetivo.idobjetivos}`}
+                              categoria={tipo.toString()} 
+                          />
+                      ))}
+                    </>
+                  );
+                })}
+
+                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                    <a href="/VistaAreas2" class="">
+                        <BotonPrincipal Text="Volver" />
+                    </a>
+                    <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                        <BotonSegundo Text="Siguiente" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</LayoutPrincipal>

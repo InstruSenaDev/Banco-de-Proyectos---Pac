@@ -55,7 +55,6 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
     }
 }
 
-
 // Función para iniciar sesión
 async function loginPerson(correo, contraseña) {
     try {
@@ -160,6 +159,23 @@ async function getTiposDeAreaPorArea(idArea) {
     }
   }
   
+// Obtener todos los objetivos
+async function getObjetivos() {
+    try {
+        const query = `
+            SELECT o.idobjetivos, o.descripcion, o.aplica, o.idarea, co.nombre AS categoria
+            FROM objetivos o
+            JOIN categoriasobjetivos co ON o.idcategoriasobjetivos = co.idcategoriasobjetivos
+        `;
+        const result = await pool.query(query);
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener objetivos:', error);
+        throw error;
+    }
+};
+
+// Exportar todas las funciones
 export {
     getAllPersonas,
     getAllUsuario,
@@ -169,5 +185,6 @@ export {
     getAllAlcances,
     getAllAreas,
     getTiposDeAreaPorArea,
-    getItemsPorAreaYTipo
+    getItemsPorAreaYTipo,
+    getObjetivos
 };

@@ -6,24 +6,36 @@ interface Props {
   Text1: string;
   id1: string;
   id2: string;
-  name: string;  // Asegúrate de pasar este nombre al componente RadioButton2
+  name: string;
+  categoria: string; // Nueva prop para la categoría
 }
 
-const { Text1, id1, id2, name } = Astro.props;
+const { Text1, id1, id2, name, categoria } = Astro.props;
 ---
 
 <div class="w-full bg-white">
-    <div class="grid gap-4 rounded-lg">
-        <div class="grid grid-cols-12 items-center border-b py-2 mt-15 h-auto ">
-            <div class="col-span-10 flex items-center">
-                <span class="text-lg pl-12">{Text1}</span>
+    <div class="grid rounded-lg">
+        <!-- Filas de la tabla -->
+        <div class="grid grid-cols-12 items-center border-b py-4">
+            <!-- Columna Tipo de Objetivo -->
+            <div class="col-span-12 md:col-span-2 flex justify-start items-center px-6">
+                <span class="text-lg text-left">{categoria}</span> <!-- Mostrar la categoría aquí -->
             </div>
-            <div class="col-span-1 flex justify-center items-center m-4 rounded">
-                <RadioButton2 Text='' id={id1} name={name}></RadioButton2>
+            <!-- Columna Pregunta -->
+            <div class="col-span-12 md:col-span-8 flex items-center pl-4">
+                <span class="text-lg">{Text1}</span> 
             </div>
-            <div class="col-span-1 flex justify-center items-center m-4">
-                <RadioButton2 Text='' id={id2} name={name}></RadioButton2>
+            <!-- Columna Sí -->
+            <div class="col-span-6 md:col-span-1 flex justify-center items-center space-x-2">
+                <RadioButton2 Text='' id={id1} name={name} />
+                <span class="md:hidden">Sí</span>
+            </div>
+            <!-- Columna No -->
+            <div class="col-span-6 md:col-span-1 flex justify-center items-center space-x-2">
+                <RadioButton2 Text='' id={id2} name={name} />
+                <span class="md:hidden">No</span>
             </div>
         </div>
+        <!-- Añadir más filas aquí -->
     </div>
 </div>

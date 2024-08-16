@@ -8,9 +8,8 @@ import {
     getAllAlcances, 
     getAllAreas,
     getTiposDeAreaPorArea,
-    getItemsPorAreaYTipo
-    
-
+    getItemsPorAreaYTipo,
+    getObjetivos
 } from '../controllers/datacontroler.js';
 
 const router = express.Router();
@@ -131,5 +130,15 @@ router.get('/tipos-de-area/:idArea', async (req, res) => {
     }
   });
 
-  
+// Ruta para obtener todos los objetivos
+router.get('/objetivos', async (req, res) => {
+    try {
+        const objetivos = await getObjetivos();
+        res.json(objetivos);
+    } catch (error) {
+        console.error('Error al obtener objetivos:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
 export default router;
