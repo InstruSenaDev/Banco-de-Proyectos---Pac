@@ -121,3 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+    // Esperar 2 segundos y luego mostrar el contenido
+    setTimeout(() => {
+        document.querySelector('.loading-container')?.classList.add('hidden');
+        document.querySelector('.content-container')?.classList.remove('hidden');
+      }, 2000); // 2 segundos de retraso

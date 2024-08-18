@@ -16,23 +16,24 @@ const { Text, class: additionalClasses, id } = Astro.props;
 
 
 <script>
-  if (typeof window !== 'undefined') {
-    function handleClick(event) {
-      const button = event.target.closest('button.boton-principal');
+function handleClick(event) {
+  const button = event.target.closest('button.boton-principal'); // Obtener el botón clicado de tipo BotonPrincipal
 
-      if (button) {
-        document.querySelectorAll('button.boton-principal').forEach(button => {
-          button.classList.remove('bg-[#A3E784]');
-        });
-
-        button.classList.add('bg-[#A3E784]');
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('button.boton-principal').forEach(button => {
-        button.addEventListener('click', handleClick);
-      });
+  if (button) {
+    // Reiniciar la clase de fondo en todos los botones de tipo BotonPrincipal para quitar el efecto
+    document.querySelectorAll('button.boton-principal').forEach(button => {
+      button.classList.remove('bg-[#A3E784]');
     });
+
+    // Añadir la clase de fondo al botón clicado para aplicar el efecto
+    button.classList.add('bg-[#A3E784]');
   }
+}
+
+// Escuchar los clics en todos los botones dentro del contenedor adecuado (si es necesario)
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('button.boton-principal').forEach(button => {
+    button.addEventListener('click', handleClick);
+  });
+});
 </script>
