@@ -1,142 +1,20 @@
 ---
-import PostLayout from "../layouts/PostLayout.astro"
-import Input from "../Components/Input.astro"
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import CardPrueba from "../Components/CardPrueba.astro"
+import LayoutPrincipal from "../layouts/LayoutPrincipal.astro"
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 ---
+<LayoutPrincipal title="">
+<Layoutcontenido title="">
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Slab:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <style>
-        body {
-            font-family: "Josefin Slab", serif;
-            font-optical-sizing: auto;
-        }
-        .relative input {
-            padding-right: 2.5rem; /* Añade espacio a la derecha del input para el icono */
-        }
-        .relative i {
-            right: 1rem; /* Ajusta la posición del icono */
-        }
-        .error-message {
-            color: red;
-            font-size: 0.875rem; /* Tamaño de fuente pequeño */
-            margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
-            margin-bottom: 1rem; /* Espacio debajo del mensaje */
-            text-align: left; /* Alineación del texto */
-            width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
-        }
-    </style>
-</head>
-<body>
-    <div class="flex h-screen items-center justify-center gap-x-72 "> <!--contenedor principal -->
-        <div class="flex content-center"> <!--contenedor del formulario -->
-            <form action="/VistaUsuario" class="form flex flex-col w-96 items-center gap-28">
-                <div class="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-custom-green rounded-bl-[50px] rounded-br-[50px]"> <!--caja del logo -->
-                    <img class="sena w-20 h-20" src="/public/img/logoSena.png" width="10" height="10">
-                </div>
-
-                <div class="login flex flex-col items-center gap-4 min-w-96 ">
-                    <div class="text-3xl pb-8">INICIO DE SESIÓN</div>
-
-                    <div class="relative w-full">
-                        <Input type="email" Text="" placeholder="Correo:" id="CorreoInicio"/>
-                        <span id="correoError" class="error-message"></span>
-                    </div>
-
-                    <div class="relative w-full">
-                        <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaInicio"/>
-                        <i class='bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4' id="togglePasswordInicio"></i>
-                        <span id="contrasenaError" class="error-message"></span>
-                    </div>
-
-                    <div class="flex justify-end w-full">
-                    <a href="/OlvidarContraseña" class="text-blue-500 underline decoration-1 ">¿Olvidaste tu contraseña?</a>
-                    </div>
-
-                <a href="/VistaUsuario">
-                    <BotonPrincipal Text="Iniciar Sesión" id="Login"></BotonPrincipal>
-                </a>
-                </div>
-
-                <div class="boton items-center text-center mb-3 ">
-                    <div class="flex">¿No tienes cuenta?</div>
-                    <a href="/Registro1" class="signup text-blue-500 underline decoration-1">Registrarse</a>
-                </div>
-            </form>
+    <div class="flex justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <CardPrueba Text="Costos y producciones"></CardPrueba>
+            <CardPrueba Text=""></CardPrueba>
+            <CardPrueba Text=""></CardPrueba>
         </div>
-        <div>
-            <img class="w-[800px] h-[800px]" src="../../public/img/nino.png" alt="">
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const formu = document.getElementById('formu') as HTMLFormElement;
-            const correoInicio = document.getElementById('correoInicio') as HTMLFormElement;
-            const contrasenaInicio = document.getElementById('contrasenaInicio') as HTMLFormElement;
-            const togglePasswordInicio = document.getElementById('togglePasswordInicio');
-            const correoError = document.getElementById('correoError');
-            const contrasenaError = document.getElementById('contrasenaError');
+      </div>
 
 
-            if (formu) {
-        // Resetear el formulario
-        formu.reset();
+</Layoutcontenido>
+</LayoutPrincipal>
 
-    }
-
-    if (togglePasswordInicio) {
-        // Toggle password visibility
-        togglePasswordInicio.addEventListener('click', function() {
-            if (contrasenaInicio) {
-                const type = contrasenaInicio.getAttribute('type') === 'password' ? 'text' : 'password';
-                contrasenaInicio.setAttribute('type', type);
-            }
-            this.classList.toggle('bx-show');
-            this.classList.toggle('bx-hide');
-        });
-    }
-
-            if (formu) {
-                formu.addEventListener('submit', function(event) {
-                    let valid = true;
-                    if (correoError) correoError.textContent = '';
-                    if (contrasenaError) contrasenaError.textContent = '';
-
-                    // Validación del correo electrónico
-                    const correoValue = correoInicio ? correoInicio.value.trim() : '';
-                    if (!correoValue) {
-                        valid = false;
-                        if (correoError) correoError.textContent = 'El correo electrónico es requerido.';
-                    } else if (!/\S+@\S+\.\S+/.test(correoValue)) {
-                        valid = false;
-                        if (correoError) correoError.textContent = 'El correo electrónico debe tener formato válido.';
-                    }
-
-                    /// Validación de la contraseña
-                    const contrasenaValue = contrasenaInicio ? contrasenaInicio.value : '';
-                    if (!contrasenaValue || contrasenaValue.length < 8) {
-                        valid = false;
-                        if (contrasenaError) contrasenaError.textContent = 'La contraseña debe tener al menos 8 caracteres.';
-                    }
-
-                    if (!valid) {
-                        event.preventDefault();
-                    }
-                });
-            }
-            window.addEventListener('pageshow', function(event) {
-                if (event.persisted && formu) {
-                    formu.reset();
-                }
-            });
-        });
-    </script>
-</body>
-</html>
