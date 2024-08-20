@@ -1,9 +1,9 @@
 ---
 import LayoutPrincipal from "../../layouts/LayoutPrincipal.astro";
 import Card from "../../Components/Card.astro";
-import Layoutcontenido from "../../layouts/Layoutcontenido.astro"
+import Layoutcontenido from "../../layouts/Layoutcontenido.astro";
 import BotonPrincipal from "../../Components/BotonPrincipal.astro";
-import Loader from "../../Components/Loader.astro";
+import Loader from "../../Components/Loader.astro"
 
 const { idarea, idtiposdearea } = Astro.params;
 
@@ -11,7 +11,7 @@ async function fetchItems(idArea, idTiposDeArea) {
   console.log('Fetching items with idArea:', idArea, 'and idTiposDeArea:', idTiposDeArea);
   
   try {
-    const response = await fetch(`http://localhost:4000/api/items/${idArea}/${idTiposDeArea}`);
+    const response = await fetch(`http://localhost:4000/api/items/${idArea}/${idtiposdearea}`);
     if (!response.ok) {
       throw new Error(`Error fetching items: ${response.statusText}`);
     }
@@ -42,12 +42,12 @@ export async function getStaticPaths() {
 
         return tiposDeArea.map(tipoDeArea => ({
           params: { idarea: area.idarea.toString(), idtiposdearea: tipoDeArea.idtiposdearea.toString() },
-          path: `/${area.idarea}-${tipoDeArea.idtiposdearea}` // Ensure this matches your routing setup
+          path: `/${area.idarea}-${tipoDeArea.idtiposdearea}` // Update the path format to match the link format
         }));
       })
     );
 
-    return paths.flat();
+    return paths.flat(); // Return the flattened array of objects
   } catch (error) {
     console.error('Error generating paths:', error);
     return [];
@@ -76,7 +76,7 @@ export async function getStaticPaths() {
     </div>
 
     <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-      <a href={`/Services/${idarea}`} >
+      <a href={`/Services/${idarea}`} class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
         <BotonPrincipal Text="Volver" />
       </a>
     </div>

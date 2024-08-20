@@ -147,7 +147,7 @@ async function getTiposDeAreaPorArea(idArea) {
     try {
       const client = await pool.connect();
       const query = `
-        SELECT * FROM itemsarea
+        SELECT * FROM items
         WHERE idarea = $1 AND idtiposdearea = $2
       `;
       const result = await client.query(query, [idArea, idTiposDeArea]);
