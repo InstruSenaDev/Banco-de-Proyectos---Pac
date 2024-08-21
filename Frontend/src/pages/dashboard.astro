@@ -5,6 +5,7 @@ import Layoutcontenido from "../layouts/Layoutcontenido.astro"
 import {CardBase} from '../Components/CardBase'
 import { TabState } from "../Components/TabState"
 import Grid from '../Components/Grid.astro';
+import { ChartDonut } from '../Components/ChartDonut';
 
 ---
 
@@ -55,6 +56,10 @@ import Grid from '../Components/Grid.astro';
         </div>
 
         <div class="border-[1px] rounded-t-lg mt-10">
+
+            <div>
+                <ChartDonut client:visible/>
+            </div>
 
             <!-- <div class="grid grid-cols-12 bg-[#059669] font-bold py-4 rounded-t-lg border-b">
                 <div class="text-white text-lg font-extrabold col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
