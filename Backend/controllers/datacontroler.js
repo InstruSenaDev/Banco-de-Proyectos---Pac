@@ -199,6 +199,25 @@ async function guardarRespuestas(respuestas) {
     }
 }
 
+// Obtener objetivos por área
+async function getObjetivosPorArea(idArea) {
+    try {
+        const client = await pool.connect();
+        const query = `
+            SELECT o.idobjetivos, o.descripcion, c.nombre as categoria 
+            FROM objetivos o
+            JOIN categoriasobjetivos c ON o.idcategoriasobjetivos = c.idcategoriasobjetivos
+            WHERE o.idarea = $1
+        `;
+        const result = await client.query(query, [idArea]);
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener objetivos por área:', error);
+        throw error;
+    }
+}
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -210,5 +229,6 @@ export {
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
     getObjetivos,
-    guardarRespuestas
+    guardarRespuestas,
+    getObjetivosPorArea
 };
