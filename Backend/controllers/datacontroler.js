@@ -175,7 +175,30 @@ async function getObjetivos() {
     }
 };
 
-// Exportar todas las funciones
+async function guardarRespuestas(respuestas) {
+    try {
+        const client = await pool.connect();
+
+        for (const respuesta of respuestas) {
+            const { idproyecto, idalcance, respuesta: valorRespuesta } = respuesta;
+
+            // Convertir idproyecto a número
+            const idproyectoNumero = parseInt(idproyecto, 10);
+            
+            await client.query(
+                'INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta) VALUES ($1, $2, $3)',
+                [idproyectoNumero, idalcance, valorRespuesta]
+            );
+        }
+
+        client.release();
+        console.log('Respuestas guardadas con éxito');
+    } catch (error) {
+        console.error('Error al guardar respuestas:', error);
+        throw error;
+    }
+}
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -186,5 +209,6 @@ export {
     getAllAreas,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
-    getObjetivos
+    getObjetivos,
+    guardarRespuestas
 };

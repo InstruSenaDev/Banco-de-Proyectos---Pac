@@ -9,7 +9,9 @@ import {
     getAllAreas,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
-    getObjetivos
+    getObjetivos,
+    guardarRespuestas
+
 } from '../controllers/datacontroler.js';
 
 const router = express.Router();
@@ -138,6 +140,36 @@ router.get('/objetivos', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener objetivos:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para guardar las respuestas de alcance
+router.post('/guardarRespuestas', async (req, res) => {
+    const idproyecto = parseInt(req.body.idproyecto, 10);
+
+    if (isNaN(idproyecto)) {
+        return res.status(400).json({ error: 'ID del proyecto inválido' });
+    }
+
+    try {
+        const respuestas = req.body;
+        const respuestasAlcance = [];
+
+        for (const [key, value] of Object.entries(respuestas)) {
+            if (key !== 'idproyecto') {
+                const idalcance = key.replace('pregunta', ''); // Obtener el id de alcance de la pregunta
+                // Convertir el valor a booleano
+                respuestasAlcance.push({ idproyecto, idalcance, respuesta: value === 'true' });
+            }
+        }
+
+        await guardarRespuestas(respuestasAlcance);
+        
+        // Redirige a la URL
+        res.redirect('http://localhost:4321/VistaUsuario');
+    } catch (error) {
+        console.error('Error al guardar respuestas:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 });
 
