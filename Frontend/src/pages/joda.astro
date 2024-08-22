@@ -1,45 +1,43 @@
 ---
-import Layoutprincipal from "../layouts/Layoutprincipal.astro";
-import BarraPreguntas from "../Components/BarraPreguntas.astro";
-import Grid from "../Components/Grid.astro";
-import BotonPrincipal from "../Components/BotonPrincipal.astro";
-import BotonSegundo from "../Components/BotonSegundo.astro";
-import { Evaluar } from "../Components/Evaluar";
+import Layoutprincipal from "../layouts/Layoutprincipal.astro"
+import Layoutcontenido from "../layouts/Layoutcontenido.astro"
+import Grid from '../Components/Grid.astro';
+import { ChartDonut } from '../Components/ChartDonut';
+import { Card } from '@tremor/react';
+import { Divider } from '@tremor/react';
 
 ---
 
-<Layoutprincipal title="">
-    <div class="flex justify-center min-h-screen">
-        <div class="p-10 w-full max-w-7xl my-10">
-            <div class="flex flex-col space-y-8">
-                <div class="text-left mb-4">
-                    <h1 class="font-josefin-slab text-2xl text-black">
-                        Evaluacion de criterios
-                    </h1>
-                </div>
+<Layoutprincipal title="Proyectos">
 
-                <div class="flex justify-center ">
-                    <BarraPreguntas Text1="Objetivos" Text2="Si" Text3="No" Text4="Evaluar" />
-                     
-                </div>
-                <div class="text-2xl font-bold mb-2 pl-12">
-                    Operación y costos
-                </div>
+    <Layoutcontenido title="contenido">
 
-                <Grid Text1="1. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa?" id1="termsCheckbox1-grid1" id2="termsCheckbox2-grid1"></Grid> <Evaluar client:visible/>
-                <Grid Text1="2. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa?" id1="termsCheckbox1-grid2" id2="termsCheckbox2-grid2"></Grid> <Evaluar client:visible/>
-                <Grid Text1="3. ¿El objetivo principal del software es mejorar la eficiencia operativa de su empresa?" id1="termsCheckbox1-grid3" id2="termsCheckbox2-grid3"></Grid> <Evaluar client:visible/>
-                
-                <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+        <div class="bg-[#fcfffe] p-6 sm:p-10 rounded ">
+            <Card className='bg-orange-100 w-60 h-60'>
+                <ChartDonut client:visible/>
+            </Card>
 
-                    <a href= >
-                        <BotonPrincipal Text="Volver" />
-                    </a>
-                    <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                        <BotonSegundo Text="Siguiente" />
-                    </a>
-                </div>
+          
+            <div class="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b mt-10">
+                <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">Areas</div>
             </div>
+
+                <Grid Text1='' id1='' id2='' name='' categoria=''></Grid>
+                <Grid Text1='' id1='' id2='' name='' categoria=''></Grid>
+                <Grid Text1='' id1='' id2='' name='' categoria=''></Grid>
+                <Grid Text1='' id1='' id2='' name='' categoria=''></Grid>
+                <Grid Text1='' id1='' id2='' name='' categoria=''></Grid>
+
+        
+            
+                
+            
+            
         </div>
-    </div>
+
+
+
+
+</Layoutcontenido>
+
 </Layoutprincipal>
