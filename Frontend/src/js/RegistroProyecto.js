@@ -11,11 +11,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const responsable = document.getElementById("Responsable").value.trim();
 
         // Obtener valores de los campos adicionales
-        const idalcance = document.getElementById("idalcance") ? document.getElementById("idalcance").value.trim() : "";
-        const idobjetivos = document.getElementById("idobjetivos") ? document.getElementById("idobjetivos").value.trim() : "";
+        const idrespuestaalcance = document.getElementById("idrespuestaalcance") ? document.getElementById("idrespuestaalcance").value.trim() : "";
+        const idrespuestaobjetivos = document.getElementById("idrespuestaobjetivos") ? document.getElementById("idrespuestaobjetivos").value.trim() : "";
         const idarea = document.getElementById("idarea") ? document.getElementById("idarea").value.trim() : "";
         const idficha = document.getElementById("idficha") ? document.getElementById("idficha").value.trim() : "";
         const idpersona = document.getElementById("idpersona") ? document.getElementById("idpersona").value.trim() : "";
+        const iditems = document.getElementById("iditems") ? document.getElementById("iditems").value.trim() : "";
+        const idtiposdearea = document.getElementById("idtiposdearea") ? document.getElementById("idtiposdearea").value.trim() : "";
 
         // Limpiar mensajes de error previos
         document.getElementById("errorNombreDelProyecto").textContent = "";
@@ -91,17 +93,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         impacto: impactoDelProyecto,
                         responsable: responsable,
                         disponibilidad: frecuencia,
-                        idalcance: idalcance.trim() === "" ? null : idalcance, 
-                        idobjetivos: idobjetivos.trim() === "" ? null : idobjetivos,
+                        idrespuestaalcance: idrespuestaalcance.trim() === "" ? null : idrespuestaalcance, 
+                        idrespuestaobjetivos: idrespuestaobjetivos.trim() === "" ? null : idrespuestaobjetivos,
                         idarea: idarea.trim() === "" ? null : idarea,
                         idficha: idficha.trim() === "" ? null : idficha,
                         idpersona: idpersona.trim() === "" ? null : idpersona,
+                        iditems: iditems.trim() === "" ? null : iditems,
+                        idtiposdearea: idtiposdearea.trim() === "" ? null : idtiposdearea,
                         dia: diasSeleccionadosStr, 
                     })
                 });
             
                 if (response.ok) {
-                    window.location.href = nextPageLink.href;
+                    window.location.href = '/VistaAreas1';  // Redirigir a VistaAreas1
                 } else {
                     const errorText = await response.text(); // Lee la respuesta como texto
                     console.error('Error al registrar proyecto:', errorText);
@@ -111,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+
 
     // Función para manejar la selección de botones
     const buttons = document.querySelectorAll('.btn-frecuencia');
@@ -122,8 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-    // Esperar 2 segundos y luego mostrar el contenido
-    setTimeout(() => {
-        document.querySelector('.loading-container')?.classList.add('hidden');
-        document.querySelector('.content-container')?.classList.remove('hidden');
-      }, 2000); // 2 segundos de retraso
+// Esperar 2 segundos y luego mostrar el contenido
+setTimeout(() => {
+    document.querySelector('.loading-container')?.classList.add('hidden');
+    document.querySelector('.content-container')?.classList.remove('hidden');
+}, 2000); // 2 segundos de retraso

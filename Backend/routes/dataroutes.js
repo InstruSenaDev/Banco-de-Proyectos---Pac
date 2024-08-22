@@ -71,17 +71,19 @@ router.post('/login', async (req, res) => {
 // Ruta para registrar un nuevo proyecto
 router.post('/proyectos', async (req, res) => {
     try {
-        console.log('Solicitud recibida:', req.body); 
-        let { nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona } = req.body;
+        console.log('Solicitud recibida:', req.body);
+        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
 
         // Convertir cadenas vacías a null
-        idalcance = idalcance || null;
-        idobjetivos = idobjetivos || null;
         idarea = idarea || null;
         idficha = idficha || null;
         idpersona = idpersona || null;
+        idrespuestaobjetivos = idrespuestaobjetivos || null;
+        idrespuestaalcance = idrespuestaalcance || null;
+        iditems = iditems || null;
+        idtiposdearea = idtiposdearea || null;
 
-        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona });
+        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea });
         res.status(201).json(newProject);
     } catch (error) {
         console.error('Error al registrar proyecto:', error);
