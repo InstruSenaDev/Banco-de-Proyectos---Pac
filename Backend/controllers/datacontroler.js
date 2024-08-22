@@ -218,6 +218,9 @@ async function getObjetivosPorArea(idArea) {
     }
 }
 
+
+
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -230,5 +233,6 @@ export {
     getItemsPorAreaYTipo,
     getObjetivos,
     guardarRespuestas,
-    getObjetivosPorArea
+    getObjetivosPorArea,
+    
 };

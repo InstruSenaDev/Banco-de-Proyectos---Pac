@@ -11,7 +11,8 @@ import {
     getItemsPorAreaYTipo,
     getObjetivos,
     guardarRespuestas,
-    getObjetivosPorArea
+    getObjetivosPorArea,
+
 
 } from '../controllers/datacontroler.js';
 
@@ -177,12 +178,13 @@ router.post('/guardarRespuestas', async (req, res) => {
 router.get('/api/objetivos/:idarea', async (req, res) => {
     const { idarea } = req.params;
     try {
-        const objetivos = await getObjetivosPorArea(idarea);
-        res.json(objetivos);
+      const objetivos = await getObjetivosPorArea(idarea);
+      res.json(objetivos);
     } catch (error) {
-        console.error('Error fetching objetivos:', error);
-        res.status(500).json({ error: 'Error fetching objetivos' });
+      console.error('Error fetching objetivos:', error);
+      res.status(500).json({ error: 'Error fetching objetivos' });
     }
-});
+  });
+
 
 export default router;
