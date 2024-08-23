@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(formData);
 
             // Asegúrate de usar JSON.stringify para convertir el objeto en una cadena JSON
-            fetch('http://localhost:4000/api/registerTipoDeArea', {
+            fetch('http://localhost:4000/api/registerTiposDeArea', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

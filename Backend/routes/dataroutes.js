@@ -36,7 +36,7 @@ router.get('/usuarios', async (req, res) => {
 //Obtener Areas
 router.get('/area', async (req, res) => {
     try {
-        const area = await getAllTiposdeArea();
+        const area = await getAllAreas();
         res.json(area);
     } catch (error) {
         console.error('Error al obtener áreas:', error);
@@ -47,8 +47,8 @@ router.get('/area', async (req, res) => {
 //Obtener Tipos de area
 router.get('/tiposdearea', async (req, res) => {
     try {
-        const area = await getAllTiposdeAreas();
-        res.json(area);
+        const tiposdearea = await getAllTiposdeArea();
+        res.json(tiposdearea);
     } catch (error) {
         console.error('Error al obtener áreas:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
@@ -137,7 +137,6 @@ router.get('/tiposdearea/:idarea', async (req, res) => {
     if (isNaN(idarea)) {
         return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
     }
-
     try {
         const tiposDeArea = await getTiposDeArea(idarea);
         res.status(200).json(tiposDeArea);
