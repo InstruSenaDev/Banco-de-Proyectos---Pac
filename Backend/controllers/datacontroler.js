@@ -48,7 +48,7 @@ async function getAllAreas() {
 async function getAllTiposdeArea() {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM tipodearea');
+        const result = await client.query('SELECT * FROM tiposdearea');
         client.release();
         return result.rows;
     } catch (error) {
@@ -194,7 +194,7 @@ async function getTiposDeArea(idarea) {
 }
 
 // Función para registrar un nuevo tipo de área
-async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
+async function registerTiposDeArea({ tiposdearea, estado, idarea }) {
     try {
         const client = await pool.connect();
         const checkQuery = 'SELECT COUNT(*) FROM tiposdearea WHERE idarea = $1 AND tiposdearea = $2';
@@ -233,4 +233,4 @@ async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
 }
 
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTiposdeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTiposDeArea, registerTipoDeArea, registerItemArea, getAllItemsArea };
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTiposdeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTiposDeArea, registerTiposDeArea, registerItemArea, getAllItemsArea };

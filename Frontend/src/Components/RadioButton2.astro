@@ -1,0 +1,25 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  value: string; // Valor 'true' o 'false'
+}
+
+const { id, name, value } = Astro.props;
+---
+
+<div class="flex items-center">
+    <input
+      type="radio"
+      id={id}
+      name={name}
+      value={value} 
+      class="form-radio h-5 w-5 focus:ring-red-600"
+    >
+</div>
+
+<style>
+    input[type="radio"].form-radio:checked {
+        background-color: #A3E784; 
+    }
+</style>

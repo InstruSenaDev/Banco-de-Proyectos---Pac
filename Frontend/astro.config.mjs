@@ -4,6 +4,7 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
+  output: "server",
   integrations: [tailwind()],
   env: {
     VITE_SUPABASE_URL: 'https://fnljcvivviqgbjilpwbo.supabase.co',

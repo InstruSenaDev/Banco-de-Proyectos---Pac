@@ -148,7 +148,7 @@ router.get('/tiposdearea/:idarea', async (req, res) => {
 });
 
 // Registro de tipo de área
-router.post('/api/registerTipoDeArea', async (req, res) => {
+router.post('/api/registerTiposDeArea', async (req, res) => {
     try {
         const { tiposdearea, estado, idarea } = req.body;
 
