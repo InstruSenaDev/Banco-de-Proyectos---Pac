@@ -11,7 +11,7 @@ async function fetchItems(idArea, idTiposDeArea) {
   console.log('Fetching items with idArea:', idArea, 'and idTiposDeArea:', idTiposDeArea);
   
   try {
-    const response = await fetch(`http://localhost:4000/api/items/${idArea}/${idtiposdearea}`);
+    const response = await fetch(`http://localhost:4000/api/items/${idArea}/${idTiposDeArea}`);
     if (!response.ok) {
       throw new Error(`Error fetching items: ${response.statusText}`);
     }
@@ -33,27 +33,28 @@ export async function getStaticPaths() {
     const areas = await response.json();
 
     const paths = await Promise.all(
-      areas.map(async area => {
+      areas.map(async (area) => {
         const tiposDeAreaResponse = await fetch(`http://localhost:4000/api/tipos-de-area/${area.idarea}`);
         if (!tiposDeAreaResponse.ok) {
           throw new Error('Error fetching tipos de área: ' + tiposDeAreaResponse.statusText);
         }
         const tiposDeArea = await tiposDeAreaResponse.json();
 
-        return tiposDeArea.map(tipoDeArea => ({
+        return tiposDeArea.map((tipoDeArea) => ({
           params: { idarea: area.idarea.toString(), idtiposdearea: tipoDeArea.idtiposdearea.toString() },
-          path: `/${area.idarea}-${tipoDeArea.idtiposdearea}` // Update the path format to match the link format
+          path: `/Services/${area.idarea}-${tipoDeArea.idtiposdearea}` // Ajusta el formato de la ruta
         }));
       })
     );
 
-    return paths.flat(); // Return the flattened array of objects
+    return paths.flat(); // Devuelve el array aplanado de objetos
   } catch (error) {
     console.error('Error generating paths:', error);
     return [];
   }
 }
 ---
+
 <LayoutPrincipal title="">
   <Layoutcontenido title="">
     <div class="p-8">
@@ -66,9 +67,9 @@ export async function getStaticPaths() {
         {items.length > 0 ? (
           items.map(item => (
             <div :key={item.iditemsarea}>
-              <a href="/ObjetivosPrueba">
-              <Card Text={item.items} />
-            </a>
+              <a href={`/Vista_Objetivos/${idarea}`}>
+                <Card Text={item.items} />
+              </a>
             </div>
           ))
         ) : (
