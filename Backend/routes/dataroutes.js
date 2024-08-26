@@ -12,6 +12,7 @@ import {
     getObjetivos,
     guardarRespuestas,
     getObjetivosPorArea,
+    updateProjectWithArea
 
 
 } from '../controllers/datacontroler.js';
@@ -177,16 +178,35 @@ router.post('/guardarRespuestas', async (req, res) => {
     }
 });
 
-router.get('/api/objetivos/:idarea', async (req, res) => {
+router.get('/objetivos/:idarea', async (req, res) => {
     const { idarea } = req.params;
     try {
-      const objetivos = await getObjetivosPorArea(idarea);
-      res.json(objetivos);
+        const objetivos = await getObjetivosPorArea(idarea);
+        res.json(objetivos);
     } catch (error) {
-      console.error('Error fetching objetivos:', error);
-      res.status(500).json({ error: 'Error fetching objetivos' });
+        console.error('Error al obtener objetivos:', error);
+        res.status(500).json({ error: 'Error al obtener objetivos' });
+    }
+});
+
+
+// Asegúrate de que esta ruta esté definida correctamente
+router.post('/api/proyectos/seleccionar-area', async (req, res) => {
+    try {
+      const { areaId, projectId } = req.body;
+      console.log('Parámetros recibidos:', { areaId, projectId });
+  
+      if (!areaId || !projectId) {
+        return res.status(400).json({ error: 'Faltan parámetros' });
+      }
+  
+      const updatedProject = await updateProjectWithArea(areaId, projectId);
+      console.log('Proyecto actualizado:', updatedProject);
+      res.json(updatedProject);
+    } catch (error) {
+      console.error('Error al seleccionar área:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
     }
   });
-
-
+  
 export default router;

@@ -198,27 +198,41 @@ async function guardarRespuestas(respuestas) {
     }
 }
 
+
+async function updateProjectWithArea(areaId, projectId) {
+    try {
+      const client = await pool.connect();
+      const result = await client.query(
+        'UPDATE proyecto SET idarea = $1 WHERE idproyecto = $2 RETURNING *',
+        [areaId, projectId]
+      );
+      client.release();
+      console.log('Proyecto actualizado con éxito:', result.rows[0]);
+      return result.rows[0];
+    } catch (error) {
+      console.error('Error al actualizar proyecto:', error);
+      throw error;
+    }
+  }
+
+
+  
 // Obtener objetivos por área
 async function getObjetivosPorArea(idArea) {
     try {
-        const client = await pool.connect();
         const query = `
-            SELECT o.idobjetivos, o.descripcion, c.nombre as categoria 
+            SELECT o.idobjetivos, o.descripcion, o.aplica, co.nombre AS categoria
             FROM objetivos o
-            JOIN categoriasobjetivos c ON o.idcategoriasobjetivos = c.idcategoriasobjetivos
+            JOIN categoriasobjetivos co ON o.idcategoriasobjetivos = co.idcategoriasobjetivos
             WHERE o.idarea = $1
         `;
-        const result = await client.query(query, [idArea]);
-        client.release();
+        const result = await pool.query(query, [idArea]);
         return result.rows;
     } catch (error) {
         console.error('Error al obtener objetivos por área:', error);
         throw error;
     }
 }
-
-
-
 
 export {
     getAllPersonas,
@@ -233,5 +247,5 @@ export {
     getObjetivos,
     guardarRespuestas,
     getObjetivosPorArea,
-    
+    updateProjectWithArea
 };
