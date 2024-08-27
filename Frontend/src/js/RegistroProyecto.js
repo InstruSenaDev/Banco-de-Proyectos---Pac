@@ -2,10 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const nextPageLink = document.getElementById("nextPageLink");
 
     nextPageLink.addEventListener("click", async function (event) {
-        // Previene la redirección por defecto
         event.preventDefault();
 
-        // Obteniendo los valores de los campos
         const nombreProyecto = document.getElementById("NombreDelProyecto").value.trim();
         const impactoDelProyecto = document.getElementById("ImpactoDelProyecto").value.trim();
         const responsable = document.getElementById("Responsable").value.trim();
@@ -19,17 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const iditems = document.getElementById("iditems") ? document.getElementById("iditems").value.trim() : "";
         const idtiposdearea = document.getElementById("idtiposdearea") ? document.getElementById("idtiposdearea").value.trim() : "";
 
-        // Limpiar mensajes de error previos
         document.getElementById("errorNombreDelProyecto").textContent = "";
         document.getElementById("errorImpactoDelProyecto").textContent = "";
         document.getElementById("errorResponsable").textContent = "";
-        document.getElementById("errorDiasReunion").textContent = ""; // Limpiar mensaje de error de días de reunión
-        document.getElementById("errorFrecuenciaReunion").textContent = ""; // Limpiar mensaje de error de frecuencia
+        document.getElementById("errorDiasReunion").textContent = ""; 
+        document.getElementById("errorFrecuenciaReunion").textContent = ""; 
 
-        // Bandera para saber si hay errores
         let hasError = false;
 
-        // Validación de los campos
         if (nombreProyecto === "") {
             document.getElementById("errorNombreDelProyecto").textContent = "Este campo es obligatorio.";
             hasError = true;
@@ -43,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hasError = true;
         }
 
-        // Validación de los días de reunión
         const dias = [
             document.getElementById("checkboxLunes").checked,
             document.getElementById("checkboxMartes").checked,
@@ -59,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hasError = true;
         }
 
-        // Validación de la frecuencia de reunión
         const btnSemanal = document.getElementById("btnSemanal");
         const btnQuincenal = document.getElementById("btnQuincenal");
         const btnMensual = document.getElementById("btnMensual");
@@ -78,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
             hasError = true;
         }
 
-        // Si no hay errores, enviar los datos al servidor
         if (!hasError) {
             const diasSeleccionadosStr = dias.map((checked, index) => checked ? ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"][index] : "").filter(day => day).join(", ");
             
@@ -105,9 +97,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             
                 if (response.ok) {
-                    window.location.href = '/VistaAreas1';  // Redirigir a VistaAreas1
+                    const data = await response.json();
+                    window.location.href = `/VistaAreas1?projectId=${data.idproyecto}`; // Redirige con el ID del proyecto
                 } else {
-                    const errorText = await response.text(); // Lee la respuesta como texto
+                    const errorText = await response.text();
                     console.error('Error al registrar proyecto:', errorText);
                 }
             } catch (error) {
@@ -116,8 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
-    // Función para manejar la selección de botones
     const buttons = document.querySelectorAll('.btn-frecuencia');
     buttons.forEach(button => {
         button.addEventListener('click', function () {
@@ -127,8 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Esperar 2 segundos y luego mostrar el contenido
 setTimeout(() => {
     document.querySelector('.loading-container')?.classList.add('hidden');
     document.querySelector('.content-container')?.classList.remove('hidden');
-}, 2000); // 2 segundos de retraso
+}, 2000);

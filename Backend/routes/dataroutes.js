@@ -12,7 +12,8 @@ import {
     getObjetivos,
     guardarRespuestas,
     getObjetivosPorArea,
-    updateProjectWithArea
+    updateProjectWithArea,
+    updateProjectTipo
 
 
 } from '../controllers/datacontroler.js';
@@ -207,6 +208,22 @@ router.post('/proyectos/seleccionar-area', async (req, res) => {
     } catch (error) {
         console.error('Error al seleccionar el área:', error);
         res.status(500).json({ error: 'Error al seleccionar el área' });
+    }
+});
+
+router.post('/update-proyecto', async (req, res) => {
+    const { projectId, tipoId } = req.body;
+
+    if (!projectId || !tipoId) {
+        return res.status(400).json({ error: 'Faltan parámetros en el cuerpo de la solicitud' });
+    }
+
+    try {
+        const result = await updateProjectTipo(tipoId, projectId);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error al actualizar el proyecto:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 

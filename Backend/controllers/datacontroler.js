@@ -233,6 +233,23 @@ async function getObjetivosPorArea(idArea) {
     }
 }
 
+async function updateProjectTipo(areaId, projectId) {
+    try {
+        const result = await pool.query(
+            `UPDATE proyecto SET idtiposdearea = $1 WHERE idproyecto = $2`,
+            [areaId, projectId]
+        );
+
+        if (result.rowCount === 0) {
+            throw new Error('Proyecto no encontrado');
+        }
+
+        return { message: 'Proyecto actualizado correctamente' };
+    } catch (error) {
+        console.error('Error updating proyecto:', error);
+        throw error;
+    }
+}
 export {
     getAllPersonas,
     getAllUsuario,
@@ -246,5 +263,6 @@ export {
     getObjetivos,
     guardarRespuestas,
     getObjetivosPorArea,
-    updateProjectWithArea
+    updateProjectWithArea,
+    updateProjectTipo
 };
