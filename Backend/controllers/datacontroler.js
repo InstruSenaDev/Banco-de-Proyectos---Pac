@@ -199,22 +199,21 @@ async function guardarRespuestas(respuestas) {
 }
 
 
-async function updateProjectWithArea(areaId, projectId) {
+async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
     try {
-      const client = await pool.connect();
-      const result = await client.query(
-        'UPDATE proyecto SET idarea = $1 WHERE idproyecto = $2 RETURNING *',
-        [areaId, projectId]
-      );
-      client.release();
-      console.log('Proyecto actualizado con éxito:', result.rows[0]);
-      return result.rows[0];
+        const client = await pool.connect();
+        const result = await client.query(
+            'UPDATE proyecto SET idarea = $1 WHERE idproyecto = $2 RETURNING *',
+            [areaId, projectId]
+        );
+        
+        client.release();
+        return result.rows[0];
     } catch (error) {
-      console.error('Error al actualizar proyecto:', error);
-      throw error;
+        console.error('Error al actualizar el proyecto con el área:', error);
+        throw error;
     }
-  }
-
+}
 
   
 // Obtener objetivos por área

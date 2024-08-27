@@ -190,23 +190,24 @@ router.get('/objetivos/:idarea', async (req, res) => {
 });
 
 
-// Asegúrate de que esta ruta esté definida correctamente
-router.post('/api/proyectos/seleccionar-area', async (req, res) => {
-    try {
-      const { areaId, projectId } = req.body;
-      console.log('Parámetros recibidos:', { areaId, projectId });
-  
-      if (!areaId || !projectId) {
-        return res.status(400).json({ error: 'Faltan parámetros' });
-      }
-  
-      const updatedProject = await updateProjectWithArea(areaId, projectId);
-      console.log('Proyecto actualizado:', updatedProject);
-      res.json(updatedProject);
-    } catch (error) {
-      console.error('Error al seleccionar área:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+router.post('/proyectos/seleccionar-area', async (req, res) => {
+    if (!req.body || !req.body.areaId || !req.body.projectId) {
+        res.status(400).json({ error: 'Faltan parámetros en el cuerpo de la solicitud' });
+        return;
     }
-  });
-  
+
+    const { areaId, projectId } = req.body;
+
+    try {
+        const updatedProject = await updateProjectWithArea(areaId, projectId);
+        res.status(200).json({
+            message: 'Área seleccionada correctamente',
+            updatedProject,
+        });
+    } catch (error) {
+        console.error('Error al seleccionar el área:', error);
+        res.status(500).json({ error: 'Error al seleccionar el área' });
+    }
+});
+
 export default router;
