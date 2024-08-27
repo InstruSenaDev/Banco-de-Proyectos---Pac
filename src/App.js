@@ -1,18 +1,18 @@
 import React from 'react';
-import BotonPrincipal from './Components/BotonPrincipal';
-import './App.css';
+import BotonPrincipal from './Components/AceptarTerminos';
+
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-    <div className="App">
+        <div className="App">
 
-    <div>
-        <BotonPrincipal className="" Text="ss" id="" />
-      </div>
+          <div>
+            <BotonPrincipal className="" Text="" id="" />
+          </div>
 
-    </div>
+        </div>
       </header>
     </div>
   );
