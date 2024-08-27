@@ -1,5 +1,4 @@
 import React from 'react';
-import './AceptarTerminos.css'; // Asegúrate de crear y enlazar este archivo CSS
 
 const AceptarTerminos = ({ Text, id }) => {
   return (

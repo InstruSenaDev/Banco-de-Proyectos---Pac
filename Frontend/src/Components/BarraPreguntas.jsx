@@ -1,5 +1,4 @@
 import React from 'react';
-import './MyComponent.css'; // Asegúrate de crear y enlazar este archivo CSS
 
 const BarraPreguntas = ({ Text1, Text2, Text3 }) => {
   return (
