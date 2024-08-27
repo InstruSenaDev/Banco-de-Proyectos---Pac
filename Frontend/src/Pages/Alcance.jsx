@@ -1,5 +1,5 @@
 import React from 'react';
-import Layoutprincipal from '../layouts/Layoutprincipal';
+import Layoutprincipal from '../Layouts/Layoutprincipal'
 import BarraPreguntas from '../Components/BarraPreguntas';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
