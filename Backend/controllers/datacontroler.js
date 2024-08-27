@@ -80,12 +80,12 @@ async function loginPerson(correo, contraseña) {
 }
 
 // Función para registrar un nuevo proyecto
-async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona }) {
+async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
     try {
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad, idalcance, idobjetivos, idarea, idficha, idpersona, dia) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
-            [nombre, impacto, responsable, disponibilidad, idalcance, idobjetivos, idarea, idficha, idpersona, dia]
+            'INSERT INTO proyecto (nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+            [nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea]
         );
         client.release();
         console.log('Proyecto registrado con éxito:', result.rows[0]);
@@ -95,7 +95,6 @@ async function registerProject({ nombre, impacto, responsable, disponibilidad, d
         throw error;
     }
 }
-
 // Función para obtener todas las preguntas junto con sus categorías
 async function getAllAlcances() {
     try {
@@ -199,6 +198,24 @@ async function guardarRespuestas(respuestas) {
     }
 }
 
+
+async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'UPDATE proyecto SET idarea = $1 WHERE idproyecto = $2 RETURNING *',
+            [areaId, projectId]
+        );
+        
+        client.release();
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al actualizar el proyecto con el área:', error);
+        throw error;
+    }
+}
+
+  
 // Obtener objetivos por área
 async function getObjetivosPorArea(idArea) {
     try {
@@ -228,5 +245,6 @@ export {
     getItemsPorAreaYTipo,
     getObjetivos,
     guardarRespuestas,
-    getObjetivosPorArea
+    getObjetivosPorArea,
+    updateProjectWithArea
 };

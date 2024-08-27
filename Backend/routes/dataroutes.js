@@ -11,7 +11,9 @@ import {
     getItemsPorAreaYTipo,
     getObjetivos,
     guardarRespuestas,
-    getObjetivosPorArea
+    getObjetivosPorArea,
+    updateProjectWithArea
+
 
 } from '../controllers/datacontroler.js';
 
@@ -70,17 +72,19 @@ router.post('/login', async (req, res) => {
 // Ruta para registrar un nuevo proyecto
 router.post('/proyectos', async (req, res) => {
     try {
-        console.log('Solicitud recibida:', req.body); 
-        let { nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona } = req.body;
+        console.log('Solicitud recibida:', req.body);
+        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
 
         // Convertir cadenas vacías a null
-        idalcance = idalcance || null;
-        idobjetivos = idobjetivos || null;
         idarea = idarea || null;
         idficha = idficha || null;
         idpersona = idpersona || null;
+        idrespuestaobjetivos = idrespuestaobjetivos || null;
+        idrespuestaalcance = idrespuestaalcance || null;
+        iditems = iditems || null;
+        idtiposdearea = idtiposdearea || null;
 
-        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idalcance, idobjetivos, idarea, idficha, idpersona });
+        const newProject = await registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea });
         res.status(201).json(newProject);
     } catch (error) {
         console.error('Error al registrar proyecto:', error);
@@ -182,6 +186,27 @@ router.get('/objetivos/:idarea', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener objetivos:', error);
         res.status(500).json({ error: 'Error al obtener objetivos' });
+    }
+});
+
+
+router.post('/proyectos/seleccionar-area', async (req, res) => {
+    if (!req.body || !req.body.areaId || !req.body.projectId) {
+        res.status(400).json({ error: 'Faltan parámetros en el cuerpo de la solicitud' });
+        return;
+    }
+
+    const { areaId, projectId } = req.body;
+
+    try {
+        const updatedProject = await updateProjectWithArea(areaId, projectId);
+        res.status(200).json({
+            message: 'Área seleccionada correctamente',
+            updatedProject,
+        });
+    } catch (error) {
+        console.error('Error al seleccionar el área:', error);
+        res.status(500).json({ error: 'Error al seleccionar el área' });
     }
 });
 
