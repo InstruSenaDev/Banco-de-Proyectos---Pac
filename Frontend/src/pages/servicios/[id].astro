@@ -23,7 +23,10 @@ let proyecto = {
  idobjetivos:'', 
  idarea:'', 
  idficha:'', 
- idpersona:'' };
+ idpersona:'',
+idrespuestaalcance:'',
+iditems:'',
+idtiposdearea:'', };
 
 
 // Función para obtener la información del proyecto desde la API
@@ -107,6 +110,18 @@ export async function getStaticPaths() {
                 <ListItem>
                     <span class="text-xs sm:text-xl">Persona</span>
                     <span class="text-xs sm:text-xl">{proyecto.idpersona || 'No disponible'}</span>
+                </ListItem>
+                <ListItem>
+                    <span class="text-xs sm:text-xl">Respuesta</span>
+                    <span class="text-xs sm:text-xl">{proyecto.idrespuestaalcance || 'No disponible'}</span>
+                </ListItem>
+                <ListItem>
+                    <span class="text-xs sm:text-xl">Items</span>
+                    <span class="text-xs sm:text-xl">{proyecto.iditems || 'No disponible'}</span>
+                </ListItem>
+                <ListItem>
+                    <span class="text-xs sm:text-xl">Tipo de area</span>
+                    <span class="text-xs sm:text-xl">{proyecto.idtiposdearea || 'No disponible'}</span>
                 </ListItem>
             </ListProject>
             <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6 ">

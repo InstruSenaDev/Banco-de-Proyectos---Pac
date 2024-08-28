@@ -46,7 +46,7 @@ await fetchproyecto();
               {data.length > 0 ? (
                 data.map((proyecto) => (
                   
-                  <CardProyect  Text={proyecto.nombre} id={proyecto.idproyecto}>
+                  <CardProyect  Text={proyecto.nombre} id={""}>
 
                     <a href={`/servicios/${proyecto.idproyecto}`}>
                       <BotonSegundo Text="Ver" />
