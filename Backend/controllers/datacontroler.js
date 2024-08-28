@@ -202,9 +202,6 @@ async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
     
     try {
         const condi = 0;
-
-
-
         const checkQuery = 'SELECT MAX(idtiposdearea) FROM tipodearea WHERE idtiposdearea != $1';
         const checkResult = await client.query(checkQuery, [condi]);
       
@@ -221,8 +218,6 @@ async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
         console.error('Error al registrar tipo de área:aaaaa');
 
         }
-
-       
     } catch (error) {
         console.error('Error al registrar tipo de área:', error.message);
         // throw error;
