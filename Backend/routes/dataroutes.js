@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTiposdeArea, registerArea, getAllAreas, getTiposDeArea, getAllFichas, registerTipoDeArea, registerItemArea, getAllItemsArea  } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTipodeArea, registerArea, getAllAreas, getTipoDeArea, getAllFichas, registerTipoDeArea, registerItemArea, getAllItemsArea  } from '../controllers/datacontroler.js';
 
 const app = express(); // Crear la instancia de Express
 
@@ -45,7 +45,7 @@ router.get('/area', async (req, res) => {
 });
 
 //Obtener Tipos de area
-router.get('/tiposdearea', async (req, res) => {
+router.get('/tipodearea', async (req, res) => {
     try {
         const tiposdearea = await getAllTiposdeArea();
         res.json(tiposdearea);
@@ -131,14 +131,14 @@ router.post('/registerArea', async (req, res) => {
 });
 
 // Obtener tipos de área por área específica
-router.get('/tiposdearea/:idarea', async (req, res) => {
+router.get('/tipodearea/:idarea', async (req, res) => {
     const idarea = Number(req.params.idarea); // Asegurarse de que idarea es un número
 
     if (isNaN(idarea)) {
         return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
     }
     try {
-        const tiposDeArea = await getTiposDeArea(idarea);
+        const tiposDeArea = await getTipoDeArea(idarea);
         res.status(200).json(tiposDeArea);
     } catch (error) {
         console.error('Error al obtener tipos de área:', error);
@@ -147,10 +147,11 @@ router.get('/tiposdearea/:idarea', async (req, res) => {
 });
 
 // Registro de tipo de área
-router.post('/api/registerTiposDeArea', async (req, res) => {
+router.post('/registerTipoDeArea', async (req, res) => {
     try {
         const { tiposdearea, estado, idarea } = req.body;
-
+        // console.log("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req);
+        
         if (typeof idarea !== 'number' || isNaN(idarea)) {
             return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
         }
@@ -162,8 +163,8 @@ router.post('/api/registerTiposDeArea', async (req, res) => {
 
         res.status(201).json(newTipoDeArea);
     } catch (error) {
-        console.error('Error al registrar tipo de área:', error);
-        res.status(500).json({ error: 'Error interno del servidor.', details: error.message });
+        console.error('Error al registrar tipo aaaade área aaaaa:', error.message);
+        return res.status(500).json({ error: error.message });
     }
 });
 

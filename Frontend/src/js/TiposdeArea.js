@@ -5,25 +5,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const isValid = validateForm();
         if (isValid) {
-            const idarea = Number(document.getElementById("Area").value); // Convertir a número
+            const idarea = 30
             const tiposdearea = document.getElementById("nombreTipoArea").value.trim();
-            const estado = document.querySelector('input[name="estado"]:checked')?.value;
+            const estado = true
 
             // Depuración: Mostrar valores capturados
             console.log('Area ID:', idarea);
             console.log('Tipo de Área:', tiposdearea);
             console.log('Estado:', estado);
 
-            const formData = { idarea, tiposdearea, estado };
+            const formData = { 
+                tiposdearea:document.getElementById("nombreTipoArea").value.trim(),
+                estado: estado,
+                idarea: 7};
             console.log(formData);
 
             // Asegúrate de usar JSON.stringify para convertir el objeto en una cadena JSON
-            fetch('http://localhost:4000/api/registerTiposDeArea', {
+            fetch('http://localhost:4000/api/registerTipoDeArea', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify( formData )
             })
                 .then(response => {
                     if (!response.ok) {
@@ -38,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     window.location.href = '/VistaCrearRegistro';
                 })
                 .catch(error => {
-                    console.error('Error al registrar tipo de área:', error);
+                    console.error('Error al registrar tipo de áreaaaa:', error.data);
                 });
         }
     });

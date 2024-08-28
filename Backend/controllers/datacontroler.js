@@ -45,10 +45,10 @@ async function getAllAreas() {
 }
 
 // Función para obtener todas los tipos de area
-async function getAllTiposdeArea() {
+async function getAllTipodeArea() {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM tiposdearea');
+        const result = await client.query('SELECT * FROM tipodearea');
         client.release();
         return result.rows;
     } catch (error) {
@@ -179,11 +179,11 @@ async function registerArea({ area, estado }) {
 }
 
 // Función para obtener todos los tipos de área por un área específica
-async function getTiposDeArea(idarea) {
+async function getTipoDeArea(idarea) {
     try {
         console.log('Obteniendo tipos de área para el área con ID:', idarea);
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM tiposdearea WHERE idarea = $1', [idarea]);
+        const result = await client.query('SELECT * FROM tipodearea WHERE idarea = $1', [idarea]);
         client.release();
         console.log('Tipos de área obtenidos con éxito:', result.rows);
         return result.rows;
@@ -194,24 +194,38 @@ async function getTiposDeArea(idarea) {
 }
 
 // Función para registrar un nuevo tipo de área
-async function registerTiposDeArea({ tiposdearea, estado, idarea }) {
+async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
+    const client = await pool.connect();
+    console.log("aaaaaaaaaaaaaaa  " ,tiposdearea);
+    console.log("aaaaaaaaaaaaaaa  " ,estado);
+    console.log("aaaaaaaaaaaaaaa  " ,idarea);
+    
     try {
-        const client = await pool.connect();
-        const checkQuery = 'SELECT COUNT(*) FROM tiposdearea WHERE idarea = $1 AND tiposdearea = $2';
-        const checkResult = await client.query(checkQuery, [idarea, tiposdearea]);
+        const condi = 0;
 
-        if (parseInt(checkResult.rows[0].count) > 0) {
-            client.release();
-            return { error: 'El tipo de área ya existe.' };
-        } else {
-            const insertQuery = 'INSERT INTO tiposdearea (tiposdearea, estado, idarea) VALUES ($1, $2, $3) RETURNING *';
-            const result = await client.query(insertQuery, [tiposdearea, estado, idarea]);
+
+
+        const checkQuery = 'SELECT MAX(idtiposdearea) FROM tipodearea WHERE idtiposdearea != $1';
+        const checkResult = await client.query(checkQuery, [condi]);
+      
+        console.error('>>>>>>>>>>>> ',checkResult);
+
+        if (parseInt(checkResult.rows[0].max) > 0) {
+            const cont=checkResult.rows[0].max+1;
+            console.error('>>>>>>>>>>>> ',cont);
+            const insertQuery = 'INSERT INTO tipodearea (idtiposdearea,tiposdearea, estado, idarea) VALUES ($1, $2, $3,$4) RETURNING *';
+            const result = await client.query(insertQuery, [cont,tiposdearea, estado, idarea]);
             client.release();
             return result.rows[0];
+        }else{
+        console.error('Error al registrar tipo de área:aaaaa');
+
         }
+
+       
     } catch (error) {
-        console.error('Error al registrar tipo de área:', error);
-        throw error;
+        console.error('Error al registrar tipo de área:', error.message);
+        // throw error;
     }
 }
 
@@ -233,4 +247,4 @@ async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
 }
 
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTiposdeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTiposDeArea, registerTiposDeArea, registerItemArea, getAllItemsArea };
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTipodeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTipoDeArea, registerTipoDeArea, registerItemArea, getAllItemsArea };
