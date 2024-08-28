@@ -1,19 +1,21 @@
 import React from 'react';
-import BotonPrincipal from './Components/AceptarTerminos';
 
+import Grid from './Components/Grid.jsx';// Asegúrate de tener el archivo CardAreas.jsx
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="App">
-
-          <div>
-            <BotonPrincipal className="" Text="" id="" />
-          </div>
-
-        </div>
+        <h1>Mi Aplicación</h1>
       </header>
+      <main>
+        <Grid
+          Text1="¿Acepta los términos?"
+          id1="si"
+          id2="no"
+          name="aceptar_terminos"
+        />
+      </main>
     </div>
   );
 }
