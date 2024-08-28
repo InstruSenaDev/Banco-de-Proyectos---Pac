@@ -199,6 +199,7 @@ async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
     }
 }
 
+
 // Obtener todos los objetivos
 async function getObjetivos() {
     try {
