@@ -14,7 +14,7 @@ import {
     getObjetivosPorArea,
     updateProjectWithArea,
     updateProjectTipo,
-    updateProjectItem
+    updateProyectoItem
 
 
 } from '../controllers/datacontroler.js';

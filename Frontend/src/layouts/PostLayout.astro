@@ -4,7 +4,7 @@ interface Props { // TypeScript
 }
 
 const { title } = Astro.props;
-const { id } = Astro.params; // Obtén el id de los parámetros de la URL
+const { id, idarea } = Astro.params; // Obtén id e idarea de los parámetros de la URL
 ---
 
 <!doctype html>
@@ -24,7 +24,7 @@ const { id } = Astro.params; // Obtén el id de los parámetros de la URL
             }
         </style>
     </head>
-    <body class="bg-[#F5F6FA]" data-project-id={id}>
+    <body class="bg-[#F5F6FA]" data-project-id={id} data-idarea={idarea}>
         <slot/>
     </body>
 </html>
