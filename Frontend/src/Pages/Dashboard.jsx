@@ -2,10 +2,10 @@ import React from 'react';
 import { Title, Text } from '@tremor/react';
 import Layoutprincipal from '../Layouts/Layoutprincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido'
-import CardBase from '../Components/CardBase'
-import TabState from '../Components/TabState';
+import {CardBase} from'../Components/CardBase'
+import {TabState} from '../Components/TabState';
 import Grid from '../Components/Grid';
-import ChartDonut from '../Components/ChartDonut';
+import {ChartDonut} from '../Components/ChartDonut';
 
 const Dashboard = () => {
   return (

@@ -5,7 +5,7 @@ const PosLayout = ({ title, children }) => {
     <html lang="es">
       <head>
         <meta charSet="UTF-8" />
-        <meta name="description" content="Astro description" />
+        <meta name="description" content="React description" />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="../../public/img/IconBoteritos.png" />
         <script
@@ -20,7 +20,7 @@ const PosLayout = ({ title, children }) => {
           }`}
         </style>
       </head>
-      <body className="bg-[#F5F6FA]">
+      <body className="bg-[#F5F6FA] m-0 p-0 ">
         {children}
       </body>
     </html>

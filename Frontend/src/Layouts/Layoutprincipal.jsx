@@ -1,12 +1,25 @@
 import React from 'react';
+import Navbar from '../Components/Navbar';
+import Menu from '../Components/Menu';
+import PostLayout from './PostLayout';
 
+// Componente principal
 const Layoutprincipal = ({ title, children }) => {
   return (
-    <main className="flex justify-center items-center min-h-screen min-w-full md:h-auto 2xl:p-10 pl-9 p-10 xl:pl-32 2xl:pl-32 xl:pr-8 ">
-      <div className="xl:w-full  2xl:h-auto lg:w-auto md:h-full h-auto  p-8 rounded-lg border-none bg-white">
-        {children}
+    <PostLayout title={title}>
+      <div>
+        <header className="w-full h-full bg-white">
+          <Navbar text="usuario" />
+        </header>
+
+        <aside className='w-full'>
+          <Menu />
+        </aside>
+
+          {children}
+
       </div>
-    </main>
+    </PostLayout>
   );
 };
 

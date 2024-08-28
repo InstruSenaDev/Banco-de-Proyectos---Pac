@@ -3,7 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Alcance from './Pages/Alcance'
-import Dashboard from './Pages/dashboard'
+import Dashboard from './Pages/Dashboard'
+import Prueba from './Pages/Prueba'
 
 
 function App() {
@@ -11,8 +12,8 @@ function App() {
 
   return (
     <>
-{/* <Dashboard/> */}
- <Alcance/>
+  <Dashboard/>
+  {/* <Alcance/>  */}
     </>
   )
 }
