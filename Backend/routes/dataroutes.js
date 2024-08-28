@@ -13,7 +13,8 @@ import {
     guardarRespuestas,
     getObjetivosPorArea,
     updateProjectWithArea,
-    updateProjectTipo
+    updateProjectTipo,
+    updateProjectItem
 
 
 } from '../controllers/datacontroler.js';
@@ -227,4 +228,21 @@ router.post('/update-proyecto', async (req, res) => {
     }
 });
 
+// Ruta para actualizar el ítem del proyecto
+router.post('/update-proyecto-item', async (req, res) => {
+    const { projectId, itemId } = req.body;
+  
+    if (!projectId || !itemId) {
+      return res.status(400).json({ error: 'Faltan parámetros en el cuerpo de la solicitud' });
+    }
+  
+    try {
+      const result = await updateProyectoItem({ projectId, itemId });
+      res.status(200).json(result);
+    } catch (error) {
+      console.error('Error al actualizar el ítem:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+  });
+  
 export default router;

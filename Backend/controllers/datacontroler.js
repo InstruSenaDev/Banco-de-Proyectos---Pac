@@ -250,6 +250,32 @@ async function updateProjectTipo(areaId, projectId) {
         throw error;
     }
 }
+
+async function updateProyectoItem({ projectId, itemId }) {
+    try {
+      // Asegúrate de que los valores estén presentes
+      if (!projectId || !itemId) {
+        throw new Error('Faltan parámetros en la solicitud');
+      }
+  
+      const result = await pool.query(
+        `UPDATE proyecto SET iditems = $1 WHERE idproyecto = $2`,
+        [itemId, projectId]
+      );
+  
+      if (result.rowCount === 0) {
+        throw new Error('Proyecto no encontrado');
+      }
+  
+      return { message: 'Ítem actualizado correctamente' };
+    } catch (error) {
+      console.error('Error updating proyecto:', error);
+      throw error;
+    }
+  }
+  
+  
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -264,5 +290,6 @@ export {
     guardarRespuestas,
     getObjetivosPorArea,
     updateProjectWithArea,
-    updateProjectTipo
+    updateProjectTipo,
+    updateProyectoItem
 };

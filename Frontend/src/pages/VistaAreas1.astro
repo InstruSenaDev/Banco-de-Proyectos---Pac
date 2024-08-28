@@ -62,39 +62,43 @@ const areas = await fetchAreas();
     })();
 
     document.querySelectorAll('.area-card').forEach(card => {
-      card.addEventListener('click', async (event) => {
-        event.preventDefault();
-        const target = event.currentTarget as HTMLElement;
-        const areaId = target.getAttribute('data-area-id');
+  card.addEventListener('click', async (event) => {
+    event.preventDefault();
+    
+    // Asegurarse de que el target es un elemento HTML
+    const target = event.currentTarget as HTMLElement;
 
-        if (!areaId || !projectId) {
-          console.error('No se pudo obtener el id del área o del proyecto');
-          return;
-        }
+    const areaId = target.getAttribute('data-area-id');
+    const projectId = new URLSearchParams(window.location.search).get('projectId');
 
-        try {
-          console.log(`Enviando solicitud para seleccionar el área: ${areaId}`);
-          const response = await fetch('http://localhost:4000/api/proyectos/seleccionar-area', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ areaId, projectId }),
-          });
+    if (!areaId || !projectId) {
+      console.error('No se pudo obtener el id del área o del proyecto');
+      return;
+    }
 
-          if (!response.ok) {
-            throw new Error(`Error en la respuesta del servidor: ${response.status} ${response.statusText}`);
-          }
-
-          const data = await response.json();
-          console.log('Área seleccionada correctamente:', data);
-
-          // Redirige a la ruta deseada
-          window.location.href = `/Services/${areaId}`;
-        } catch (error) {
-          console.error('Error al enviar la solicitud:', error);
-        }
+    try {
+      console.log(`Enviando solicitud para seleccionar el área: ${areaId}`);
+      const response = await fetch('http://localhost:4000/api/proyectos/seleccionar-area', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ areaId, projectId }),
       });
-    });
+
+      if (!response.ok) {
+        throw new Error(`Error en la respuesta del servidor: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('Área seleccionada correctamente:', data);
+
+      // Redirige a la siguiente vista incluyendo projectId en la URL
+      window.location.href = `/Services/${areaId}?projectId=${projectId}`;
+    } catch (error) {
+      console.error('Error al enviar la solicitud:', error);
+    }
+  });
+});
   </script>
 </LayoutPrincipal>

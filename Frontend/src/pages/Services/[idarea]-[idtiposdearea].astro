@@ -24,6 +24,7 @@ async function fetchItems(idArea, idTiposDeArea) {
 
 const items = idarea && idtiposdearea ? await fetchItems(idarea, idtiposdearea) : [];
 
+// Obtener todas las rutas posibles
 export async function getStaticPaths() {
   try {
     const response = await fetch('http://localhost:4000/api/areas');
@@ -66,8 +67,8 @@ export async function getStaticPaths() {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.length > 0 ? (
           items.map(item => (
-            <div :key={item.iditemsarea}>
-              <a href={`/Vista_Objetivos/${idarea}`}>
+            <div :key={item.iditemsarea} class="card-container" data-item-id={item.iditemsarea}>
+              <a href="#" class="card-link">
                 <Card Text={item.items} />
               </a>
             </div>
@@ -85,3 +86,58 @@ export async function getStaticPaths() {
     </div>
   </Layoutcontenido>
 </LayoutPrincipal>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    // Obtener el ID del área desde el atributo data-* del HTML
+    const idarea = document.querySelector('body').dataset.idarea;
+    console.log('ID del área:', idarea); // Verifica que este valor no sea undefined o null
+    
+    // Obtener el ID del proyecto desde la URL
+    const projectId = new URLSearchParams(window.location.search).get('projectId');
+    console.log('ID del proyecto:', projectId); // Verifica que este valor sea correcto
+
+    document.querySelectorAll('.card-link').forEach(link => {
+      link.addEventListener('click', async function(e) {
+        e.preventDefault(); // Previene el comportamiento predeterminado del enlace
+
+        // Obtener el ID del ítem desde el contenedor más cercano
+        const itemId = this.closest('.card-container').dataset.itemId;
+        console.log('ID del ítem:', itemId); // Verifica que este valor sea correcto
+
+        // Verifica si el ID del ítem y el ID del proyecto están presentes
+        if (itemId && projectId) {
+          try {
+            console.log('Enviando solicitud para actualizar el ítem...');
+            const response = await fetch('http://localhost:4000/api/update-proyecto-item', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ projectId, itemId }),
+            });
+
+            if (!response.ok) {
+              throw new Error('Error updating proyecto: ' + response.statusText);
+            }
+
+            const result = await response.json();
+            console.log('Ítem actualizado correctamente:', result);
+
+            // Redirige a la vista deseada después de actualizar
+            if (idarea) {
+              console.log('Redirigiendo a /Vista_Objetivos/' + idarea); // Verifica la URL de redirección
+              window.location.href = `/Vista_Objetivos/${idarea}`;
+            } else {
+              console.error('ID del área no disponible para redirección.');
+            }
+          } catch (error) {
+            console.error('Error al actualizar el ítem:', error);
+          }
+        } else {
+          console.error('Faltan ID del ítem o del proyecto.', { itemId, projectId });
+        }
+      });
+    });
+  });
+</script>
