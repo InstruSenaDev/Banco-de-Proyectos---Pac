@@ -40,7 +40,7 @@ async function getProyectoById(id) {
 }
 
 // Función para obtener las respuestas basadas en el id del proyecto
-export async function getRespuestasByProyectoId(idproyecto) {
+async function getRespuestasByProyectoId(idproyecto) {
     try {
         const numericId = parseInt(idproyecto);
         if (isNaN(numericId)) {
@@ -49,9 +49,15 @@ export async function getRespuestasByProyectoId(idproyecto) {
 
         const client = await pool.connect();
         const query = `
-            SELECT r.idrespuestasobjetivos, r.idproyecto, r.idobjetivos, r.respuesta
-            FROM respuestaobjetivos r
-            WHERE r.idproyecto = $1
+            SELECT 
+                r.idrespuestasobjetivos, 
+                r.idproyecto, 
+                r.idobjetivos, 
+                r.respuesta
+            FROM 
+                respuestasobjetivos r
+            WHERE 
+                r.idproyecto = $1
         `;
         const result = await client.query(query, [numericId]);
         client.release();
@@ -61,6 +67,6 @@ export async function getRespuestasByProyectoId(idproyecto) {
         console.error('Error al obtener las respuestas:', error);
         throw error;
     }
-};
+}
 
 export { getAllProyectos, getProyectoById, getRespuestasByProyectoId };

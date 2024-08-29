@@ -75,7 +75,7 @@ export async function getStaticPaths() {
 
                 {respuestas.length > 0 ? (
                     respuestas.map((respuesta) => (
-                        <div :key={respuesta.idrespuestaobjetivos} class="grid grid-cols-12 bg-green-50 py-2">
+                        <div set:text={respuesta.idrespuestaobjetivos} class="grid grid-cols-12 bg-green-50 py-2">
                             <Grid 
                                 Text1={respuesta.descripcion} 
                                 id1={respuesta.id1} 

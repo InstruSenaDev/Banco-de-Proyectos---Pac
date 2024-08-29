@@ -34,22 +34,19 @@ router.get('/proyectos/:id', async (req, res) => {
     }
 });
 
-router.get('/proyectos/:id/respuestas', async (req, res) => {
+router.get('/respuestas/:idproyecto', async (req, res) => {
     try {
-        const { id } = req.params;
-        console.log(`ID recibido en el backend: ${id}`); // Verifica el valor del ID
-        
-        // Obtiene las respuestas del DataController
-        const respuestas = await getRespuestasByProyectoId(id);
+        const { idproyecto } = req.params;
+        const respuestas = await getRespuestasByProyectoId(idproyecto);
 
         if (respuestas.length > 0) {
             res.json(respuestas);
         } else {
-            res.status(404).json({ error: 'No se encontraron respuestas para este proyecto' });
+            res.status(404).json({ error: 'Respuestas no encontradas' });
         }
     } catch (error) {
         console.error('Error al obtener las respuestas:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 
