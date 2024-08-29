@@ -47,7 +47,7 @@ router.get('/area', async (req, res) => {
 //Obtener Tipos de area
 router.get('/tipodearea', async (req, res) => {
     try {
-        const tiposdearea = await getAllTiposdeArea();
+        const tiposdearea = await getAllTipodeArea();
         res.json(tiposdearea);
     } catch (error) {
         console.error('Error al obtener áreas:', error);

@@ -11,26 +11,19 @@ import { useState } from "react";
 // Función para obtener las áreas desde la API
 
 const fetchArea = async () => {
-    const [selectedId, setSelectedId] = useState([]);
-    console.log(selectedId);
     try {
         const response = await fetch("http://localhost:4000/api/area");
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setSelectedId(data.id);
         return data.map((area) => ({ value: area.id, label: area.area })); // Ajustar para incluir ID
-    
-        data 
-        
-        
+
     } catch (error) {
         console.error("Error al obtener áreas:", error);
         return [];
     }
-};
- 
+}
 
 const area = await fetchArea();
 ---

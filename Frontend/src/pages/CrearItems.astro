@@ -7,21 +7,23 @@ import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro"
 import SelectBoxArea from "../Components/SelectBoxArea.astro"
 
 // Función para obtener las áreas desde la API
-const fetchTiposDeArea = async () => {
-  try {
-    const response = await fetch('http://localhost:4000/api/registerTipoDeArea');
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    return data.map(area => ({ value: area.id, label: area.tiposdearea }));  // Ajustar para incluir ID
-  } catch (error) {
-    console.error('Error al obtener tipos de área:', error);
-    return []; 
-  }
-};
 
-const TiposDeArea = await fetchTiposDeArea();  // Obtenemos los tipos de área
+const fetchTipodeArea = async () => {
+    try {
+        const response = await fetch("http://localhost:4000/api/tipodearea");
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        return data.map((area) => ({ value: area.tiposdearea, label: area.tiposdearea })); // Ajustar para incluir ID
+
+    } catch (error) {
+        console.error("Error al obtener áreas:", error);
+        return [];
+    }
+}
+
+const tipodearea = await fetchTipodeArea();
 ---
 <style>
     body {
@@ -51,7 +53,7 @@ const TiposDeArea = await fetchTiposDeArea();  // Obtenemos los tipos de área
             <div class="flex flex-col p-[5%] Flex-box space-y-5">
 
                 <div>
-                    <SelectBoxArea Text="Seleccione un área" options={TiposDeArea} id="Area" />
+                    <SelectBoxArea Text="Seleccione un área" options={tipodearea} id="Area" />
                     <span id="AreaError" class="error-message"></span>
                 </div>
 

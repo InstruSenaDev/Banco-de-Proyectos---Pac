@@ -1,0 +1,19 @@
+---
+import Layoutprincipal from "../layouts/LayoutPrincipal.astro";
+import Layoutcontenido from "../layouts/Layoutcontenido.astro";
+import DashboarBase from '../Components/DashboardBase'
+---
+
+
+<Layoutprincipal title="Proyectos">
+
+    <Layoutcontenido title="contenido">
+
+        <div class="w-full">
+            <DashboarBase client:visible/>
+        </div>
+
+
+</Layoutcontenido>
+
+</Layoutprincipal>

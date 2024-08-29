@@ -60,30 +60,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Validar Nombre del tipo de área (solo letras y un solo número)
-        const nombreTipoArea = document.getElementById("nombreTipoArea");
-        const TipoAreaError = document.getElementById("TipoAreaError");
+        const nombreObjetivo = document.getElementById("nombreObjetivo");
+        const nombreError = document.getElementById("nombreError");
         const nombrePattern = /^[A-Za-zÀ-ÿ\s.,0-9()]{2,50}$/;
-        const nombreValue = nombreTipoArea.value.trim();
+        const nombreValue = nombreObjetivo.value.trim();
         const digitCount = (nombreValue.match(/\d/g) || []).length;
 
         if (!nombrePattern.test(nombreValue) || digitCount !== 1) {
-            TipoAreaError.textContent = "El nombre debe contener solo letras y un solo número.";
+            nombreError.textContent = "Debe llenarse al menos una vez, El nombre debe contener solo letras y un solo número.";
             isValid = false;
         } else {
-            TipoAreaError.textContent = "";
+            nombreError.textContent = "";
         }
-
-        // Validar Estado (al menos un radio button debe estar seleccionado)
-        const estadoActivo = document.getElementById("estadoActivo");
-        const estadoInactivo = document.getElementById("estadoInactivo");
-        const estadoError = document.getElementById("estadoError");
-        if (!estadoActivo.checked && !estadoInactivo.checked) {
-            estadoError.textContent = "Debe seleccionar un estado.";
-            isValid = false;
-        } else {
-            estadoError.textContent = "";
-        }
-
         return isValid;
     }
 });

@@ -1,0 +1,39 @@
+---
+import AceptarTerminos from './AceptarTerminos.astro';
+import RadioButton2 from '../Components/RadioButton2.astro'
+
+interface Props {
+  Text1: string;
+  id1: string;
+  id2: string; 
+  name: string;
+  categoria: string; // Nueva prop para la categoría
+}
+
+const { Text1, id1, id2, name, categoria } = Astro.props;
+---
+
+<div class="w-full bg-white">
+    <div class="grid rounded-lg">
+        <!-- Filas de la tabla -->
+        <div class="grid grid-cols-12 items-center border-b py-4">
+
+            <!-- Columna Pregunta -->
+            <div class="col-span-12 md:col-span-10 flex items-center pl-4">
+                <span class="text-lg">{Text1}</span>
+            </div>
+
+            <!-- Columna Sí -->
+            <div class="col-span-6 md:col-span-1 flex justify-center items-center space-x-2">
+                <RadioButton2 value=""  id={id1} name={name} />
+                <span class="md:hidden">Sí</span>
+            </div>
+            <!-- Columna No -->
+            <div class="col-span-6 md:col-span-1 flex justify-center items-center space-x-2">
+                <RadioButton2 value="" id={id2} name={name} />
+                <span class="md:hidden">No</span>
+            </div>
+        </div>
+        <!-- Añadir más filas aquí -->
+    </div>
+</div>
