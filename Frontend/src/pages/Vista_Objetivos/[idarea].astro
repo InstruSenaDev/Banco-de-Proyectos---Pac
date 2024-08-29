@@ -5,6 +5,7 @@ import Grid from "../../Components/Grid.astro";
 import BotonPrincipal from "../../Components/BotonPrincipal.astro";
 import BotonSegundo from "../../Components/BotonSegundo.astro";
 
+
 interface PathParams {
   idarea: string;
   idtiposdearea: string;
@@ -68,7 +69,10 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
         </div>
 
         <form id="respuestasForm" action="http://localhost:4000/api/guardarRespuestasObjetivos" method="POST">
-          <input type="hidden" name="idproyecto" />
+          <!-- Campo oculto para idproyecto -->
+          <input type="hidden" name="idproyecto" id="idproyecto" />
+
+          <!-- Títulos de la tabla -->
           <div class="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
             <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
           </div>
@@ -79,6 +83,7 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
             <div class="hidden md:block col-span-1 text-center">No</div>
           </div>
 
+          <!-- Iteración sobre las categorías y preguntas -->
           {Object.keys(groupedObjetivos).map((categoriaNombre) => (
             <div :key={categoriaNombre}>
               <div class="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
@@ -97,8 +102,9 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
             </div>
           ))}
 
+          <!-- Botones de navegación -->
           <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-            <a href={`/Services/${idarea}-${idtiposdearea}`}>
+            <a href={`/Services/${idarea}-${idtiposdearea}?projectId=${Astro.url.searchParams.get('projectId')}`}>
               <BotonPrincipal Text="Volver" />
             </a>
             <button type="submit" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
@@ -110,13 +116,14 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
     </div>
   </div>
 </LayoutPrincipal>
+
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const projectId = urlParams.get('projectId');
 
     if (projectId) {
-      document.querySelector('input[name="idproyecto"]').value = projectId;
+      document.getElementById('idproyecto').value = projectId;
     } else {
       console.error('Falta el ID del proyecto en la URL.');
     }

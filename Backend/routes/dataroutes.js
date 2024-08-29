@@ -150,11 +150,13 @@ router.get('/objetivos', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
-
-// Ruta para guardar las respuestas de alcance
+//Ruta para guardar respuestas de alcance
 router.post('/guardarRespuestas', async (req, res) => {
+    // Extrae idproyecto del cuerpo de la solicitud
     const idproyecto = parseInt(req.body.idproyecto, 10);
+    console.log('ID Proyecto recibido:', idproyecto);
 
+    // Verifica si idproyecto es un número válido
     if (isNaN(idproyecto)) {
         return res.status(400).json({ error: 'ID del proyecto inválido' });
     }
@@ -163,17 +165,19 @@ router.post('/guardarRespuestas', async (req, res) => {
         const respuestas = req.body;
         const respuestasAlcance = [];
 
+        // Recorre las respuestas para extraer idalcance y valor
         for (const [key, value] of Object.entries(respuestas)) {
             if (key !== 'idproyecto') {
-                const idalcance = key.replace('pregunta', ''); // Obtener el id de alcance de la pregunta
-                // Convertir el valor a booleano
-                respuestasAlcance.push({ idproyecto, idalcance, respuesta: value === 'true' });
+                const idalcance = parseInt(key.replace('pregunta', ''), 10);
+                respuestasAlcance.push({
+                    idproyecto,
+                    idalcance,
+                    respuesta: value === 'true'
+                });
             }
         }
 
         await guardarRespuestas(respuestasAlcance);
-        
-        // Redirige a la URL
         res.redirect('http://localhost:4321/VistaUsuario');
     } catch (error) {
         console.error('Error al guardar respuestas:', error);
@@ -267,12 +271,13 @@ router.post('/guardarRespuestasObjetivos', async (req, res) => {
       }
   
       await guardarRespuestasObjetivos(respuestasObjetivos);
-      res.redirect('http://localhost:4321/VistaAlcance');
+      res.redirect(`http://localhost:4321/VistaAlcance?idproyecto=${idproyecto}`);
     } catch (error) {
       console.error('Error al guardar respuestas:', error);
       res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
-  });
+});
+
 
 
 export default router;

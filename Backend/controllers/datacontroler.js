@@ -175,29 +175,35 @@ async function getObjetivos() {
 };
 
 async function guardarRespuestas(respuestas) {
+    const client = await pool.connect();
     try {
-        const client = await pool.connect();
+        await client.query('BEGIN'); // Inicia una transacción
 
+        // Primero, guarda las respuestas en la tabla `respuestasalcance`
         for (const respuesta of respuestas) {
             const { idproyecto, idalcance, respuesta: valorRespuesta } = respuesta;
 
-            // Convertir idproyecto a número
-            const idproyectoNumero = parseInt(idproyecto, 10);
-            
-            await client.query(
-                'INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta) VALUES ($1, $2, $3)',
-                [idproyectoNumero, idalcance, valorRespuesta]
-            );
+            const insertQuery = 'INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta) VALUES ($1, $2, $3) RETURNING idrespuesta';
+            const result = await client.query(insertQuery, [idproyecto, idalcance, valorRespuesta]);
+
+            // Extrae el idrespuesta generado
+            const idrespuesta = result.rows[0].idrespuesta;
+
+            // Ahora, actualiza la tabla `proyecto` con este idrespuesta
+            const updateQuery = 'UPDATE proyecto SET idrespuestaalcance = $1 WHERE idproyecto = $2';
+            await client.query(updateQuery, [idrespuesta, idproyecto]);
         }
 
-        client.release();
-        console.log('Respuestas guardadas con éxito');
+        await client.query('COMMIT'); // Confirma la transacción
+        console.log('Respuestas y actualización del proyecto guardadas con éxito');
     } catch (error) {
+        await client.query('ROLLBACK'); // Revertir en caso de error
         console.error('Error al guardar respuestas:', error);
         throw error;
+    } finally {
+        client.release();
     }
 }
-
 
 async function updateProjectWithArea(areaId, projectId) { // Agrega async aquí
     try {
@@ -278,23 +284,29 @@ async function updateProyectoItem({ projectId, itemId }) {
     try {
         const client = await pool.connect();
 
+        // Primero, guarda las respuestas en la tabla `respuestasobjetivos`
         for (const respuesta of respuestas) {
             const { idproyecto, idobjetivos, respuesta: valorRespuesta } = respuesta;
 
-            // Guarda en la tabla respuestasobjetivos con el idproyecto
-            await client.query(
-                'INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) VALUES ($1, $2, $3)',
-                [idproyecto, idobjetivos, valorRespuesta]
-            );
+            const insertQuery = 'INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) VALUES ($1, $2, $3) RETURNING idrespuestasobjetivos';
+            const result = await client.query(insertQuery, [idproyecto, idobjetivos, valorRespuesta]);
+
+            // Extrae el idrespuestasobjetivos generado
+            const idrespuestasobjetivos = result.rows[0].idrespuestasobjetivos;
+
+            // Ahora, actualiza la tabla `proyecto` con este idrespuestasobjetivos
+            const updateQuery = 'UPDATE proyecto SET idrespuestaobjetivos = $1 WHERE idproyecto = $2';
+            await client.query(updateQuery, [idrespuestasobjetivos, idproyecto]);
         }
 
         client.release();
-        console.log('Respuestas guardadas con éxito');
+        console.log('Respuestas y actualización del proyecto guardadas con éxito');
     } catch (error) {
         console.error('Error al guardar respuestas:', error);
         throw error;
     }
 }
+
 
 export {
     getAllPersonas,
