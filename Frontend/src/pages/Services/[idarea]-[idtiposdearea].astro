@@ -89,45 +89,45 @@ export async function getStaticPaths() {
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
   const idarea = document.querySelector('body').dataset.idarea;
-  console.log('ID del área:', idarea)
-    const projectId = new URLSearchParams(window.location.search).get('projectId');
+  console.log('ID del área:', idarea);
+  const projectId = new URLSearchParams(window.location.search).get('projectId');
 
-    document.querySelectorAll('.card-link').forEach(link => {
-      link.addEventListener('click', async function(e) {
-        e.preventDefault();
+  document.querySelectorAll('.card-link').forEach(link => {
+    link.addEventListener('click', async function(e) {
+      e.preventDefault();
 
-        const itemId = this.closest('.card-container').dataset.itemId;
+      const itemId = this.closest('.card-container').dataset.itemId;
 
-        if (itemId && projectId) {
-          try {
-            const response = await fetch('http://localhost:4000/api/update-proyecto-item', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ projectId, itemId }),
-            });
+      if (itemId && projectId) {
+        try {
+          const response = await fetch('http://localhost:4000/api/update-proyecto-item', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ projectId, itemId }),
+          });
 
-            if (!response.ok) {
-              throw new Error('Error updating proyecto: ' + response.statusText);
-            }
-
-            const result = await response.json();
-            console.log('Ítem actualizado correctamente:', result);
-
-            // Redirige a la vista deseada
-            if (idarea) {
-              window.location.href = `/Vista_Objetivos/${idarea}`;
-            } else {
-              console.error('ID del área no disponible para redirección.');
-            }
-          } catch (error) {
-            console.error('Error al actualizar el ítem:', error);
+          if (!response.ok) {
+            throw new Error('Error updating proyecto: ' + response.statusText);
           }
-        } else {
-          console.error('Faltan ID del ítem o del proyecto.', { itemId, projectId });
+
+          const result = await response.json();
+          console.log('Ítem actualizado correctamente:', result);
+
+          // Redirige a la vista de objetivos, pasando el projectId
+          if (idarea) {
+            window.location.href = `/Vista_Objetivos/${idarea}?projectId=${projectId}`;
+          } else {
+            console.error('ID del área no disponible para redirección.');
+          }
+        } catch (error) {
+          console.error('Error al actualizar el ítem:', error);
         }
-      });
+      } else {
+        console.error('Faltan ID del ítem o del proyecto.', { itemId, projectId });
+      }
     });
   });
+});
 </script>

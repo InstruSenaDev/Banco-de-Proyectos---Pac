@@ -274,7 +274,27 @@ async function updateProyectoItem({ projectId, itemId }) {
     }
   }
   
-  
+  async function guardarRespuestasObjetivos(respuestas) {
+    try {
+        const client = await pool.connect();
+
+        for (const respuesta of respuestas) {
+            const { idproyecto, idobjetivos, respuesta: valorRespuesta } = respuesta;
+
+            // Guarda en la tabla respuestasobjetivos con el idproyecto
+            await client.query(
+                'INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) VALUES ($1, $2, $3)',
+                [idproyecto, idobjetivos, valorRespuesta]
+            );
+        }
+
+        client.release();
+        console.log('Respuestas guardadas con éxito');
+    } catch (error) {
+        console.error('Error al guardar respuestas:', error);
+        throw error;
+    }
+}
 
 export {
     getAllPersonas,
@@ -291,5 +311,6 @@ export {
     getObjetivosPorArea,
     updateProjectWithArea,
     updateProjectTipo,
-    updateProyectoItem
+    updateProyectoItem,
+    guardarRespuestasObjetivos
 };

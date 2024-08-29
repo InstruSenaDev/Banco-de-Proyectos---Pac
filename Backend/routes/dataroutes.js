@@ -14,7 +14,8 @@ import {
     getObjetivosPorArea,
     updateProjectWithArea,
     updateProjectTipo,
-    updateProyectoItem
+    updateProyectoItem,
+    guardarRespuestasObjetivos
 
 
 } from '../controllers/datacontroler.js';
@@ -245,4 +246,33 @@ router.post('/update-proyecto-item', async (req, res) => {
     }
   });
   
+// Ruta para guardar las respuestas de objetivos
+router.post('/guardarRespuestasObjetivos', async (req, res) => {
+    const idproyecto = parseInt(req.body.idproyecto, 10);
+    console.log('ID Proyecto recibido:', idproyecto);
+  
+    if (isNaN(idproyecto)) {
+      return res.status(400).json({ error: 'ID del proyecto inválido' });
+    }
+  
+    try {
+      const respuestas = req.body;
+      const respuestasObjetivos = [];
+  
+      for (const [key, value] of Object.entries(respuestas)) {
+        if (key !== 'idproyecto') {
+          const idobjetivos = key.replace('pregunta', ''); // Obtener el id de objetivo de la pregunta
+          respuestasObjetivos.push({ idproyecto, idobjetivos, respuesta: value === 'true' });
+        }
+      }
+  
+      await guardarRespuestasObjetivos(respuestasObjetivos);
+      res.redirect('http://localhost:4321/VistaAlcance');
+    } catch (error) {
+      console.error('Error al guardar respuestas:', error);
+      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+  });
+
+
 export default router;

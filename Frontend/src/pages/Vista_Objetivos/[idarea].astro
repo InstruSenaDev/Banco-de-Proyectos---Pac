@@ -32,6 +32,7 @@ export async function getStaticPaths(): Promise<{ params: PathParams }[]> {
     return [];
   }
 }
+
 async function fetchObjetivos(idArea: string) {
   try {
     const response = await fetch(`http://localhost:4000/api/objetivos/${idArea}`);
@@ -46,9 +47,6 @@ async function fetchObjetivos(idArea: string) {
 }
 
 const { idarea, idtiposdearea } = Astro.params;
-
-console.log("Parámetros de la ruta:", Astro.params);
-
 const objetivos = idarea ? await fetchObjetivos(idarea) : [];
 
 const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
@@ -69,43 +67,58 @@ const groupedObjetivos = objetivos.reduce((acc, objetivo) => {
           <h1 class="font-josefin-slab text-2xl text-black">Por favor marque “SI” o “NO” en cada pregunta</h1>
         </div>
 
-        <div class="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
-          <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
-        </div>
-
-        <div class="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
-          <div class="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipos de objetivos</div>
-          <div class="hidden md:block col-span-1 text-center">Sí</div>
-          <div class="hidden md:block col-span-1 text-center">No</div>
-        </div>
-
-        {Object.keys(groupedObjetivos).map((categoriaNombre) => (
-          <div :key={categoriaNombre}>
-            <div class="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
-              {categoriaNombre}
-            </div>
-
-            {groupedObjetivos[categoriaNombre].map((objetivo, index) => (
-              <Grid 
-                :key={objetivo.idobjetivos}
-                Text1={`${index + 1}. ${objetivo.descripcion}`}
-                id1={`radioButton-grid${objetivo.idobjetivos}-si`}
-                id2={`radioButton-grid${objetivo.idobjetivos}-no`}
-                name={`pregunta${objetivo.idobjetivos}`}
-              />
-            ))}
+        <form id="respuestasForm" action="http://localhost:4000/api/guardarRespuestasObjetivos" method="POST">
+          <input type="hidden" name="idproyecto" />
+          <div class="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
+            <div class="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
           </div>
-        ))}
 
-        <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-          <a href={`/Services/${idarea}-${idtiposdearea}`}>
-            <BotonPrincipal Text="Volver" />
-          </a>
-          <a href="/VistaAlcance" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-            <BotonSegundo Text="Siguiente" />
-          </a>
-        </div>
+          <div class="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
+            <div class="col-span-12 md:col-span-10 text-center md:text-left pl-4">Tipos de objetivos</div>
+            <div class="hidden md:block col-span-1 text-center">Sí</div>
+            <div class="hidden md:block col-span-1 text-center">No</div>
+          </div>
+
+          {Object.keys(groupedObjetivos).map((categoriaNombre) => (
+            <div :key={categoriaNombre}>
+              <div class="grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
+                {categoriaNombre}
+              </div>
+
+              {groupedObjetivos[categoriaNombre].map((objetivo, index) => (
+                <Grid 
+                  :key={objetivo.idobjetivos}
+                  Text1={`${index + 1}. ${objetivo.descripcion}`}
+                  id1={`radioButton-grid${objetivo.idobjetivos}-si`}
+                  id2={`radioButton-grid${objetivo.idobjetivos}-no`}
+                  name={`pregunta${objetivo.idobjetivos}`}
+                />
+              ))}
+            </div>
+          ))}
+
+          <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+            <a href={`/Services/${idarea}-${idtiposdearea}`}>
+              <BotonPrincipal Text="Volver" />
+            </a>
+            <button type="submit" class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+              <BotonSegundo Text="Siguiente" />
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </LayoutPrincipal>
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectId = urlParams.get('projectId');
+
+    if (projectId) {
+      document.querySelector('input[name="idproyecto"]').value = projectId;
+    } else {
+      console.error('Falta el ID del proyecto en la URL.');
+    }
+  });
+</script>
