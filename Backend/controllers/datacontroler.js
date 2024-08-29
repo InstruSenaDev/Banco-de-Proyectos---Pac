@@ -39,4 +39,28 @@ async function getProyectoById(id) {
     }
 }
 
-export { getAllProyectos, getProyectoById };
+// Función para obtener las respuestas basadas en el id del proyecto
+export async function getRespuestasByProyectoId(idproyecto) {
+    try {
+        const numericId = parseInt(idproyecto);
+        if (isNaN(numericId)) {
+            throw new Error('ID inválido');
+        }
+
+        const client = await pool.connect();
+        const query = `
+            SELECT r.idrespuestasobjetivos, r.idproyecto, r.idobjetivos, r.respuesta
+            FROM respuestaobjetivos r
+            WHERE r.idproyecto = $1
+        `;
+        const result = await client.query(query, [numericId]);
+        client.release();
+
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener las respuestas:', error);
+        throw error;
+    }
+};
+
+export { getAllProyectos, getProyectoById, getRespuestasByProyectoId };
