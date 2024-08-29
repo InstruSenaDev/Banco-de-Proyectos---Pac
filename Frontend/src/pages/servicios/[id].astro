@@ -14,21 +14,21 @@ const { id } = Astro.params;
 
 // Define el objeto del proyecto con valores predeterminados
 let proyecto = { 
- nombre: '',
- impacto: '', 
- responsable: '', 
- disponibilidad:'', 
- dia:'', 
- idalcance:'', 
- idobjetivos:'', 
- idarea:'', 
- idficha:'', 
- idpersona:'',
-idrespuestaalcance:'',
-iditems:'',
-idtiposdearea:'',
-idrespuestaobjetivos: '' };
-
+    nombre: '',
+    impacto: '', 
+    responsable: '', 
+    disponibilidad: '', 
+    dia: '', 
+    idalcance: '', 
+    idobjetivos: '', 
+    idarea: '', 
+    idficha: '', 
+    idpersona: '',
+    idrespuestaalcance: '',
+    iditems: '',
+    idtiposdearea: '',
+    idrespuestaobjetivos: '' 
+};
 
 // Función para obtener la información del proyecto desde la API
 const fetchProyecto = async () => {
@@ -47,23 +47,24 @@ const fetchProyecto = async () => {
 // Llamar a la función para obtener el proyecto
 await fetchProyecto();
 
+// Función para generar rutas estáticas
 export async function getStaticPaths() {
-  try {
-    const response = await fetch('http://localhost:4000/api/proyectos');
-    if (response.ok) {
-      const proyectos = await response.json();
-      // Genera un array de objetos para las rutas
-      return proyectos.map(proyecto => ({
-        params: { id: proyecto.idproyecto.toString() }
-      }));
-    } else {
-      console.error('Error al obtener los proyectos para paths:', response.statusText);
-      return [];
+    try {
+        const response = await fetch('http://localhost:4000/api/proyectos');
+        if (response.ok) {
+            const proyectos = await response.json();
+            // Genera un array de objetos para las rutas
+            return proyectos.map(proyecto => ({
+                params: { id: proyecto.idproyecto.toString() }
+            }));
+        } else {
+            console.error('Error al obtener los proyectos para paths:', response.statusText);
+            return [];
+        }
+    } catch (error) {
+        console.error('Error de red al obtener proyectos para paths:', error);
+        return [];
     }
-  } catch (error) {
-    console.error('Error de red al obtener proyectos para paths:', error);
-    return [];
-  }
 }
 
 ---
@@ -121,17 +122,18 @@ export async function getStaticPaths() {
                     <span class="text-xs sm:text-xl">{proyecto.iditems || 'No disponible'}</span>
                 </ListItem>
                 <ListItem client:visible>
-                    <span class="text-xs sm:text-xl">Tipo de area</span>
+                    <span class="text-xs sm:text-xl">Tipo de área</span>
                     <span class="text-xs sm:text-xl">{proyecto.idtiposdearea || 'No disponible'}</span>
                 </ListItem>
             </ListProject>
             <div class="flex flex-col items-center justify-end lg:justify-end lg:flex-row space-y-2 sm:space-y-0 sm:space-x-4 m-6 ">
-                <a href="/Calificar"> <BotonPrincipal  Text="Atras"/> </a>
+                <a href="/Calificar"> 
+                    <BotonPrincipal Text="Atras"/> 
+                </a>
 
                 <a href={`/servicios/${proyecto.idrespuestaobjetivos}`}>
                     <BotonSegundo Text="Siguiente"/>
                 </a>
-                  
             </div>
         </div>
     </Layoutcontenido2>
