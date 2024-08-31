@@ -14,6 +14,7 @@ const { id } = Astro.params;
 
 // Define el objeto del proyecto con valores predeterminados
 let proyecto = { 
+    idproyecto: '',
     nombre: '',
     impacto: '', 
     responsable: '', 
@@ -131,8 +132,8 @@ export async function getStaticPaths() {
                     <BotonPrincipal Text="Atras"/> 
                 </a>
 
-                <a href={`/servicios/${proyecto.idrespuestaobjetivos}`}>
-                    <BotonSegundo Text="Siguiente"/>
+                <a href={`/servicios/${proyecto.idproyecto}`}>
+                    <BotonSegundo Text="Siguiente" />
                 </a>
             </div>
         </div>

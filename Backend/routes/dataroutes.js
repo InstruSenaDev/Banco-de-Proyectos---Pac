@@ -1,6 +1,12 @@
 import express from 'express';
 import { pool } from '../config/db.js';
-import { getAllProyectos, getProyectoById, getRespuestasByProyectoId, getRespuestasByProyecto } from '../controllers/datacontroler.js';
+import { 
+    getAllProyectos, 
+    getProyectoById, 
+   // getRespuestasByProyectoId, 
+    getRespuestasByProyecto,
+    getRespuestas 
+} from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -70,5 +76,21 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 });
+
+// Ruta para obtener todas las respuestas
+router.get('/respuestas', async (req, res) => {
+    try {
+        const respuestas = await getRespuestas();
+        if (respuestas.length > 0) {
+            res.json(respuestas);
+        } else {
+            res.status(404).json({ error: 'No se encontraron respuestas' });
+        }
+    } catch (error) {
+        console.error('Error al obtener todas las respuestas:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+});
+
 
 export default router;

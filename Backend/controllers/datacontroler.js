@@ -70,7 +70,40 @@ async function getProyectoById(id) {
 // }
 
 
-// Controlador para obtener las respuestas de un proyecto específico
+// // Controlador para obtener las respuestas de un proyecto específico
+// const getRespuestasByProyecto = async (idproyecto) => {
+//     try {
+//         const result = await pool.query(
+//             `SELECT ro.idrespuestaobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, o.descripcion 
+//              FROM respuestasobjetivos ro
+//              JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
+//              WHERE ro.idproyecto = $1`,
+//             [idproyecto]
+//         );
+
+//         // Devolver las filas obtenidas
+//         return result.rows;
+//     } catch (error) {
+//         console.error('Error al obtener las respuestas de la base de datos:', error);
+//         throw error; // Lanzar el error para que sea manejado en las rutas
+//     }
+// };
+
+// Controlador para obtener todas las respuestas
+const getRespuestas = async () => {
+    try {
+        const result = await pool.query(`
+            SELECT ro.idrespuestaobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, o.descripcion 
+            FROM respuestasobjetivos ro
+            JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
+        `);
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener todas las respuestas:', error);
+        throw error;
+    }
+};
+
 const getRespuestasByProyecto = async (idproyecto) => {
     try {
         const result = await pool.query(
@@ -88,5 +121,10 @@ const getRespuestasByProyecto = async (idproyecto) => {
         throw error; // Lanzar el error para que sea manejado en las rutas
     }
 };
-
-export { getAllProyectos, getProyectoById, getRespuestasByProyectoId, getRespuestasByProyecto };
+export { 
+    getAllProyectos, 
+    getProyectoById, 
+    // getRespuestasByProyectoId, 
+    getRespuestasByProyecto,
+    getRespuestas 
+};
