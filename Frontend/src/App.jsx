@@ -5,6 +5,7 @@ import Dashboard from './Pages/Dashboard';
 import Prueba from './Pages/Prueba';
 import Calificar from './Pages/Calificar';
 import Detalle from './Pages/Detalle';
+import Objetivos from './Pages/Objetivos';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,13 +13,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Calificar />} />
+        <Route path="/" element={<Objetivos />} />
+        {/* Define las rutas correctamente */}
+        {/* <Route path="/" element={<Calificar />} />
+        <Route path="/Calificar" element={<Calificar />} />
         <Route path="/Detalle/:id" element={<Detalle />} />
-        {/* Activa las rutas que necesites */}
-        {/* <Route path="/alcance" element={<Alcance />} /> */}
-        {/* <Route path="/prueba" element={<Prueba />} />
-        <Route path="/calificar" element={<Calificar />} />
-        <Route path="/detalle" element={<Detalle />} /> */}
+        <Route path="/Alcance" element={<Alcance />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Prueba" element={<Prueba />} /> */}
       </Routes>
     </Router>
   );
