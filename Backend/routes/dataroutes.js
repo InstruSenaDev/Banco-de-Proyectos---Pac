@@ -57,25 +57,34 @@ router.get('/proyectos/:id', async (req, res) => {
 // });
 
 
-// Ruta para obtener las respuestas de un proyecto específico
 router.get('/respuestas/:idproyecto', async (req, res) => {
     try {
-        const { idproyecto } = req.params;
-        console.log(`ID de proyecto recibido en el backend: ${idproyecto}`); // Verifica el valor del ID
-
-        // Llamada al controlador para obtener las respuestas del proyecto
-        const respuestas = await getRespuestasByProyecto(idproyecto);
-
-        if (respuestas && respuestas.length > 0) {
-            res.json(respuestas);
-        } else {
-            res.status(404).json({ error: 'Respuestas no encontradas para el proyecto' });
-        }
+      const { idproyecto } = req.params;
+      console.log(`ID de proyecto recibido en el backend: ${idproyecto}`); // Verifica el valor del ID
+  
+      // Llamada al controlador para obtener las respuestas del proyecto
+      const respuestas = await getRespuestasByProyecto(idproyecto);
+  
+      if (respuestas && respuestas.length > 0) {
+        res.json({
+          proyecto: {
+            id: idproyecto,
+            nombre: respuestas[0].proyecto_nombre,
+          },
+          respuestas: respuestas.map((respuesta) => ({
+            id: respuesta.idrespuestasobjetivos,
+            descripcion: respuesta.descripcion,
+            respuesta: respuesta.respuesta,
+          })),
+        });
+      } else {
+        res.status(404).json({ error: 'Respuestas no encontradas para el proyecto' });
+      }
     } catch (error) {
-        console.error('Error al obtener las respuestas del proyecto:', error);
-        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+      console.error('Error al obtener las respuestas del proyecto:', error);
+      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
-});
+  });
 
 // Ruta para obtener todas las respuestas
 router.get('/respuestas', async (req, res) => {

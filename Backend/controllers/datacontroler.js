@@ -93,7 +93,7 @@ async function getProyectoById(id) {
 const getRespuestas = async () => {
     try {
         const result = await pool.query(`
-            SELECT ro.idrespuestaobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, o.descripcion 
+            SELECT ro.idrespuestasobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, o.descripcion 
             FROM respuestasobjetivos ro
             JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
         `);
@@ -106,21 +106,23 @@ const getRespuestas = async () => {
 
 const getRespuestasByProyecto = async (idproyecto) => {
     try {
-        const result = await pool.query(
-            `SELECT ro.idrespuestaobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, o.descripcion 
-             FROM respuestasobjetivos ro
-             JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
-             WHERE ro.idproyecto = $1`,
-            [idproyecto]
-        );
-
-        // Devolver las filas obtenidas
-        return result.rows;
+      const result = await pool.query(
+        `SELECT ro.idrespuestasobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, o.descripcion, p.nombre AS proyecto_nombre
+         FROM respuestasobjetivos ro
+         JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
+         JOIN proyecto p ON ro.idproyecto = p.idproyecto
+         WHERE ro.idproyecto = $1`,
+        [idproyecto]
+      );
+  
+      // Devolver las filas obtenidas
+      return result.rows;
     } catch (error) {
-        console.error('Error al obtener las respuestas de la base de datos:', error);
-        throw error; // Lanzar el error para que sea manejado en las rutas
+      console.error('Error al obtener las respuestas de la base de datos:', error);
+      throw error; // Lanzar el error para que sea manejado en las rutas
     }
-};
+  };
+
 export { 
     getAllProyectos, 
     getProyectoById, 
