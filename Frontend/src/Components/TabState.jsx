@@ -9,10 +9,10 @@ export const TabState = ({ Text1, Text2 }) => {
   return (
     <div className="max-w-sm mt-5">
       <TabGroup defaultIndex={selectedView}>
-        <TabList
-          variant="line"
-          handleSelect={(value) => setSelectedView(value)}
-          defaultValue={selectedView}
+        <TabList 
+          variant="line" 
+          handleSelect={(value) => setSelectedView(value)} 
+          defaultValue={selectedView} 
           className='mt-6'
         >
           <Tab value={0}>{Text1}</Tab>
@@ -20,7 +20,7 @@ export const TabState = ({ Text1, Text2 }) => {
         </TabList>
       </TabGroup>
 
-       {selectedView === 0 ? (
+      {/* {selectedView === 0 ? (
         <Card>
           <div className='h-28 bg-emerald-300' />
         </Card>
@@ -28,7 +28,7 @@ export const TabState = ({ Text1, Text2 }) => {
         <Card>
           <div className='h-28 bg-blue-700' />
         </Card>
-      )}
+      )} */}
     </div>
   );
 };

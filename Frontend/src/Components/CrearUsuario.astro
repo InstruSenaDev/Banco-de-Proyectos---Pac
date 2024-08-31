@@ -1,0 +1,75 @@
+---
+import Input from "../Components/Input.astro"
+import  SelectBoxTI from "../Components/SelectBoxTI.astro"
+import SelectBoxRol from "../Components/SelectBoxRol.astro"
+import RadioButton from "../Components/RadioButton.astro"
+import BotonPrincipal from "../Components/BotonPrincipal.astro"
+import BotonSegundo from "../Components/BotonSegundo.astro"
+import { Divider, Title } from '@tremor/react';
+---
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 sm:mx-auto">
+    <Title className="text-2xl font-bold font-nunito-sans text-center">Crear Usuario</Title>
+    <Divider />
+    <div class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6 ">
+        <div class="col-span-full sm:col-span-3 space-y-5">
+        <div>
+            <Input Text="Nombre del usuario:" placeholder="Nombre del usuario" type="text" id="nombreUsu"/>
+            <span id="nombreError" class="error-message"></span>
+        </div>
+
+        <div>
+            <SelectBoxTI Text="Tipo de documento" id="tipoDoc"/>
+            <span id="tipoDocError" class="error-message"></span>
+        </div>
+
+        <div>
+            <Input  placeholder="Numero de documento" type="text" Text="Numero de documento" id='numeroDoc'/>
+            <span id="numeroDocError" class="error-message"></span>
+        </div>
+
+        <div>
+            <Input  placeholder="Correo" type="email" Text="Correo:" id='correo'/>
+            <span id="correoError" class="error-message"></span>
+        </div>
+</div>
+    
+    <div class="col-span-full sm:col-span-3 space-y-5">
+        <div>
+            <Input Text="Contraseña:" placeholder=".............." type="password" id="contrasena"/>
+            <span id="contrasenaError" class="error-message"></span>
+        </div>
+
+        <div>
+            <SelectBoxRol Text="Tipo de Rol:" id="tipoRol"/>
+            <span id="tipoRolError" class="error-message"></span>
+        </div>
+
+        <div class="space-y-6">
+        <h1> Estado: </h1>
+        <div class="flex h-[23px] ">
+            <RadioButton Text="Activo" id="estadoActivo"/>
+            <RadioButton Text="Inactivo" id="estadoInactivo"/>
+        </div>
+        <span id="estadoError" class="error-message"></span>
+        
+
+        <div class="">
+            <Input Text="Celular:" placeholder="Celular" type="text" id="celular"/>
+            <span id="celularError" class="error-message"></span>
+        </div>
+    </div>
+    </div>
+</div>
+<Divider />
+        <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+            <a href="/VistaSuperAdmin">
+                <BotonPrincipal Text="Volver" />
+            </a>
+            <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
+                <BotonSegundo Text="Guardar" id="guardarBtn"/>
+            </div>
+        </div>
+</div>
+</div>
