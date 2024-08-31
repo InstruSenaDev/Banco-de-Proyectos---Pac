@@ -1,19 +1,36 @@
 ---
-import Input from "../Components/Input.astro"
+import Input from "../Components/Input2.astro"
 import  SelectBoxTI from "../Components/SelectBoxTI.astro"
 import SelectBoxRol from "../Components/SelectBoxRol.astro"
 import RadioButton from "../Components/RadioButton.astro"
-import BotonPrincipal from "../Components/BotonPrincipal.astro"
-import BotonSegundo from "../Components/BotonSegundo.astro"
+import BotonPrincipal from "../Components/BotonPrincipalModal.astro"
+import BotonSegundo from "../Components/BotonSegundoModal.astro"
+import Modal from "../Components/Modal.astro"
 import { Divider, Title } from '@tremor/react';
 ---
 
+<style>
+ .relative input {
+        padding-right: 2.5rem; /* Añade espacio a la derecha del input para el icono */
+    }
+    .relative i {
+        right: 1rem; /* Ajusta la posición del icono */
+    }
+    .error-message {
+        color: red;
+        font-size: 0.620rem; /* Tamaño de fuente pequeño */
+        margin-top: -0.5rem; /* Ajusta el margen para alinear mejor con los inputs */
+        margin-bottom: 1rem; /* Espacio debajo del mensaje */
+        text-align: left; /* Alineación del texto */
+        width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+    }
+
+</style>
+
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
   <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-2xl p-6 sm:mx-auto">
-    <Title className="text-2xl font-bold font-nunito-sans text-center">Crear Usuario</Title>
-    <Divider />
     <div class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6 ">
-        <div class="col-span-full sm:col-span-3 space-y-5">
+        <div class="col-span-full sm:col-span-3 space-y-4">
         <div>
             <Input Text="Nombre del usuario:" placeholder="Nombre del usuario" type="text" id="nombreUsu"/>
             <span id="nombreError" class="error-message"></span>
@@ -35,7 +52,7 @@ import { Divider, Title } from '@tremor/react';
         </div>
 </div>
     
-    <div class="col-span-full sm:col-span-3 space-y-5">
+    <div class="col-span-full sm:col-span-3 space-y-4">
         <div>
             <Input Text="Contraseña:" placeholder=".............." type="password" id="contrasena"/>
             <span id="contrasenaError" class="error-message"></span>
@@ -46,8 +63,8 @@ import { Divider, Title } from '@tremor/react';
             <span id="tipoRolError" class="error-message"></span>
         </div>
 
-        <div class="space-y-6">
-        <h1> Estado: </h1>
+        <div class="space-y-5">
+        <h1 class="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"> Estado: </h1>
         <div class="flex h-[23px] ">
             <RadioButton Text="Activo" id="estadoActivo"/>
             <RadioButton Text="Inactivo" id="estadoInactivo"/>
@@ -73,3 +90,6 @@ import { Divider, Title } from '@tremor/react';
         </div>
 </div>
 </div>
+
+<Modal Text="Usuario registrado correctamente"/>
+<script src="../js/CrearUsuario.js"></script>
