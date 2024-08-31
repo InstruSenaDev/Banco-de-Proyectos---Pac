@@ -1,10 +1,10 @@
 ---
-import Input from "../Components/Input2.astro"
+import Input from "../Components/React/Input2"
 import  SelectBoxTI from "../Components/SelectBoxTI.astro"
 import SelectBoxRol from "../Components/SelectBoxRol.astro"
 import RadioButton from "../Components/RadioButton.astro"
-import BotonPrincipal from "../Components/BotonPrincipalModal.astro"
-import BotonSegundo from "../Components/BotonSegundoModal.astro"
+import BotonPrincipal from "./React/BotonPrincipalModal"
+import BotonSegundo from "./React/BotonSegundoModal"
 import Modal from "../Components/Modal.astro"
 import { Divider, Title } from '@tremor/react';
 ---
@@ -82,10 +82,10 @@ import { Divider, Title } from '@tremor/react';
 <Divider />
         <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
             <a href="/VistaSuperAdmin">
-                <BotonPrincipal Text="Volver" />
+                <BotonPrincipal className="" Text="Volver" id=""  />
             </a>
             <div class="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 show-modal">
-                <BotonSegundo Text="Guardar" id="guardarBtn"/>
+                <BotonSegundo text="Guardar" id="guardarBtn"/>
             </div>
         </div>
 </div>
