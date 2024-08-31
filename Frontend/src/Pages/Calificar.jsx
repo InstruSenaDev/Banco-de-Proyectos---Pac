@@ -50,9 +50,11 @@ const Calificar = () => {
                   <CardProyect
                     key={proyecto.idproyecto}
                     Text={proyecto.nombre}
-                    id={proyecto.idproyecto}
+
                   >
+                    <Link to={`/detalle/${proyecto.idproyecto}`}>
                       <BotonSegundo Text="Ver" />
+                    </Link>
 
                   </CardProyect>
                 ))

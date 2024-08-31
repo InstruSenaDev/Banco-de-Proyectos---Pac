@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Alcance from './Pages/Alcance';
 import Dashboard from './Pages/Dashboard';
 import Prueba from './Pages/Prueba';
@@ -12,8 +12,10 @@ function App() {
   return (
     <Router>
       <Routes>
-       <Route path="/" element={<Calificar />} />
-        {/* <Route path="/Alcance" element={<Alcance />} /> */}
+        <Route path="/" element={<Calificar />} />
+        <Route path="/Detalle/:id" element={<Detalle />} />
+        {/* Activa las rutas que necesites */}
+        {/* <Route path="/alcance" element={<Alcance />} /> */}
         {/* <Route path="/prueba" element={<Prueba />} />
         <Route path="/calificar" element={<Calificar />} />
         <Route path="/detalle" element={<Detalle />} /> */}
