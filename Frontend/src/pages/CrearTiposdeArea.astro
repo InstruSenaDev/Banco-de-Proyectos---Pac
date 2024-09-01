@@ -5,8 +5,7 @@ import RadioButton from "../Components/RadioButton.astro";
 import LayoutPrincipal from "../layouts/LayoutPrincipal.astro";
 import Layoutcontenido5 from "../layouts/Layoutcontenido5.astro";
 import SelectBoxArea from "../Components/SelectBoxArea.astro";
-import {Prueba} from "../Components/React/Prueba"
-import { useState } from "react";
+
 
 // Función para obtener las áreas desde la API
 
@@ -54,10 +53,6 @@ const area = await fetchArea();
     <Layoutcontenido5 title="Tipos de Area">
         <div class="w-full md:w-1/2">
             <div class="flex flex-col p-[5%] Flex-box space-y-5">
-
-                <!-- <div class="">
-                    <Prueba/ client:visible>
-                </div> -->
 
                 <div>
                     <SelectBoxArea Text="Seleccione un área" options={area} id="Area"/>
