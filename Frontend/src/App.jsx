@@ -13,14 +13,15 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Objetivos />} />
         {/* Define las rutas correctamente */}
-        {/* <Route path="/" element={<Calificar />} />
+        <Route path="/" element={<Calificar />} />
         <Route path="/Calificar" element={<Calificar />} />
         <Route path="/Detalle/:id" element={<Detalle />} />
-        <Route path="/Alcance" element={<Alcance />} />
+        {/* Ruta para los objetivos del proyecto */}
+        <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
+        {/* <Route path="/Alcance" element={<Alcance />} />
         <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/Prueba" element={<Prueba />} /> */}
+        <Route path="/Prueba" element={<Prueba />} />  */}
       </Routes>
     </Router>
   );

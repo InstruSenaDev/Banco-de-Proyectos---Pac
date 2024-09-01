@@ -113,9 +113,9 @@ const Detalle = () => {
               <BotonPrincipal Text="Atras" />
             </Link>
 
-            <a href="/Objetivos">
+            <Link to={`/respuestas/${id}`}>
               <BotonSegundo Text="Siguiente" />
-            </a>
+            </Link>
           </div>
         </div>
       </Layoutcontenido2>

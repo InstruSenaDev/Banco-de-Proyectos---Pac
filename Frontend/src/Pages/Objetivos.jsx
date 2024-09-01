@@ -1,14 +1,34 @@
-// Importaciones de componentes React
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Layoutprincipal from "../Layouts/Layoutprincipal";
-import Grid from "../Components/Grid";
+import Grid from "../Components/Grid"; // Importar el componente Grid
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
-import RadioButton from "../Components/RadioButton";
-import {Evaluar} from "../Components/Evaluar";
 
 const Objetivos = () => {
+  const { idproyecto } = useParams(); // Obtener el ID del proyecto desde la URL
+  const [respuestas, setRespuestas] = useState([]);
+
+  useEffect(() => {
+    const fetchRespuestas = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/api/respuestas/${idproyecto}`);
+        if (response.ok) {
+          const data = await response.json();
+          setRespuestas(data.respuestas);
+        } else {
+          console.error("Error al obtener las respuestas:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error de red al obtener las respuestas:", error);
+      }
+    };
+
+    fetchRespuestas();
+  }, [idproyecto]);
+
   return (
-    <Layoutprincipal title="">
+    <Layoutprincipal title="Objetivos del Proyecto">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
@@ -16,31 +36,19 @@ const Objetivos = () => {
               <h1 className="font-josefin-slab text-2xl text-black">Respuestas</h1>
             </div>
 
-            <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
-              <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
-            </div>
-
-            {/* Fila de títulos de la tabla */}
-            <div className="grid grid-cols-12 bg-green-50 font-semibold py-4 rounded-t-lg border-b">
-              <div className="col-span-12 md:col-span-9 text-center md:text-left pl-4">Tipos de objetivos</div>
-              <div className="hidden md:flex md:col-span-3 justify-between">
-                <div className="col-span-1 text-center">Sí</div>
-                <div className="col-span-1 text-center">No</div>
-                <div className="col-span-1 text-center">Calificar</div>
-              </div>
-            </div>
-
-            <div className="grid-cols-12 bg-green-50  md:col-span-10 pl-4  col-span-12  flex  py-2">
-              <Grid 
-                Text1="Lorem ipsum dolor sit amet consectetur adipiscing elit, a integer conubia eget vel torquent, donec nulla magnis quam est netus." 
-                id1="" 
-                id2="" 
-                name="" 
-                categoria="" 
+            {/* Renderiza las respuestas obtenidas usando el componente Grid */}
+            {respuestas.map((respuesta) => (
+              <Grid
+                key={respuesta.id}
+                Text1={respuesta.descripcion} // Pasar la pregunta o descripción
+                id1={`respuesta-si-${respuesta.id}`} // IDs únicos para los radio buttons de "Sí"
+                id2={`respuesta-no-${respuesta.id}`} // IDs únicos para los radio buttons de "No"
+                name={`respuesta-${respuesta.id}`} // Nombre único para los radio buttons
+                categoria={respuesta.categoria} // Si tienes una categoría u otro dato a pasar
               />
-              <Evaluar />
-            </div>
+            ))}
 
+            {/* Botones de navegación */}
             <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
               <BotonPrincipal Text="Volver" />
               <a href="/VistaAlcance" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
