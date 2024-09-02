@@ -1,15 +1,15 @@
 import React from 'react';
 
-const Itemss1 = ({ href, label, icon }) => {
+const Items1 = ({ href, label, icon }) => {
   return (
     <li>
       <a href={href} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
         <div>
           {icon ? (
-            <i className={`${icon} flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black`} aria-hidden="true"></i>
+            <i className={`${icon} flex-shrink-0 w-5 h-5 dark:text-black`} aria-hidden="true"></i>
           ) : (
-            <svg className="" aria-hidden="true">
-              {/* Aquí puedes agregar contenido al SVG si es necesario */}
+            <svg className="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24">
+              {/* Aquí puedes agregar el contenido SVG si es necesario */}
             </svg>
           )}
         </div>
@@ -21,4 +21,4 @@ const Itemss1 = ({ href, label, icon }) => {
   );
 };
 
-export default Itemss1;
+export default Items1;

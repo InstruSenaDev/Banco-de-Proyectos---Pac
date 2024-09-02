@@ -1,7 +1,6 @@
 import React from 'react';
-import "../styles/RadioButton2.css"
 
-const RadioButton2 = ({id, name, value}) => {
+const RadioButton2 = ({ id, name, value }) => {
   return (
     <div className="flex items-center">
       <input

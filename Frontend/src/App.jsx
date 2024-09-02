@@ -1,16 +1,18 @@
 import React from 'react';
 import { Routes, Route} from 'react-router-dom';
-/*import Home from './Pages/Home';*/
-import Inicio from './Pages/Inicio';
+//import ModalUsuario from "../Components/ModalUsuario";
+//import Areas from "../Components/Areas";
+import TipoArea from './Components/TipoAreas';
+
 
 function App() {
   return (
     <div className="App">
       <Routes>
-      {/*
-        <Route path="/" element={<Home />} /> */}
+   {/*<Route path="/" element={<ModalUsuario/>} />
+      <Route path="/" element={<Areas/>} /> */}
+      <Route path="/" element={<TipoArea/>} />
 
-        <Route path="/Inicio" element={<Inicio/>} />
       </Routes>
     </div>
   );

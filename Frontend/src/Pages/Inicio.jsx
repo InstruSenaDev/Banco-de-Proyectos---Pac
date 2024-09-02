@@ -1,154 +1,74 @@
 import React from 'react';
-import { Divider, TextInput } from '@tremor/react';
+import Input from '../Components/Input.jsx';
+import BotonPrincipal from '../Components/BotonPrincipal.jsx';
+import '../css/Inicio.css'
 
-
-export default function Example() {
+const Inicio = () => {
   return (
-    <>
-      <div className="sm:mx-auto sm:max-w-2xl">
-        <h3 className="text-tremor-title font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Register to workspace
-        </h3>
-        <p className="mt-1 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-          Take a few moments to register for your company's workspace
-        </p>
-        <form action="#" method="post" className="mt-8">
-          <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-6">
-            <div className="col-span-full sm:col-span-3">
-              <label
-                htmlFor="first-name"
-                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-              >
-                First name
-                <span className="text-red-500">*</span>
-              </label>
-              <TextInput
-                type="text"
-                id="first-name"
-                name="first-name"
-                autoComplete="first-name"
-                placeholder="First name"
-                className="mt-2"
-                required
+
+      <div className="flex 2xl:h-screen h-auto sm:96 items-center justify-center 2xl:gap-x-72">
+        <div className="flex content-center">
+          <form
+            id="formu"
+            action="http://localhost:4000/api/login"
+            method="POST"
+            className="form flex flex-col 2xl:w-96 sm:w-[600px] sm:h-[900px] justify-center items-center 2xl:gap-28 gap-y-20 sm:gap-y-24"
+          >
+            <div className="logo-sena flex m-auto items-center justify-center w-56 h-20 sm:w-96 sm:h-32 2xl:max-w-80 2xl:max-h-32 bg-custom-green 2xl:rounded-bl-[50px] 2xl:rounded-br-[50px] rounded-bl-[40px] rounded-br-[40px]">
+              <img
+                className="sena sm:w-20 sm:h-20 w-12 h-12"
+                src="/public/img/logoSena.png"
+                alt="Logo Sena"
               />
             </div>
-            <div className="col-span-full sm:col-span-3">
-              <label
-                htmlFor="last-name"
-                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-              >
-                Last name
-                <span className="text-red-500">*</span>
-              </label>
-              <TextInput
-                type="text"
-                id="last-name"
-                name="last-name"
-                autoComplete="last-name"
-                placeholder="Last name"
-                className="mt-2"
-                required
-              />
+
+            <div className="login flex flex-col items-center 2xl:gap-4 2xl:min-w-96 w-56 sm:w-96 gap-y-4 sm:gap-y-7">
+              <div className="text-3xl 2xl:pb-8">LOGIN</div>
+
+              <div className="relative w-full">
+                <Input type="email" Text="" placeholder="Correo:" id="CorreoInicio" />
+                <span id="correoError" className="error-message"></span>
+              </div>
+
+              <div className="relative w-full">
+                <Input type="password" Text="" placeholder="Contraseña:" id="contrasenaInicio" />
+                <i
+                  className="bx bx-show cursor-pointer absolute right-3 top-2/4 transform -translate-y-2/4"
+                  id="togglePasswordInicio"
+                ></i>
+                <span id="contrasenaError" className="error-message"></span>
+              </div>
+
+              <span id="globalError" className="error-message"></span>
+
+              <div className="flex justify-end w-full">
+                <a href="/OlvidarContraseña" className="text-blue-500 underline decoration-1">
+                  ¿Olvidaste tu contraseña?
+                </a>
+              </div>
+
+              {/* Botón principal como input de tipo submit */}
+              <BotonPrincipal Text="Login" />
             </div>
-            <div className="col-span-full">
-              <label
-                htmlFor="email"
-                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-              >
-                Email
-                <span className="text-red-500">*</span>
-              </label>
-              <TextInput
-                type="email"
-                id="email"
-                name="email"
-                autoComplete="email"
-                placeholder="Email"
-                className="mt-2"
-                required
-              />
+
+            <div className="boton items-center text-center sm:mb-20">
+              <div className="flex">¿No tienes cuenta?</div>
+              <a href="/Registro1" className="signup text-blue-500 underline decoration-1">
+                Registrarse
+              </a>
             </div>
-            <div className="col-span-full">
-              <label
-                htmlFor="address"
-                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-              >
-                Address
-              </label>
-              <TextInput
-                type="text"
-                id="address"
-                name="address"
-                autoComplete="street-address"
-                placeholder="Address"
-                className="mt-2"
-              />
-            </div>
-            <div className="col-span-full sm:col-span-2">
-              <label
-                htmlFor="city"
-                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-              >
-                City
-              </label>
-              <TextInput
-                type="text"
-                id="city"
-                name="city"
-                autoComplete="address-level2"
-                placeholder="City"
-                className="mt-2"
-              />
-            </div>
-            <div className="col-span-full sm:col-span-2">
-              <label
-                htmlFor="state"
-                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-              >
-                State
-              </label>
-              <TextInput
-                type="text"
-                id="state"
-                name="state"
-                autoComplete="address-level1"
-                placeholder="State"
-                className="mt-2"
-              />
-            </div>
-            <div className="col-span-full sm:col-span-2">
-              <label
-                htmlFor="postal-code"
-                className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-              >
-                Postal code
-              </label>
-              <TextInput
-                id="postal-code"
-                name="postal-code"
-                autoComplete="postal-code"
-                placeholder="Postal code"
-                className="mt-2"
-              />
-            </div>
-          </div>
-          <Divider />
-          <div className="flex items-center justify-end space-x-4">
-            <button
-              type="button"
-              className="whitespace-nowrap rounded-tremor-small px-4 py-2.5 text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="whitespace-nowrap rounded-tremor-default bg-tremor-brand px-4 py-2.5 text-tremor-default font-medium text-tremor-brand-inverted shadow-tremor-input hover:bg-tremor-brand-emphasis dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:bg-dark-tremor-brand-emphasis"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
+
+        <div className="hidden md:hidden lg:hidden xl:block 2xl:block 2xl:w-[800px] 2xl:h-[800px] xl:h-[650px] xl:w-[550px] sm:w-[700px] sm:h-[700px]">
+          <img
+            className="sm:w-auto sm:h-auto 2xl:w-full 2xl:h-full"
+            src="../../public/img/nino.png"
+            alt="Imagen niño"
+          />
+        </div>
       </div>
-    </>
   );
-}
+};
+
+export default Inicio;

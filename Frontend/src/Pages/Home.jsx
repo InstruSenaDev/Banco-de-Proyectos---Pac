@@ -1,15 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import BotonPrincipal from "../Components/BotonPrincipal";
-import BotonSegundo from "../Components/BotonSegundo";
+import BotonPrincipal from '../Components/BotonPrincipal';
+import BotonSegundo from '../Components/BotonSegundo';
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate('/Inicio');
-  };
-
   return (
     <div className="p-10 bg-white flex justify-center items-center h-screen m-0">
       <div className="flex flex-col items-start w-1/2 p-8">
@@ -23,9 +16,11 @@ const Home = () => {
         </span>
 
         <div className="flex space-x-4">
-        <BotonPrincipal onClick={handleClick} Text="Iniciar Sesion" id=""/>
+          <a href="/Inicio">
+            <BotonPrincipal Text="Iniciar Sesión" />
+          </a>
           <a href="/Registro1">
-            <BotonSegundo text="Registrate" id=""/>
+            <BotonSegundo Text="Regístrate" />
           </a>
         </div>
       </div>

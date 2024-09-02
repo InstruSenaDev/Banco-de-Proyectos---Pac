@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/RadioButton.css'
+
 
 const RadioButton = ({Text, id}) => {
   return (
@@ -12,7 +12,7 @@ const RadioButton = ({Text, id}) => {
       />
       <label
         htmlFor={id}
-        className="ml-2 text-sm font-josefin-slab font-semibold text-black"
+        className="ml-2 text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
       >
         {Text}
       </label>
