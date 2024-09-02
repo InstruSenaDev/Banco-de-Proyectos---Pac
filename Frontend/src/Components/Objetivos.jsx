@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from '../React/Input2';
-import BotonSegundo from '../React/BotonSegundoModal';
-import SelectBoxArea from '../React/SelectBoxArea';
+import Input2 from '../Components/Input2';
+import BotonSegundo from '../Components/BotonSegundoModal';
+import SelectBoxArea from '../Components/SelectBoxArea';
 
 // Función para obtener áreas
 const fetchArea = async () => {

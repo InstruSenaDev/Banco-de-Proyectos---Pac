@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from './Input2';
-import BotonSegundo from './BotonSegundoModal';
-import RadioButton from './RadioButton';
+import Input2 from '../Components/Input2';
+import BotonSegundo from '..Components/BotonSegundoModal';
+import RadioButton from '..Components/RadioButton';
 
 export default function Area() {
   const [isOpen, setIsOpen] = useState(false);

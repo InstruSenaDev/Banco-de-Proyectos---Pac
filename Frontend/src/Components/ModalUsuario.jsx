@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from './Input2'; // Asegúrate de que la ruta de importación sea correcta
-import BotonSegundo from './BotonSegundoModal'; // Asegúrate de que la ruta de importación sea correcta
-import RadioButton from './RadioButton'; // Asegúrate de que la ruta de importación sea correcta
-import SelectBoxRol from './SelectBoxRol'; // Asegúrate de que la ruta de importación sea correcta
-import SelectBoxTi from './SelectBoxTI'; // Asegúrate de que la ruta de importación sea correcta
+import Input2 from '..Components/Input2'; // Asegúrate de que la ruta de importación sea correcta
+import BotonSegundo from '..Components/BotonSegundoModal'; // Asegúrate de que la ruta de importación sea correcta
+import RadioButton from '..Components/RadioButton'; // Asegúrate de que la ruta de importación sea correcta
+import SelectBoxRol from '..Components/SelectBoxRol'; // Asegúrate de que la ruta de importación sea correcta
+import SelectBoxTi from '..Components/SelectBoxTI'; // Asegúrate de que la ruta de importación sea correcta
 
 export default function Usuario() {
   const [isOpen, setIsOpen] = useState(false);
