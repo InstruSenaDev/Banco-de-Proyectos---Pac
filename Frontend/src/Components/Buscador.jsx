@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SearchInput = ({ type }) => {
+const Buscador = ({ type }) => {
     return (
         <div className="relative w-[450px] max-[768px]:w-[17em] ml-[4pc] my-[10px]">
             <input
@@ -29,4 +29,4 @@ const SearchInput = ({ type }) => {
     );
 };
 
-export default SearchInput;
+export default Buscador;

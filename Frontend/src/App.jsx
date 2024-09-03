@@ -1,23 +1,30 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Alcance from './Pages/Alcance';
-import Dashboard from './Pages/Dashboard';
-import Prueba from './Pages/Prueba';
-import Calificar from './Components/Card.jsx';
-import Detalle from './Pages/Detalle';
-import Objetivos from './Pages/Objetivos';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ObjetivosPrueba from './Pages/ObjetivosPrueba';
+import RegistroProyecto from './Pages/RegistroProyecto';
+import TiposDeArea from './Pages/Services/TiposDeArea';
+import ItemsDeArea from './Pages/Services/ItemsDeArea';
+import ObjetivosDeArea from './Pages/Vista_Objetivos/ObjetivosDeArea';
+import VistaAreas1 from './Pages/VistaAreas1';
+import VistaAlcance from './Pages/VistaAlcance'; 
+import OlvidarContraseña from './Pages/OlvidarContraseña';
+import UpdatePassword from './Pages/UpdatePassword';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Define las rutas correctamente */}
-        <Route path="/" element={<Calificar />} />
+        <Route path="/" element={<UpdatePassword/>} /> {/* Ruta base */}
+        <Route path="/ObjetivosPrueba" element={<ObjetivosPrueba />} />
+        <Route path="/RegistroProyecto" element={<RegistroProyecto />} />
+        <Route path="/Services/TiposDeArea/:id" element={<TiposDeArea />} />
+        <Route path="/Services/ItemsDeArea/:idarea/:idtiposdearea" element={<ItemsDeArea />} />
+        <Route path="/Vista_Objetivos/ObjetivosDeArea/:idarea/:idtiposdearea" element={<ObjetivosDeArea />} />
+        <Route path="/VistaAreas1" element={<VistaAreas1 />} />
+        <Route path="/VistaAlcance/:idproyecto" element={<VistaAlcance />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
