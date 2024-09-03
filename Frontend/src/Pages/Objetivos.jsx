@@ -91,7 +91,7 @@ const Objetivos = () => {
                   seleccionado={selecciones[respuesta.id]} // Pasar el valor seleccionado
                   onChange={(e) => handleSelectionChange(respuesta.id, e.target.value)} // Manejador de cambios
                 />
-                <Evaluar seleccion={selecciones[respuesta.id]} />
+                {/* <Evaluar seleccion={selecciones[respuesta.id]} /> */}
                 {/* Input para calificar */}
                 <input
                   type="number"

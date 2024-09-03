@@ -45,7 +45,7 @@ const Detalle = () => {
   return (
     <Layoutprincipal title="Detalle del proyecto">
       <Layoutcontenido2 title="" text1="Detalle del proyecto">
-        <div className="lg:w-full w-full lg:h-auto ">
+        <div className="h-full w-full p-2 ">
           <ListProject>
             <ListItem>
               <span className="text-xs sm:text-xl">Nombre del proyecto</span>
@@ -81,12 +81,6 @@ const Detalle = () => {
               <span className="text-xs sm:text-xl">Alcance del proyecto</span>
               <span className="text-xs sm:text-xl">
                 {proyecto.idalcance || "No disponible"}
-              </span>
-            </ListItem>
-            <ListItem>
-              <span className="text-xs sm:text-xl">Objetivos</span>
-              <span className="text-xs sm:text-xl">
-                {proyecto.idobjetivos || "No disponible"}
               </span>
             </ListItem>
             <ListItem>
