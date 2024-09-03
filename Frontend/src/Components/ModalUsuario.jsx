@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from '..Components/Input2'; // Asegúrate de que la ruta de importación sea correcta
-import BotonSegundo from '..Components/BotonSegundoModal'; // Asegúrate de que la ruta de importación sea correcta
-import RadioButton from '..Components/RadioButton'; // Asegúrate de que la ruta de importación sea correcta
-import SelectBoxRol from '..Components/SelectBoxRol'; // Asegúrate de que la ruta de importación sea correcta
-import SelectBoxTi from '..Components/SelectBoxTI'; // Asegúrate de que la ruta de importación sea correcta
+import Input2 from '../Components/Input2'
+import BotonSegundo from '../Components/BotonSegundoModal'; 
+import RadioButton from '../Components/RadioButton'
+import SelectBoxRol from '../Components/SelectBoxRol'; 
+import SelectBoxTi from '../Components/SelectBoxTI'; 
 
 export default function Usuario() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function Usuario() {
         <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
           <button
             type="button"
-            className="absolute right-4 top-4 p-2 bg-transparent border-none text-tremor-content-subtle hover:text-tremor-content hover:bg-tremor-background-subtle dark:text-dark-tremor-content-subtle dark:hover:bg-dark-tremor-background-subtle dark:hover:text-tremor-content"
+            className="absolute right-4 top-4 p-2 bg-white border-none text-tremor-content-subtle hover:text-tremor-content hover:bg-tremor-background-subtle dark:text-dark-tremor-content-subtle dark:hover:bg-dark-tremor-background-subtle dark:hover:text-tremor-content"
             onClick={() => setIsOpen(false)}
             aria-label="Close"
           >

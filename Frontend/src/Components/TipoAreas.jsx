@@ -65,10 +65,9 @@ export default function TipoArea() {
                             Añade una nueva Area
                         </h4>
                         <p className="mt-2 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-                            {/* Puedes añadir una descripción aquí si es necesario */}
                         </p>
                         <div className="flex flex-col p-[5%] space-y-6">
-                            <div className="col-span-full sm:col-span-3 space-y-4">
+                            <div className="col-span-full sm:col-span-3 space-y-2">
                                 <div>
                                     <SelectBoxArea
                                         id="area-select"
