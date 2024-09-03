@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BarraPreguntas = ({ Text1, Text2, Text3 }) => {
+const BarraPreguntas = ({ Text1, Text2, Text3, Text4 }) => {
   return (
     <div className="w-full bg-[#A3E784] sm-w-2">
       <div className="grid">
@@ -11,6 +11,7 @@ const BarraPreguntas = ({ Text1, Text2, Text3 }) => {
           <div className="col-span-2 flex items-center justify-center space-x-4">
             <p className="text-2xl font-josefin-slab font-bold">{Text2}</p>
             <p className="text-2xl font-josefin-slab font-bold">{Text3}</p>
+            <p className="text-2xl font-josefin-slab font-bold">{Text4}</p>
           </div>
         </div>
       </div>

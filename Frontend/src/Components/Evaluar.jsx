@@ -11,8 +11,8 @@ import {
     return (
       <div className="mx-auto max-w-xs">
   
-        <Select defaultValue="1">
-          <SelectItem value="1">Bueno</SelectItem>
+        <Select defaultValue="0">
+          <SelectItem value="1">Aprobado</SelectItem>
           <SelectItem value="2">No aceptado</SelectItem>
         </Select>
   
