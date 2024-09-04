@@ -1,6 +1,6 @@
 import React from 'react';
-import Navbar from '../Frontend/src/Components/Navbar';
-import Menu from '../Frontend/src/Components/Menu';
+import Navbar from '../Components/Navbar';
+import Menu from '../Components/Menu';
 import PostLayout from './PostLayout';
 
 const LayoutPrincipal = ({ title, children }) => {

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Components/Input2'
-import BotonSegundo from '../Components/BotonSegundoModal'; 
+import BotonSegundo from '../Components/BotonSegundoModal';
 import RadioButton from '../Components/RadioButton'
-import SelectBoxRol from '../Components/SelectBoxRol'; 
-import SelectBoxTi from '../Components/SelectBoxTI'; 
+import SelectBoxRol from '../Components/SelectBoxRol';
+import SelectBoxTi from '../Components/SelectBoxTI';
 
 export default function Usuario() {
   const [isOpen, setIsOpen] = useState(false);

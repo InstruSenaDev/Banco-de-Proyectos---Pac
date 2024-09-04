@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Items1 from '../Components/Items1';
+import Items1 from '../Components/Itemss1';
 import '../css/Sidebar.css';
 
 const Menu = () => {

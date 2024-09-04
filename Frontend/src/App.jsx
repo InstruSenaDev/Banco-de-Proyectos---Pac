@@ -1,22 +1,28 @@
 import React from 'react';
-import { Routes, Route} from 'react-router-dom';
-//import ModalUsuario from './Components/ModalUsuario';
-//import Areas from "../Components/Areas";
-import TipoArea from './Components/TipoAreas';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ObjetivosPrueba from './Pages/ObjetivosPrueba';
+import RegistroProyecto from './Pages/RegistroProyecto';
+import TiposDeArea from './Pages/Services/TiposDeArea';
+import ItemsDeArea from './Pages/Services/ItemsDeArea';
+import ObjetivosDeArea from './Pages/Vista_Objetivos/ObjetivosDeArea';
+import VistaAreas1 from './Pages/VistaAreas1';
+import VistaAlcance from './Pages/VistaAlcance'; 
 
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
+    <Router>
       <Routes>
-      <Route path="/" element={<TipoArea/>} />
-   {/* <Route path="/" element={<ModalUsuario/>} />
-      <Route path="/" element={<Areas/>} />
-      */}
+        <Route path="/ObjetivosPrueba" element={<ObjetivosPrueba />} />
+        <Route path="/RegistroProyecto" element={<RegistroProyecto />} />
+        <Route path="/Services/TiposDeArea/:id" element={<TiposDeArea />} />
+        <Route path="/Services/ItemsDeArea/:idarea/:idtiposdearea" element={<ItemsDeArea />} />
+        <Route path="/Vista_Objetivos/ObjetivosDeArea/:idarea/:idtiposdearea" element={<ObjetivosDeArea />} />
+        <Route path="/VistaAreas1" element={<VistaAreas1 />} />
+        <Route path="/VistaAlcance/:idproyecto" element={<VistaAlcance />} />
 
       </Routes>
-    </div>
+    </Router>
   );
-}
+};
 
 export default App;
