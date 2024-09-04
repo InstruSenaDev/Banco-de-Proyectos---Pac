@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import InputField from '../Components/Input.jsx'; // Asegúrate de que esta importación sea correcta
-import BotonPrincipal from '../Components/BotonPrincipal.jsx'; // También verifica esta importación
+
 import '../../public/Img/image1.png';
 import '../../public/Img/olvidocontraseña.png';
 
 const OlvidarContraseña = () => {
- 
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
 
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -50,38 +50,38 @@ const OlvidarContraseña = () => {
       setMessageClass('text-red-500');
     }
   };
-  
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-    <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-      <h2 className="text-2xl font-bold text-gray-800 text-center">
-        Recuperar Contraseña
-      </h2>
-      <form id="reset-password-form" className="mt-6" onSubmit={handleSubmit}>
-        <div className="mb-4">
-        <InputField
-                            placeholder="Introduce tu correo electrónico"
-                            type="email"
-                            Text="Correo Electrónico"
-                            id="email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg"
-        >
-          Enviar enlace de recuperación
-        </button>
-        <p id="message" className={`mt-4 text-center ${messageClass}`}>
-          {message}
-        </p>
-      </form>
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold text-gray-800 text-center">
+          Recuperar Contraseña
+        </h2>
+        <form id="reset-password-form" className="mt-6" onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <InputField
+              placeholder="Introduce tu correo electrónico"
+              type="email"
+              Text="Correo Electrónico"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg"
+          >
+            Enviar enlace de recuperación
+          </button>
+          <p id="message" className={`mt-4 text-center ${messageClass}`}>
+            {message}
+          </p>
+        </form>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default OlvidarContraseña;
