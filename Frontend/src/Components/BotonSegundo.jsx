@@ -1,15 +1,16 @@
 import React from 'react';
 
-const BotonSegundo = ({ Text, class: additionalClasses }) => {
+const BotonSegundo = ({ Text, bgColor = 'bg-[#A3E784]', textColor = 'text-white', borderColor = 'border-[#A3E784]', additionalClasses }) => {
   return (
     <div className="flex justify-end">
       <button
-        className={`w-[175px] h-[44px] bg-[#A3E784] rounded-[5px] text-white relative font-semibold font-sans border border-[#A3E784] 
-        after:-z-20 after:absolute after:h-1 after:w-1 after:bg-[#90cc74] after:left-5 overflow-hidden after:bottom-0 
-        after:translate-y-full after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 
-        after:transition-all after:duration-700 transition-all duration-700 mt-3 ${additionalClasses || ''}`}
+        className={`w-[175px] h-[44px] rounded-[5px] relative font-semibold font-sans 
+        after:-z-20 after:absolute after:h-1 after:w-1 after:left-5 overflow-hidden after:bottom-0 
+        after:translate-y-full after:rounded-md after:hover:scale-[300] after:hover:transition-all 
+        after:hover:duration-700 after:transition-all after:duration-700 transition-all duration-700 mt-3 
+        ${bgColor} ${borderColor} ${textColor} ${additionalClasses || ''}`}
       >
-        <span className="relative text-black group-hover:text-black text-[18px] duration-500">{Text}</span>
+        <span className="relative text-[18px] duration-500">{Text}</span>
       </button>
     </div>
   );

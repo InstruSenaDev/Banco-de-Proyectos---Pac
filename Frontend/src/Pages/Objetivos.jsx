@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Layoutprincipal from "../Layouts/Layoutprincipal";
 import Grid from "../Components/Grid";
 import BotonPrincipal from "../Components/BotonPrincipal";
@@ -13,6 +13,7 @@ const Objetivos = () => {
   const [selecciones, setSelecciones] = useState({});
   const [calificaciones, setCalificaciones] = useState({});
   const [promedio, setPromedio] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRespuestas = async () => {
@@ -22,16 +23,14 @@ const Objetivos = () => {
           const data = await response.json();
           setRespuestas(data.respuestas);
 
-          // Inicializar selecciones basadas en respuestas
           const seleccionesIniciales = data.respuestas.reduce((acc, respuesta) => {
-            acc[respuesta.id] = respuesta.respuesta ? "Sí" : "No"; // Convertir booleano a "Sí" o "No"
+            acc[respuesta.id] = respuesta.respuesta ? "Sí" : "No";
             return acc;
           }, {});
           setSelecciones(seleccionesIniciales);
 
-          // Inicializar calificaciones a 0
           const calificacionesIniciales = data.respuestas.reduce((acc, respuesta) => {
-            acc[respuesta.id] = 0; // Valor inicial de calificación
+            acc[respuesta.id] = 0;
             return acc;
           }, {});
           setCalificaciones(calificacionesIniciales);
@@ -46,7 +45,6 @@ const Objetivos = () => {
     fetchRespuestas();
   }, [idproyecto]);
 
-  // Manejar el cambio de selección
   const handleSelectionChange = (id, value) => {
     setSelecciones((prev) => ({
       ...prev,
@@ -54,9 +52,8 @@ const Objetivos = () => {
     }));
   };
 
-  // Manejar el cambio de calificación basado en la evaluación
   const handleEvaluarChange = (id, value) => {
-    const nuevaCalificacion = value === "1" ? 10 : 0; // 10 si es aprobado, 0 si no es aceptado
+    const nuevaCalificacion = value === "1" ? 10 : 0;
 
     setCalificaciones((prev) => ({
       ...prev,
@@ -64,7 +61,6 @@ const Objetivos = () => {
     }));
   };
 
-  // Calcular el promedio cada vez que cambian las calificaciones
   useEffect(() => {
     const total = Object.values(calificaciones).reduce((acc, cal) => acc + cal, 0);
     const promedioCalculado = respuestas.length > 0 ? total / respuestas.length : 0;
@@ -79,9 +75,11 @@ const Objetivos = () => {
             <div className="text-left mb-4">
               <h1 className="font-josefin-slab text-2xl text-black">Respuestas</h1>
             </div>
-            <BarraPreguntas Text1={"Objetivos del proyecto"} Text2={"Sí"} Text3={"No"} Text4={"Calificar"} />
 
-            {/* Renderiza cada respuesta con su componente Evaluar en fila */}
+            <div className="flex justify-center">
+              <BarraPreguntas Text1={"Objetivos del proyecto"} Text2={"Sí"} Text3={"No"} Text4={"Calificar"} />
+            </div>
+
             {respuestas.map((respuesta) => (
               <div key={respuesta.id} className="flex flex-row items-center space-x-4 mb-4">
                 <Grid
@@ -90,26 +88,24 @@ const Objetivos = () => {
                   id2={`respuesta-no-${respuesta.id}`}
                   name={`respuesta-${respuesta.id}`}
                   categoria={respuesta.categoria}
-                  seleccionado={selecciones[respuesta.id]} // Pasar el valor seleccionado
-                  onChange={(e) => handleSelectionChange(respuesta.id, e.target.value)} // Manejador de cambios
+                  seleccionado={selecciones[respuesta.id]}
+                  onChange={(e) => handleSelectionChange(respuesta.id, e.target.value)}
                 />
                 <Evaluar onChange={(value) => handleEvaluarChange(respuesta.id, value)} />
               </div>
             ))}
 
-            {/* Mostrar el promedio */}
             <div className="text-right mt-4">
               <h2 className="text-xl font-bold">Promedio de Calificaciones: {promedio.toFixed(2)}</h2>
             </div>
 
-            {/* Botones de navegación */}
             <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
               <Link to={`/Detalle/${idproyecto}`}>
                 <BotonPrincipal Text="Volver" />
               </Link>
-              <a href="/VistaAlcance" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                <BotonSegundo Text="Siguiente" />
-              </a>
+              <Link to={`/alcance/${idproyecto}`} state={{ promedioObjetivos: promedio }}>
+                <BotonSegundo Text="Siguiente" textColor="text-black" />
+              </Link>  
             </div>
           </div>
         </div>

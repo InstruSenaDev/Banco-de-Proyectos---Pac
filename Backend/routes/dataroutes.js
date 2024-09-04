@@ -1,6 +1,6 @@
 import express from 'express';
 import { pool } from '../config/db.js';
-import { getAllProyectos, getProyectoById, getRespuestasByProyecto} from '../controllers/datacontroler.js';
+import { getAllProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto} from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -63,5 +63,29 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
     }
   });
 
-
+  router.get('/respuestasalcance/:idproyecto', async (req, res) => {
+    try {
+      const { idproyecto } = req.params;
+      console.log(`ID de proyecto recibido en el backend: ${idproyecto}`); // Verifica el valor del ID
+      
+      // Llamada al controlador para obtener las respuestas de alcance del proyecto
+      const respuestasAlcance = await getRespuestasAlcanceByProyecto(idproyecto);
+      
+      if (respuestasAlcance && respuestasAlcance.length > 0) {
+        res.json({
+          respuestasAlcance: respuestasAlcance.map((respuesta) => ({
+            idalcance: respuesta.idalcance,
+            descripcion: respuesta.descripcion,
+            respuesta: respuesta.respuesta,
+          })),
+        });
+      } else {
+        res.status(404).json({ error: 'Respuestas de alcance no encontradas para el proyecto' });
+      }
+    } catch (error) {
+      console.error('Error al obtener las respuestas de alcance del proyecto:', error);
+      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+  });
+  
 export default router;

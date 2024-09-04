@@ -58,4 +58,23 @@ const getRespuestasByProyecto = async (idproyecto) => {
     }
   };
 
-export { getAllProyectos, getProyectoById, getRespuestasByProyecto };
+  const getRespuestasAlcanceByProyecto = async (idproyecto) => {
+    try {
+      const result = await pool.query(
+        `SELECT ra.idrespuesta, ra.idproyecto, ra.idalcance, ra.respuesta, a.descripcion
+         FROM respuestasalcance ra
+         JOIN alcance a ON ra.idalcance = a.idalcance
+         WHERE ra.idproyecto = $1`,
+        [idproyecto]
+      );
+  
+      // Devolver las filas obtenidas
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener las respuestas de alcance de la base de datos:', error);
+      throw error; // Lanzar el error para que sea manejado en las rutas
+    }
+  };
+  
+
+export { getAllProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto };

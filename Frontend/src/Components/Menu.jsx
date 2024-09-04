@@ -37,6 +37,7 @@ const Menu = () => {
             <Items1 icon="fa-solid fa-user" href="#" label={isOpen ? 'Proyecto' : ''} />
             <Items1 icon="fas fa-cog" href="#" label={isOpen ? 'Configuración' : ''} />
             <Items1 icon="fas fa-sign-out-alt" href="#" label={isOpen ? 'Salir' : ''} />
+            <Items1 icon="fa-solid fa-user" href="#" label={isOpen ? 'Asignar proyectos' : ''} />
           </ul>
         </div>
       </aside>
