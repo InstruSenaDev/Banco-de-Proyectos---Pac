@@ -1,58 +1,59 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Title, Text } from '@tremor/react';
-import Layoutprincipal from '../../../Layouts/Layoutprincipal';
-import Layoutcontenido from '../../../Layouts/Layoutcontenido'
-import {CardBase} from'../Components/CardBase'
-import {TabState} from '../Components/TabState';
-import Grid from '../Components/Grid';
-import {ChartDonut} from '../Components/ChartDonut';
+import Layoutprincipal from '../layouts/LayoutPrincipal';
+import Layoutcontenido from '../Layouts/Layoutcontenido'
+import { CardBase } from '../Components/CardBase'
+//import {TabState} from '../Components/TabState';
+//import Grid from '../Components/Grid';
+import { ChartDonut } from '../Components/ChartDonut';
 
 const Dashboard = () => {
   return (
     <Layoutprincipal title="Proyectos">
       <Layoutcontenido title="contenido">
-        <div className="bg-[#059669] p-6 sm:p-10 rounded">
+        <div className="bg-[#53f041] p-6 sm:p-10 rounded">
           <Title className="text-white text-lg font-extrabold">Bienvenido SuperAdmin</Title>
           <Text className="text-white font-extrabold">Banco de Proyectos</Text>
         </div>
 
 
         <div className="flex flex-wrap gap-4 mt-16 z-0 w-full">
-          <CardBase 
-            title="Areas" 
-            metricValue={20} 
-            progressText="Proyectos creados" 
-            buttonTex="Ver detalle" 
+          <CardBase
+            title="Areas"
+            metricValue={20}
+            progressText="Proyectos creados"
+            buttonTex="Ver detalle"
           />
-          <CardBase 
-            title="Crear Instructores" 
-            metricValue={50} 
-            progressText="Proyectos creados" 
-            buttonTex="Ver detalle" 
+          <CardBase
+            title="Crear Instructores"
+            metricValue={50}
+            progressText="Proyectos creados"
+            buttonTex="Ver detalle"
           />
-          <CardBase 
-            title="Crear aprendices" 
-            metricValue={40} 
-            progressText="Proyectos creados" 
-            buttonTex="Ver detalle" 
+          <CardBase
+            title="Crear aprendices"
+            metricValue={40}
+            progressText="Proyectos creados"
+            buttonTex="Ver detalle"
           />
-          <CardBase 
-            title="Craer Objetivos" 
-            metricValue={90} 
-            progressText="Proyectos creados" 
-            buttonTex="Ver detalle" 
+          <CardBase
+            title="Craer Objetivos"
+            metricValue={90}
+            progressText="Proyectos creados"
+            buttonTex="Ver detalle"
           />
-          <CardBase 
-            title="Crear Nose" 
-            metricValue={50} 
-            progressText="Proyectos creados" 
-            buttonTex="Ver detalle" 
+          <CardBase
+            title="Crear Nose"
+            metricValue={50}
+            progressText="Proyectos creados"
+            buttonTex="Ver detalle"
           />
-          <CardBase 
-            title="Proyectos" 
-            metricValue={50} 
-            progressText="Proyectos creados" 
-            buttonTex="Ver detalle" 
+          <CardBase
+            title="Proyectos"
+            metricValue={50}
+            progressText="Proyectos creados"
+            buttonTex="Ver detalle"
           />
         </div>
 

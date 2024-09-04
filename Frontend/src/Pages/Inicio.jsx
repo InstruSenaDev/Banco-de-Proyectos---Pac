@@ -1,11 +1,13 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
+import LayoutFormulario from '../Layouts/LayoutFormulario.jsx';
 import Input from '../Components/Input.jsx';
 import BotonPrincipal from '../Components/BotonPrincipal.jsx';
 import '../css/Inicio.css'
 
 const Inicio = () => {
   return (
-
+    <LayoutFormulario title="Formulario">
       <div className="flex 2xl:h-screen h-auto sm:96 items-center justify-center 2xl:gap-x-72">
         <div className="flex content-center">
           <form
@@ -68,6 +70,7 @@ const Inicio = () => {
           />
         </div>
       </div>
+    </LayoutFormulario>
   );
 };
 

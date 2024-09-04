@@ -1,20 +1,13 @@
 import React from 'react';
 
-const LayoutContenido = ({title, children}) => {
-
-    return (
-        <div className="text-center px-20 mt-[1%]">
-            <span className="text-2xl font-bold font-nunito-sans text-center">{title}</span>
-        
-            <main className="flex justify-center h-[100vh] max-[768px]:h-[100%]">
-                <div className="flex-wrap w-[65%] max-[768px]:w-[70%] mt-[1%] h-[100%] bg-white rounded-lg border-none border-Borde_gris flex items-center absolute justify-center">
-                    <div className="flex flex-wrap justify-center w-[90%]">
-                      {children}
-                    </div>
-                </div>
-            </main>
-        </div>
-    );
+const Layoutcontenido = ({ title, children }) => {
+  return (
+    <main className="flex justify-center items-center min-h-screen min-w-full 2xl:p-10 pl-9 p-10">
+      <div className="xl:w-2/3 h-auto p-8 rounded-lg border-none bg-white">
+        {children}
+      </div>
+    </main>
+  );
 };
 
-export default LayoutContenido;
+export default Layoutcontenido;

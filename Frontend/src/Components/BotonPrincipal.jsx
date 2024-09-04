@@ -1,24 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const BotonPrincipal = ({ Text, className, id }) => {
-  const [active, setActive] = useState(false);
-
-  const handleClick = (event) => {
-    setActive(true);
-
-    // Reiniciar la clase de fondo en todos los botones
-    setTimeout(() => {
-      setActive(false);
-    }, 500); // Duración del efecto de cambio
-
-    // Aquí podrías agregar más lógica si es necesario
-  };
-
+const BotonPrincipal = ({ Text, className = '', onClick, isSelected }) => {
   return (
     <button
-      id={id}
-      className={`relative cursor-pointer font-semibold overflow-hidden z-10 border border-[#A3E784] group w-[175px] h-[44px] py-[10px] rounded-[5px] mt-3 self-center ${className || ''} ${active ? 'bg-[#A3E784]' : ''}`}
-      onClick={handleClick}
+      className={`boton-principal relative cursor-pointer font-semibold overflow-hidden z-10 border border-[#A3E784] group w-[175px] h-[44px] py-[10px] rounded-[5px] mt-3 self-center ${className} ${isSelected ? 'bg-[#A3E784]' : ''}`}
+      onClick={onClick}
     >
       <span className="relative z-10 text-black group-hover:text-black text-[18px] duration-500">
         {Text}

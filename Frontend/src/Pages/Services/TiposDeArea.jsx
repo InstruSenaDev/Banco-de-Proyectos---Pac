@@ -1,6 +1,6 @@
 // TiposDeArea.js
 import React, { useState, useEffect } from 'react';
-import LayoutPrincipal from "../../Layouts/LayoutPrincipal";
+import LayoutPrincipal from "../../layouts/LayoutPrincipal";
 import Card from "../../Components/Card";
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import BotonPrincipal from "../../Components/BotonPrincipal";

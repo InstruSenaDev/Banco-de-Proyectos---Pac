@@ -25,7 +25,7 @@ const Home = () => {
         </div>
       </div>
       <div className="w-1/2 flex justify-center items-center">
-        <img className="scale-90" src="/img/Principal.png" alt="Principal" />
+        <img className="scale-90" src="/img/Principal.png" alt="Principal Image" />
       </div>
     </div>
   );

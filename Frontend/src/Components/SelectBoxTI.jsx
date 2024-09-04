@@ -1,15 +1,18 @@
 import React from 'react';
 
-const SelectBoxTi = ({id, text}) => {
-
+const SelectBoxTI = ({ Text, id }) => {
   return (
-    <form className="">
-      <label htmlFor={id} className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">{text}</label>
+    <form>
+      <label htmlFor={id} className="space-y-2 w-1/2 font-josefin-slab font-semibold">
+        {Text}
+      </label>
       <select
         id={id}
-        className="bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong"
+        className="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]"
       >
-    <option selected>Elije una opción</option>
+        <option value="" disabled selected>
+          Tipo de documento
+        </option>
         <option value="CC">Cédula de ciudadanía</option>
         <option value="CE">Cédula de extranjería</option>
         <option value="TI">Tarjeta de identidad</option>
@@ -20,4 +23,4 @@ const SelectBoxTi = ({id, text}) => {
   );
 };
 
-export default SelectBoxTi;
+export default SelectBoxTI;

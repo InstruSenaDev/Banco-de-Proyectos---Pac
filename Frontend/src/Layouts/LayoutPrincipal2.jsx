@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar2 from '../Components/Navbar2';
 import Menu from '../Components/Menu';
-import PostLayout from './PostLayout';
+import PostLayout from '../Layouts/PostLayout'
 
 const LayoutPrincipal2 = ({ title, children }) => {
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
+import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';

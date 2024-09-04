@@ -9,7 +9,7 @@ const Buscador = ({ type }) => {
         id="searchInput"
         name="search"
         required
-        className="bg-[#F5F6FA] font-sans w-[450px] rounded-[20px] border border-[#D5D5D5] ml-[4pc] px-[20px] py-[7px] my-[10px] text-[15px] pl-[45px] max-[768px]:w-[17em]"
+        className="bg-[#F5F6FA] font-['sans-serif'] w-[450px] rounded-[20px] border border-[#D5D5D5] ml-[4pc] px-[20px] py-[7px] my-[10px] text-[15px] pl-[45px] max-[768px]:w-[17em]"
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"

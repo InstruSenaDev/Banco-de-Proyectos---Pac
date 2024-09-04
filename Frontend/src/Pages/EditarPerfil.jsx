@@ -1,7 +1,8 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import Input from '../Components/Input.jsx';
 import SelectBoxTI from '../Components/SelectBoxTI.jsx';
-import LayoutPrincipal from '../Layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal from '../layouts/LayoutPrincipal.jsx';
 import Layoutcontenido3 from '../Layouts/Layoutcontenido3.jsx';
 import BotonPrincipal from '../Components/BotonPrincipal.jsx';
 import ModalPerfil from '../Components/Modal.jsx';

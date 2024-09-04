@@ -1,5 +1,7 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
+
+import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Card from '../Components/Card';
 import Layoutcontenido from '../Layouts/Layoutcontenido';
 import BotonPrincipal from '../Components/BotonPrincipal';

@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
+import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import BarraPreguntas from '../Components/BarraPreguntas';
 import EstadoAprobado from '../Components/EstadoAprobado';
 import EstadoRechazado from '../Components/EstadoRechazado';
