@@ -1,8 +1,5 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Alcance from './Pages/Alcance';
-import Dashboard from './Pages/Dashboard';
-import Prueba from './Pages/Prueba';
 import Calificar from './Pages/Calificar';
 import Detalle from './Pages/Detalle';
 import Objetivos from './Pages/Objetivos';
@@ -19,9 +16,7 @@ function App() {
         <Route path="/Detalle/:id" element={<Detalle />} />
         {/* Ruta para los objetivos del proyecto */}
         <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
-        {/* <Route path="/Alcance" element={<Alcance />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/Prueba" element={<Prueba />} />  */}
+
       </Routes>
     </Router>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Layoutprincipal from "../Layouts/Layoutprincipal";
 import Grid from "../Components/Grid";
 import BotonPrincipal from "../Components/BotonPrincipal";
@@ -54,11 +54,13 @@ const Objetivos = () => {
     }));
   };
 
-  // Manejar el cambio de calificación
-  const handleCalificacionChange = (id, value) => {
+  // Manejar el cambio de calificación basado en la evaluación
+  const handleEvaluarChange = (id, value) => {
+    const nuevaCalificacion = value === "1" ? 10 : 0; // 10 si es aprobado, 0 si no es aceptado
+
     setCalificaciones((prev) => ({
       ...prev,
-      [id]: parseFloat(value), // Convertir a número flotante
+      [id]: nuevaCalificacion,
     }));
   };
 
@@ -91,16 +93,7 @@ const Objetivos = () => {
                   seleccionado={selecciones[respuesta.id]} // Pasar el valor seleccionado
                   onChange={(e) => handleSelectionChange(respuesta.id, e.target.value)} // Manejador de cambios
                 />
-                {/* <Evaluar seleccion={selecciones[respuesta.id]} /> */}
-                {/* Input para calificar */}
-                <input
-                  type="number"
-                  min="0"
-                  max="10"
-                  value={calificaciones[respuesta.id]}
-                  onChange={(e) => handleCalificacionChange(respuesta.id, e.target.value)}
-                  className="border p-2"
-                />
+                <Evaluar onChange={(value) => handleEvaluarChange(respuesta.id, value)} />
               </div>
             ))}
 
@@ -111,7 +104,9 @@ const Objetivos = () => {
 
             {/* Botones de navegación */}
             <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
-              <BotonPrincipal Text="Volver" />
+              <Link to={`/Detalle/${idproyecto}`}>
+                <BotonPrincipal Text="Volver" />
+              </Link>
               <a href="/VistaAlcance" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <BotonSegundo Text="Siguiente" />
               </a>
