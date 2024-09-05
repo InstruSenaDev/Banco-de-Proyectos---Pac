@@ -1,4 +1,5 @@
-import React from 'react';
+
+import PropTypes from 'prop-types';
 
 const AceptarTerminos = ({ Text, id }) => {
   return (
@@ -38,6 +39,11 @@ const AceptarTerminos = ({ Text, id }) => {
       </style>
     </>
   );
+};
+
+AceptarTerminos.propTypes = {
+  Text: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default AceptarTerminos;

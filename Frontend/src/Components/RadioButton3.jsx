@@ -1,7 +1,7 @@
-import React from 'react';
 
+import PropTypes from 'prop-types';
 
-const RadioButton = ({Text, id}) => {
+const RadioButton3 = ({ Text, id }) => {
   return (
     <div className="flex items-center mr-[16px]">
       <input
@@ -20,4 +20,9 @@ const RadioButton = ({Text, id}) => {
   );
 };
 
-export default RadioButton;
+RadioButton3.propTypes = {
+  Text: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+};
+
+export default RadioButton3;

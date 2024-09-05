@@ -1,4 +1,5 @@
-import React from 'react';
+
+import PropTypes from 'prop-types';
 
 const BarraPreguntas = ({ Text1, Text2, Text3 }) => {
   return (
@@ -38,6 +39,12 @@ const BarraPreguntas = ({ Text1, Text2, Text3 }) => {
       </div>
     </>
   );
+};
+
+BarraPreguntas.propTypes = {
+  Text1: PropTypes.string.isRequired,
+  Text2: PropTypes.string.isRequired,
+  Text3: PropTypes.string.isRequired,
 };
 
 export default BarraPreguntas;
