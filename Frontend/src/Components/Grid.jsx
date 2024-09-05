@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Children } from 'react';
 import RadioButton2 from '../Components/RadioButton2'; // Si necesitas usar un componente específico para los radio buttons
 
-const Grid = ({ Text1, id1, id2, name, categoria, seleccionado, onChange }) => {
+const Grid = ({ Text1, id1, id2, name, categoria, seleccionado, onChange, nuevaColumnaContenido}) => {
   return (
     <div className="w-full bg-white">
       <div className="grid rounded-lg">
@@ -40,6 +40,11 @@ const Grid = ({ Text1, id1, id2, name, categoria, seleccionado, onChange }) => {
               />
               <span className="md:hidden">No</span>
             </label>
+          </div>
+
+          {/* Columna Nueva */}
+          <div className="col-span-6 md:col-span-12  flex justify-center items-center">
+            {nuevaColumnaContenido}
           </div>
         </div>
         {/* Añadir más filas aquí si es necesario */}

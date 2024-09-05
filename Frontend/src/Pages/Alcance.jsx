@@ -6,7 +6,7 @@ import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
 import { Evaluar } from '../Components/Evaluar';
-// import {EvaluarProyecto} from '../Components/EvaluarProyecto'; // Asegúrate de que la ruta es correcta
+import { BarState } from '../Components/BarState';
 
 const Alcance = () => {
   const { idproyecto } = useParams();
@@ -15,8 +15,6 @@ const Alcance = () => {
   const [selecciones, setSelecciones] = useState({});
   const [calificaciones, setCalificaciones] = useState({});
   const [promedio, setPromedio] = useState(0);
-
-  const promedioObjetivos = location.state?.promedioObjetivos || 0;
 
   useEffect(() => {
     const fetchRespuestasAlcance = async () => {
@@ -99,19 +97,20 @@ const Alcance = () => {
                   categoria={respuesta.categoria}
                   seleccionado={selecciones[respuesta.idalcance]}
                   onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
+                  // Aqui inserte otra columna para que el componente evaluar quedara dentro del Grid
+                  nuevaColumnaContenido={<Evaluar onChange={(value) => handleEvaluarChange(respuesta.idalcance, value)} />}
                 />
-                <Evaluar onChange={(value) => handleEvaluarChange(respuesta.idalcance, value)} />
+                
               </div>
             ))}
 
-            <div className="text-right mt-4">
-              <h2 className="text-xl font-bold">Promedio de Calificaciones: {promedio.toFixed(2)}</h2>
+            <div className="flex flex-col justify-end text-center">
+              <p className="text-xl font-bold">Promedio de Calificaciones: {promedio.toFixed(2)}</p>
+              <div className="w-full">
+              <BarState/>
+              </div>
             </div>
-
-            {/* Mostrar el componente de evaluación del proyecto */}
-            {/* <EvaluarProyecto promedioObjetivos={promedioObjetivos} promedioAlcance={promedio} /> */}
-
-            <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
+            <div className="flex flex-col items-center sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
               <Link to={`/respuestas/${idproyecto}`}>
                 <BotonPrincipal Text="Volver" />
               </Link>

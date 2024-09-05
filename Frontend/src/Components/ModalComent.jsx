@@ -1,43 +1,20 @@
-import { Button } from '@/components/Button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/Dialog";
+import { Button, Dialog, DialogPanel } from '@tremor/react';
+import React from 'react';
 
-export const ModalComent = () => (
-  <div className="flex justify-center">
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="secondary">Open Dialog</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle>Account Created Successfully</DialogTitle>
-          <DialogDescription className="mt-1 text-sm leading-6">
-            Your account has been created successfully. You can now login to
-            your account. For more information, please contact us.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="mt-6">
-          <DialogClose asChild>
-            <Button
-              className="mt-2 w-full sm:mt-0 sm:w-fit"
-              variant="secondary"
-            >
-              Go back
-            </Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button className="w-full sm:w-fit">Ok, got it!</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
+export function ModalComent({ isOpen, onClose, content }) {
+  return (
+    <Dialog open={isOpen} onClose={onClose} static={true}>
+      <DialogPanel>
+        <h3 className="text-lg font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">{content}</h3>
+        <p className="mt-2 leading-6 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
+          {content === "Aprobar" && "Estás seguro que deseas aprobar este proyecto?"}
+          {content === "Devolver" && "Por favor, proporciona una razón para devolver el proyecto."}
+          {content === "Rechazar" && "Estás seguro que deseas rechazar este proyecto?"}
+        </p>
+        <Button className="mt-8 w-full" onClick={onClose}>
+          Cerrar
+        </Button>
+      </DialogPanel>
     </Dialog>
-  </div>
-);
+  );
+}
