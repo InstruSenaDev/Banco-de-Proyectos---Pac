@@ -7,14 +7,18 @@ import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
 import { Evaluar } from '../Components/Evaluar';
 import { BarState } from '../Components/BarState';
+import { ModalComent } from '../Components/ModalComent';
 
 const Alcance = () => {
   const { idproyecto } = useParams();
   const location = useLocation();
+  const promedioObjetivos = location.state?.promedioObjetivos || 0;
   const [respuestasAlcance, setRespuestasAlcance] = useState([]);
   const [selecciones, setSelecciones] = useState({});
   const [calificaciones, setCalificaciones] = useState({});
   const [promedio, setPromedio] = useState(0);
+  const [promedioFinal, setPromedioFinal] = useState(0);
+  
 
   useEffect(() => {
     const fetchRespuestasAlcance = async () => {
@@ -64,9 +68,15 @@ const Alcance = () => {
 
   useEffect(() => {
     const total = Object.values(calificaciones).reduce((acc, cal) => acc + cal, 0);
-    const promedioCalculado = respuestasAlcance.length > 0 ? total / respuestasAlcance.length : 0;
+    const promedioCalculado = respuestasAlcance.length > 0 ? (total / (respuestasAlcance.length * 10)) * 100 : 0;
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestasAlcance.length]);
+  
+  useEffect(() => {
+    const promedioFinalCalculado = (promedioObjetivos + promedio) / 2;
+    setPromedioFinal(promedioFinalCalculado);
+  }, [promedio, promedioObjetivos]);
+  
 
   return (
     <Layoutprincipal title="">
@@ -96,27 +106,26 @@ const Alcance = () => {
                   name={`respuesta-${respuesta.idalcance}`}
                   categoria={respuesta.categoria}
                   seleccionado={selecciones[respuesta.idalcance]}
-                  onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
-                  // Aqui inserte otra columna para que el componente evaluar quedara dentro del Grid
-                  nuevaColumnaContenido={<Evaluar onChange={(value) => handleEvaluarChange(respuesta.idalcance, value)} />}
+                  onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}                
                 />
-                
+                <Evaluar onChange={(value) => handleEvaluarChange(respuesta.idalcance, value)} />
               </div>
             ))}
 
             <div className="flex flex-col justify-end text-center">
               <p className="text-xl font-bold">Promedio de Calificaciones: {promedio.toFixed(2)}</p>
+              <p className="text-xl font-bold">Promedio Final: {promedioFinal.toFixed(2)}</p>
               <div className="w-full">
-              <BarState/>
+                <BarState promedioFinal={promedioFinal} />
               </div>
             </div>
-            <div className="flex flex-col items-center sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
+            <div className="flex flex-col items-center sm:flex-row justify-center gap-x-3 mt-4">
               <Link to={`/respuestas/${idproyecto}`}>
                 <BotonPrincipal Text="Volver" />
               </Link>
-              <BotonSegundo Text="Aprobar" bgColor="bg-green-500" textColor="text-black" />
-              <BotonSegundo Text="Devolver" bgColor="bg-yellow-500" textColor="text-black" />
-              <BotonSegundo Text="Rechazar" bgColor="bg-red-500" textColor="text-black" />
+                <ModalComent text='Rechazar' buttonColor='bg-red-700'/> 
+                 <ModalComent text='Devolver' buttonColor='bg-yellow-700'/>
+                 <ModalComent text='Aceptar' buttonColor='bg-green-700'/>
             </div>
           </div>
         </div>

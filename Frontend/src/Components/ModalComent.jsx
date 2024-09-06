@@ -1,20 +1,30 @@
 import { Button, Dialog, DialogPanel } from '@tremor/react';
 import React from 'react';
+import BotonSegundo from './BotonSegundo';
+import Input from './Input';
+import InputComent from './InputComent';
 
-export function ModalComent({ isOpen, onClose, content }) {
+export function ModalComent({ buttonColor = 'bg-red-600', text = 'Open' }) {
+  const [isOpen, setIsOpen] = React.useState(false);
   return (
-    <Dialog open={isOpen} onClose={onClose} static={true}>
-      <DialogPanel>
-        <h3 className="text-lg font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">{content}</h3>
-        <p className="mt-2 leading-6 text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-          {content === "Aprobar" && "Estás seguro que deseas aprobar este proyecto?"}
-          {content === "Devolver" && "Por favor, proporciona una razón para devolver el proyecto."}
-          {content === "Rechazar" && "Estás seguro que deseas rechazar este proyecto?"}
-        </p>
-        <Button className="mt-8 w-full" onClick={onClose}>
-          Cerrar
-        </Button>
-      </DialogPanel>
-    </Dialog>
+    <>
+      <BotonSegundo 
+        className="mx-auto flex flex-row" 
+        bgColor={buttonColor}  
+        Text={text} 
+        onClick={() => setIsOpen(true)} 
+      />
+      <Dialog open={isOpen} onClose={(val) => setIsOpen(val)} static={true}>
+        <DialogPanel>
+
+        <div className="w-full">
+          <Input className="w-full" placeholder={"Correo electronico"}/>
+          <InputComent className="w-full h-full" placeholder={"Comentario"} />
+        </div>
+
+          <BotonSegundo Text={"Enviar"} bgColor='bg-green-700'/>
+        </DialogPanel>
+      </Dialog>
+    </>
   );
 }

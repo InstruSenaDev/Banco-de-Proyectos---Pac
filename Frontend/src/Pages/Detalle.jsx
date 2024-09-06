@@ -15,7 +15,6 @@ const Detalle = () => {
     responsable: "",
     disponibilidad: "",
     dia: "",
-    idalcance: "",
     idobjetivos: "",
     idarea: "",
     idficha: "",
@@ -75,12 +74,6 @@ const Detalle = () => {
               <span className="text-xs sm:text-xl">Día</span>
               <span className="text-xs sm:text-xl">
                 {proyecto.dia || "No disponible"}
-              </span>
-            </ListItem>
-            <ListItem>
-              <span className="text-xs sm:text-xl">Alcance del proyecto</span>
-              <span className="text-xs sm:text-xl">
-                {proyecto.idalcance || "No disponible"}
               </span>
             </ListItem>
             <ListItem>

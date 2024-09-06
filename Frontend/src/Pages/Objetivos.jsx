@@ -63,9 +63,10 @@ const Objetivos = () => {
 
   useEffect(() => {
     const total = Object.values(calificaciones).reduce((acc, cal) => acc + cal, 0);
-    const promedioCalculado = respuestas.length > 0 ? total / respuestas.length : 0;
+    const promedioCalculado = respuestas.length > 0 ? (total / (respuestas.length * 10)) * 100 : 0;
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestas.length]);
+  
 
   return (
     <Layoutprincipal title="Objetivos del Proyecto">

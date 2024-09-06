@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BotonSegundo = ({ Text, bgColor = 'bg-[#A3E784]', textColor = 'text-white', borderColor = 'border-[#A3E784]', additionalClasses }) => {
+const BotonSegundo = ({ Text, bgColor = 'bg-[#A3E784]', textColor = 'text-white', borderColor = 'border-[#A3E784]', additionalClasses, onClick }) => {
   return (
     <div className="flex justify-end">
       <button
@@ -9,6 +9,7 @@ const BotonSegundo = ({ Text, bgColor = 'bg-[#A3E784]', textColor = 'text-white'
         after:translate-y-full after:rounded-md after:hover:scale-[300] after:hover:transition-all 
         after:hover:duration-700 after:transition-all after:duration-700 transition-all duration-700 mt-3 
         ${bgColor} ${borderColor} ${textColor} ${additionalClasses || ''}`}
+        onClick={onClick}  
       >
         <span className="relative text-[18px] duration-500">{Text}</span>
       </button>
