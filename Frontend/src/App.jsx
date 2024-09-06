@@ -4,6 +4,7 @@ import Calificar from './Pages/Calificar';
 import Detalle from './Pages/Detalle';
 import Objetivos from './Pages/Objetivos';
 import Alcance from './Pages/Alcance';
+import Calificacion from './Pages/Calificacion';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,7 +19,7 @@ function App() {
         {/* Ruta para los objetivos del proyecto */}
         <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
         <Route path="/alcance/:idproyecto" element={<Alcance />} />
-
+        <Route path="/calificacion/:idproyecto" element={<Calificacion />} />
       </Routes>
     </Router>
   );

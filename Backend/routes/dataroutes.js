@@ -1,6 +1,6 @@
 import express from 'express';
 import { pool } from '../config/db.js';
-import { getAllProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto} from '../controllers/datacontroler.js';
+import { getAllProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto, guardarCalificacion} from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -87,5 +87,8 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
       res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
   });
+
+  // Ruta para guardar la calificación
+router.post('/calificaciones', guardarCalificacion);
   
 export default router;

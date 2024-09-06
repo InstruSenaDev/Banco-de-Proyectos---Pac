@@ -75,6 +75,30 @@ const getRespuestasByProyecto = async (idproyecto) => {
       throw error; // Lanzar el error para que sea manejado en las rutas
     }
   };
+
+  // Controlador para guardar la calificación
+const guardarCalificacion = async (req, res) => {
+  try {
+    const { idproyecto, resultado, estado, comentario } = req.body;
+
+    // Verifica que todos los datos necesarios estén presentes
+    if (!idproyecto || !resultado || !estado || !comentario) {
+      return res.status(400).json({ message: "Todos los campos son obligatorios" });
+    }
+
+    // Inserta la calificación en la base de datos
+    const result = await pool.query(
+      "INSERT INTO calificacion (idproyecto, resultado, estado, comentario) VALUES ($1, $2, $3, $4) RETURNING idcalificacion",
+      [idproyecto, resultado, estado, comentario]
+    );
+
+    // Respuesta exitosa con el ID de la calificación insertada
+    res.status(201).json({ message: "Calificación guardada exitosamente", idcalificacion: result.rows[0].idcalificacion });
+  } catch (error) {
+    console.error("Error al guardar la calificación:", error);
+    res.status(500).json({ message: "Error al guardar la calificación" });
+  }
+};
   
 
-export { getAllProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto };
+export { getAllProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto, guardarCalificacion };

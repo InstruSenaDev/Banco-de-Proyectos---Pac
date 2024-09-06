@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import Layoutprincipal from '../Layouts/Layoutprincipal';
 import BarraPreguntas from '../Components/BarraPreguntas';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
 import { Evaluar } from '../Components/Evaluar';
-import { BarState } from '../Components/BarState';
 import { ModalComent } from '../Components/ModalComent';
 
 const Alcance = () => {
   const { idproyecto } = useParams();
-  const location = useLocation();
-  const promedioObjetivos = location.state?.promedioObjetivos || 0;
+  const navigate = useNavigate();
   const [respuestasAlcance, setRespuestasAlcance] = useState([]);
   const [selecciones, setSelecciones] = useState({});
   const [calificaciones, setCalificaciones] = useState({});
   const [promedio, setPromedio] = useState(0);
-  const [promedioFinal, setPromedioFinal] = useState(0);
-  
 
   useEffect(() => {
     const fetchRespuestasAlcance = async () => {
@@ -50,6 +46,12 @@ const Alcance = () => {
     fetchRespuestasAlcance();
   }, [idproyecto]);
 
+  useEffect(() => {
+    const total = Object.values(calificaciones).reduce((acc, cal) => acc + cal, 0);
+    const promedioCalculado = respuestasAlcance.length > 0 ? (total / (respuestasAlcance.length * 10)) * 100 : 0;
+    setPromedio(promedioCalculado);
+  }, [calificaciones, respuestasAlcance.length]);
+
   const handleSelectionChange = (id, value) => {
     setSelecciones((prev) => ({
       ...prev,
@@ -66,17 +68,13 @@ const Alcance = () => {
     }));
   };
 
-  useEffect(() => {
-    const total = Object.values(calificaciones).reduce((acc, cal) => acc + cal, 0);
-    const promedioCalculado = respuestasAlcance.length > 0 ? (total / (respuestasAlcance.length * 10)) * 100 : 0;
-    setPromedio(promedioCalculado);
-  }, [calificaciones, respuestasAlcance.length]);
-  
-  useEffect(() => {
-    const promedioFinalCalculado = (promedioObjetivos + promedio) / 2;
-    setPromedioFinal(promedioFinalCalculado);
-  }, [promedio, promedioObjetivos]);
-  
+  const handleNextClick = () => {
+    navigate(`/calificacion/${idproyecto}`, {
+      state: {
+        promedio: promedio
+      }
+    });
+  };
 
   return (
     <Layoutprincipal title="">
@@ -106,27 +104,19 @@ const Alcance = () => {
                   name={`respuesta-${respuesta.idalcance}`}
                   categoria={respuesta.categoria}
                   seleccionado={selecciones[respuesta.idalcance]}
-                  onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}                
+                  onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
                 />
                 <Evaluar onChange={(value) => handleEvaluarChange(respuesta.idalcance, value)} />
               </div>
             ))}
 
-            <div className="flex flex-col justify-end text-center">
-              <p className="text-xl font-bold">Promedio de Calificaciones: {promedio.toFixed(2)}</p>
-              <p className="text-xl font-bold">Promedio Final: {promedioFinal.toFixed(2)}</p>
-              <div className="w-full">
-                <BarState promedioFinal={promedioFinal} />
-              </div>
-            </div>
-            <div className="flex flex-col items-center sm:flex-row justify-center gap-x-3 mt-4">
+            <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
               <Link to={`/respuestas/${idproyecto}`}>
                 <BotonPrincipal Text="Volver" />
               </Link>
-                <ModalComent text='Rechazar' buttonColor='bg-red-700'/> 
-                 <ModalComent text='Devolver' buttonColor='bg-yellow-700'/>
-                 <ModalComent text='Aceptar' buttonColor='bg-green-700'/>
+              <BotonSegundo Text="Siguiente" textColor="text-black" onClick={handleNextClick} />
             </div>
+
           </div>
         </div>
       </div>
