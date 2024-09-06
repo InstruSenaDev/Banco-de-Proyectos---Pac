@@ -6,6 +6,8 @@ import ModalUsuario from './Components/ModalUsuario';
 import Areas from './Components/Areas';
 import GridList from './Pages/GridList'
 import GridListUsuarios from './Pages/GridListUsuarios'
+import Lateral from './Components/lateral'
+
 
 
 const App = () => {
@@ -17,6 +19,7 @@ const App = () => {
         <Route path="/ModalUsuario" element={<ModalUsuario />} />
         <Route path="/Areas" element={<Areas />} />
         <Route path="/GridList" element={<GridList/>} />
+        <Route path='/lateral' element={<Lateral />} />
 
 
       </Routes>

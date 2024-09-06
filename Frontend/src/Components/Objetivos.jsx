@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Components/Input2';

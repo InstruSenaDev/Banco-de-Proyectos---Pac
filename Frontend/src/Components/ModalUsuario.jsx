@@ -8,9 +8,23 @@ import SelectBoxRol from './SelectBoxRol2';
 import SelectBoxTi from './SelectBoxTI2';
 import BotonSegundoModal from './BotonSegundoModal';
 
-export default function Usuario({ onClose }) {
+export default function Usuario({ onClose, onAddMember }) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const nuevoUsuario = {
+      nombre: document.getElementById('nombreUsu').value,
+      tipoDoc: document.getElementById('tipoDoc').value,
+      numeroDoc: document.getElementById('numeroDoc').value,
+      correo: document.getElementById('correo').value,
+      contrasena: document.getElementById('contrasena').value,
+      tipoRol: document.getElementById('tipoRol').value,
+      estado: document.getElementById('estadoActivo').checked ? 'Activo' : 'Inactivo',
+      celular: document.getElementById('celular').value,
+    };
 
-
+    onAddMember(nuevoUsuario); 
+    onClose(); 
+  };
   return (
     <>
       <Dialog
@@ -28,7 +42,7 @@ export default function Usuario({ onClose }) {
           >
             <RiCloseLine className="size-5" aria-hidden={true} />
           </button>
-          <form action="#" method="POST" className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
               Añade nuevo usuario
             </h4>
@@ -97,5 +111,6 @@ export default function Usuario({ onClose }) {
 }
 
 Usuario.propTypes = {
-  onClose: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onAddMember: PropTypes.func.isRequired,
 };
