@@ -33,6 +33,7 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
+
 //Obtener Areas
 router.get('/area', async (req, res) => {
     try {

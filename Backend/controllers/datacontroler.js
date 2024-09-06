@@ -16,12 +16,12 @@ async function getAllPersonas() {
     }
 }
 
-// Función para obtener todos los usuarios
+// Función para obtener todos los usuarios con campos específicos
 async function getAllUsuario() {
     try {
         console.log('Obteniendo todos los usuarios...');
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM usuario');
+        const result = await client.query('SELECT nombre, correo, estado, rol FROM usuario');
         client.release();
         console.log('Usuarios obtenidos con éxito:', result.rows);
         return result.rows;
@@ -30,6 +30,7 @@ async function getAllUsuario() {
         throw error;
     }
 }
+
 
 // Función para obtener todas las áreas
 async function getAllAreas() {
@@ -240,6 +241,8 @@ async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
         throw error;
     }
 }
+
+
 
 
 export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTipodeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTipoDeArea, registerTipoDeArea, registerItemArea, getAllItemsArea };

@@ -5,8 +5,10 @@ import Dashboard from './Pages/Dashboard';
 import ModalUsuario from './Components/ModalUsuario';
 import Areas from './Components/Areas';
 import GridList from './Pages/GridList'
-import GridListUsuarios from './Pages/GridListUsuarios'
-import Lateral from './Components/lateral'
+import GridListUsuarios from './Pages/GridListUsuarios';
+import VistaAlcance from './Pages/VistaAlcance';
+import Prueba from './Pages/Prueba';
+
 
 
 
@@ -19,7 +21,9 @@ const App = () => {
         <Route path="/ModalUsuario" element={<ModalUsuario />} />
         <Route path="/Areas" element={<Areas />} />
         <Route path="/GridList" element={<GridList/>} />
-        <Route path='/lateral' element={<Lateral />} />
+        <Route path="/VistaAlcance" element={<VistaAlcance/>} />
+        <Route path="/Prueba" element={<Prueba/>} />
+
 
 
       </Routes>
