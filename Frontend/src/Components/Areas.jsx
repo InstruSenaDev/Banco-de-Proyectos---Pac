@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from './Input2';
 import BotonSegundo from './BotonSegundoModal';
-import RadioButton from './RadioButton2';
 
 const Areas = ({ onClose, onAddMember, onEditMember, onDeleteMember, user, actionType }) => {
   const [areaName, setAreaName] = useState(user?.name || '');

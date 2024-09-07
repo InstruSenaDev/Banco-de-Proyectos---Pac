@@ -60,6 +60,7 @@ const Dashboard = () => {
               metricValue={20}
               progressText="Proyectos creados"
               buttonTex="Ver detalle"
+              route="/tipodearea"
             />
             <CardBase
               title="Objetivo"

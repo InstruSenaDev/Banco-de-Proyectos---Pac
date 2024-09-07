@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import PropTypes from 'prop-types';
 
+// eslint-disable-next-line react/prop-types
 const Badge = ({ children, variant }) => {
   const bgColor = variant === 'warning' ? 'bg-green-200' : 'bg-red-200';
   return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
 };
 
-const GridList = ({ onEdit, onDelete }) => {
+const GridList = ({ onEdit }) => {
   const [data, setData] = useState([
     {
       workspace: 'sales_by_day_api',
@@ -93,6 +95,11 @@ const GridList = ({ onEdit, onDelete }) => {
       </table>
     </div>
   );
+};
+
+GridList.propTypes = {
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 export default GridList;

@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTipodeArea, registerArea, getAllAreas, getTipoDeArea, getAllFichas, registerTipoDeArea, registerItemArea, getAllItemsArea  } from '../controllers/datacontroler.js';
+import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTipodeArea, registerArea, getAllAreas, getTipoDeArea, getAllFichas, registerTipoDeArea, getTiposDeAreaPorArea, registerItemArea, getAllItemsArea  } from '../controllers/datacontroler.js';
 
 const app = express(); // Crear la instancia de Express
 
@@ -180,6 +180,29 @@ router.post('/api/registerItemArea', async (req, res) => {
         res.status(500).json({ error: 'Error al registrar item.', details: error.message });
     }
 });
+
+// Ruta para obtener todas las áreas
+router.get('/areas', async (req, res) => {
+    try {
+        const areas = await getAllAreas();
+        res.json(areas);
+    } catch (error) {
+        console.error('Error al obtener áreas:', error);
+        res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
+    }
+});
+
+// Ruta para obtener los tipos de área de acuerdo al área seleccionada
+router.get('/tipos-de-area/:idArea', async (req, res) => {
+    try {
+      const idArea = req.params.idArea;
+      const tiposDeArea = await getTiposDeAreaPorArea(idArea);
+      res.json(tiposDeArea);
+    } catch (error) {
+      console.error('Error al obtener tipos de área:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+  });
 
 // Middleware de manejo de errores
 router.use((err, req, res, next) => {

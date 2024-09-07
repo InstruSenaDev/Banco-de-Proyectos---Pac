@@ -33,7 +33,7 @@ async function getAllUsuario() {
 async function getAllAreas() {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT * FROM area');
+        const result = await client.query('SELECT idarea, area FROM area');
         client.release();
         return result.rows;
     } catch (error) {
@@ -42,6 +42,22 @@ async function getAllAreas() {
     }
 }
 
+async function getTiposDeAreaPorArea(idArea) {
+    try {
+      const client = await pool.connect();
+      const query = `
+        SELECT t.idtiposdearea, t.tiposdearea
+        FROM tipodearea t
+        WHERE t.idarea = $1
+      `;
+      const result = await client.query(query, [idArea]);
+      client.release();
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener tipos de área:', error);
+      throw error;
+    }
+  }
 // Función para obtener todas los tipos de area
 async function getAllTipodeArea() {
     try {
@@ -240,4 +256,4 @@ async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
 }
 
 
-export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTipodeArea, registerFicha, registerArea, getAllFichas, getAllAreas, getTipoDeArea, registerTipoDeArea, registerItemArea, getAllItemsArea };
+export { getAllPersonas, getAllUsuario, registerPerson, loginPerson, getAllTipodeArea, registerFicha, getTiposDeAreaPorArea, registerArea, getAllFichas, getAllAreas, getTipoDeArea, registerTipoDeArea, registerItemArea, getAllItemsArea };

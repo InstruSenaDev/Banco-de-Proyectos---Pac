@@ -6,6 +6,7 @@ import Usuarios from './Pages/Usuarios';
 import Prueba from './Pages/Prueba';
 import Proyectos from './Pages/Proyectos';
 import Areas from './Pages/Areas';
+import TipoArea from './Pages/TipodeArea';
 
 
 
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/Prueba" element={<Prueba/>} />
         <Route path="/proyectos" element={<Proyectos/>} />
         <Route path="/areas" element={<Areas/>} />
+        <Route path="/tipodearea" element={<TipoArea/>} />
       </Routes>
     </Router>
   );
