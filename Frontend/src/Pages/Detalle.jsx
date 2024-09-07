@@ -20,7 +20,8 @@ const Detalle = () => {
     idficha: "",
     idpersona: "",
     idcalificacion: "",
-    estado: "",
+    calificacion_resultado: "",
+    calificacion_estado: "",
   });
 
   useEffect(() => {
@@ -81,7 +82,7 @@ const Detalle = () => {
             <ListItem>
               <span className="text-xs sm:text-xl">Área del proyecto</span>
               <span className="text-xs sm:text-xl">
-                {proyecto.idarea || "No disponible"}
+                {proyecto.nombre_area || "No disponible"}
               </span>
             </ListItem>
             <ListItem>
@@ -97,15 +98,15 @@ const Detalle = () => {
               </span>
             </ListItem>
             <ListItem>
-              <span className="text-xs sm:text-xl">Calificacion</span>
+              <span className="text-xs sm:text-xl">Calificación</span>
               <span className="sm:text-xl">
-                {proyecto.idcalificacion || "No disponible"}
+                {proyecto.calificacion_resultado || "No disponible"}
               </span>
             </ListItem>
             <ListItem>
               <span className="text-xs sm:text-xl">Estado</span>
               <span className="sm:text-xl">
-                {proyecto.estado || "No disponible"}
+                {proyecto.calificacion_estado || "No disponible"}
               </span>
             </ListItem>
           </ListProject>
