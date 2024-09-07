@@ -10,6 +10,7 @@ import { ModalComent } from '../Components/ModalComent';
 
 const Alcance = () => {
   const { idproyecto } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const [respuestasAlcance, setRespuestasAlcance] = useState([]);
   const [selecciones, setSelecciones] = useState({});
@@ -69,9 +70,11 @@ const Alcance = () => {
   };
 
   const handleNextClick = () => {
+    const promedioObjetivos = location.state?.promedioObjetivos || 0;  // Obtener el promedio de objetivos
     navigate(`/calificacion/${idproyecto}`, {
       state: {
-        promedio: promedio
+        promedio: promedio,  // Pasar el promedio de alcance
+        promedioObjetivos: promedioObjetivos,  // Pasar el promedio de objetivos
       }
     });
   };
@@ -116,7 +119,6 @@ const Alcance = () => {
               </Link>
               <BotonSegundo Text="Siguiente" textColor="text-black" onClick={handleNextClick} />
             </div>
-
           </div>
         </div>
       </div>

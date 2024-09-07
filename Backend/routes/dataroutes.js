@@ -1,21 +1,11 @@
 import express from 'express';
 import { pool } from '../config/db.js';
-import { getAllProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto, guardarCalificacion} from '../controllers/datacontroler.js';
+import {  getProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto, guardarCalificacion} from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
-
-
-
-router.get('/proyectos', async (req, res) => {
-    try {
-        const proyectos = await getAllProyectos();
-        res.json(proyectos);
-    } catch (error) {
-        console.error('Error al obtener proyectos:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
+// Ruta para obtener proyectos, con filtrado opcional por estado de calificación
+router.get('/proyectos', getProyectos);
 
 router.get('/proyectos/:id', async (req, res) => {
     try {

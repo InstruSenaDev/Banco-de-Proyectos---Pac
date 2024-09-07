@@ -19,6 +19,8 @@ const Detalle = () => {
     idarea: "",
     idficha: "",
     idpersona: "",
+    idcalificacion: "",
+    estado: "",
   });
 
   useEffect(() => {
@@ -92,6 +94,18 @@ const Detalle = () => {
               <span className="text-xs sm:text-xl">Persona</span>
               <span className="text-xs sm:text-xl">
                 {proyecto.idpersona || "No disponible"}
+              </span>
+            </ListItem>
+            <ListItem>
+              <span className="text-xs sm:text-xl">Calificacion</span>
+              <span className="sm:text-xl">
+                {proyecto.idcalificacion || "No disponible"}
+              </span>
+            </ListItem>
+            <ListItem>
+              <span className="text-xs sm:text-xl">Estado</span>
+              <span className="sm:text-xl">
+                {proyecto.estado || "No disponible"}
               </span>
             </ListItem>
           </ListProject>
