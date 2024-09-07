@@ -12,13 +12,13 @@ app.use(express.json()); // Para analizar JSON en el cuerpo de las solicitudes
 const router = express.Router();
 
 // Obtener personas
-router.get('/personas', async (req, res) => {
+router.get('/api/personas', async (req, res) => {
     try {
         const personas = await getAllPersonas();
         res.json(personas);
     } catch (error) {
         console.error('Error al obtener personas:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 });
 

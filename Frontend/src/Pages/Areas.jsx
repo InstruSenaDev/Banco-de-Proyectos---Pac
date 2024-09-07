@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import LayoutPrincipal from '../Layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
-import GridList from './GridList';
+import GridList from './GridListU';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
-import ModalUsuario from '../Components/ModalUsuario';
+import Areas from '../Components/Areas';
 
-const GridListUsuarios = () => {
+const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null); // Para editar
-  const [actionType, setActionType] = useState(''); // 'add', 'edit' or 'delete'
+  const [currentUser, setCurrentUser] = useState(null);
+  const [actionType, setActionType] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -76,7 +76,7 @@ const GridListUsuarios = () => {
               <GridList onEdit={handleEditClick} onDelete={handleDeleteClick} />
             </div>
             {isModalOpen && (
-              <ModalUsuario
+              <Areas
                 onClose={handleCloseModal}
                 onAddMember={handleAddMember}
                 onEditMember={handleEditMember}
@@ -92,4 +92,4 @@ const GridListUsuarios = () => {
   );
 };
 
-export default GridListUsuarios;
+export default Area;

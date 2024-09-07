@@ -2,12 +2,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard';
-import ModalUsuario from './Components/ModalUsuario';
-import Areas from './Components/Areas';
-import GridList from './Pages/GridList'
-import GridListUsuarios from './Pages/GridListUsuarios';
-import VistaAlcance from './Pages/VistaAlcance';
+import GridListU from './Pages/GridListU'
+import Usuarios from './Pages/Usuarios';
 import Prueba from './Pages/Prueba';
+import Proyectos from './Pages/Proyectos';
+import Areas from './Components/Areas';
 
 
 
@@ -17,15 +16,11 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/usuarios" element={<GridListUsuarios />} />
-        <Route path="/ModalUsuario" element={<ModalUsuario />} />
-        <Route path="/Areas" element={<Areas />} />
-        <Route path="/GridList" element={<GridList/>} />
-        <Route path="/VistaAlcance" element={<VistaAlcance/>} />
+        <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/GridListU" element={<GridListU/>} />
         <Route path="/Prueba" element={<Prueba/>} />
-
-
-
+        <Route path="/proyectos" element={<Proyectos/>} />
+        <Route path="/areas" element={<Areas/>} />
       </Routes>
     </Router>
   );

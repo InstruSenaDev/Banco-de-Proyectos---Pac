@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from './Input2';
 import BotonSegundo from './BotonSegundoModal';
@@ -9,17 +8,6 @@ export default function Area() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
-      <div className="flex items-center justify-center py-36">
-        <button
-          type="button"
-          className="whitespace-nowrap rounded-tremor-default bg-tremor-brand px-4 py-2 text-center text-tremor-default font-medium bg-tremor-background-emphasis text-tremor-brand-inverted shadow-tremor-input hover:bg-tremor-brand-emphasis dark:bg-dark-tremor-brand dark:text-dark-tremor-brand-inverted dark:shadow-dark-tremor-input dark:hover:bg-dark-tremor-brand-emphasis"
-          onClick={() => setIsOpen(true)}
-        >
-          Show Dialog
-        </button>
-      </div>
-
       <Dialog
         open={isOpen}
         onClose={() => setIsOpen(false)}
@@ -27,16 +15,7 @@ export default function Area() {
         className="z-[100]"
       >
         <DialogPanel className="sm:max-w-md">
-          <button
-            type="button"
-            className="absolute right-4 top-4 p-2 bg-transparent border-none text-tremor-content-subtle hover:text-tremor-content hover:bg-tremor-background-subtle dark:text-dark-tremor-content-subtle dark:hover:bg-dark-tremor-background-subtle dark:hover:text-tremor-content"
-            onClick={() => setIsOpen(false)}
-            aria-label="Close"
-          >
-            <RiCloseLine className="size-5" aria-hidden={true} />
-          </button>
           <form action="#" method="POST" className="space-y-4">
-
             <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
               Añade una nueva Area
             </h4>
@@ -71,6 +50,5 @@ export default function Area() {
           </form>
         </DialogPanel>
       </Dialog>
-    </>
   );
 }

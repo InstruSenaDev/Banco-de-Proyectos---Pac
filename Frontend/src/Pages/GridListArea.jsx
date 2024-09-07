@@ -1,50 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import Loader from '../Components/Loader'; // Importa el componente Loader
 
 const Badge = ({ children, variant }) => {
   const bgColor = variant === 'warning' ? 'bg-green-200' : 'bg-red-200';
   return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
 };
 
-const GridList = ({ onEdit, onDelete }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const GridListArea = ({ onEdit, onDelete }) => {
+  const [data, setData] = useState([
+    {
+      workspace: 'sales_by_day_api',
+      owner: 'John Doe',
+      status: 'Live',
+      role: 'Admin',
+    },
+    {
+      workspace: 'marketing_campaign',
+      owner: 'Jane Smith',
+      status: 'Live',
+      role: 'User',
+    },
+    {
+      workspace: 'test_environment',
+      owner: 'David Clark',
+      status: 'Inactive',
+      role: 'Guest',
+    },
+    {
+      workspace: 'sales_campaign',
+      owner: 'Jane Smith',
+      status: 'Live',
+      role: 'User',
+    },
+    {
+      workspace: 'development_env',
+      owner: 'Mike Johnson',
+      status: 'Inactive',
+      role: 'Admin',
+    },
+    {
+      workspace: 'new_workspace_1',
+      owner: 'Alice Brown',
+      status: 'Inactive',
+      role: 'User',
+    },
+  ]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/personas'); // Asegúrate de que esta URL sea correcta
-        if (!response.ok) {
-          throw new Error('La respuesta de la red no fue correcta');
-        }
-        const data = await response.json();
-        setData(data);
-      } catch (error) {
-        setError('No se han podido recuperar los usuarios');
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const handleDelete = (item) => {
-    // Aquí puedes añadir la lógica para eliminar el usuario desde la base de datos
-    const updatedData = data.filter(u => u.correo !== item.correo);
+  const handleDelete = (onDelete) => {
+    const updatedData = data.filter(item => item.workspace !== onDelete.workspace);
     setData(updatedData);
-    onDelete(item);
+    onDelete(onDelete);
   };
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (error) {
-    return <div className="text-red-500 mb-4">{error}</div>;
-  }
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
@@ -60,13 +66,13 @@ const GridList = ({ onEdit, onDelete }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {data.map((item) => (
-            <tr key={item.correo}>
-              <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.correo}</td>
+            <tr key={item.workspace}>
+              <td className="px-6 py-4 whitespace-nowrap">{item.workspace}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.owner}</td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <Badge variant={item.estado === 'Inactive' ? 'warning' : 'default'}>{item.estado}</Badge>
+                <Badge variant={item.status === 'Inactive' ? 'warning' : 'default'}>{item.status}</Badge>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.rol}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.role}</td>
               <td className="px-6 py-4 whitespace-nowrap text-right">
                 <div className="flex space-x-2">
                   <button 
@@ -89,4 +95,4 @@ const GridList = ({ onEdit, onDelete }) => {
   );
 };
 
-export default GridList;
+export default GridListArea;
