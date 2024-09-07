@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
-import Grid from '../Components/Grid';
-import BotonPrincipal from '../Components/BotonPrincipal';
-import BotonSegundo from '../Components/BotonSegundo';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal';
+import Grid from '../../Components/Grid';
+import BotonPrincipal from '../../Components/BotonPrincipal';
+import BotonSegundo from '../../Components/BotonSegundo';
 import { useLocation } from 'react-router-dom';
 
 const VistaAlcance = () => {

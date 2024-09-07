@@ -1,6 +1,6 @@
 import React from 'react';
-import BotonPrincipal from '../Components/BotonPrincipal';
-import BotonSegundo from '../Components/BotonSegundo';
+import BotonPrincipal from '../../Components/BotonPrincipal';
+import BotonSegundo from '../../Components/BotonSegundo';
 
 const Home = () => {
   return (

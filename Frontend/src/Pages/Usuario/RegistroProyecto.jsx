@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import LayoutPrincipal2 from '../Layouts/LayoutPrincipal2';
-import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
-import Input from '../Components/Input';
-import BotonPrincipal from '../Components/BotonPrincipal';
-import BotonSegundo from '../Components/BotonSegundo';
-import RadioButton2 from '../Components/RadioButton2';
-import Loader from '../Components/Loader';
+import LayoutPrincipal2 from '../../Layouts/LayoutPrincipal2';
+import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
+import Input from '../../Components/Input';
+import BotonPrincipal from '../../Components/BotonPrincipal';
+import BotonSegundo from '../../Components/BotonSegundo';
+import RadioButton2 from '../../Components/RadioButton2';
+import Loader from '../../Components/Loader';
 
 const RegistroProyecto = () => {
   const [nombreProyecto, setNombreProyecto] = useState('');

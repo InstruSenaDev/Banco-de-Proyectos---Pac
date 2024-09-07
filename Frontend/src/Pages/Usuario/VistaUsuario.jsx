@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import LayoutHome from '../Layouts/LayoutHome';
-import CartaUsuario from '../Components/CartaUsuario';
-import Loader from '../Components/Loader';
+import LayoutHome from '../../Layouts/LayoutHome';
+import CartaUsuario from '../../Components/CartaUsuario';
+import Loader from '../../Components/Loader';
 
 const VistaUsuario = () => {
   const [loading, setLoading] = useState(true);

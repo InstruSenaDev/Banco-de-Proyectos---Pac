@@ -1,10 +1,10 @@
 import React from 'react';
 import Layoutcontenido2 from '../Components/Layoutcontenido2.jsx';
-import LayoutPrincipal2 from '../layouts/LayoutPrincipal2.jsx';
-import Input from '../Components/Input.jsx';
-import BotonPrincipal from '../Components/BotonPrincipal.jsx';
-import BotonSegundo from '../Components/BotonSegundo.jsx';
-import RadioButton from '../Components/RadioButton.jsx';
+import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2.jsx';
+import Input from '../../Components/Input.jsx';
+import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
+import BotonSegundo from '../../Components/BotonSegundo.jsx';
+import RadioButton from '../../Components/RadioButton.jsx';
 import '../css/EditarProyecto.css'; // Carga el archivo CSS para los estilos
 
 const EditarProyecto = () => {

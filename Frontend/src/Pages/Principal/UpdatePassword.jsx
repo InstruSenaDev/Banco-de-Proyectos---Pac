@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Input from '../Components/Input.jsx';
-import Img from '../../public/Img/image1.png';
-import BotonSegundo from '../Components/BotonSegundo.jsx';
-import Img2 from    '../../public/Img/olvidocontraseña.png';
+import Input from '../../Components/Input.jsx';
+import Img from '../../../public/Img/image1.png';
+import BotonSegundo from '../../Components/BotonSegundo.jsx';
+import Img2 from    '../../../public/Img/olvidocontraseña.png';
 
 const UpdatePassword = () => {
     const [newPassword, setNewPassword] = useState('');

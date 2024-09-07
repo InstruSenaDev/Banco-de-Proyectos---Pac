@@ -1,8 +1,8 @@
 import React, {  useState, useEffect} from 'react';
-import InputField from '../Components/Input.jsx'; // Asegúrate de que esta importación sea correcta
-import BotonSegundo from '../Components/BotonSegundo.jsx';
-import Img from '../../public/Img/image1.png';
-import Img2 from    '../../public/Img/olvidocontraseña.png';
+import InputField from '../../Components/Input.jsx'; // Asegúrate de que esta importación sea correcta
+import BotonSegundo from '../../Components/BotonSegundo.jsx';
+import Img from '../../../public/Img/image1.png';
+import Img2 from    '../../../public/Img/olvidocontraseña.png';
 
 const OlvidarContraseña = () => {
 
