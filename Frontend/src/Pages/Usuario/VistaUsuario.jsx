@@ -22,7 +22,7 @@ const VistaUsuario = () => {
           <Loader />
         </div>
       ) : (
-        <div id="content" className="hidden">
+        <div id="content" className="">
           <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden">
             <div className="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
               <div className="flex flex-col md:flex-row items-start">
@@ -34,15 +34,15 @@ const VistaUsuario = () => {
                   </p>
                 </div>
                 <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
-                  <img className="w-full max-w-md h-auto" src="/img/usuario.png" alt="Imagen Principal" />
+                  <img className="w-full max-w-md h-auto" src="/Img/usuario.png" alt="Imagen Principal" />
                 </div>
               </div>
               <div className="flex justify-center mt-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8 max-w-6xl">
-                  <a href="/RegistroProyecto">
+                  <a href="/Usuario/RegistroProyecto">
                     <CartaUsuario Text="Registrar proyectos" />
                   </a>
-                  <a href="/VistaMisProyectos">
+                  <a href="/Usuario/VistaMisProyectos">
                     <CartaUsuario Text="Ver proyectos" />
                   </a>
                 </div>

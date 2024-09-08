@@ -44,16 +44,16 @@ const Inicio = () => {
         // Redirige según el rol del usuario
         switch (result.rol) {
           case 1:
-            window.location.href = '/Admin/VistaAdministrador';
+            window.location.href = '/VistaAdministrador';
             break;
           case 2:
-            window.location.href = '/Usuario/VistaUsuario';
+            window.location.href = '/VistaUsuario';
             break;
           case 3:
-            window.location.href = '/SuperAdmin/VistaSuperadmin';
+            window.location.href = '/VistaSuperadmin';
             break;
           case 4:
-            window.location.href = '/Aprendiz/VistaAprendiz';
+            window.location.href = '/VistaAprendiz';
             break;
           default:
             setGlobalError('Rol de usuario desconocido');
@@ -123,7 +123,7 @@ const Inicio = () => {
               </span>
 
               <div className="flex justify-end w-full">
-                <a href="/Principal/OlvidarContraseña" className="text-blue-500 underline decoration-1">
+                <a href="/OlvidarContraseña" className="text-blue-500 underline decoration-1">
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
@@ -133,9 +133,9 @@ const Inicio = () => {
 
             <div className="boton items-center text-center sm:mb-20">
               <div className="flex">¿No tienes cuenta?</div>
-              <a href="/Principal/Registro1" className="signup text-blue-500 underline decoration-1">
-                Registrarse
-              </a>
+              <Link to="/Registro1" className="signup text-blue-500 underline decoration-1">
+  Registrarse
+</Link>
             </div>
           </form>
         </div>

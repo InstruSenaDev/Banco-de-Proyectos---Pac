@@ -1,10 +1,11 @@
 // BotonSegundo.jsx
 import React from 'react';
 
-const BotonSegundo = ({ Text,  type, }) => {
+const BotonSegundo = ({ Text,  type, onClick }) => {
     return (
         <div className="flex justify-end">
             <button  type={type} 
+            onClick={onClick} // Asegúrate de que onClick se maneje
                 className="
           w-[175px] h-[44px] z-30 bg-[#A3E784] rounded-[5px] text-white relative font-semibold font-sans border border-[#A3E784]
           after:-z-20 after:absolute after:h-1 after:w-1 after:bg-[#90cc74] after:left-5 overflow-hidden after:bottom-0 after:translate-y-full
