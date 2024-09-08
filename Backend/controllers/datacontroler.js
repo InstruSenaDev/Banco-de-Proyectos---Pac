@@ -74,15 +74,15 @@ async function getProyectoById(id) {
 const getRespuestasByProyecto = async (idproyecto) => {
   try {
     const result = await pool.query(
-      `SELECT ro.idrespuestasobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, o.descripcion, p.nombre AS proyecto_nombre
+      `SELECT ro.idrespuestasobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, 
+              o.descripcion, c.nombre AS categoria
          FROM respuestasobjetivos ro
          JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
-         JOIN proyecto p ON ro.idproyecto = p.idproyecto
+         JOIN categoriasobjetivos c ON o.idcategoriasobjetivos = c.idcategoriasobjetivos
          WHERE ro.idproyecto = $1`,
       [idproyecto]
     );
 
-    // Devolver las filas obtenidas
     return result.rows;
   } catch (error) {
     console.error('Error al obtener las respuestas de la base de datos:', error);
@@ -90,23 +90,27 @@ const getRespuestasByProyecto = async (idproyecto) => {
   }
 };
 
+
 const getRespuestasAlcanceByProyecto = async (idproyecto) => {
   try {
     const result = await pool.query(
-      `SELECT ra.idrespuesta, ra.idproyecto, ra.idalcance, ra.respuesta, a.descripcion
+      `SELECT ra.idrespuesta, ra.idproyecto, ra.idalcance, ra.respuesta, 
+              a.descripcion, c.nombre AS categoria
          FROM respuestasalcance ra
          JOIN alcance a ON ra.idalcance = a.idalcance
+         JOIN categoriasalcance c ON a.idcategoriasalcance = c.idcategoriasalcance
          WHERE ra.idproyecto = $1`,
       [idproyecto]
     );
 
-    // Devolver las filas obtenidas
+    console.log(result.rows); // Imprime los resultados para verificar que las categorías están incluidas
     return result.rows;
   } catch (error) {
     console.error('Error al obtener las respuestas de alcance de la base de datos:', error);
-    throw error; // Lanzar el error para que sea manejado en las rutas
+    throw error;
   }
 };
+
 
 
 // Controlador para guardar la calificación

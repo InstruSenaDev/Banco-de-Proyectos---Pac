@@ -5,8 +5,6 @@ import BarraPreguntas from '../Components/BarraPreguntas';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
-import { Evaluar } from '../Components/Evaluar';
-import { ModalComent } from '../Components/ModalComent';
 
 const Alcance = () => {
   const { idproyecto } = useParams();
@@ -23,6 +21,7 @@ const Alcance = () => {
         const response = await fetch(`http://localhost:4000/api/respuestasalcance/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
+          console.log(data.respuestasAlcance); // Verifica que las categorías están incluidas en los datos recibidos
           setRespuestasAlcance(data.respuestasAlcance);
 
           const seleccionesIniciales = data.respuestasAlcance.reduce((acc, respuesta) => {
@@ -79,11 +78,23 @@ const Alcance = () => {
     });
   };
 
+  // Agrupar las preguntas por categoría
+  const preguntasAgrupadas = respuestasAlcance.reduce((acc, respuesta) => {
+    if (!respuesta.categoria) {
+      console.warn(`Pregunta sin categoría encontrada: ${respuesta.descripcion}`);
+    }
+    if (!acc[respuesta.categoria]) {
+      acc[respuesta.categoria] = [];
+    }
+    acc[respuesta.categoria].push(respuesta);
+    return acc;
+  }, {});
+
   return (
     <Layoutprincipal title="">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
-          <div className="flex flex-col space-y-8">
+          <div className="flex flex-col ">
             <div className="text-left mb-4">
               <h1 className="font-josefin-slab text-2xl text-black">
                 Por favor marque “SI” o “NO” en cada pregunta
@@ -94,22 +105,25 @@ const Alcance = () => {
               <BarraPreguntas Text1="Alcance" Text2="Sí" Text3="No" Text4="Calificar" />
             </div>
 
-            <div className="text-2xl font-bold mb-2 pl-12">
-              Operación y costos
-            </div>
+            {Object.keys(preguntasAgrupadas).map((categoria, idx) => (
+              <div key={idx}>
+                <div className="text-lg font-bold grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
+                  {categoria || 'Sin Categoría'}
+                </div>
 
-            {respuestasAlcance.map((respuesta) => (
-              <div key={respuesta.idalcance} className="flex flex-row items-center space-x-4 mb-4">
-                <Grid
-                  Text1={respuesta.descripcion}
-                  id1={`respuesta-si-${respuesta.idalcance}`}
-                  id2={`respuesta-no-${respuesta.idalcance}`}
-                  name={`respuesta-${respuesta.idalcance}`}
-                  categoria={respuesta.categoria}
-                  seleccionado={selecciones[respuesta.idalcance]}
-                  onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
-                />
-                <Evaluar onChange={(value) => handleEvaluarChange(respuesta.idalcance, value)} />
+                {preguntasAgrupadas[categoria].map((respuesta) => (
+                  <Grid
+                    key={respuesta.idalcance}
+                    Text1={respuesta.descripcion}
+                    id1={`respuesta-si-${respuesta.idalcance}`}
+                    id2={`respuesta-no-${respuesta.idalcance}`}
+                    name={`respuesta-${respuesta.idalcance}`}
+                    seleccionado={selecciones[respuesta.idalcance]}
+                    onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
+                    handleEvaluarChange={handleEvaluarChange}
+                    id={respuesta.idalcance}
+                  />
+                ))}
               </div>
             ))}
 

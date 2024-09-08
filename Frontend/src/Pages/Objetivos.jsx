@@ -5,7 +5,6 @@ import Grid from "../Components/Grid";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
 import BarraPreguntas from "../Components/BarraPreguntas";
-import { Evaluar } from "../Components/Evaluar";
 
 const Objetivos = () => {
   const { idproyecto } = useParams();
@@ -21,6 +20,7 @@ const Objetivos = () => {
         const response = await fetch(`http://localhost:4000/api/respuestas/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
+          console.log(data.respuestas); // Verificar que las categorías están incluidas en los datos recibidos
           setRespuestas(data.respuestas);
 
           const seleccionesIniciales = data.respuestas.reduce((acc, respuesta) => {
@@ -30,7 +30,7 @@ const Objetivos = () => {
           setSelecciones(seleccionesIniciales);
 
           const calificacionesIniciales = data.respuestas.reduce((acc, respuesta) => {
-            acc[respuesta.id] = 0;
+            acc[respuesta.id] = 0; // Inicialización con 0
             return acc;
           }, {});
           setCalificaciones(calificacionesIniciales);
@@ -67,6 +67,18 @@ const Objetivos = () => {
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestas.length]);
 
+  // Agrupar las preguntas por categoría
+  const preguntasAgrupadas = respuestas.reduce((acc, respuesta) => {
+    if (!respuesta.categoria) {
+      console.warn(`Pregunta sin categoría encontrada: ${respuesta.descripcion}`);
+    }
+    if (!acc[respuesta.categoria]) {
+      acc[respuesta.categoria] = [];
+    }
+    acc[respuesta.categoria].push(respuesta);
+    return acc;
+  }, {});
+
   return (
     <Layoutprincipal title="Objetivos del Proyecto">
       <div className="flex justify-center min-h-screen">
@@ -80,18 +92,25 @@ const Objetivos = () => {
               <BarraPreguntas Text1={"Objetivos del proyecto"} Text2={"Sí"} Text3={"No"} Text4={"Calificar"} />
             </div>
 
-            {respuestas.map((respuesta) => (
-              <div key={respuesta.id} className="flex flex-row items-center space-x-4 mb-4">
-                <Grid
-                  Text1={respuesta.descripcion}
-                  id1={`respuesta-si-${respuesta.id}`}
-                  id2={`respuesta-no-${respuesta.id}`}
-                  name={`respuesta-${respuesta.id}`}
-                  categoria={respuesta.categoria}
-                  seleccionado={selecciones[respuesta.id]}
-                  onChange={(e) => handleSelectionChange(respuesta.id, e.target.value)}
-                />
-                <Evaluar onChange={(value) => handleEvaluarChange(respuesta.id, value)} />
+            {Object.keys(preguntasAgrupadas).map((categoria, idx) => (
+              <div key={idx}>
+                <div className="text-lg font-bold grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
+                  {categoria || 'Sin Categoría'}
+                </div>
+
+                {preguntasAgrupadas[categoria].map((respuesta) => (
+                  <Grid
+                    key={respuesta.id}
+                    Text1={respuesta.descripcion}
+                    id1={`respuesta-si-${respuesta.id}`}
+                    id2={`respuesta-no-${respuesta.id}`}
+                    name={`respuesta-${respuesta.id}`}
+                    seleccionado={selecciones[respuesta.id]}
+                    onChange={(e) => handleSelectionChange(respuesta.id, e.target.value)}
+                    handleEvaluarChange={handleEvaluarChange}
+                    id={respuesta.id}
+                  />
+                ))}
               </div>
             ))}
 
