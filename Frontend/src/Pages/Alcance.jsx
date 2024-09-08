@@ -5,6 +5,7 @@ import BarraPreguntas from '../Components/BarraPreguntas';
 import Grid from '../Components/Grid';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
+import Loader from '../Components/Loader';
 
 const Alcance = () => {
   const { idproyecto } = useParams();
@@ -14,6 +15,7 @@ const Alcance = () => {
   const [selecciones, setSelecciones] = useState({});
   const [calificaciones, setCalificaciones] = useState({});
   const [promedio, setPromedio] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchRespuestasAlcance = async () => {
@@ -21,7 +23,7 @@ const Alcance = () => {
         const response = await fetch(`http://localhost:4000/api/respuestasalcance/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
-          console.log(data.respuestasAlcance); // Verifica que las categorías están incluidas en los datos recibidos
+          console.log(data.respuestasAlcance); 
           setRespuestasAlcance(data.respuestasAlcance);
 
           const seleccionesIniciales = data.respuestasAlcance.reduce((acc, respuesta) => {
@@ -40,6 +42,8 @@ const Alcance = () => {
         }
       } catch (error) {
         console.error("Error de red al obtener las respuestas de alcance:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -69,16 +73,23 @@ const Alcance = () => {
   };
 
   const handleNextClick = () => {
-    const promedioObjetivos = location.state?.promedioObjetivos || 0;  // Obtener el promedio de objetivos
+    const promedioObjetivos = location.state?.promedioObjetivos || 0;
+    const detallesAlcance = respuestasAlcance.map((respuesta) => ({
+      idrespuesta: respuesta.idalcance,
+      tipo_respuesta: "alcance",
+      estado: selecciones[respuesta.idalcance] === "Sí" ? "Aprobado" : "No aceptado",
+    }));
+
     navigate(`/calificacion/${idproyecto}`, {
       state: {
-        promedio: promedio,  // Pasar el promedio de alcance
-        promedioObjetivos: promedioObjetivos,  // Pasar el promedio de objetivos
-      }
+        promedio: promedio,
+        promedioObjetivos: promedioObjetivos,
+        detallesAlcance: detallesAlcance,
+        detallesObjetivos: location.state?.detallesObjetivos || [],
+      },
     });
   };
 
-  // Agrupar las preguntas por categoría
   const preguntasAgrupadas = respuestasAlcance.reduce((acc, respuesta) => {
     if (!respuesta.categoria) {
       console.warn(`Pregunta sin categoría encontrada: ${respuesta.descripcion}`);
@@ -92,50 +103,54 @@ const Alcance = () => {
 
   return (
     <Layoutprincipal title="">
-      <div className="flex justify-center min-h-screen">
-        <div className="p-10 w-full max-w-7xl my-10">
-          <div className="flex flex-col ">
-            <div className="text-left mb-4">
-              <h1 className="font-josefin-slab text-2xl text-black">
-                Por favor marque “SI” o “NO” en cada pregunta
-              </h1>
-            </div>
-
-            <div className="flex justify-center">
-              <BarraPreguntas Text1="Alcance" Text2="Sí" Text3="No" Text4="Calificar" />
-            </div>
-
-            {Object.keys(preguntasAgrupadas).map((categoria, idx) => (
-              <div key={idx}>
-                <div className="text-lg font-bold grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
-                  {categoria || 'Sin Categoría'}
-                </div>
-
-                {preguntasAgrupadas[categoria].map((respuesta) => (
-                  <Grid
-                    key={respuesta.idalcance}
-                    Text1={respuesta.descripcion}
-                    id1={`respuesta-si-${respuesta.idalcance}`}
-                    id2={`respuesta-no-${respuesta.idalcance}`}
-                    name={`respuesta-${respuesta.idalcance}`}
-                    seleccionado={selecciones[respuesta.idalcance]}
-                    onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
-                    handleEvaluarChange={handleEvaluarChange}
-                    id={respuesta.idalcance}
-                  />
-                ))}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="flex justify-center min-h-screen">
+          <div className="p-10 w-full max-w-7xl my-10">
+            <div className="flex flex-col ">
+              <div className="text-left mb-4">
+                <h1 className="font-josefin-slab text-2xl text-black">
+                  Por favor marque “SI” o “NO” en cada pregunta
+                </h1>
               </div>
-            ))}
 
-            <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
-              <Link to={`/respuestas/${idproyecto}`}>
-                <BotonPrincipal Text="Volver" />
-              </Link>
-              <BotonSegundo Text="Siguiente" textColor="text-black" onClick={handleNextClick} />
+              <div className="flex justify-center">
+                <BarraPreguntas Text1="Alcance" Text2="Sí" Text3="No" Text4="Calificar" />
+              </div>
+
+              {Object.keys(preguntasAgrupadas).map((categoria, idx) => (
+                <div key={idx}>
+                  <div className="text-lg font-bold grid-cols-12 bg-green-50 md:col-span-10 pl-4 col-span-12 flex py-2">
+                    {categoria || 'Sin Categoría'}
+                  </div>
+
+                  {preguntasAgrupadas[categoria].map((respuesta) => (
+                    <Grid
+                      key={respuesta.idalcance}
+                      Text1={respuesta.descripcion}
+                      id1={`respuesta-si-${respuesta.idalcance}`}
+                      id2={`respuesta-no-${respuesta.idalcance}`}
+                      name={`respuesta-${respuesta.idalcance}`}
+                      seleccionado={selecciones[respuesta.idalcance]}
+                      onChange={(e) => handleSelectionChange(respuesta.idalcance, e.target.value)}
+                      handleEvaluarChange={handleEvaluarChange}
+                      id={respuesta.idalcance}
+                    />
+                  ))}
+                </div>
+              ))}
+
+              <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
+                <Link to={`/respuestas/${idproyecto}`}>
+                  <BotonPrincipal Text="Volver" />
+                </Link>
+                <BotonSegundo Text="Siguiente" textColor="text-black" onClick={handleNextClick} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </Layoutprincipal>
   );
 };

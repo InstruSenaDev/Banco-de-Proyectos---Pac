@@ -67,6 +67,21 @@ const Objetivos = () => {
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestas.length]);
 
+  const handleNextClick = () => {
+    const detalles = respuestas.map((respuesta) => ({
+      idrespuesta: respuesta.id,
+      tipo_respuesta: "objetivo",
+      estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado",
+    }));
+
+    navigate(`/alcance/${idproyecto}`, {
+      state: {
+        promedioObjetivos: promedio,
+        detallesObjetivos: detalles,
+      },
+    });
+  };
+
   // Agrupar las preguntas por categoría
   const preguntasAgrupadas = respuestas.reduce((acc, respuesta) => {
     if (!respuesta.categoria) {
@@ -122,9 +137,7 @@ const Objetivos = () => {
               <Link to={`/Detalle/${idproyecto}`}>
                 <BotonPrincipal Text="Volver" />
               </Link>
-              <Link to={`/alcance/${idproyecto}`} state={{ promedioObjetivos: promedio }}>
-                <BotonSegundo Text="Siguiente" textColor="text-black" />
-              </Link>
+              <BotonSegundo Text="Siguiente" textColor="text-black" onClick={handleNextClick} />
             </div>
           </div>
         </div>

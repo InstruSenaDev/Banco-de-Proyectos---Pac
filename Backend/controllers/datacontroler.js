@@ -116,34 +116,44 @@ const getRespuestasAlcanceByProyecto = async (idproyecto) => {
 // Controlador para guardar la calificación
 const guardarCalificacion = async (req, res) => {
   try {
-    const { idproyecto, resultado, estado, comentario } = req.body;
+      const { idproyecto, resultado, estado, comentario, detalles } = req.body;
 
-    // Verifica que todos los datos necesarios estén presentes
-    if (!idproyecto || !resultado || !estado || !comentario) {
-      return res.status(400).json({ message: "Todos los campos son obligatorios" });
-    }
+      // Verifica que todos los datos necesarios estén presentes
+      if (!idproyecto || !resultado || !estado || !comentario || !detalles) {
+          return res.status(400).json({ message: "Todos los campos son obligatorios" });
+      }
 
-    // Inserta la calificación en la base de datos
-    const result = await pool.query(
-      "INSERT INTO calificacion (idproyecto, resultado, estado, comentario) VALUES ($1, $2, $3, $4) RETURNING idcalificacion",
-      [idproyecto, resultado, estado, comentario]
-    );
+      // Inserta la calificación en la base de datos
+      const result = await pool.query(
+          "INSERT INTO calificacion (idproyecto, resultado, estado, comentario) VALUES ($1, $2, $3, $4) RETURNING idcalificacion",
+          [idproyecto, resultado, estado, comentario]
+      );
 
-    const idcalificacion = result.rows[0].idcalificacion;
+      const idcalificacion = result.rows[0].idcalificacion;
 
-    // Actualiza la tabla proyecto con la idcalificacion
-    await pool.query(
-      "UPDATE proyecto SET idcalificacion = $1 WHERE idproyecto = $2",
-      [idcalificacion, idproyecto]
-    );
+      // Inserta los detalles de la calificación
+      const detallePromises = detalles.map((detalle) => {
+          return pool.query(
+              "INSERT INTO detalle_calificacion (idcalificacion, idrespuesta, tipo_respuesta, estado) VALUES ($1, $2, $3, $4)",
+              [idcalificacion, detalle.idrespuesta, detalle.tipo_respuesta, detalle.estado]
+          );
+      });
 
-    // Respuesta exitosa con el ID de la calificación insertada
-    res.status(201).json({ message: "Calificación guardada exitosamente", idcalificacion: idcalificacion });
+      await Promise.all(detallePromises);
+
+      // Actualiza la tabla proyecto con la idcalificacion
+      await pool.query(
+          "UPDATE proyecto SET idcalificacion = $1 WHERE idproyecto = $2",
+          [idcalificacion, idproyecto]
+      );
+
+      res.status(201).json({ message: "Calificación guardada exitosamente", idcalificacion: idcalificacion });
   } catch (error) {
-    console.error("Error al guardar la calificación:", error);
-    res.status(500).json({ message: "Error al guardar la calificación" });
+      console.error("Error al guardar la calificación:", error);
+      res.status(500).json({ message: "Error al guardar la calificación" });
   }
 };
+
 
 
 
