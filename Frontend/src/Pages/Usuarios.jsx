@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import LayoutPrincipal from '../Layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
-import GridList from './GridListU';
+import GridList from './GridList/GridListU';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
 import ModalUsuario from '../Components/ModalUsuario';

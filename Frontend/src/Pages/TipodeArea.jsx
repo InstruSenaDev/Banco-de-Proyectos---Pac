@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
+import { useNavigate } from 'react-router-dom';
+import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
-import GridListTipoArea from './GridListTipoArea';
+import GridListTipoArea from './GridList/GridListTipoArea';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
-import TipoAreas from '../Components/TipoAreas';
+import TipoAreas from '../Components/ModalTipoAreas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
@@ -65,8 +65,6 @@ const Area = () => {
   const handleGoBack = () => {
     navigate('/dashboard'); // Redirigir al dashboard
   };
-
-  
 
   return (
     <LayoutPrincipal title="Tipos de Area">

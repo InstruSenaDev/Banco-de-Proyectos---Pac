@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from './Input2';
 import BotonSegundo from './BotonSegundoModal';
+import PropTypes from 'prop-types';
+
 
 const Areas = ({ onClose, onAddMember, onEditMember, onDeleteMember, user, actionType }) => {
   const [areaName, setAreaName] = useState(user?.name || '');
-  const [estado, setEstado] = useState(user?.estado || 'Activo');
+  const [estado,] = useState(user?.estado || 'Activo');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,5 +51,14 @@ const Areas = ({ onClose, onAddMember, onEditMember, onDeleteMember, user, actio
     </Dialog>
   );
 };
+
+Areas.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onAddMember: PropTypes.func.isRequired,
+  onEditMember: PropTypes.func.isRequired,
+  onDeleteMember: PropTypes.func.isRequired,
+  user: PropTypes.func.isRequired,
+  actionType: PropTypes.func.isRequired,
+}
 
 export default Areas;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import LayoutPrincipal from '../Layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
-import GridListProyectos from './GridListProyectos';
+import GridListProyectos from './GridList/GridListProyectos';
 import Loader from '../Components/Loader';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 

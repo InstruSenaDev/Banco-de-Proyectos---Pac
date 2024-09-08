@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
+import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
-import GridListArea from './GridList/GridListArea';
+import GridListAlcance from './GridList/GridListAlcance';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
-import Areas from '../Components/ModalAreas';
+import ModalAlcance from '../Components/ModalAlcance';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
@@ -88,10 +88,10 @@ const Area = () => {
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick} />
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
-              <GridListArea onEdit={handleEditClick} onDelete={handleDeleteClick} />
+              <GridListAlcance onEdit={handleEditClick} onDelete={handleDeleteClick} />
             </div>
             {isModalOpen && (
-              <Areas
+              <ModalAlcance
                 onClose={handleCloseModal}
                 onAddMember={handleAddMember}
                 onEditMember={handleEditMember}

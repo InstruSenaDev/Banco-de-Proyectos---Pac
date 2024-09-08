@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import PropTypes from 'prop-types';
-import TipoArea from '../Components/TipoAreas'; // Importar el modal
+import PropTypes from 'prop-types'
 
 const GridListTipoArea = ({ onEdit, onDelete }) => {
   // Estado para almacenar las áreas y sus tipos de área
   const [areas, setAreas] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el modal
 
   // Simulación de fetch para obtener áreas y tipos de área
   useEffect(() => {
@@ -97,11 +95,6 @@ const GridListTipoArea = ({ onEdit, onDelete }) => {
           )}
         </tbody>
       </table>
-
-      {/* Modal de agregar área */}
-      {isModalOpen && (
-        <TipoArea isOpen={isModalOpen} setIsOpen={setIsModalOpen} />
-      )}
     </div>
   );
 };

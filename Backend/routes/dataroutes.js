@@ -1,28 +1,34 @@
 import express from 'express';
-import cors from 'cors';
-import { getAllPersonas, getAllUsuario, registerPerson, loginPerson, registerFicha, getAllTipodeArea, registerArea, getAllAreas, getTipoDeArea, getAllFichas, registerTipoDeArea, getTiposDeAreaPorArea, registerItemArea, getAllItemsArea  } from '../controllers/datacontroler.js';
+import { 
+    getAllPersonas,
+    getAllUsuario,
+    registerPerson,
+    getAllAlcances,
+    getAllAreas,
+    getTiposDeAreaPorArea,
+    getItemsPorAreaYTipo,
+    getObjetivos,
+    agregarPersona,
+    getAllProyectos
 
-const app = express(); // Crear la instancia de Express
 
-// Configurar middleware
-app.use(cors()); // Permite todas las solicitudes cross-origin
-app.use(express.json()); // Para analizar JSON en el cuerpo de las solicitudes
+} from '../controllers/datacontroler.js';
 
-// Crear el enrutador
 const router = express.Router();
 
-// Obtener personas
-router.get('/api/personas', async (req, res) => {
+
+// Ruta para obtener todas las personas
+router.get('/personas', async (req, res) => {
     try {
         const personas = await getAllPersonas();
         res.json(personas);
     } catch (error) {
         console.error('Error al obtener personas:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 });
 
-// Optener usuarios
+// Ruta para obtener todos los usuarios
 router.get('/usuarios', async (req, res) => {
     try {
         const usuarios = await getAllUsuario();
@@ -33,56 +39,19 @@ router.get('/usuarios', async (req, res) => {
     }
 });
 
-
-//Obtener Areas
-router.get('/area', async (req, res) => {
-    try {
-        const area = await getAllAreas();
-        res.json(area);
-    } catch (error) {
-        console.error('Error al obtener áreas:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-
-//Obtener Tipos de area
-router.get('/tipodearea', async (req, res) => {
-    try {
-        const tiposdearea = await getAllTipodeArea();
-        res.json(tiposdearea);
-    } catch (error) {
-        console.error('Error al obtener áreas:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-
-//Obtener Fichas
-router.get('/ficha', async (req, res) => {
-    try {
-        const ficha = await getAllFichas();
-        res.json(ficha);
-    } catch (error) {
-        console.error('Error al obtener ficha:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-
-// Ruta para obtener todos los items en itemsarea
-router.get('/api/itemsArea', async (req, res) => {
-    try {
-        const items = await getAllItemsArea();
-        res.status(200).json(items);
-    } catch (error) {
-        console.error('Error al obtener items:', error);
-        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
-    }
-});
-
-//Registro usuarios
+// Ruta para registrar una nueva persona
 router.post('/register', async (req, res) => {
     try {
-        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado } = req.body;
-        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
+        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol } = req.body;
+
+        // Verificar si el correo ya existe
+        const emailExists = await checkEmailExists(correo);
+        if (emailExists) {
+            return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
+        }
+
+        // Registrar la nueva persona si el correo no existe
+        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol });
         res.status(201).json(newPerson);
     } catch (error) {
         console.error('Error al registrar persona:', error);
@@ -90,94 +59,15 @@ router.post('/register', async (req, res) => {
     }
 });
 
-//Login
-router.post('/login', async (req, res) => {
+
+// Ruta para obtener todas las preguntas junto con sus categorías
+router.get('/alcances', async (req, res) => {
     try {
-        const { correo, contraseña } = req.body;
-        const user = await loginPerson(correo, contraseña);
-        if (user) {
-            res.status(200).json(user);
-        } else {
-            res.status(401).json({ error: 'Correo o contraseña incorrectos' });
-        }
+        const alcances = await getAllAlcances();
+        res.json(alcances);
     } catch (error) {
-        console.error('Error al iniciar sesión:', error);
+        console.error('Error al obtener alcances:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-//Registro ficha
-router.post('/registerFicha', async (req, res) => {
-    try {
-        const newFicha = await registerFicha(req.body);
-        res.status(201).json(newFicha);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al registrar ficha' });
-    }
-});
-
-// Ruta para registrar una nueva ficha
-router.post('/registerArea', async (req, res) => {
-    try {
-        const { area, estado } = req.body;
-        const newArea = await registerArea({ area, estado });
-        if (newArea.error) {
-            res.status(400).json({ error: newArea.error });
-        } else {
-            res.status(201).json(newArea);
-        }
-    } catch (error) {
-        console.error('Error al registrar área:', error.message, error.stack);
-        res.status(500).json({ error: 'Error al registrar área', details: error.message });
-    }
-});
-
-// Obtener tipos de área por área específica
-router.get('/tipodearea/:idarea', async (req, res) => {
-    const idarea = Number(req.params.idarea); // Asegurarse de que idarea es un número
-
-    if (isNaN(idarea)) {
-        return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
-    }
-    try {
-        const tiposDeArea = await getTipoDeArea(idarea);
-        res.status(200).json(tiposDeArea);
-    } catch (error) {
-        console.error('Error al obtener tipos de área:', error);
-        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
-    }
-});
-
-// Registro de tipo de área
-router.post('/registerTipoDeArea', async (req, res) => {
-    try {
-        const { tiposdearea, estado, idarea } = req.body;
-        // console.log("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req);
-        
-        if (typeof idarea !== 'number' || isNaN(idarea)) {
-            return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
-        }
-
-        const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
-        if (newTipoDeArea.error) {
-            return res.status(400).json({ error: newTipoDeArea.error });
-        }
-
-        res.status(201).json(newTipoDeArea);
-    } catch (error) {
-        console.error('Error al registrar tipo aaaade área aaaaa:', error.message);
-        return res.status(500).json({ error: error.message });
-    }
-});
-
-// Ruta para registrar un nuevo item en itemsarea
-router.post('/api/registerItemArea', async (req, res) => {
-    try {
-        const { items, estado, idtiposdearea, idarea } = req.body;
-        const newItem = await registerItemArea({ items, estado, idtiposdearea, idarea });
-        res.status(201).json(newItem);
-    } catch (error) {
-        console.error('Error al registrar item:', error);
-        res.status(500).json({ error: 'Error al registrar item.', details: error.message });
     }
 });
 
@@ -204,11 +94,106 @@ router.get('/tipos-de-area/:idArea', async (req, res) => {
     }
   });
 
-// Middleware de manejo de errores
-router.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Error interno del servidor.', details: err.message });
+  router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+    try {
+      const { idArea, idTiposDeArea } = req.params;
+      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
+      res.json(items);
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+  });
+
+
+// Ruta para obtener todos los objetivos
+router.get('/objetivos', async (req, res) => {
+    try {
+        const objetivos = await getObjetivos();
+        res.json(objetivos);
+    } catch (error) {
+        console.error('Error al obtener objetivos:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+//Ruta para guardar respuestas de alcance
+router.post('/guardarRespuestas', async (req, res) => {
+    const idproyecto = parseInt(req.body.idproyecto, 10);
+    console.log('ID Proyecto recibido:', idproyecto);
+
+    if (isNaN(idproyecto)) {
+        return res.status(400).json({ error: 'ID del proyecto inválido' });
+    }
+
+    try {
+        const respuestas = req.body;
+        const respuestasAlcance = [];
+
+        for (const [key, value] of Object.entries(respuestas)) {
+            if (key !== 'idproyecto') {
+                const idalcance = parseInt(key.replace('pregunta', ''), 10);
+                respuestasAlcance.push({
+                    idproyecto,
+                    idalcance,
+                    respuesta: value === 'true'
+                });
+            }
+        }
+
+        await guardarRespuestas(respuestasAlcance);
+        
+        // Aquí enviamos una respuesta exitosa al cliente
+        res.status(200).json({ 
+            message: 'Respuestas guardadas correctamente',
+            redirectUrl: '/VistaUsuario' 
+        });
+    } catch (error) {
+        console.error('Error al guardar respuestas:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
 });
 
-export default router;
 
+router.get('/objetivos/:idarea', async (req, res) => {
+    const { idarea } = req.params;
+    try {
+        const objetivos = await getObjetivosPorArea(idarea);
+        res.json(objetivos);
+    } catch (error) {
+        console.error('Error al obtener objetivos:', error);
+        res.status(500).json({ error: 'Error al obtener objetivos' });
+    }
+});
+
+router.post('/agregarpersona', async (req, res) => {
+    try {
+        const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol } = req.body;
+
+        // Verificar si el correo ya existe
+        const emailExists = await checkEmailExists(correo);
+        if (emailExists) {
+            return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
+        }
+
+        // Registrar la nueva persona si el correo no existe
+        const newPerson = await agregarPersona({ nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol });
+        res.status(201).json(newPerson);
+    } catch (error) {
+        console.error('Error al registrar persona:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+// Ruta para obtener todos los proyectos
+router.get('/proyecto', async (req, res) => {
+    try {
+        const proyectos = await obtenerTodosLosProyectos();
+        res.json(proyectos);
+    } catch (error) {
+        console.error('Error al obtener proyectos:', error);
+        res.status(500).json({ error: 'Error al obtener proyectos' }); 
+    }
+});
+    
+
+export default router;

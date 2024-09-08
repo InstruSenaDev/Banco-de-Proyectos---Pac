@@ -67,12 +67,14 @@ const Dashboard = () => {
               metricValue={20}
               progressText="Proyectos creados"
               buttonTex="Ver detalle"
+              route="/objetivos"
             />
             <CardBase
               title="Alcance"
               metricValue={20}
               progressText="Proyectos creados"
               buttonTex="Ver detalle"
+              route="/alcance"
             />
           </div>
 
