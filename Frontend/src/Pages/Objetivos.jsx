@@ -5,6 +5,7 @@ import Grid from "../Components/Grid";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
 import BarraPreguntas from "../Components/BarraPreguntas";
+import useDetalleCalificacion from "../../hooks/useDetalleCalificacion";
 
 const Objetivos = () => {
   const { idproyecto } = useParams();
@@ -14,6 +15,8 @@ const Objetivos = () => {
   const [promedio, setPromedio] = useState(0);
   const navigate = useNavigate();
 
+  const { guardarDetalleCalificacion, loading, error } = useDetalleCalificacion(idproyecto);
+
   useEffect(() => {
     const fetchRespuestas = async () => {
       try {
@@ -22,6 +25,7 @@ const Objetivos = () => {
           const data = await response.json();
           setRespuestas(data.respuestas);
 
+          // Inicializa selecciones y calificaciones
           const seleccionesIniciales = data.respuestas.reduce((acc, respuesta) => {
             acc[respuesta.id] = respuesta.respuesta ? "Sí" : "No";
             return acc;
@@ -53,7 +57,6 @@ const Objetivos = () => {
 
   const handleEvaluarChange = (id, value) => {
     const nuevaCalificacion = value === "1" ? 10 : 0;
-
     setCalificaciones((prev) => ({
       ...prev,
       [id]: nuevaCalificacion,
@@ -66,22 +69,26 @@ const Objetivos = () => {
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestas.length]);
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     const detalles = respuestas.map((respuesta) => ({
-      idrespuesta: respuesta.id,
-      tipo_respuesta: "objetivo",
-      estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado",
+      idproyecto,
+      idobjetivos: respuesta.id,
+      estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado", // Verifica que este valor coincida con lo que espera tu backend
     }));
 
-    navigate(`/alcance/${idproyecto}`, {
-      state: {
-        promedioObjetivos: promedio,
-        detallesObjetivos: detalles,
-      },
-    });
+    try {
+      await guardarDetalleCalificacion(detalles);
+      navigate(`/alcance/${idproyecto}`, {
+        state: {
+          promedioObjetivos: promedio,
+          detallesObjetivos: detalles,
+        },
+      });
+    } catch (err) {
+      console.error('Error al guardar los detalles:', err);
+    }
   };
 
-  // Agrupar las preguntas por categoría
   const preguntasAgrupadas = respuestas.reduce((acc, respuesta) => {
     if (!respuesta.categoria) {
       console.warn(`Pregunta sin categoría encontrada: ${respuesta.descripcion}`);

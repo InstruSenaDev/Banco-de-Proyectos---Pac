@@ -154,7 +154,101 @@ const guardarCalificacion = async (req, res) => {
   }
 };
 
+// Controlador para guardar detalle de calificación
+const guardarDetalleCalificacion = async (req, res) => {
+  const { idproyecto } = req.params;
+  const detalles = req.body;
+
+  try {
+    if (!Array.isArray(detalles) || detalles.length === 0) {
+      return res.status(400).json({ error: 'Detalles de calificación inválidos o vacíos' });
+    }
+
+    for (const detalle of detalles) {
+      const { idrespuesta, estado } = detalle;
+
+      if (!idrespuesta || !estado) {
+        return res.status(400).json({ error: 'Datos del detalle incompletos.' });
+      }
+
+      console.log('Procesando detalle:', { idrespuesta, estado });
+
+      const result = await pool.query(
+        'UPDATE detalle_calificacion SET estado = $1 WHERE idcalificacion = $2 AND idrespuesta = $3',
+        [estado, idproyecto, idrespuesta]
+      );
+
+      if (result.rowCount === 0) {
+        await pool.query(
+          'INSERT INTO detalle_calificacion (idcalificacion, idrespuesta, tipo_respuesta, estado) VALUES ($1, $2, $3, $4)',
+          [idproyecto, idrespuesta, 'objetivo', estado]
+        );
+      }
+    }
+
+    res.status(200).json({ message: 'Detalles guardados exitosamente' });
+  } catch (error) {
+    console.error('Error al guardar los detalles:', error);
+    res.status(500).json({ message: 'Error al guardar los detalles de la calificación', error: error.message });
+  }
+};
+
+// Controlador para actualizar el estado de las respuestas
+async function actualizarEstadoRespuestas(respuestas) {
+  const client = await pool.connect();
+
+  try {
+      // Iniciar una transacción
+      await client.query('BEGIN');
+
+      for (const respuesta of respuestas) {
+          const { idproyecto, idobjetivos, estado } = respuesta;
+
+          // Verifica si ya existe una respuesta para este proyecto y objetivo
+          const selectQuery = `
+              SELECT idrespuestasobjetivos 
+              FROM respuestasobjetivos 
+              WHERE idproyecto = $1 AND idobjetivos = $2
+          `;
+          const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
+
+          if (selectResult.rows.length > 0) {
+              // Si existe, realiza un UPDATE
+              const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
+              const updateQuery = `
+                  UPDATE respuestasobjetivos 
+                  SET estado = $1 
+                  WHERE idrespuestasobjetivos = $2
+              `;
+              await client.query(updateQuery, [estado, idrespuestasobjetivos]);
+          } else {
+              // Manejo de caso si la respuesta no existe (opcional)
+              console.log(`No existe respuesta para idproyecto ${idproyecto} y idobjetivos ${idobjetivos}`);
+          }
+      }
+
+      // Finaliza la transacción
+      await client.query('COMMIT');
+      console.log('Estado actualizado con éxito');
+  } catch (error) {
+      console.error('Error al actualizar estado:', error);
+
+      // Si ocurre un error, deshaz la transacción
+      await client.query('ROLLBACK');
+      throw error;
+  } finally {
+      client.release();
+  }
+}
 
 
+export { 
+  getProyectos, 
+  getProyectoById, 
+  getRespuestasByProyecto, 
+  getRespuestasAlcanceByProyecto, 
+  guardarCalificacion, 
+  guardarDetalleCalificacion, 
+  actualizarEstadoRespuestas 
+};
 
-export { getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto, guardarCalificacion, getProyectos };
