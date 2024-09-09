@@ -10,7 +10,7 @@ import TipoArea from './Pages/TipodeArea';
 import Objetivos from './Pages/Objetivos'
 import Alcance from './Pages/Alcance';
 import Items from './Pages/Items'
-
+import Ficha from'./Pages/Ficha';
 
 
 
@@ -27,6 +27,7 @@ const App = () => {
         <Route path="/objetivos" element={<Objetivos/>} />
         <Route path="/alcance" element={<Alcance/>} />
         <Route path="/items" element={<Items/>} />
+        <Route path="/ficha" element={<Ficha/>} />
       </Routes>
     </Router>
   );

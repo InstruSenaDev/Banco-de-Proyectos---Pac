@@ -216,6 +216,18 @@ async function deletePerson(idpersonas) {
       }
     }
   }
+
+  async function getAllFicha() {
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT idficha, nombre, estado, numeroficha FROM ficha');
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener fichas:', error);
+        throw error;
+    }
+}
   
 
 
@@ -231,5 +243,6 @@ export {
     getObjetivos,
     agregarPersona,
     obtenerTodosLosProyectos,
-    deletePerson
+    deletePerson,
+    getAllFicha
 };

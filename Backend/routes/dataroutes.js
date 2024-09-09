@@ -12,6 +12,7 @@ import {
     agregarPersona,
     obtenerTodosLosProyectos,
     deletePerson, 
+    getAllFicha,
 
 
 } from '../controllers/datacontroler.js';
@@ -178,6 +179,16 @@ router.delete('/personas/:id', async (req, res) => {
       res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
   });
+
+  router.get('/ficha', async (req, res) => {
+    try {
+        const ficha = await getAllFicha();
+        res.json(ficha);
+    } catch (error) {
+        console.error('Error al obtener fichas:', error);
+        res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
+    }
+});
 
 
 export default router;

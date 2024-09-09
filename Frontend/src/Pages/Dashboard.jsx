@@ -42,6 +42,13 @@ const Dashboard = () => {
               route="/usuarios"
             />
             <CardBase
+              title="Fichas"
+              metricValue={20}
+              progressText="Aprendices"
+              buttonTex="Ver detalle"
+              route="/ficha"
+            />
+            <CardBase
               title="Proyectos"
               metricValue={50}
               progressText="Proyectos creados"
