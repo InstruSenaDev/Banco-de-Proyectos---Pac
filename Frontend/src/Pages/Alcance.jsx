@@ -23,7 +23,6 @@ const Alcance = () => {
         const response = await fetch(`http://localhost:4000/api/respuestasalcance/${idproyecto}`);
         if (response.ok) {
           const data = await response.json();
-          console.log(data.respuestasAlcance); 
           setRespuestasAlcance(data.respuestasAlcance);
 
           const seleccionesIniciales = data.respuestasAlcance.reduce((acc, respuesta) => {
@@ -72,23 +71,67 @@ const Alcance = () => {
     }));
   };
 
-  const handleNextClick = () => {
-    const promedioObjetivos = location.state?.promedioObjetivos || 0;
+  const handleNextClick = async () => {
     const detallesAlcance = respuestasAlcance.map((respuesta) => ({
       idrespuesta: respuesta.idalcance,
       tipo_respuesta: "alcance",
       estado: selecciones[respuesta.idalcance] === "Sí" ? "Aprobado" : "No aceptado",
     }));
-
-    navigate(`/calificacion/${idproyecto}`, {
-      state: {
-        promedio: promedio,
-        promedioObjetivos: promedioObjetivos,
-        detallesAlcance: detallesAlcance,
-        detallesObjetivos: location.state?.detallesObjetivos || [],
-      },
-    });
+  
+    try {
+      // Primero, guardar la calificación general
+      const calificacionResponse = await fetch('http://localhost:4000/api/calificaciones', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idproyecto,
+          resultado: promedio.toFixed(2),
+          estado: promedio >= 70 ? "Aprobado" : "No Aprobado", // Define el estado según tu lógica
+          comentario: "Calificación del alcance del proyecto.",
+        }),
+      });
+  
+      if (!calificacionResponse.ok) {
+        throw new Error('Error al guardar la calificación general');
+      }
+  
+      const { idcalificacion } = await calificacionResponse.json();
+  
+      // Luego, guardar o actualizar los detalles de calificación
+      const detalleData = {
+        idcalificacion,
+        detalles: detallesAlcance,
+      };
+  
+      const detalleResponse = await fetch('http://localhost:4000/api/detalle-calificaciones', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(detalleData),
+      });
+  
+      if (!detalleResponse.ok) {
+        throw new Error('Error al guardar los detalles de la calificación');
+      }
+  
+      console.log('Detalles de calificación guardados:', await detalleResponse.json());
+  
+      navigate(`/calificacion/${idproyecto}`, {
+        state: {
+          promedio: promedio,
+          promedioObjetivos: location.state?.promedioObjetivos || 0,
+          detallesAlcance: detallesAlcance,
+          detallesObjetivos: location.state?.detallesObjetivos || [],
+        },
+      });
+    } catch (error) {
+      console.error('Error al guardar la calificación:', error);
+    }
   };
+  
 
   const preguntasAgrupadas = respuestasAlcance.reduce((acc, respuesta) => {
     if (!respuesta.categoria) {
