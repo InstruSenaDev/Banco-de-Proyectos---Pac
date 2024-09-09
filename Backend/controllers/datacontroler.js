@@ -428,16 +428,50 @@ const getUserNameById = async (userId) => {
     }
 };
 
+
 // Obtener todas las fichas activas
 const getFichas = async (req, res) => {
     try {
-        const [fichas] = await pool.query('SELECT idficha, nombre, numeroficha FROM ficha WHERE estado = "activo"');
-        res.json(fichas);
-    } catch (error) {
-        console.error('Error obteniendo fichas:', error);
-        res.status(500).json({ error: 'Error al obtener las fichas' });
+        const result = await pool.query('SELECT * FROM ficha WHERE estado = TRUE');
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error al obtener las fichas:', err.message);
+        res.status(500).json({ error: 'Server Error', message: err.message });
     }
 };
+
+// Obtener aprendices por ficha
+const getAprendicesByFicha = async (req, res) => {
+    const { idficha } = req.params;
+    try {
+        const result = await pool.query(
+            'SELECT * FROM personas WHERE idficha = $1 AND idrol = $2',
+            [idficha, 4] // Ahora idrol = 4 es el rol del aprendiz
+        );
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error al obtener los aprendices:', err.message);
+        res.status(500).json({ error: 'Server Error', message: err.message });
+    }
+};
+
+const getProyectosUsuario = async (req, res) => {
+    const idPersona = req.user.id; // O el ID del usuario autenticado
+    try {
+      const result = await pool.query(
+        `SELECT p.idproyecto, p.nombre, c.estado
+         FROM proyecto p
+         JOIN calificacion c ON p.idcalificacion = c.idcalificacion
+         WHERE p.idpersona = $1`,
+        [idPersona]
+      );
+      res.json(result.rows);
+    } catch (err) {
+      console.error('Error al obtener los proyectos del usuario:', err.message);
+      res.status(500).json({ error: 'Error al obtener los proyectos' });
+    }
+  };
+  
 
 export {
     getAllPersonas,
@@ -459,5 +493,7 @@ export {
     checkEmailExists,
     agregarPersona,
     getUserNameById,
-    getFichas
+    getFichas,
+    getAprendicesByFicha,
+    getProyectosUsuario
 };

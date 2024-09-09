@@ -8,9 +8,10 @@ const AprendicesList = ({ title, items, buttonText, buttonAction, buttonColor })
       {items.length > 0 ? (
         <ul className="space-y-3">
           {items.map(item => (
-            <li key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+            <li key={item.idpersona} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
               <span className="flex items-center">
-                <span className="text-2xl mr-3">{item.avatar}</span>
+                {/* Si tienes un avatar para cada aprendiz, puedes mostrarlo aquí. Si no, puedes eliminar este span */}
+                {item.avatar && <span className="text-2xl mr-3">{item.avatar}</span>}
                 <span>{item.nombre}</span>
               </span>
               <BotonSegundo

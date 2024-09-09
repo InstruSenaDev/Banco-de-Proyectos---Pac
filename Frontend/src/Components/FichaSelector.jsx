@@ -10,7 +10,9 @@ const FichaSelector = ({ fichas, selectedFicha, onChange, displayField }) => {
             >
                 <option value="">Seleccione una ficha</option>
                 {fichas.map(ficha => (
-                    <option key={ficha.id} value={ficha.id}>{ficha[displayField]}</option>
+                    <option key={ficha.idficha} value={ficha.idficha}>
+                        {ficha[displayField]}
+                    </option>
                 ))}
             </select>
         </div>

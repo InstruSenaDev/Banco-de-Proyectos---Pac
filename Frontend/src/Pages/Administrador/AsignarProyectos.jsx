@@ -6,44 +6,59 @@ import Loader from '../../Components/Loader';
 import BotonSegundo from '../../Components/BotonSegundo';
 import FichaSelector from '../../Components/FichaSelector';
 
-// Datos de ejemplo (en una aplicación real, estos vendrían de una API o base de datos)
-const fichas = [
-    { id: 1, nombre: "Desarrollo Web", numeroficha: "1001" },
-    { id: 2, nombre: "Diseño UX/UI", numeroficha: "1002" },
-    { id: 3, nombre: "Análisis de Datos", numeroficha: "1003" },
-];
-
-const aprendices = {
-    1: [
-        { id: 1, nombre: "Juan Pérez", avatar: "👨🏽‍💻" },
-        { id: 2, nombre: "María García", avatar: "👩🏼‍💻" },
-    ],
-    2: [
-        { id: 3, nombre: "Carlos López", avatar: "👨🏻‍🎨" },
-        { id: 4, nombre: "Ana Martínez", avatar: "👩🏾‍🎨" },
-    ],
-    3: [
-        { id: 5, nombre: "Pedro Sánchez", avatar: "👨🏼‍🔬" },
-        { id: 6, nombre: "Laura Rodríguez", avatar: "👩🏽‍🔬" },
-    ],
-};
-
 const AsignarProyectos = () => {
-    const [selectedFicha, setSelectedFicha] = useState('');
+    const [fichas, setFichas] = useState([]);
+    const [selectedNombreFicha, setSelectedNombreFicha] = useState('');
+    const [selectedNumeroFicha, setSelectedNumeroFicha] = useState('');
+    const [aprendices, setAprendices] = useState([]);
     const [assignedAprendices, setAssignedAprendices] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 2000);
+        // Obtener las fichas al montar el componente
+        const fetchFichas = async () => {
+            try {
+                const response = await fetch('http://localhost:4000/api/fichas');
+                const data = await response.json();
+                setFichas(data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error al obtener las fichas:', error);
+                setLoading(false);
+            }
+        };
 
-        return () => clearTimeout(timer);
+        fetchFichas();
     }, []);
 
-    const handleFichaChange = (event) => {
-        setSelectedFicha(event.target.value);
+    const handleNombreFichaChange = async (event) => {
+        const fichaId = event.target.value;
+        setSelectedNombreFicha(fichaId);
         setAssignedAprendices([]);
+        
+        // Obtener los aprendices asociados a la ficha seleccionada
+        try {
+            const response = await fetch(`http://localhost:4000/api/aprendices/${fichaId}`);
+            const data = await response.json();
+            setAprendices(data);
+        } catch (error) {
+            console.error('Error al obtener los aprendices:', error);
+        }
+    };
+
+    const handleNumeroFichaChange = async (event) => {
+        const fichaId = event.target.value;
+        setSelectedNumeroFicha(fichaId);
+        setAssignedAprendices([]);
+
+        // Obtener los aprendices asociados a la ficha seleccionada
+        try {
+            const response = await fetch(`http://localhost:4000/api/aprendices/${fichaId}`);
+            const data = await response.json();
+            setAprendices(data);
+        } catch (error) {
+            console.error('Error al obtener los aprendices:', error);
+        }
     };
 
     const handleAssignAprendiz = (aprendiz) => {
@@ -70,29 +85,29 @@ const AsignarProyectos = () => {
                 <div className="content-container">
                     <Layoutcontenido2 title="" text1="Asignación de Proyectos">
                         <div className="w-full mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Selección de Ficha por Nombre */}
-                            <FichaSelector
-                                fichas={fichas}
-                                selectedFicha={selectedFicha}
-                                onChange={handleFichaChange}
-                                displayField="nombre"
-                            />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {/* Selección de Ficha por Nombre */}
+                                <FichaSelector
+                                    fichas={fichas}
+                                    selectedFicha={selectedNombreFicha}
+                                    onChange={handleNombreFichaChange}
+                                    displayField="nombre"
+                                />
 
-                            {/* Selección de Ficha por Número */}
-                            <FichaSelector
-                                fichas={fichas}
-                                selectedFicha={selectedFicha}
-                                onChange={handleFichaChange}
-                                displayField="numeroficha"
-                            />
+                                {/* Selección de Ficha por Número */}
+                                <FichaSelector
+                                    fichas={fichas}
+                                    selectedFicha={selectedNumeroFicha}
+                                    onChange={handleNumeroFichaChange}
+                                    displayField="numeroficha"
+                                />
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {/* Aprendices Disponibles */}
                                 <AprendicesList
                                     title="Aprendices Disponibles"
-                                    items={aprendices[selectedFicha] || []}
+                                    items={aprendices}
                                     buttonText="Asignar"
                                     buttonAction={handleAssignAprendiz}
                                     buttonColor="bg-[#A3E784]"

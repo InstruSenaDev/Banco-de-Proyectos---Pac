@@ -19,7 +19,9 @@ import {
     guardarRespuestasObjetivos,
     agregarPersona,
     getUserNameById,
-    getFichas
+    getFichas,
+    getAprendicesByFicha,
+    getProyectosUsuario
 
 
 } from '../controllers/datacontroler.js';
@@ -386,7 +388,11 @@ router.post('/agregarpersona', async (req, res) => {
     }
 });
 
-// Definir la ruta para obtener las fichas
+// Ruta para obtener todas las fichas activas
 router.get('/fichas', getFichas);
 
+// Ruta para obtener aprendices por ficha
+router.get('/aprendices/:idficha', getAprendicesByFicha);
+
+router.get('/proyectos', getProyectosUsuario);
 export default router;
