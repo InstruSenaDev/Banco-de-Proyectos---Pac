@@ -8,7 +8,7 @@ import ModalPerfil from '../../Components/Modal.jsx';
 
 const EditarPerfil = () => {
   const [formData, setFormData] = useState({
-    id: null, // Cambiar idrol por id
+    id: null,
     nombre: '',
     tipodocumento: '',
     numerodocumento: '',
@@ -19,11 +19,106 @@ const EditarPerfil = () => {
     confiContraseña: '',
     estado: true
   });
+  const [errors, setErrors] = useState({
+    nombre: '',
+    numerodocumento: '',  // Make sure this key matches both in validation and JSX
+    telefono: '',
+    correo: '',
+    nombreempresa: '',
+    contraseña: '',
+    confiContraseña: '',
+  });
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    // Validar nombre
+    if (formData.nombre.trim() === '') {
+      newErrors.nombre = 'El nombre completo es requerido.';
+      isValid = false;
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.nombre.trim())) {
+      newErrors.nombre = 'El nombre solo puede contener letras y espacios.';
+      isValid = false;
+    } else if (formData.nombre.trim().length > 40) {
+      newErrors.nombre = 'El nombre no puede tener más de 40 caracteres.';
+      isValid = false;
+    }
+
+    // Validar número de documento
+    if (formData.numerodocumento.trim() === '') {
+      newErrors.numerodocumento = 'El número de documento es requerido.';
+      isValid = false;
+    } else if (!/^\d+$/.test(formData.numerodocumento.trim())) {
+      newErrors.numerodocumento = 'El número de documento solo puede contener dígitos.';
+      isValid = false;
+    } else if (formData.numerodocumento.trim().length < 10) {
+      newErrors.numerodocumento = 'El número de documento debe tener al menos 10 dígitos.';
+      isValid = false;
+    }
+
+    // Validar teléfono
+    if (formData.telefono.trim() === '') {
+      newErrors.telefono = 'El teléfono es requerido.';
+      isValid = false;
+    } else if (!/^\d+$/.test(formData.telefono.trim())) {
+      newErrors.telefono = 'El teléfono solo puede contener dígitos.';
+      isValid = false;
+    } else if (formData.telefono.trim().length < 10) {
+      newErrors.telefono = 'El teléfono debe contener al menos 10 dígitos.';
+      isValid = false;
+    }
+
+    // Validar correo
+    if (formData.correo.trim() === '') {
+      newErrors.correo = 'El correo es requerido.';
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.correo.trim())) {
+      newErrors.correo = 'El correo electrónico debe contener al menos un arroba (@) y un dominio.';
+      isValid = false;
+    }
+
+    // Validar nombre de la empresa
+    if (formData.nombreempresa.trim() === '') {
+      newErrors.nombreempresa = 'El nombre de la empresa es requerido.';
+      isValid = false;
+    } else if (formData.nombreempresa.trim().length > 50) {
+      newErrors.nombreempresa = 'El nombre de la empresa no puede tener más de 50 caracteres.';
+      isValid = false;
+    }
+
+    // Validar contraseña
+    if (formData.contraseña.trim() === '') {
+      newErrors.contraseña = 'La contraseña es requerida.';
+      isValid = false;
+    } else if (formData.contraseña.trim().length < 8) {
+      newErrors.contraseña = 'La contraseña debe tener al menos 8 caracteres.';
+      isValid = false;
+    }
+
+    // Validar confirmar contraseña
+    if (formData.confiContraseña.trim() === '') {
+      newErrors.confiContraseña = 'Debe confirmar su contraseña.';
+      isValid = false;
+    } else if (formData.confiContraseña.trim() !== formData.contraseña.trim()) {
+      newErrors.confiContraseña = 'Las contraseñas no coinciden.';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
 
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Recuperar el id del usuario de localStorage al cargar el componente
+  const [showPassword, setShowPassword] = useState({
+    contraseña: false,
+    confiContraseña: false,
+  });
+
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     if (userId) {
@@ -31,7 +126,6 @@ const EditarPerfil = () => {
         ...prevFormData,
         id: userId,
       }));
-      console.log("ID de usuario recuperado:", userId); // Verificación del ID en el useEffect
     } else {
       setError('ID de usuario no encontrado. Inicia sesión nuevamente.');
     }
@@ -41,13 +135,17 @@ const EditarPerfil = () => {
     const { id, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [id]: value, // Actualizar el valor del campo correspondiente
+      [id]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('ID de usuario enviado:', formData.id); // Verifica el ID de usuario enviado
+
+    if (validateForm()) {
+      alert('Formulario válido. ¡Enviando datos!');
+      // Aquí puedes agregar el código para enviar el formulario
+  }
 
     if (formData.contraseña !== formData.confiContraseña) {
       setError('Las contraseñas no coinciden');
@@ -78,7 +176,8 @@ const EditarPerfil = () => {
 
       if (response.ok) {
         setMessage(data.message);
-        setError(''); // Limpiar el error en caso de éxito
+        setError('');
+        setIsModalOpen(true);
       } else {
         setError(data.error || 'Error al actualizar el perfil');
       }
@@ -87,14 +186,24 @@ const EditarPerfil = () => {
       setError('Error al hacer la solicitud: ' + error.message);
     }
   };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setShowPassword((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
+  };
+
   return (
     <LayoutPrincipal title="Editar Perfil">
-    <Layoutcontenido3 title="Editar Perfil">
-      <div className="w-full md:w-1/2">
-        <div className="flex flex-col p-[5%] Flex-box">
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Columna 1 */}
-            <div className="space-y-4">
+      <Layoutcontenido3 title="Editar Perfil">
+        <div className="w-full md:w-1/2">
+          <div className="flex flex-col p-[5%] Flex-box">
+            <form onSubmit={handleSubmit} className="">
               <Input
                 placeholder="Nombre completo"
                 type="text"
@@ -103,6 +212,8 @@ const EditarPerfil = () => {
                 value={formData.nombre}
                 onChange={handleChange}
               />
+              <div id="error-nombre" className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
+
               <SelectBoxTI
                 Text="Tipo de documento:"
                 id="tipodocumento"
@@ -117,6 +228,8 @@ const EditarPerfil = () => {
                 value={formData.numerodocumento}
                 onChange={handleChange}
               />
+             <div id="error-nombre" className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
+
               <Input
                 placeholder="Teléfono"
                 type="text"
@@ -125,10 +238,15 @@ const EditarPerfil = () => {
                 value={formData.telefono}
                 onChange={handleChange}
               />
-            </div>
-            
-            {/* Columna 2 */}
-            <div className="space-y-4">
+              <div id="error-telefono" className="text-red-500">{errors.telefono}</div> {/* Muestra el error de teléfono */}
+              
+            </form>
+          </div>
+        </div>
+
+        <div className="w-full md:w-1/2">
+          <div className="flex flex-col p-[5%] Flex-box">
+            <form onSubmit={handleSubmit} className="">
               <Input
                 placeholder="Correo"
                 type="email"
@@ -137,6 +255,7 @@ const EditarPerfil = () => {
                 value={formData.correo}
                 onChange={handleChange}
               />
+               <div id="error-correo" className="text-red-500">{errors.correo}</div>
               <Input
                 placeholder="Nombre de la Empresa"
                 type="text"
@@ -145,43 +264,60 @@ const EditarPerfil = () => {
                 value={formData.nombreempresa}
                 onChange={handleChange}
               />
-              <Input
-                placeholder="Contraseña"
-                type="password"
-                Text="Contraseña *"
-                id="contraseña"
-                value={formData.contraseña}
-                onChange={handleChange}
-              />
-              <Input
-                placeholder="Confirmar Contraseña"
-                type="password"
-                Text="Confirmar Contraseña *"
-                id="confiContraseña"
-                value={formData.confiContraseña}
-                onChange={handleChange}
-              />
-            </div>
-  
-            {/* Botón de guardar */}
-            <div className="col-span-2 flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-              <div>
-                <BotonPrincipal type="submit" Text="Guardar" />
+               <div id="error-nombreEmpresa" className="text-red-500">{errors.nombreEmpresa}</div>
+
+              <div className="relative ">
+           
+                <Input
+                  placeholder="Contraseña"
+
+                  type={showPassword.contraseña ? 'text' : 'password'}
+                    Text="Contraseña:"
+                  id="contraseña"
+                  value={formData.contraseña}
+                  onChange={handleChange}
+                />
+                <i
+                  className={`bx ${showPassword.contraseña ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
+                  onClick={() => togglePasswordVisibility('contraseña')}
+                ></i>
+                 <div id="error-contraseña" className="text-red-500">{errors.contraseña}</div>
               </div>
-            </div>
-          </form>
+              
+
+              <div className="relative ">
+               
+                <Input
+                  placeholder="Confirmar Contraseña"
+                  type={showPassword.confiContraseña ? 'text' : 'password'}
+                    Text="Confirmar Contraseña:"
+                  id="confiContraseña"
+                  value={formData.confiContraseña}
+                  onChange={handleChange}
+                />
+                <i
+                  className={`bx ${showPassword.confiContraseña ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
+                  onClick={() => togglePasswordVisibility('confiContraseña')}
+                ></i>
+                <div id="error-confiContraseña" className="text-red-500">{errors.confiContraseña}</div> {/* Muestra el error de confirmar contraseña */}
+              </div>
+
+              <div className="col-span-2 flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <div>
+                  <BotonPrincipal type="submit" Text="Guardar" />
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-  
-      {message && <div className="alert alert-success">{message}</div>}
-      <div className="alert alert-error">
-        {error}
-        {/* Puedes descomentar la línea siguiente para ver los detalles del error */}
-        {/* <pre>{JSON.stringify(error, null, 2)}</pre> */}
-      </div>
-      <ModalPerfil Text="Perfil actualizado" />
-    </Layoutcontenido3>
-  </LayoutPrincipal>
+        
+        <ModalPerfil
+          Text="Perfil actualizado exitosamente"
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
+      </Layoutcontenido3>
+    </LayoutPrincipal>
   );
 };
 

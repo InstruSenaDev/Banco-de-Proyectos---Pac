@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Inicio from './Pages/Principal/Inicio';
 import Registro1 from './Pages/Principal/Registro1';
-import Home from './Pages/Principal/Home';
+import Home from './Pages/Usuario/EditarPerfil';
 import OlvidarContraseña from './Pages/Principal/OlvidarContraseña'
 import UpdatePassword  from './Pages/Principal/UpdatePassword';
 import VistaUsuario from './Pages/Usuario/VistaUsuario'
