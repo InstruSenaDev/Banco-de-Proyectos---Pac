@@ -109,10 +109,6 @@ async function loginPerson(correo, contraseña) {
 }
 
 
-
-
-
-// Función para registrar un nuevo proyecto
 // Función para registrar un nuevo proyecto
 async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
     try {
@@ -432,6 +428,16 @@ const getUserNameById = async (userId) => {
     }
 };
 
+// Obtener todas las fichas activas
+const getFichas = async (req, res) => {
+    try {
+        const [fichas] = await pool.query('SELECT idficha, nombre, numeroficha FROM ficha WHERE estado = "activo"');
+        res.json(fichas);
+    } catch (error) {
+        console.error('Error obteniendo fichas:', error);
+        res.status(500).json({ error: 'Error al obtener las fichas' });
+    }
+};
 
 export {
     getAllPersonas,
@@ -452,5 +458,6 @@ export {
     guardarRespuestasObjetivos,
     checkEmailExists,
     agregarPersona,
-    getUserNameById
+    getUserNameById,
+    getFichas
 };

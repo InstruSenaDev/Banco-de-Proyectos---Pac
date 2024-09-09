@@ -4,12 +4,13 @@ import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
 import AprendicesList from '../../Components/AprendicesList';
 import Loader from '../../Components/Loader';
 import BotonSegundo from '../../Components/BotonSegundo';
+import FichaSelector from '../../Components/FichaSelector';
 
 // Datos de ejemplo (en una aplicación real, estos vendrían de una API o base de datos)
 const fichas = [
-    { id: 1, nombre: "Desarrollo Web" },
-    { id: 2, nombre: "Diseño UX/UI" },
-    { id: 3, nombre: "Análisis de Datos" },
+    { id: 1, nombre: "Desarrollo Web", numeroficha: "1001" },
+    { id: 2, nombre: "Diseño UX/UI", numeroficha: "1002" },
+    { id: 3, nombre: "Análisis de Datos", numeroficha: "1003" },
 ];
 
 const aprendices = {
@@ -69,18 +70,22 @@ const AsignarProyectos = () => {
                 <div className="content-container">
                     <Layoutcontenido2 title="" text1="Asignación de Proyectos">
                         <div className="w-full mx-auto">
-                            {/* Selección de Ficha */}
-                            <div className="mb-8 max-w-md mx-auto">
-                                <select
-                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
-                                    value={selectedFicha}
-                                    onChange={handleFichaChange}
-                                >
-                                    <option value="">Seleccione una ficha</option>
-                                    {fichas.map(ficha => (
-                                        <option key={ficha.id} value={ficha.id}>{ficha.nombre}</option>
-                                    ))}
-                                </select>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Selección de Ficha por Nombre */}
+                            <FichaSelector
+                                fichas={fichas}
+                                selectedFicha={selectedFicha}
+                                onChange={handleFichaChange}
+                                displayField="nombre"
+                            />
+
+                            {/* Selección de Ficha por Número */}
+                            <FichaSelector
+                                fichas={fichas}
+                                selectedFicha={selectedFicha}
+                                onChange={handleFichaChange}
+                                displayField="numeroficha"
+                            />
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -98,7 +103,7 @@ const AsignarProyectos = () => {
                                     title="Equipo del Proyecto"
                                     items={assignedAprendices}
                                     buttonText="Remover"
-                                    buttonAction={handleRemoveAprendiz} // Se pasa correctamente la función
+                                    buttonAction={handleRemoveAprendiz}
                                     buttonColor="bg-red-400"
                                 />
                             </div>

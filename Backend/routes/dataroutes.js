@@ -18,7 +18,8 @@ import {
     updateProyectoItem,
     guardarRespuestasObjetivos,
     agregarPersona,
-    getUserNameById
+    getUserNameById,
+    getFichas
 
 
 } from '../controllers/datacontroler.js';
@@ -385,6 +386,7 @@ router.post('/agregarpersona', async (req, res) => {
     }
 });
 
-
+// Definir la ruta para obtener las fichas
+router.get('/fichas', getFichas);
 
 export default router;
