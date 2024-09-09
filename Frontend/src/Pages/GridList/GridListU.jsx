@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import Loader from '../../Components/Loader';
 
@@ -17,7 +16,7 @@ const Badge = ({ variant, children}) => {
   return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
 };
 
-const GridList = ({ onEdit, fetchUsers }) => {
+const GridList = ({ fetchUsers }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
 
@@ -68,7 +67,7 @@ const GridList = ({ onEdit, fetchUsers }) => {
               <th className="px-6 py-3 text-left text-gray-900">Correo</th>
               <th className="px-6 py-3 text-left text-gray-900">Estado</th>
               <th className="px-6 py-3 text-left text-gray-900">Rol</th>
-              <th className="px-6 py-3 text-left text-gray-900">Acciones</th>
+              <th className="px-6 py-3 text-gray-900">Accion</th>
             </tr>
           </thead>
           {loading ? (
@@ -94,19 +93,13 @@ const GridList = ({ onEdit, fetchUsers }) => {
                   {roleNames[item.idrol] || 'Desconocido'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => onEdit(item)}
-                      className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg"
-                    >
-                      <PencilIcon className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.idpersonas)}
-                      className="p-2 text-red-500 hover:bg-red-100 rounded-lg"
-                    >
-                      <TrashIcon className="w-5 h-5" />
-                    </button>
+                <div className="flex items-center justify-center ">
+                  <button
+                        onClick={() => handleDelete(item.idpersonas)}
+                        className="p-3 text-red-500 hover:bg-red-100 rounded-lg"
+                      >
+                        <i className="fas fa-trash-alt"></i>
+                      </button>
                   </div>
                 </td>
               </tr>

@@ -1,5 +1,5 @@
 import express from 'express';
-import { 
+import {
     getAllPersonas,
     getAllUsuario,
     registerPerson,
@@ -11,7 +11,7 @@ import {
     getObjetivos,
     agregarPersona,
     obtenerTodosLosProyectos,
-    deletePerson, 
+    deletePerson,
     getAllFicha,
 
 

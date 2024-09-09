@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { PencilIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import Loader from '../../Components/Loader';
 
-const GridListArea = ({ onEdit, onDelete }) => {
+const GridListArea = () => {
   const [areas, setAreas] = useState([]);
   const [tipos, setTipos] = useState({});
   const [loading, setLoading] = useState(true);
@@ -62,7 +61,6 @@ const GridListArea = ({ onEdit, onDelete }) => {
         <thead className="bg-[#A3E784]">
           <tr>
             <th className="px-6 py-3 text-left text-gray-900 w-full">Nombre del Área</th>
-            <th className="px-6 py-3 text-right text-gray-900 w-32">Acciones</th>
           </tr>
         </thead>
         {loading ? (
@@ -76,42 +74,36 @@ const GridListArea = ({ onEdit, onDelete }) => {
             </tr>
           </tbody>
         ) : (
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="min-w-full bg-white divide-y divide-gray-200">
             {areas.map((area) => (
               <React.Fragment key={area.idarea}>
                 <tr className="bg-gray-100">
                   <td
-                    className="px-6 py-4 whitespace-nowrap cursor-pointer flex items-center"
+                    className="px-6 py-4 whitespace-nowrap flex items-center w-full"
                     onClick={() => handleToggleArea(area.idarea)}
                   >
                     {openAreas[area.idarea] ? (
-                      <ChevronUpIcon className="w-5 h-5 mr-2" />
+                      <i className="fas fa-chevron-up w-5 h-5 mr-2" />
                     ) : (
-                      <ChevronDownIcon className="w-5 h-5 mr-2" />
+                      <i className="fas fa-chevron-down w-5 h-5 mr-2" />
                     )}
                     <span className="font-bold text-gray-900">{area.area}</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
-                    <div className="flex space-x-2 justify-end">
-                      <button
-                        onClick={() => onEdit(area)}
-                        className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg"
-                      >
-                        <PencilIcon className="w-5 h-5" />
-                      </button>
-                      <button
-                        onClick={() => onDelete(area)}
-                        className="p-2 text-red-500 hover:bg-red-100 rounded-lg"
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
-                    </div>
                   </td>
                 </tr>
                 {openAreas[area.idarea] && tipos[area.idarea] && tipos[area.idarea].map((tipo) => (
                   <tr key={tipo.idtipoarea}>
-                    <td className="px-6 py-4 whitespace-nowrap pl-8" colSpan="2">
-                      {tipo.tiposdearea}
+                    <td className="px-6 py-4 whitespace-nowrap pl-8 w-full" colSpan="2">
+                      <div className="flex justify-between">
+                      <span className="font-medium text-gray-900">{tipo.tiposdearea}</span>
+                        <div className="flex items-center justify-center ">
+                          <button
+                                onClick
+                                className="p-1 text-red-500 hover:bg-red-100 rounded-lg"
+                              >
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
+                          </div>
+                        </div>
                     </td>
                   </tr>
                 ))}
@@ -125,7 +117,6 @@ const GridListArea = ({ onEdit, onDelete }) => {
 };
 
 GridListArea.propTypes = {
-  onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 

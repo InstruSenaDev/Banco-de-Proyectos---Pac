@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import Loader from '../../Components/Loader';
 
-const GridListFicha = ({ onEdit,  }) => {
+const GridListFicha = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,7 +37,7 @@ const Badge = ({ variant, children}) => {
             <th className="px-6 py-3 text-left text-gray-900">Nombre del Ficha</th>
             <th className="px-6 py-3 text-left text-gray-900">Numero ficha</th>
             <th className="px-6 py-3 text-left text-gray-900">Estado</th>
-            <th className="px-6 py-3 text-right text-gray-900">Acciones</th>
+            <th className="px-6 py-3 text-gray-900">Accion</th>
           </tr>
         </thead>
         {loading ? (
@@ -61,19 +60,13 @@ const Badge = ({ variant, children}) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">{item.numeroficha}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
-                  <div className="flex space-x-2 justify-end">
-                    <button
-                      onClick={() => onEdit(item)}
-                      className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg"
-                    >
-                      <PencilIcon className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick
-                      className="p-2 text-red-500 hover:bg-red-100 rounded-lg"
-                    >
-                      <TrashIcon className="w-5 h-5" />
-                    </button>
+                <div className="flex items-center justify-center ">
+                  <button
+                        onClick
+                        className="p-3 text-red-500 hover:bg-red-100 rounded-lg"
+                      >
+                        <i className="fas fa-trash-alt"></i>
+                      </button>
                   </div>
                 </td>
               </tr>

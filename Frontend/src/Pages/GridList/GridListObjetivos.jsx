@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { PencilIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import PropTypes from 'prop-types';
 import Loader from '../../Components/Loader';
 
-const GridListObjetivos = ({ onEdit, onDelete }) => {
+const GridListObjetivos = () => {
   const [categorias, setCategorias] = useState([]);
   const [groupedObjetivos, setGroupedObjetivos] = useState({});
   const [loading, setLoading] = useState(true);
@@ -51,7 +50,6 @@ const GridListObjetivos = ({ onEdit, onDelete }) => {
         <thead className="bg-[#A3E784]">
           <tr>
             <th className="px-6 py-3 text-left text-gray-900 w-full">Nombre de la Categoría</th>
-            <th className="px-6 py-3 text-right text-gray-900 w-32">Acciones</th>
           </tr>
         </thead>
         {loading ? (
@@ -65,43 +63,35 @@ const GridListObjetivos = ({ onEdit, onDelete }) => {
             </tr>
           </tbody>
         ) : (
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="min-w-full bg-white divide-y divide-gray-200">
             {categorias.map((categoria) => (
               <React.Fragment key={categoria}>
                 <tr className="bg-gray-50">
                   <td
-                    className="px-6 py-4 whitespace-nowrap cursor-pointer flex items-center"
+                    className="px-6 py-4 whitespace-nowrap flex items-center w-full"
                     onClick={() => handleToggleCategoria(categoria)}
                   >
-                    {openCategorias[categoria] ? (
-                      <ChevronUpIcon className="w-5 h-5 mr-2" />
+                  {openCategorias[categoria] ? (
+                    <i className="fas fa-chevron-up w-5 h-5 mr-2" />
                     ) : (
-                      <ChevronDownIcon className="w-5 h-5 mr-2" />
+                      <i className="fas fa-chevron-down w-5 h-5 mr-2" />
                     )}
                     <span className="font-bold text-gray-900">{categoria}</span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
-                    <div className="flex space-x-2 justify-end">
-                      <button
-                        onClick={() => onEdit(categoria)}
-                        className="p-2 text-blue-500 hover:bg-blue-100 rounded-lg"
-                      >
-                        <PencilIcon className="w-5 h-5" />
-                      </button>
-                      <button
-                        onClick={() => onDelete(categoria)}
-                        className="p-2 text-red-500 hover:bg-red-100 rounded-lg"
-                      >
-                        <TrashIcon className="w-5 h-5" />
-                      </button>
-                    </div>
                   </td>
                 </tr>
                 {openCategorias[categoria] && groupedObjetivos[categoria] && groupedObjetivos[categoria].map((objetivo) => (
                   <tr key={objetivo.idobjetivos}>
-                    <td className="px-6 py-4 whitespace-nowrap pl-8" colSpan="2">
-                      <div className="flex flex-col">
-                        <span className="font-medium">{objetivo.descripcion}</span>
+                    <td className="px-6 py-4 whitespace-nowrap pl-8 w-full" colSpan="2">
+                      <div className="flex justify-between">
+                        <span className="font-medium text-gray-900">{objetivo.descripcion}</span>
+                        <div className="flex items-center justify-center ">
+                          <button
+                                onClick
+                                className="p-1 text-red-500 hover:bg-red-100 rounded-lg"
+                              >
+                                <i className="fas fa-trash-alt"></i>
+                              </button>
+                          </div>
                       </div>
                     </td>
                   </tr>
@@ -116,7 +106,6 @@ const GridListObjetivos = ({ onEdit, onDelete }) => {
 };
 
 GridListObjetivos.propTypes = {
-  onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
