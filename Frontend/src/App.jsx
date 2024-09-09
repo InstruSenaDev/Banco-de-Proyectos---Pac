@@ -15,6 +15,7 @@ import Inicio from './Pages/Principal/Incio';
 import Registro1 from './Pages/Principal/Registro1';
 import Prueba from './Pages/Usuario/Prueba';
 import CrearArea from './Pages/SuperAdmin/CrearArea';
+import AsignarProyectos from './pages/Administrador/AsignarProyectos'
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/Principal/Registro1" element={<Registro1 />} />
           <Route path="/Usuario/Prueba" element={<Prueba />} />
           <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
+          <Route path="/Administrador/AsignarProyectos" element={<AsignarProyectos />} />
         </Routes>
       </Router>
     </UserProvider>
