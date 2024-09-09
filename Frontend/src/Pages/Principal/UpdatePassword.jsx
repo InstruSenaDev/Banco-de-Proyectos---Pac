@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../../Components/Input.jsx';
 import Img from '../../../public/Img/image1.png';
 import BotonSegundo from '../../Components/BotonSegundo.jsx';
-import Img2 from '../../../public/Img/olvidocontraseña.png';
+import Img2 from '../../../public/Img/usuario.png';
 
 const UpdatePassword = () => {
     const navigate = useNavigate(); // Para manejar la navegación
@@ -81,15 +81,15 @@ const UpdatePassword = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="min-h-[60em] w-[100em] flex column items-center">
-                <div className="bg-white p-8 rounded-lg w-[40%] h-[40em] mb-[1em] flex flex-col items-center justify-center">
-                    <img src={Img} className="w-[25em]" />
-                    <h2 className="text-[33px] font-bold text-gray-800 text-center mt-[15%]">
+        <div className=" flex justify-center  ">
+        <div className=" w-[100em]  flex column items-center ">
+          <div className="bg-white  rounded-lg  w-[40%] flex flex-col items-center   ">
+          <img src={Img} className="w-[25em]" />
+            <h2 className="text-[33px] font-bold text-gray-800 text-center mt-[10%]  ">
                         Actualizar Contraseña
                     </h2>
                     <form onSubmit={handleSubmit} className="mt-6" id="update-password-form">
-                        <div className="mb-4 relative w-[20em] mt-[40px]">
+                        <div className="mb-4 relative w-[20em] mt-[10px]">
                             <label htmlFor="new-password" className="block text-gray-700 font-semibold">
                                 Nueva Contraseña
                             </label>
@@ -134,7 +134,7 @@ const UpdatePassword = () => {
                         </p>
                     </form>
                 </div>
-                <div className="bg-white p-8 rounded-lg shadow-lg w-[60%] h-[70%]">
+                <div className=" bg-white p-8 rounded-lg  w-[60%]  ">
                     <img src={Img2} className="w-[80em] h-[50%]" />
                 </div>
             </div>

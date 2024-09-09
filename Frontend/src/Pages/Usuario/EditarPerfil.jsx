@@ -20,6 +20,7 @@ const EditarPerfil = () => {
     estado: true
   });
   const [errors, setErrors] = useState({
+    
     nombre: '',
     numerodocumento: '',  // Make sure this key matches both in validation and JSX
     telefono: '',
@@ -27,11 +28,18 @@ const EditarPerfil = () => {
     nombreempresa: '',
     contraseña: '',
     confiContraseña: '',
+    tipodocumento: '', // Añadir error para
   });
 
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
+
+      // Validar tipo de documento
+  if (!formData.tipodocumento || formData.tipodocumento === 'Elije una opción') {
+    newErrors.tipodocumento = 'Debes seleccionar una opción válida.';
+    isValid = false;
+  }
 
     // Validar nombre
     if (formData.nombre.trim() === '') {
@@ -87,23 +95,26 @@ const EditarPerfil = () => {
       isValid = false;
     }
 
-    // Validar contraseña
-    if (formData.contraseña.trim() === '') {
-      newErrors.contraseña = 'La contraseña es requerida.';
-      isValid = false;
-    } else if (formData.contraseña.trim().length < 8) {
-      newErrors.contraseña = 'La contraseña debe tener al menos 8 caracteres.';
-      isValid = false;
-    }
+  // Validar contraseña
+if (formData.contraseña.trim() === '') {
+  newErrors.contraseña = 'La contraseña es requerida.';
+  isValid = false;
+} else if (formData.contraseña.trim().length < 8) {
+  newErrors.contraseña = 'La contraseña debe tener al menos 8 caracteres.';
+  isValid = false;
+} else if (!/[A-Z]/.test(formData.contraseña)) {
+  newErrors.contraseña = 'La contraseña debe contener al menos una letra mayúscula.';
+  isValid = false;
+}
 
-    // Validar confirmar contraseña
-    if (formData.confiContraseña.trim() === '') {
-      newErrors.confiContraseña = 'Debe confirmar su contraseña.';
-      isValid = false;
-    } else if (formData.confiContraseña.trim() !== formData.contraseña.trim()) {
-      newErrors.confiContraseña = 'Las contraseñas no coinciden.';
-      isValid = false;
-    }
+// Validar confirmar contraseña
+if (formData.confiContraseña.trim() === '') {
+  newErrors.confiContraseña = 'Debe confirmar su contraseña.';
+  isValid = false;
+} else if (formData.confiContraseña.trim() !== formData.contraseña.trim()) {
+  newErrors.confiContraseña = 'Las contraseñas no coinciden.';
+  isValid = false;
+}
 
     setErrors(newErrors);
     return isValid;
@@ -142,27 +153,9 @@ const EditarPerfil = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      alert('Formulario válido. ¡Enviando datos!');
-      // Aquí puedes agregar el código para enviar el formulario
-  }
-
-    if (formData.contraseña !== formData.confiContraseña) {
-      setError('Las contraseñas no coinciden');
-      return;
-    }
-
-    if (!formData.nombre || !formData.tipodocumento || !formData.numerodocumento || !formData.telefono || !formData.correo || !formData.nombreempresa || !formData.contraseña) {
-      setError('Por favor, complete todos los campos obligatorios.');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.correo)) {
-      setError('El formato del correo electrónico es inválido.');
-      return;
-    }
-
+     // Primero validamos el formulario
+  const isValid = validateForm();
+  if (isValid) {
     try {
       const response = await fetch('http://localhost:4000/api/update-profile', {
         method: 'POST',
@@ -184,6 +177,7 @@ const EditarPerfil = () => {
     } catch (error) {
       console.error('Error al hacer la solicitud:', error);
       setError('Error al hacer la solicitud: ' + error.message);
+    }
     }
   };
 
@@ -212,7 +206,7 @@ const EditarPerfil = () => {
                 value={formData.nombre}
                 onChange={handleChange}
               />
-              <div id="error-nombre" className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
+              <div className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
 
               <SelectBoxTI
                 Text="Tipo de documento:"
@@ -220,6 +214,7 @@ const EditarPerfil = () => {
                 value={formData.tipodocumento}
                 onChange={handleChange}
               />
+              <div className="text-red-500">{errors.tipodocumento}</div>
               <Input
                 placeholder="Número de documento"
                 type="text"
@@ -228,7 +223,7 @@ const EditarPerfil = () => {
                 value={formData.numerodocumento}
                 onChange={handleChange}
               />
-             <div id="error-nombre" className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
+             <div className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
 
               <Input
                 placeholder="Teléfono"
@@ -238,7 +233,7 @@ const EditarPerfil = () => {
                 value={formData.telefono}
                 onChange={handleChange}
               />
-              <div id="error-telefono" className="text-red-500">{errors.telefono}</div> {/* Muestra el error de teléfono */}
+              <div  className="text-red-500">{errors.telefono}</div> {/* Muestra el error de teléfono */}
               
             </form>
           </div>
@@ -255,7 +250,7 @@ const EditarPerfil = () => {
                 value={formData.correo}
                 onChange={handleChange}
               />
-               <div id="error-correo" className="text-red-500">{errors.correo}</div>
+               <div className="text-red-500">{errors.correo}</div>
               <Input
                 placeholder="Nombre de la Empresa"
                 type="text"
@@ -264,7 +259,7 @@ const EditarPerfil = () => {
                 value={formData.nombreempresa}
                 onChange={handleChange}
               />
-               <div id="error-nombreEmpresa" className="text-red-500">{errors.nombreEmpresa}</div>
+               <div  className="text-red-500">{errors.nombreempresa}</div>
 
               <div className="relative ">
            
@@ -281,7 +276,7 @@ const EditarPerfil = () => {
                   className={`bx ${showPassword.contraseña ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
                   onClick={() => togglePasswordVisibility('contraseña')}
                 ></i>
-                 <div id="error-contraseña" className="text-red-500">{errors.contraseña}</div>
+                 <div className="text-red-500">{errors.contraseña}</div>
               </div>
               
 
@@ -299,7 +294,7 @@ const EditarPerfil = () => {
                   className={`bx ${showPassword.confiContraseña ? 'bx-show' : 'bx-hide'} absolute right-2 top-[55px] transform -translate-y-1/2 cursor-pointer`}
                   onClick={() => togglePasswordVisibility('confiContraseña')}
                 ></i>
-                <div id="error-confiContraseña" className="text-red-500">{errors.confiContraseña}</div> {/* Muestra el error de confirmar contraseña */}
+                <div className="text-red-500">{errors.confiContraseña}</div> {/* Muestra el error de confirmar contraseña */}
               </div>
 
               <div className="col-span-2 flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
