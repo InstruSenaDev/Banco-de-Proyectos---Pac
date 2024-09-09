@@ -9,7 +9,7 @@ const SelectBoxTI = ({ Text, id, value, onChange }) => {
       <select
         id={id}
         value={value}
-        onChange={onChange}
+        onChange={onChange} // Asegúrate de que el evento onChange esté bien manejado
         className="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]"
       >
         <option value="" disabled>

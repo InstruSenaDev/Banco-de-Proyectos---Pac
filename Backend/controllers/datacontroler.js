@@ -10,21 +10,19 @@ export const someControllerFunction = (req, res) => {
     res.status(200).json({ message: 'Controlador de datos funcionando' });
 };
 
-// Función para actualizar un perfil
-export const updateProfile = async (idpersonas, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) => {
+export const updateProfile = async (idrol, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña) => {
     try {
-      const result = await pool.query(
-        `UPDATE personas 
-         SET nombre = $1, tipodocumento = $2, numerodocumento = $3, nombreempresa = $4, telefono = $5, correo = $6, contraseña = $7, idrol = $8, estado = $9
-         WHERE idpersonas = $10 RETURNING *`,
-        [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado, idpersonas]
-      );
-      return result.rows.length > 0 ? result.rows[0] : null;
+        const result = await pool.query(
+            `UPDATE personas 
+             SET nombre = $1, tipodocumento = $2, numerodocumento = $3, nombreempresa = $4, telefono = $5, correo = $6, contraseña = $7
+             WHERE idrol = $8 RETURNING *`, // Use idrol here
+            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol]
+        );
+        return result.rows.length > 0 ? result.rows[0] : null;
     } catch (error) {
-      throw new Error('Error al actualizar el perfil');
+        throw new Error('Error al actualizar el perfil');
     }
-  };
-
+};
 async function checkIfUserExists(correo) {
     try {
         const client = await pool.connect();

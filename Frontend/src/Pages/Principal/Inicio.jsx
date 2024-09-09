@@ -22,7 +22,7 @@ const Inicio = () => {
     setCorreoError('');
     setContrasenaError('');
     setGlobalError('');
-
+  
     try {
       const response = await fetch('http://localhost:4000/api/login', {
         method: 'POST',
@@ -31,9 +31,9 @@ const Inicio = () => {
         },
         body: JSON.stringify({ correo, contraseña: contrasena }),
       });
-
+  
       const result = await response.json();
-
+  
       if (!response.ok) {
         if (response.status === 401) {
           setGlobalError('Correo o contraseña incorrectos');
@@ -41,6 +41,9 @@ const Inicio = () => {
           setGlobalError('Error en el servidor. Intenta nuevamente.');
         }
       } else {
+        localStorage.setItem('userId', result.id); // Almacena el id del usuario
+        localStorage.setItem('userRole', result.rol); // Almacena el rol del usuario
+  
         // Redirige según el rol del usuario
         switch (result.rol) {
           case 1:

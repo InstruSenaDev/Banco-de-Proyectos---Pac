@@ -16,7 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Rutas de la API
-app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos
+app.use('/api', dataRoutes); // Esto debería mapear todas las rutas en dataRoutes con el prefijo /api
+
+
 
 // Manejo de errores
 app.use((err, req, res, next) => {

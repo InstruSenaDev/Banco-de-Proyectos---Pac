@@ -1,6 +1,8 @@
 import express from 'express';
 import { pool } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
+
 import transporter from '../config/nodemailerConfig.js';
 import { checkEmailExists, updateProfile,  updatePassword, checkIfUserExists, getAllPersonas, 
   getAllUsuario, 
@@ -21,7 +23,41 @@ import { checkEmailExists, updateProfile,  updatePassword, checkIfUserExists, ge
 
 const router = express.Router();
 
+router.post('/update-profile', async (req, res) => {
+  const idrol = parseInt(req.body.idrol, 10); // Change this to idrol
+  const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña } = req.body;
 
+  console.log('ID de rol recibido:', idrol); // Verify the ID received
+
+  if (isNaN(idrol)) {
+    return res.status(400).json({ error: 'ID de rol inválido.' });
+  }
+
+  try {
+    let updateQuery = 'UPDATE personas SET nombre = $1, tipodocumento = $2, numerodocumento = $3, nombreempresa = $4, telefono = $5, correo = $6';
+    let values = [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo];
+
+    if (contraseña) {
+      const hashedPassword = await bcrypt.hash(contraseña, 10);
+      updateQuery += ', contraseña = $7';
+      values.push(hashedPassword);
+    }
+
+    updateQuery += ' WHERE idrol = $8 RETURNING *'; // Update condition to use idrol
+    values.push(idrol);
+
+    const result = await pool.query(updateQuery, values);
+
+    if (result.rows.length > 0) {
+      res.status(200).json({ message: 'Perfil actualizado con éxito', profile: result.rows[0] });
+    } else {
+      res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+  } catch (error) {
+    console.error('Error al actualizar el perfil:', error);
+    res.status(500).json({ error: 'Error al actualizar el perfil', details: error.message });
+  }
+});
 // Ruta para establecer una cookie
 router.get('/set-cookie', (req, res) => {
   res.cookie('testCookie', 'testValue', { maxAge: 900000, httpOnly: true });
@@ -35,7 +71,14 @@ router.get('/get-cookie', (req, res) => {
 });
 
 router.post('/update-profile', async (req, res) => {
-  const { idpersonas, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado } = req.body;
+  const idrol = parseInt(req.body.idrol, 10);
+  const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña } = req.body;
+
+  console.log('ID de rol recibido:', idrol); // Verifica el ID de rol recibido
+
+  if (isNaN(idrol)) {
+    return res.status(400).json({ error: 'ID de rol inválido.' });
+  }
 
   try {
     const updatedProfile = await updateProfile(idpersonas, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado);

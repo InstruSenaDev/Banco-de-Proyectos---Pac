@@ -1,91 +1,98 @@
-import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faUser, faCog, faProjectDiagram, faTools, faUsers, faBook } from '@fortawesome/free-solid-svg-icons';
-import Items1 from '../Components/Items1'; // Asegúrate de que la ruta sea correcta
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import logo from "../../public/Img/logo.svg"; // Asegúrate de que la ruta sea correcta
 
 const Sidebar = () => {
-  const [userRole, setUserRole] = useState(null);
-  const [menuItems, setMenuItems] = useState([]);
+  const userRole = parseInt(localStorage.getItem('userRole'), 10) ;
 
-  useEffect(() => {
-    const role = localStorage.getItem('userRole');
-    if (role) {
-      setUserRole(role);
-      const items = menuItemsByRole[role] || [];
-      setMenuItems(items);
-    }
-  }, []);
-
-  const menuItemsByRole = {
+  const menuItems = {
     1: [
-      { icon: faHome, href: '/VistaProyectos', label: 'Proyectos' },
-      { icon: faUser, href: '/VistaAprobados', label: 'Vista Aprobados' },
-      { icon: faCog, href: '/AsignarProyecto', label: 'Asignar Proyecto' }
-    ],
-    2: [
-      { icon: faHome, href: '/VistaMisProyectos', label: 'Vista Mis Proyectos' },
-      { icon: faProjectDiagram, href: '/EditarPerfil', label: 'Editar Perfil' }
-    ],
-    3: [
-      { icon: faHome, href: '/CrearFichas', label: 'Crear Usuario' },
-      { icon: faUsers, href: '/CrearUsuario', label: 'Crear Fichas' },
-      { icon: faTools, href: '/EditarRegistro', label: 'Editar Registro' },
-      { icon: faTools, href: '/CargaMasiva', label: 'Cargar Aprendices' }
+      { icon: "fas fa-home", to: "/VistaProyectos", label: "Proyectos" },
+      { icon: "fas fa-user", to: "/VistaAprobados", label: "Vista Aprobados" },
+      { icon: "fas fa-cog", to: "/AsignarProyecto", label: "Asignar Proyecto" },
     ],
     4: [
-      { icon: faHome, href: '/ProyectosAsignados', label: 'Proyectos Asignados' },
-      { icon: faBook, href: '/EditarPerfil', label: 'Editar Perfil' }
-    ]
+      { icon: "fas fa-home", to: "/VistaMisProyectos", label: "Vista Mis Proyectos" },
+      { icon: "fas fa-project-diagram", to: "/EditarPerfil", label: "Editar Perfil" },
+    ],
+    3: [
+      { icon: "fas fa-user-plus", to: "/CrearFichas", label: "Crear Usuario" },
+      { icon: "fas fa-folder-open", to: "/CrearUsuario", label: "Crear Fichas" },
+      { icon: "fas fa-edit", to: "/EditarRegistro", label: "Editar Registro" },
+      { icon: "fas fa-upload", to: "/CargaMasiva", label: "Cargar Aprendices" },
+    ],
+    2: [
+      { icon: "fas fa-tachometer-alt", to: "/ProyectosAsignados", label: "Proyectos Asignados" },
+      { icon: "fas fa-user-edit", to: "/EditarPerfil", label: "Editar Perfil" },
+    ],
   };
 
+  const roleMenuItems = menuItems[userRole] || [];
+
   return (
-    <div>
-      <style>
-        {`
-          body {
-            font-family: "Josefin Slab", serif;
-            font-optical-sizing: auto;
-          }
-
-          .sidebar {
-            width: 60px; /* Ancho inicial */
-            transition: width 0.3s ease, transform 0.3s ease;
-          }
-
-          .sidebar.open {
-            width: 200px; /* Ancho expandido al abrir */
-          }
-
-          .sidebar ul span {
-            display: none; /* Oculta los nombres de los proyectos inicialmente */
-          }
-
-          .sidebar.open ul span {
-            display: inline-block; /* Muestra los nombres de los proyectos al abrir */
-          }
-
-          .sidebar:hover {
-            width: 200px; /* Ancho expandido al pasar el cursor */
-          }
-        `}
-      </style>
-
-      <button id="menu-button" className="md:hidden p-4 fixed top-0 left-0 z-50">
+    <>
+     <button id="menu-button" className="md:hidden p-4 fixed top-0 left-0 z-50">
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
       </button>
 
-      <aside className="sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-transform transform -translate-x-full md:translate-x-0">
+      <aside id="sidebar" className="sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-transform transform -translate-x-full md:translate-x-0">
         <div className="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
-          <a href="#" className="flex items-center ps-2.5 mb-5">
-            <img src="../public/Img/logo.svg" alt="Logo" className="w-10 h-10 pb-2" />
+          <Link to="/" className="flex items-center ps-2.5 mb-5">
+            <img src={logo} alt="Logo" className="w-10 h-10 pb-2" />
             <span className="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">PAC</span>
-          </a>
-          <Items1 menuItems={menuItems} />
+          </Link>
+          <ul id="menu-list" className="space-y-3 font-medium">
+            {roleMenuItems.map((item) => (
+              <li>
+                <Link to={item.to} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
+                  <div>
+                    <i className={`${item.icon} flex-shrink-0 w-5 h-5 text-gray-500 dark:text-black`} aria-hidden="true"></i>
+                  </div>
+                  <span className="flex-1 ms-3 whitespace-nowrap text-black">{item.label}</span> {/* Asegúrate de que el color del texto sea visible */}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </aside>
-    </div>
+      {/* Estilo CSS */}
+      <style jsx>{`
+        body {
+          font-family: "Josefin Slab", serif;
+          font-optical-sizing: auto;
+        }
+
+      .sidebar {
+  width: 60px; /* Ancho inicial */
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar.open {
+  width: 200px; /* Ancho expandido al abrir */
+}
+
+.sidebar:hover {
+  width: 200px; /* Ancho expandido al pasar el cursor */
+}
+       .sidebar ul span {
+  display: none; /* Oculta los nombres de los proyectos inicialmente */
+}
+
+.sidebar.open ul span {
+  display: inline-block; /* Muestra los nombres de los proyectos al abrir */
+}
+
+.sidebar:hover ul span {
+  display: inline-block; /* Muestra los nombres de los proyectos al pasar el cursor */
+}
+        label {
+          margin-left: 8px; /* Ajusta el margen si es necesario */
+          padding: 4px; /* Ajusta el padding si es necesario */
+        }
+      `}</style>
+    </>
   );
 };
 
