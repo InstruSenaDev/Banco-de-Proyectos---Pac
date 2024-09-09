@@ -241,6 +241,33 @@ async function actualizarEstadoRespuestas(respuestas) {
   }
 }
 
+// Obtener todas las fichas activas
+const getFichas = async (req, res) => {
+  try {
+      const result = await pool.query('SELECT * FROM ficha WHERE estado = TRUE');
+      res.json(result.rows);
+  } catch (err) {
+      console.error('Error al obtener las fichas:', err.message);
+      res.status(500).json({ error: 'Server Error', message: err.message });
+  }
+};
+
+// Obtener aprendices por ficha
+const getAprendicesByFicha = async (req, res) => {
+  const { idficha } = req.params;
+  try {
+      const result = await pool.query(
+          'SELECT * FROM personas WHERE idficha = $1 AND idrol = $2',
+          [idficha, 4] // Ahora idrol = 4 es el rol del aprendiz
+      );
+      res.json(result.rows);
+  } catch (err) {
+      console.error('Error al obtener los aprendices:', err.message);
+      res.status(500).json({ error: 'Server Error', message: err.message });
+  }
+};
+
+
 
 export { 
   getProyectos, 
@@ -249,6 +276,8 @@ export {
   getRespuestasAlcanceByProyecto, 
   guardarCalificacion, 
   guardarDetalleCalificacion, 
-  actualizarEstadoRespuestas 
+  actualizarEstadoRespuestas,
+  getFichas,
+  getAprendicesByFicha 
 };
 
