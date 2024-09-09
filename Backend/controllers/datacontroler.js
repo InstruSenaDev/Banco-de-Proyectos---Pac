@@ -455,15 +455,17 @@ const getAprendicesByFicha = async (req, res) => {
     }
 };
 
+// En tu controlador
 const getProyectosUsuario = async (req, res) => {
-    const idPersona = req.user.id; // O el ID del usuario autenticado
+    const { userId } = req.query; // Obtener userId de la query string
+  
     try {
       const result = await pool.query(
         `SELECT p.idproyecto, p.nombre, c.estado
          FROM proyecto p
          JOIN calificacion c ON p.idcalificacion = c.idcalificacion
          WHERE p.idpersona = $1`,
-        [idPersona]
+        [userId]
       );
       res.json(result.rows);
     } catch (err) {
