@@ -5,7 +5,7 @@ import Layoutcontenido from '../Layouts/Layoutcontenido4';
 import GridListTipoArea from './GridList/GridListTipoArea';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
-import TipoAreas from '../Components/ModalTipoAreas';
+import TipoAreas from '../Components/Modales/ModalTipoAreas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
@@ -49,17 +49,17 @@ const Area = () => {
 
   const handleAddMember = (user) => {
     // Lógica para agregar un usuario
-    console.log('Agregar usuario:', user);
+    console.log('Agregar', user);
   };
 
   const handleEditMember = (user) => {
     // Lógica para editar un usuario
-    console.log('Editar usuario:', user);
+    console.log('Editar', user);
   };
 
   const handleDeleteMember = (user) => {
     // Lógica para borrar un usuario
-    console.log('Borrar usuario:', user);
+    console.log('Borrar ', user);
   };
 
   const handleGoBack = () => {

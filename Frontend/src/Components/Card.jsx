@@ -1,6 +1,6 @@
 // Components/Card.js
-import React from 'react';
 import BotonSegundo from './BotonSegundo';
+import PropTypes from 'prop-types';
 
 const Card = ({ Text, onClick }) => {
   return (
@@ -16,6 +16,11 @@ const Card = ({ Text, onClick }) => {
       </div>
     </div>
   );
+};
+
+Card.propTypes = {
+  Text: PropTypes.string.isRequired,
+  onClick: PropTypes.string.isRequired,
 };
 
 export default Card;

@@ -9,6 +9,7 @@ import Areas from './Pages/Areas';
 import TipoArea from './Pages/TipodeArea';
 import Objetivos from './Pages/Objetivos'
 import Alcance from './Pages/Alcance';
+import Items from './Pages/Items'
 
 
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/tipodearea" element={<TipoArea/>} />
         <Route path="/objetivos" element={<Objetivos/>} />
         <Route path="/alcance" element={<Alcance/>} />
+        <Route path="/items" element={<Items/>} />
       </Routes>
     </Router>
   );

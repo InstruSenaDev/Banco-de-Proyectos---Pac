@@ -5,7 +5,7 @@ import Layoutcontenido from '../Layouts/Layoutcontenido4';
 import GridListAlcance from './GridList/GridListAlcance';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
-import ModalAlcance from '../Components/ModalAlcance';
+import ModalAlcance from '../Components/Modales/ModalAlcance';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
@@ -30,14 +30,14 @@ const Area = () => {
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleEditClick = (user) => {
-    setCurrentUser(user);
+  const handleEditClick = (alcance) => {
+    setCurrentUser(alcance);
     setActionType('edit');
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleDeleteClick = (user) => {
-    setCurrentUser(user);
+  const handleDeleteClick = (alcance) => {
+    setCurrentUser(alcance);
     setActionType('delete');
     setIsModalOpen(true); // Abrir el modal
   };
@@ -47,19 +47,19 @@ const Area = () => {
     setCurrentUser(null);
   };
 
-  const handleAddMember = (user) => {
+  const handleAddMember = (alcance) => {
     // Lógica para agregar un usuario
-    console.log('Agregar usuario:', user);
+    console.log('Agregar', alcance);
   };
 
-  const handleEditMember = (user) => {
+  const handleEditMember = (alcance) => {
     // Lógica para editar un usuario
-    console.log('Editar usuario:', user);
+    console.log('Editar', alcance);
   };
 
-  const handleDeleteMember = (user) => {
+  const handleDeleteMember = (alcance) => {
     // Lógica para borrar un usuario
-    console.log('Borrar usuario:', user);
+    console.log('Borrar', alcance);
   };
 
   const handleGoBack = () => {
@@ -69,13 +69,13 @@ const Area = () => {
   
 
   return (
-    <LayoutPrincipal title="Areas">
+    <LayoutPrincipal title="Alcance">
       {loading ? (
         <div id="loader" className="flex items-center justify-center min-h-screen">
           <Loader />
         </div>
       ) : (
-        <Layoutcontenido title="Areas">
+        <Layoutcontenido title="Alcance">
           <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
               <button
@@ -85,7 +85,7 @@ const Area = () => {
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick} />
+              <BotonSegundoModal text="Agregar Alcance" id="addUserBtn" onClick={handleAddClick} />
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <GridListAlcance onEdit={handleEditClick} onDelete={handleDeleteClick} />

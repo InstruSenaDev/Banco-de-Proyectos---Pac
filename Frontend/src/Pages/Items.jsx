@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
-import GridListArea from './GridList/GridListArea';
+import GridListItems from './GridList/GridListItems';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
-import Areas from '../Components/Modales/ModalAreas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [, setIsModalOpen] = useState(false);
+  const [, setCurrentUser] = useState(null);
+  const [, setActionType] = useState('');
 
   const navigate = useNavigate();
 
@@ -30,37 +29,18 @@ const Area = () => {
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleEditClick = (areas) => {
-    setCurrentUser(areas);
+  const handleEditClick = (user) => {
+    setCurrentUser(user);
     setActionType('edit');
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleDeleteClick = (areas) => {
-    setCurrentUser(areas);
+  const handleDeleteClick = (user) => {
+    setCurrentUser(user);
     setActionType('delete');
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal
-    setCurrentUser(null);
-  };
-
-  const handleAddMember = (areas) => {
-    // Lógica para agregar un usuario
-    console.log('Agregar usuario:', areas);
-  };
-
-  const handleEditMember = (areas) => {
-    // Lógica para editar un usuario
-    console.log('Editar usuario:', areas);
-  };
-
-  const handleDeleteMember = (areas) => {
-    // Lógica para borrar un usuario
-    console.log('Borrar usuario:', areas);
-  };
 
   const handleGoBack = () => {
     navigate('/dashboard'); // Redirigir al dashboard
@@ -69,13 +49,13 @@ const Area = () => {
   
 
   return (
-    <LayoutPrincipal title="Areas">
+    <LayoutPrincipal title="Items">
       {loading ? (
         <div id="loader" className="flex items-center justify-center min-h-screen">
           <Loader />
         </div>
       ) : (
-        <Layoutcontenido title="Areas">
+        <Layoutcontenido title="Items">
           <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
               <button
@@ -85,21 +65,11 @@ const Area = () => {
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick} />
+              <BotonSegundoModal text="Agregar Tipo Area" id="addUserBtn" onClick={handleAddClick} />
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
-              <GridListArea onEdit={handleEditClick} onDelete={handleDeleteClick} />
+              <GridListItems onEdit={handleEditClick} onDelete={handleDeleteClick} />
             </div>
-            {isModalOpen && (
-              <Areas
-                onClose={handleCloseModal}
-                onAddMember={handleAddMember}
-                onEditMember={handleEditMember}
-                onDeleteMember={handleDeleteMember}
-                user={currentUser}
-                actionType={actionType}
-              />
-            )}
           </div>
         </Layoutcontenido>
       )}

@@ -1,7 +1,7 @@
 
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
-import Layoutprincipal from '../Layouts/LayoutPrincipal';
+import Layoutprincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido';
 import { CardBase } from '../Components/CardBase';
 import { ChartDonut } from '../Components/ChartDonut';
@@ -37,7 +37,7 @@ const Dashboard = () => {
           <CardBase
               title="Usuarios"
               metricValue={50}
-              progressText="Proyectos creados"
+              progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
               route="/usuarios"
             />
@@ -51,28 +51,35 @@ const Dashboard = () => {
             <CardBase
               title="Areas"
               metricValue={20}
-              progressText="Proyectos creados"
+              progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/areas"
             />
             <CardBase
               title="Tipos de Area"
               metricValue={20}
-              progressText="Proyectos creados"
+              progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/tipodearea"
+            />
+             <CardBase
+              title="Items"
+              metricValue={20}
+              progressText="Registro proyecto"
+              buttonTex="Ver detalle"
+              route="/items"
             />
             <CardBase
               title="Objetivo"
               metricValue={20}
-              progressText="Proyectos creados"
+              progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/objetivos"
             />
             <CardBase
               title="Alcance"
               metricValue={20}
-              progressText="Proyectos creados"
+              progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/alcance"
             />

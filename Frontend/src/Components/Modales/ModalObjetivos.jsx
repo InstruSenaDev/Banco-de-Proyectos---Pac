@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from './Input2';
-import BotonSegundo from './BotonSegundoModal';
-import SelectBoxArea from './SelectBoxArea';
+import Input2 from '../Input2';
+import BotonSegundo from '../BotonSegundoModal';
+import SelectBoxArea from '../SelectBoxArea';
 import PropTypes from 'prop-types';
 
 // Función para obtener áreas

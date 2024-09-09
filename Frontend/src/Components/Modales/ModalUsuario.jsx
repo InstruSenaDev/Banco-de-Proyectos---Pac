@@ -2,11 +2,11 @@
 import PropTypes from 'prop-types';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from './Input2';
-import RadioButton from './RadioButton3';
-import SelectBoxRol from './SelectBoxRol2';
-import SelectBoxTi from './SelectBoxTI2';
-import BotonSegundoModal from './BotonSegundoModal';
+import Input2 from '../Input2';
+import RadioButton from '../RadioButton3';
+import SelectBoxRol from '../SelectBoxRol2';
+import SelectBoxTi from '../SelectBoxTI2';
+import BotonSegundoModal from '../BotonSegundoModal';
 import { useState } from 'react';
 
 export default function ModalUsuario({ onClose, onAddMember }) {

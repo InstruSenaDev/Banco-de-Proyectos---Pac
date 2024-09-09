@@ -7,9 +7,10 @@ import {
     getAllAreas,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
+    getObjetivosPorArea,
     getObjetivos,
     agregarPersona,
-    getAllProyectos
+    obtenerTodosLosProyectos,
 
 
 } from '../controllers/datacontroler.js';
@@ -105,7 +106,6 @@ router.get('/tipos-de-area/:idArea', async (req, res) => {
     }
   });
 
-
 // Ruta para obtener todos los objetivos
 router.get('/objetivos', async (req, res) => {
     try {
@@ -114,42 +114,6 @@ router.get('/objetivos', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener objetivos:', error);
         res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-//Ruta para guardar respuestas de alcance
-router.post('/guardarRespuestas', async (req, res) => {
-    const idproyecto = parseInt(req.body.idproyecto, 10);
-    console.log('ID Proyecto recibido:', idproyecto);
-
-    if (isNaN(idproyecto)) {
-        return res.status(400).json({ error: 'ID del proyecto inválido' });
-    }
-
-    try {
-        const respuestas = req.body;
-        const respuestasAlcance = [];
-
-        for (const [key, value] of Object.entries(respuestas)) {
-            if (key !== 'idproyecto') {
-                const idalcance = parseInt(key.replace('pregunta', ''), 10);
-                respuestasAlcance.push({
-                    idproyecto,
-                    idalcance,
-                    respuesta: value === 'true'
-                });
-            }
-        }
-
-        await guardarRespuestas(respuestasAlcance);
-        
-        // Aquí enviamos una respuesta exitosa al cliente
-        res.status(200).json({ 
-            message: 'Respuestas guardadas correctamente',
-            redirectUrl: '/VistaUsuario' 
-        });
-    } catch (error) {
-        console.error('Error al guardar respuestas:', error);
-        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 });
 
@@ -191,7 +155,7 @@ router.get('/proyecto', async (req, res) => {
         res.json(proyectos);
     } catch (error) {
         console.error('Error al obtener proyectos:', error);
-        res.status(500).json({ error: 'Error al obtener proyectos' }); 
+        res.status(500).json({ error: 'Error al obtener proyectos' });
     }
 });
     

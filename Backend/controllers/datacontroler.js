@@ -63,7 +63,7 @@ async function getAllAlcances() {
     try {
         const client = await pool.connect();
         const query = `
-            SELECT a.idalcance, a.descripcion, a.aplica, c.nombre as categoria 
+            SELECT a.idalcance, a.descripcion, a.aplica, c.nombre as categoria
             FROM alcance a
             JOIN categoriasalcance c ON a.idcategoriasalcance = c.idcategoriasalcance
         `;
@@ -120,6 +120,24 @@ async function getTiposDeAreaPorArea(idArea) {
       throw error;
     }
   }
+
+// Obtener objetivos por área
+async function getObjetivosPorArea(idArea) {
+    try {
+        const query = `
+            SELECT o.idobjetivos, o.descripcion, o.aplica, co.nombre AS categoria
+            FROM objetivos o
+            JOIN categoriasobjetivos co ON o.idcategoriasobjetivos = co.idcategoriasobjetivos
+            WHERE o.idarea = $1
+        `;
+        const result = await pool.query(query, [idArea]);
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener objetivos por área:', error);
+        throw error;
+    }
+}
+  
 // Obtener todos los objetivos
 async function getObjetivos() {
     try {
@@ -183,6 +201,7 @@ export {
     getAllAreas,
     getTiposDeAreaPorArea,
     getItemsPorAreaYTipo,
+    getObjetivosPorArea,
     getObjetivos,
     agregarPersona,
     obtenerTodosLosProyectos

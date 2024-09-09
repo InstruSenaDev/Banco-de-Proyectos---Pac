@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
-import Input2 from './Input2';
-import BotonSegundo from './BotonSegundoModal';
+import Input2 from '../Input2';
+import BotonSegundo from '../BotonSegundoModal';
 import PropTypes from 'prop-types';
 
 

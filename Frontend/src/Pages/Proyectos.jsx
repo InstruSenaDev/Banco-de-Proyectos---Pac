@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
+import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
 import GridListProyectos from './GridList/GridListProyectos';
 import Loader from '../Components/Loader';
@@ -23,8 +23,8 @@ const Proyectos = () => {
   }, []);
 
 
-  const handleDeleteClick = (user) => {
-    setCurrentUser(user);
+  const handleDeleteClick = (proyectos) => {
+    setCurrentUser(proyectos);
     setActionType('delete');
   };
 

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../Layouts/LayoutPrincipal';
+import LayoutPrincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido from '../Layouts/Layoutcontenido4';
 import GridList from './GridList/GridListU';
 import Loader from '../Components/Loader';
 import BotonSegundoModal from '../Components/BotonSegundoModal';
-import ModalUsuario from '../Components/ModalUsuario';
+import ModalUsuario from '../Components/Modales/ModalUsuario';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Usuarios = () => {
@@ -49,17 +49,17 @@ const Usuarios = () => {
 
   const handleAddMember = (user) => {
     // Lógica para agregar un usuario
-    console.log('Agregar usuario:', user);
+    console.log('Agregar', user);
   };
 
   const handleEditMember = (user) => {
     // Lógica para editar un usuario
-    console.log('Editar usuario:', user);
+    console.log('Editar', user);
   };
 
   const handleDeleteMember = (user) => {
     // Lógica para borrar un usuario
-    console.log('Borrar usuario:', user);
+    console.log('Borrar ', user);
   };
 
   const handleGoBack = () => {
