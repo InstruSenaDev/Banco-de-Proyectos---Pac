@@ -193,6 +193,32 @@ async function obtenerTodosLosProyectos() {
     }
 }
 
+// Function to delete a person
+async function deletePerson(idpersonas) {
+    let client;
+    try {
+      console.log('Intentando eliminar persona con ID:', idpersonas);
+      client = await pool.connect();
+      const result = await client.query('DELETE FROM personas WHERE idpersonas = $1 RETURNING *', [idpersonas]);
+      if (result.rows.length > 0) {
+        console.log('Persona eliminada con éxito:', result.rows[0]);
+        return result.rows[0];
+      } else {
+        console.log('No se encontró persona con ID:', idpersonas);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error al eliminar persona:', error);
+      throw error;
+    } finally {
+      if (client) {
+        client.release();
+      }
+    }
+  }
+  
+
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -204,5 +230,6 @@ export {
     getObjetivosPorArea,
     getObjetivos,
     agregarPersona,
-    obtenerTodosLosProyectos
+    obtenerTodosLosProyectos,
+    deletePerson
 };

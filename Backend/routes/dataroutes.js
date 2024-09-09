@@ -11,6 +11,7 @@ import {
     getObjetivos,
     agregarPersona,
     obtenerTodosLosProyectos,
+    deletePerson, 
 
 
 } from '../controllers/datacontroler.js';
@@ -158,6 +159,25 @@ router.get('/proyecto', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener proyectos' });
     }
 });
-    
+
+// Route to delete a person
+router.delete('/personas/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log('Intentando eliminar persona con ID:', id);
+      const deletedPerson = await deletePerson(id);
+      if (deletedPerson) {
+        console.log('Persona eliminada con éxito:', deletedPerson);
+        res.json({ message: 'Persona eliminada con éxito', person: deletedPerson });
+      } else {
+        console.log('Persona no encontrada con ID:', id);
+        res.status(404).json({ error: 'Persona no encontrada' });
+      }
+    } catch (error) {
+      console.error('Error al eliminar persona:', error);
+      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+  });
+
 
 export default router;

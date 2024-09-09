@@ -17,7 +17,7 @@ const Badge = ({ variant, children}) => {
   return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
 };
 
-const GridList = ({ onEdit, }) => {
+const GridList = ({ onEdit, fetchUsers }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
 
@@ -36,6 +36,27 @@ const GridList = ({ onEdit, }) => {
 
     fetchUsers();
   }, []);
+
+  const handleDelete = async (id) => {
+    if (window.confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+      try {
+        const response = await fetch(`http://localhost:4000/api/personas/${id}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          console.log('Usuario eliminado con éxito');
+          fetchUsers(); // Actualiza la lista de usuarios
+        } else {
+          const errorData = await response.json();
+          console.error('Error al eliminar usuario:', errorData);
+          alert(`Error al eliminar usuario: ${errorData.error || 'Error desconocido'}`);
+        }
+      } catch (error) {
+        console.error('Error en la solicitud de eliminación:', error);
+        alert('Error en la conexión. Por favor, inténtelo de nuevo.');
+      }
+    }
+  };
 
 
   return (
@@ -81,7 +102,7 @@ const GridList = ({ onEdit, }) => {
                       <PencilIcon className="w-5 h-5" />
                     </button>
                     <button
-                      onClick
+                      onClick={() => handleDelete(item.idpersonas)}
                       className="p-2 text-red-500 hover:bg-red-100 rounded-lg"
                     >
                       <TrashIcon className="w-5 h-5" />
@@ -101,6 +122,7 @@ GridList.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   children: PropTypes.func.isRequired,
+  fetchUsers: PropTypes.func.isRequired,
 };
 
 export default GridList;
