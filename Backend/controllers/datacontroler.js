@@ -10,13 +10,13 @@ export const someControllerFunction = (req, res) => {
     res.status(200).json({ message: 'Controlador de datos funcionando' });
 };
 
-export const updateProfile = async (idrol, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña) => {
+export const updateProfile = async (id, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña) => {
     try {
         const result = await pool.query(
             `UPDATE personas 
              SET nombre = $1, tipodocumento = $2, numerodocumento = $3, nombreempresa = $4, telefono = $5, correo = $6, contraseña = $7
-             WHERE idrol = $8 RETURNING *`, // Use idrol here
-            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol]
+             WHERE id = $8 RETURNING *`, // Cambiar idrol por id
+            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, id] // Usar el id de la persona en lugar de idrol
         );
         return result.rows.length > 0 ? result.rows[0] : null;
     } catch (error) {
@@ -136,7 +136,6 @@ async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreem
     }
 }
 
-// Función para iniciar sesión
 async function loginPerson(correo, contraseña) {
     try {
         const client = await pool.connect();
@@ -147,7 +146,8 @@ async function loginPerson(correo, contraseña) {
             const person = result.rows[0];
             const match = await bcrypt.compare(contraseña, person.contraseña);
             if (match) {
-                return { id: person.id, rol: person.idrol };  // Devuelve el rol del usuario
+                console.log('ID del usuario encontrado:', person.idpersonas);  // Mostrar el ID en el backend
+                return { id: person.idpersonas, rol: person.idrol };  // Devuelve el idpersonas y el rol del usuario
             } else {
                 return null;
             }
@@ -159,7 +159,6 @@ async function loginPerson(correo, contraseña) {
         throw error;
     }
 }
-
 // Función para registrar un nuevo proyecto
 async function registerProject({ nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea }) {
     try {

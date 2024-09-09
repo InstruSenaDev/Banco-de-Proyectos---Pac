@@ -8,7 +8,7 @@ import ModalPerfil from '../../Components/Modal.jsx';
 
 const EditarPerfil = () => {
   const [formData, setFormData] = useState({
-    idrol: null,
+    id: null, // Cambiar idrol por id
     nombre: '',
     tipodocumento: '',
     numerodocumento: '',
@@ -23,16 +23,17 @@ const EditarPerfil = () => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
-  // Recuperar el rol de usuario de localStorage al cargar el componente
+  // Recuperar el id del usuario de localStorage al cargar el componente
   useEffect(() => {
-    const userRole = localStorage.getItem('userRole');
-    if (userRole) {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        idrol: parseInt(userRole, 10), // Convertir el rol a número
+        id: userId,
       }));
+      console.log("ID de usuario recuperado:", userId); // Verificación del ID en el useEffect
     } else {
-      setError('Rol de persona no encontrado. Inicia sesión nuevamente.');
+      setError('ID de usuario no encontrado. Inicia sesión nuevamente.');
     }
   }, []);
 
@@ -46,7 +47,7 @@ const EditarPerfil = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('ID de rol enviado:', formData.idrol); // Verifica el ID de rol enviado
+    console.log('ID de usuario enviado:', formData.id); // Verifica el ID de usuario enviado
 
     if (formData.contraseña !== formData.confiContraseña) {
       setError('Las contraseñas no coinciden');
@@ -88,21 +89,23 @@ const EditarPerfil = () => {
   };
   return (
     <LayoutPrincipal title="Editar Perfil">
-      <Layoutcontenido3 title="Editar Perfil">
-        <div className="w-full md:w-1/2">
-          <div className="flex flex-col p-[5%] Flex-box">
-            <form onSubmit={handleSubmit}>
+    <Layoutcontenido3 title="Editar Perfil">
+      <div className="w-full md:w-1/2">
+        <div className="flex flex-col p-[5%] Flex-box">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Columna 1 */}
+            <div className="space-y-4">
               <Input
                 placeholder="Nombre completo"
                 type="text"
                 Text="Nombre completo *"
-                id="nombre" // Coincide con el estado
+                id="nombre"
                 value={formData.nombre}
                 onChange={handleChange}
               />
               <SelectBoxTI
                 Text="Tipo de documento:"
-                id="tipodocumento" // Corregido para coincidir con el estado
+                id="tipodocumento"
                 value={formData.tipodocumento}
                 onChange={handleChange}
               />
@@ -110,7 +113,7 @@ const EditarPerfil = () => {
                 placeholder="Número de documento"
                 type="text"
                 Text="Número de documento"
-                id="numerodocumento" // Corregido para coincidir con el estado
+                id="numerodocumento"
                 value={formData.numerodocumento}
                 onChange={handleChange}
               />
@@ -118,23 +121,27 @@ const EditarPerfil = () => {
                 placeholder="Teléfono"
                 type="text"
                 Text="Teléfono *"
-                id="telefono" // Coincide con el estado
+                id="telefono"
                 value={formData.telefono}
                 onChange={handleChange}
               />
+            </div>
+            
+            {/* Columna 2 */}
+            <div className="space-y-4">
               <Input
                 placeholder="Correo"
                 type="email"
                 Text="Correo:"
-                id="correo" // Coincide con el estado
+                id="correo"
                 value={formData.correo}
                 onChange={handleChange}
               />
               <Input
+                placeholder="Nombre de la Empresa"
                 type="text"
                 Text="Nombre de la Empresa:"
-                placeholder="Nombre de la Empresa"
-                id="nombreempresa" // Coincide con el estado
+                id="nombreempresa"
                 value={formData.nombreempresa}
                 onChange={handleChange}
               />
@@ -142,7 +149,7 @@ const EditarPerfil = () => {
                 placeholder="Contraseña"
                 type="password"
                 Text="Contraseña *"
-                id="contraseña" // Coincide con el estado
+                id="contraseña"
                 value={formData.contraseña}
                 onChange={handleChange}
               />
@@ -150,28 +157,31 @@ const EditarPerfil = () => {
                 placeholder="Confirmar Contraseña"
                 type="password"
                 Text="Confirmar Contraseña *"
-                id="confiContraseña" // Coincide con el estado
+                id="confiContraseña"
                 value={formData.confiContraseña}
                 onChange={handleChange}
               />
-              <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                <div>
-                  <BotonPrincipal type="submit" Text="Guardar" /> {/* Asegúrate de que el botón sea de tipo submit */}
-                </div>
+            </div>
+  
+            {/* Botón de guardar */}
+            <div className="col-span-2 flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+              <div>
+                <BotonPrincipal type="submit" Text="Guardar" />
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-
-        {message && <div className="alert alert-success">{message}</div>}
-        <div className="alert alert-error">
-            {error}
-            {/* Puedes descomentar la línea siguiente para ver los detalles del error */}
-            {/* <pre>{JSON.stringify(error, null, 2)}</pre> */}
-          </div>
-        <ModalPerfil Text="Perfil actualizado" />
-      </Layoutcontenido3>
-    </LayoutPrincipal>
+      </div>
+  
+      {message && <div className="alert alert-success">{message}</div>}
+      <div className="alert alert-error">
+        {error}
+        {/* Puedes descomentar la línea siguiente para ver los detalles del error */}
+        {/* <pre>{JSON.stringify(error, null, 2)}</pre> */}
+      </div>
+      <ModalPerfil Text="Perfil actualizado" />
+    </Layoutcontenido3>
+  </LayoutPrincipal>
   );
 };
 
