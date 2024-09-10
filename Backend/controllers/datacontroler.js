@@ -154,44 +154,6 @@ const guardarCalificacion = async (req, res) => {
   }
 };
 
-// Controlador para guardar detalle de calificación
-const guardarDetalleCalificacion = async (req, res) => {
-  const { idproyecto } = req.params;
-  const detalles = req.body;
-
-  try {
-    if (!Array.isArray(detalles) || detalles.length === 0) {
-      return res.status(400).json({ error: 'Detalles de calificación inválidos o vacíos' });
-    }
-
-    for (const detalle of detalles) {
-      const { idrespuesta, estado } = detalle;
-
-      if (!idrespuesta || !estado) {
-        return res.status(400).json({ error: 'Datos del detalle incompletos.' });
-      }
-
-      console.log('Procesando detalle:', { idrespuesta, estado });
-
-      const result = await pool.query(
-        'UPDATE detalle_calificacion SET estado = $1 WHERE idcalificacion = $2 AND idrespuesta = $3',
-        [estado, idproyecto, idrespuesta]
-      );
-
-      if (result.rowCount === 0) {
-        await pool.query(
-          'INSERT INTO detalle_calificacion (idcalificacion, idrespuesta, tipo_respuesta, estado) VALUES ($1, $2, $3, $4)',
-          [idproyecto, idrespuesta, 'objetivo', estado]
-        );
-      }
-    }
-
-    res.status(200).json({ message: 'Detalles guardados exitosamente' });
-  } catch (error) {
-    console.error('Error al guardar los detalles:', error);
-    res.status(500).json({ message: 'Error al guardar los detalles de la calificación', error: error.message });
-  }
-};
 
 // Controlador para actualizar el estado de las respuestas
 async function actualizarEstadoRespuestas(respuestas) {
@@ -274,8 +236,7 @@ export {
   getProyectoById, 
   getRespuestasByProyecto, 
   getRespuestasAlcanceByProyecto, 
-  guardarCalificacion, 
-  guardarDetalleCalificacion, 
+  guardarCalificacion,  
   actualizarEstadoRespuestas,
   getFichas,
   getAprendicesByFicha 

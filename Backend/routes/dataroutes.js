@@ -1,6 +1,14 @@
 import express from 'express';
 import { pool } from '../config/db.js';
-import {  getProyectos, getProyectoById, getRespuestasByProyecto, getRespuestasAlcanceByProyecto, guardarCalificacion, guardarDetalleCalificacion, actualizarEstadoRespuestas, getFichas, getAprendicesByFicha} from '../controllers/datacontroler.js';
+import {  
+   getProyectos,
+   getProyectoById, 
+   getRespuestasByProyecto, 
+   getRespuestasAlcanceByProyecto, 
+   guardarCalificacion, 
+   actualizarEstadoRespuestas, 
+   getFichas, 
+   getAprendicesByFicha} from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -83,33 +91,6 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
   // Ruta para guardar la calificación
 router.post('/calificaciones', guardarCalificacion);
 
-
-
-// router.post('/detalle_calificacion/:idproyecto', async (req, res) => {
-//   const idproyecto = parseInt(req.params.idproyecto, 10);
-//   console.log('ID Proyecto recibido:', idproyecto);
-
-//   if (isNaN(idproyecto)) {
-//       return res.status(400).json({ error: 'ID del proyecto inválido' });
-//   }
-
-//   try {
-//       const detalles = req.body;
-
-//       if (!Array.isArray(detalles) || detalles.length === 0) {
-//           return res.status(400).json({ error: 'Detalles de calificación inválidos o vacíos' });
-//       }
-
-//       await guardarDetalleCalificacion({ params: { idproyecto }, body: detalles }, res);
-      
-//   } catch (error) {
-//       console.error('Error al guardar detalles de calificación:', error);
-//       res.status(500).json({ error: 'Error interno del servidor', details: error.message });
-//   }
-// });
-
-
-  // Ruta para actualizar el estado de una respuesta
 // Ruta para actualizar el estado de las respuestas
 router.post('/actualizarEstadoRespuestas', async (req, res) => {
   try {
