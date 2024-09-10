@@ -57,7 +57,7 @@ async function getProyectoById(id) {
       LEFT JOIN calificacion c ON p.idproyecto = c.idproyecto
       WHERE p.idproyecto = $1
     `, [numericId]);
-    
+
     client.release();
     if (result.rows.length > 0) {
       return result.rows[0];
@@ -114,41 +114,41 @@ const getRespuestasAlcanceByProyecto = async (idproyecto) => {
 // Controlador para guardar la calificación
 const guardarCalificacion = async (req, res) => {
   try {
-      const { idproyecto, resultado, estado, comentario } = req.body;
+    const { idproyecto, resultado, estado, comentario } = req.body;
 
-      // Verifica que todos los datos necesarios estén presentes
-      if (!idproyecto || !resultado || !estado || !comentario) {
-          return res.status(400).json({ message: "Todos los campos son obligatorios" });
-      }
+    // Verifica que todos los datos necesarios estén presentes
+    if (!idproyecto || !resultado || !estado || !comentario) {
+      return res.status(400).json({ message: "Todos los campos son obligatorios" });
+    }
 
-      // Verifica si ya existe una calificación para este proyecto
-      const existingCalificacion = await pool.query(
-          "SELECT idcalificacion FROM calificacion WHERE idproyecto = $1",
-          [idproyecto]
+    // Verifica si ya existe una calificación para este proyecto
+    const existingCalificacion = await pool.query(
+      "SELECT idcalificacion FROM calificacion WHERE idproyecto = $1",
+      [idproyecto]
+    );
+
+    let idcalificacion;
+    if (existingCalificacion.rows.length > 0) {
+      // Si ya existe, actualiza la calificación existente
+      idcalificacion = existingCalificacion.rows[0].idcalificacion;
+      await pool.query(
+        "UPDATE calificacion SET resultado = $1, estado = $2, comentario = $3 WHERE idcalificacion = $4",
+        [resultado, estado, comentario, idcalificacion]
+      );
+    } else {
+      // Si no existe, inserta una nueva calificación
+      const result = await pool.query(
+        "INSERT INTO calificacion (resultado, estado, idproyecto, comentario) VALUES ($1, $2, $3, $4) RETURNING idcalificacion",
+        [resultado, estado, idproyecto, comentario]
       );
 
-      let idcalificacion;
-      if (existingCalificacion.rows.length > 0) {
-          // Si ya existe, actualiza la calificación existente
-          idcalificacion = existingCalificacion.rows[0].idcalificacion;
-          await pool.query(
-              "UPDATE calificacion SET resultado = $1, estado = $2, comentario = $3 WHERE idcalificacion = $4",
-              [resultado, estado, comentario, idcalificacion]
-          );
-      } else {
-          // Si no existe, inserta una nueva calificación
-          const result = await pool.query(
-              "INSERT INTO calificacion (resultado, estado, idproyecto, comentario) VALUES ($1, $2, $3, $4) RETURNING idcalificacion",
-              [resultado, estado, idproyecto, comentario]
-          );
+      idcalificacion = result.rows[0].idcalificacion;
+    }
 
-          idcalificacion = result.rows[0].idcalificacion;
-      }
-
-      res.status(201).json({ message: "Calificación guardada exitosamente", idcalificacion: idcalificacion });
+    res.status(201).json({ message: "Calificación guardada exitosamente", idcalificacion: idcalificacion });
   } catch (error) {
-      console.error("Error al guardar la calificación:", error);
-      res.status(500).json({ message: "Error al guardar la calificación" });
+    console.error("Error al guardar la calificación:", error);
+    res.status(500).json({ message: "Error al guardar la calificación" });
   }
 };
 
@@ -158,57 +158,57 @@ async function actualizarEstadoRespuestas(respuestas) {
   const client = await pool.connect();
 
   try {
-      // Iniciar una transacción
-      await client.query('BEGIN');
+    // Iniciar una transacción
+    await client.query('BEGIN');
 
-      for (const respuesta of respuestas) {
-          const { idproyecto, idobjetivos, estado } = respuesta;
+    for (const respuesta of respuestas) {
+      const { idproyecto, idobjetivos, estado } = respuesta;
 
-          // Verifica si ya existe una respuesta para este proyecto y objetivo
-          const selectQuery = `
+      // Verifica si ya existe una respuesta para este proyecto y objetivo
+      const selectQuery = `
               SELECT idrespuestasobjetivos 
               FROM respuestasobjetivos 
               WHERE idproyecto = $1 AND idobjetivos = $2
           `;
-          const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
+      const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
 
-          if (selectResult.rows.length > 0) {
-              // Si existe, realiza un UPDATE
-              const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
-              const updateQuery = `
+      if (selectResult.rows.length > 0) {
+        // Si existe, realiza un UPDATE
+        const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
+        const updateQuery = `
                   UPDATE respuestasobjetivos 
                   SET estado = $1 
                   WHERE idrespuestasobjetivos = $2
               `;
-              await client.query(updateQuery, [estado, idrespuestasobjetivos]);
-          } else {
-              // Manejo de caso si la respuesta no existe (opcional)
-              console.log(`No existe respuesta para idproyecto ${idproyecto} y idobjetivos ${idobjetivos}`);
-          }
+        await client.query(updateQuery, [estado, idrespuestasobjetivos]);
+      } else {
+        // Manejo de caso si la respuesta no existe (opcional)
+        console.log(`No existe respuesta para idproyecto ${idproyecto} y idobjetivos ${idobjetivos}`);
       }
+    }
 
-      // Finaliza la transacción
-      await client.query('COMMIT');
-      console.log('Estado actualizado con éxito');
+    // Finaliza la transacción
+    await client.query('COMMIT');
+    console.log('Estado actualizado con éxito');
   } catch (error) {
-      console.error('Error al actualizar estado:', error);
+    console.error('Error al actualizar estado:', error);
 
-      // Si ocurre un error, deshaz la transacción
-      await client.query('ROLLBACK');
-      throw error;
+    // Si ocurre un error, deshaz la transacción
+    await client.query('ROLLBACK');
+    throw error;
   } finally {
-      client.release();
+    client.release();
   }
 }
 
 // Obtener todas las fichas activas
 const getFichas = async (req, res) => {
   try {
-      const result = await pool.query('SELECT * FROM ficha WHERE estado = TRUE');
-      res.json(result.rows);
+    const result = await pool.query('SELECT * FROM ficha WHERE estado = TRUE');
+    res.json(result.rows);
   } catch (err) {
-      console.error('Error al obtener las fichas:', err.message);
-      res.status(500).json({ error: 'Server Error', message: err.message });
+    console.error('Error al obtener las fichas:', err.message);
+    res.status(500).json({ error: 'Server Error', message: err.message });
   }
 };
 
@@ -216,27 +216,43 @@ const getFichas = async (req, res) => {
 const getAprendicesByFicha = async (req, res) => {
   const { idficha } = req.params;
   try {
-      const result = await pool.query(
-          'SELECT * FROM personas WHERE idficha = $1 AND idrol = $2',
-          [idficha, 4] // Ahora idrol = 4 es el rol del aprendiz
-      );
-      res.json(result.rows);
+    const result = await pool.query(
+      'SELECT * FROM personas WHERE idficha = $1 AND idrol = $2',
+      [idficha, 4] // Ahora idrol = 4 es el rol del aprendiz
+    );
+    res.json(result.rows);
   } catch (err) {
-      console.error('Error al obtener los aprendices:', err.message);
-      res.status(500).json({ error: 'Server Error', message: err.message });
+    console.error('Error al obtener los aprendices:', err.message);
+    res.status(500).json({ error: 'Server Error', message: err.message });
+  }
+};
+
+// Controlador para asignar proyectos
+const asignarProyecto = async (req, res) => {
+  const { idproyecto, idpersona } = req.body;
+
+  try {
+    const result = await db.query(
+      'INSERT INTO asignaciones_proyectos (idproyecto, idpersona) VALUES ($1, $2) RETURNING *',
+      [idproyecto, idpersona]
+    );
+    res.status(201).json({ success: true, data: result.rows[0] });
+  } catch (error) {
+    console.error('Error al asignar proyecto:', error);
+    res.status(500).json({ success: false, message: 'Error al asignar proyecto' });
   }
 };
 
 
-
-export { 
-  getProyectos, 
-  getProyectoById, 
-  getRespuestasByProyecto, 
-  getRespuestasAlcanceByProyecto, 
-  guardarCalificacion,  
+export {
+  getProyectos,
+  getProyectoById,
+  getRespuestasByProyecto,
+  getRespuestasAlcanceByProyecto,
+  guardarCalificacion,
   actualizarEstadoRespuestas,
   getFichas,
-  getAprendicesByFicha 
+  getAprendicesByFicha,
+  asignarProyecto
 };
 

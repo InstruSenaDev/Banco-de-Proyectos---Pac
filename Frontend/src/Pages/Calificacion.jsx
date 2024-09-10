@@ -7,6 +7,7 @@ import { ModalComent } from "../Components/ModalComent";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import Loader from "../Components/Loader";
 import { usePostCalificacion } from "../../hooks/usePostCalificacion";
+import { ModalConfirm } from "../Components/ModalConfirm"; // Importa el modal
 
 const Calificacion = () => {
     const { idproyecto } = useParams();
@@ -17,6 +18,7 @@ const Calificacion = () => {
     const [promedioFinal, setPromedioFinal] = useState(0);
     const [viewLoading, setViewLoading] = useState(true);
     const { postCalificacion, loading } = usePostCalificacion();
+    const [mostrarModal, setMostrarModal] = useState(false);
 
     useEffect(() => {
         const promedioFinalCalculado = Math.round((promedioObjetivos + promedioAlcance) / 2);
@@ -30,7 +32,11 @@ const Calificacion = () => {
         const exito = await postCalificacion(idproyecto, promedioFinal, estado, comentario, detalles);
 
         if (exito) {
-            navigate("/asignar-proyectos");
+            if (estado === "Aceptado") {
+                navigate("/asignar-proyectos");
+            } else {
+                setMostrarModal(true);
+            }
         }
     };
 
@@ -44,6 +50,11 @@ const Calificacion = () => {
 
     const handleRechazar = (comentario) => {
         guardarCalificacion("Rechazado", comentario);
+    };
+
+    const cerrarModal = () => {
+        setMostrarModal(false);
+        navigate("/"); // Redirige a la vista de inicio
     };
 
     return (
@@ -76,6 +87,7 @@ const Calificacion = () => {
                     )}
                 </Layoutcontenido2>
             )}
+            {mostrarModal && <ModalConfirm onClose={cerrarModal} />}
         </Layoutprincipal>
     );
 };

@@ -8,7 +8,9 @@ import {
    guardarCalificacion, 
    actualizarEstadoRespuestas, 
    getFichas, 
-   getAprendicesByFicha} from '../controllers/datacontroler.js';
+   getAprendicesByFicha,
+   asignarProyecto
+  } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
@@ -113,5 +115,9 @@ router.get('/fichas', getFichas);
 
 // Ruta para obtener aprendices por ficha
 router.get('/aprendices/:idficha', getAprendicesByFicha);
+
+// Ruta para asignar proyectos
+router.post('/asignar-proyectos', asignarProyecto);
+
 
 export default router;
