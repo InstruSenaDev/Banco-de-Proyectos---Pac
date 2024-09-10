@@ -5,14 +5,14 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import Areas from '../../Components/Modales/ModalAreas';
+import ModalFicha from '../../Components/Modales/ModalFichas'; 
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-const Area = () => {
+const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [currentUser, setCurrentUser] = useState(null); // Correcto
+  const [actionType, setActionType] = useState(''); // Correcto
 
   const navigate = useNavigate();
 
@@ -30,22 +30,14 @@ const Area = () => {
     setIsModalOpen(true); // Abrir el modal
   };
 
-
   const handleCloseModal = () => {
     setIsModalOpen(false); // Cerrar el modal
     setCurrentUser(null);
   };
 
-  const handleAddMember = (areas) => {
-    // Lógica para agregar un usuario
-    console.log('Agregar usuario:', areas);
-  };
-
   const handleGoBack = () => {
     navigate('/dashboard'); // Redirigir al dashboard
   };
-
-  
 
   return (
     <LayoutPrincipal title="Fichas">
@@ -64,17 +56,14 @@ const Area = () => {
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick} />
+              <BotonSegundoModal text="Agregar Ficha" id="addFichaBtn" onClick={handleAddClick} />
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <GridListFicha />
             </div>
             {isModalOpen && (
-              <Areas
-                onClose={handleCloseModal}
-                onAddMember={handleAddMember}
-                user={currentUser}
-                actionType={actionType}
+              <ModalFicha // Utiliza el modal correctamente
+                onClose={handleCloseModal} // Para cerrar el modal
               />
             )}
           </div>
@@ -84,4 +73,4 @@ const Area = () => {
   );
 };
 
-export default Area;
+export default Fichas;

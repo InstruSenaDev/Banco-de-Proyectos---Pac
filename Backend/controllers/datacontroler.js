@@ -193,30 +193,6 @@ async function obtenerTodosLosProyectos() {
     }
 }
 
-// Function to delete a person
-async function deletePerson(idpersonas) {
-    let client;
-    try {
-      console.log('Intentando eliminar persona con ID:', idpersonas);
-      client = await pool.connect();
-      const result = await client.query('DELETE FROM personas WHERE idpersonas = $1 RETURNING *', [idpersonas]);
-      if (result.rows.length > 0) {
-        console.log('Persona eliminada con éxito:', result.rows[0]);
-        return result.rows[0];
-      } else {
-        console.log('No se encontró persona con ID:', idpersonas);
-        return null;
-      }
-    } catch (error) {
-      console.error('Error al eliminar persona:', error);
-      throw error;
-    } finally {
-      if (client) {
-        client.release();
-      }
-    }
-  }
-
   async function getAllFicha() {
     try {
         const client = await pool.connect();
@@ -229,24 +205,27 @@ async function deletePerson(idpersonas) {
     }
 }
 
-async function getUserProjects(idpersonas) {
-    const client = await pool.connect();
-    try {
-      const result = await client.query('SELECT idproyecto, nombre FROM proyecto WHERE idpersona = $1', [idpersonas]);
-      return result.rows;
-    } finally {
+// Función para registrar una nueva ficha
+async function registerFicha({ nombre, numeroFicha, estado }) {
+  try {
+      console.log('Datos recibidos en registerFicha:', { nombre, numeroFicha, estado });
+
+      const client = await pool.connect();
+      const result = await client.query(
+          'INSERT INTO ficha (nombre, numeroficha, estado) VALUES ($1, $2, $3) RETURNING *',
+          [nombre, numeroFicha, estado]
+      );
       client.release();
-    }
+      console.log('Ficha registrada con éxito:', result.rows[0]);
+      return result.rows[0];
+  } catch (error) {
+      console.error('Error al registrar ficha:', error);
+      throw error;
   }
-  
-  async function unlinkUserFromProject(idpersonas, idproyecto) {
-    const client = await pool.connect();
-    try {
-      await client.query('UPDATE proyecto SET idpersona = NULL WHERE idproyecto = $1 AND idpersona = $2', [idproyecto, idpersonas]);
-    } finally {
-      client.release();
-    }
-  }
+}
+
+
+
 
 
 export {
@@ -261,9 +240,7 @@ export {
     getObjetivos,
     agregarPersona,
     obtenerTodosLosProyectos,
-    deletePerson,
     getAllFicha,
-    getUserProjects,
-    unlinkUserFromProject
+    registerFicha,
 
 };

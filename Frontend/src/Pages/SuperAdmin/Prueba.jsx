@@ -5,14 +5,10 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridList from './GridList/GridListU';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ConfirmarDelete from '../../Components/Modales/ConfirmarDelete';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Usuarios = () => {
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [actionType, setActionType] = useState('');
 
   const navigate = useNavigate();
 
@@ -24,21 +20,6 @@ const Usuarios = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleAddClick = () => {
-    setCurrentUser(null);
-    setActionType('add');
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setCurrentUser(null);
-  };
-
-  const handleAddMember = (user) => {
-    // Lógica para agregar un usuario
-    console.log('Agregar', user);
-  };
 
 
   const handleGoBack = () => {
@@ -64,19 +45,11 @@ const Usuarios = () => {
                 Volver
               </button>
               </p>
-              <BotonSegundoModal text="Agregar Usuario" id="addUserBtn" onClick={handleAddClick}/>
+              <BotonSegundoModal text="Agregar Usuario" id="addUserBtn"/>
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               <GridList />
             </div>
-            {isModalOpen && (
-              <ConfirmarDelete
-                onClose={handleCloseModal}
-                onAddMember={handleAddMember}
-                user={currentUser}
-                actionType={actionType}
-              />
-            )}
           </div>
         </Layoutcontenido>
       )}

@@ -30,11 +30,6 @@ const Usuarios = () => {
     setIsModalOpen(true);
   };
 
-  const handleEditClick = (user) => {
-    setCurrentUser(user);
-    setActionType('edit');
-    setIsModalOpen(true);
-  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -73,7 +68,7 @@ const Usuarios = () => {
               <BotonSegundoModal text="Agregar Usuario" id="addUserBtn" onClick={handleAddClick}/>
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
-              <GridList onEdit={handleEditClick} />
+              <GridList />
             </div>
             {isModalOpen && (
               <ModalUsuario
