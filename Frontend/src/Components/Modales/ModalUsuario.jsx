@@ -18,11 +18,11 @@ export default function ModalUsuario({ onClose, onAddMember }) {
     contrasena: '',
     celular: '',
     tipoRol: '',
-    estado: ''
+    estado: '',
   });
 
   const [errors, setErrors] = useState({});
-  const [, setSuccessMessage] = useState('');
+  const [setSuccessMessage] = useState('');
   const [showFichas, setShowFichas] = useState(false);
   const [fichaSeleccionada, setFichaSeleccionada] = useState('');
 

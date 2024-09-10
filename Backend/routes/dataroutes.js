@@ -6,15 +6,13 @@ import {
     getAllAlcances,
     getAllAreas,
     getTiposDeAreaPorArea,
-    getItemsPorAreaYTipo,
     getObjetivosPorArea,
     getObjetivos,
     agregarPersona,
     obtenerTodosLosProyectos,
     getAllFicha,
     registerFicha,
-
-
+    getItemsPorAreaYTipo,
 
 } from '../controllers/datacontroler.js';
 
@@ -98,17 +96,6 @@ router.get('/tipos-de-area/:idArea', async (req, res) => {
     }
   });
 
-  router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
-    try {
-      const { idArea, idTiposDeArea } = req.params;
-      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
-      res.json(items);
-    } catch (error) {
-      console.error('Error al obtener ítems:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-  });
-
 // Ruta para obtener todos los objetivos
 router.get('/objetivos', async (req, res) => {
     try {
@@ -182,5 +169,16 @@ router.post('/registerFicha', async (req, res) => {
         res.status(500).json({ error: 'Error al registrar ficha' });
     }
 });
+
+router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+    try {
+      const { idArea, idTiposDeArea } = req.params;
+      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
+      res.json(items);
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+  });
 
 export default router;

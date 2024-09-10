@@ -47,7 +47,7 @@ const Usuarios = () => {
               </p>
               <BotonSegundoModal text="Agregar Usuario" id="addUserBtn"/>
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div>
               <GridList />
             </div>
           </div>

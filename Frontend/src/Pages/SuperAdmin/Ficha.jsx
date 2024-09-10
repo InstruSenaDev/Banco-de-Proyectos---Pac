@@ -11,8 +11,8 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null); // Correcto
-  const [actionType, setActionType] = useState(''); // Correcto
+  const [, setCurrentUser] = useState(null); // Correcto
+  const [, setActionType] = useState(''); // Correcto
 
   const navigate = useNavigate();
 
@@ -58,7 +58,7 @@ const Fichas = () => {
               </button>
               <BotonSegundoModal text="Agregar Ficha" id="addFichaBtn" onClick={handleAddClick} />
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div>
               <GridListFicha />
             </div>
             {isModalOpen && (

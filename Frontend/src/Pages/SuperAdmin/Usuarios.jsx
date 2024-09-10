@@ -67,7 +67,7 @@ const Usuarios = () => {
               </p>
               <BotonSegundoModal text="Agregar Usuario" id="addUserBtn" onClick={handleAddClick}/>
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div >
               <GridList />
             </div>
             {isModalOpen && (

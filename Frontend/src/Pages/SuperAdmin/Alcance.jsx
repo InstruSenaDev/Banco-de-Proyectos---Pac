@@ -66,7 +66,7 @@ const Area = () => {
               </button>
               <BotonSegundoModal text="Agregar Alcance" id="addUserBtn" onClick={handleAddClick} />
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div>
               <GridListAlcance />
             </div>
             {isModalOpen && (

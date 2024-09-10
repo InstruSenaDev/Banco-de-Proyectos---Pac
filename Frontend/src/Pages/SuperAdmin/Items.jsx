@@ -67,7 +67,7 @@ const Area = () => {
               </button>
               <BotonSegundoModal text="Agregar Tipo Area" id="addUserBtn" onClick={handleAddClick} />
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div>
               <GridListItems onEdit={handleEditClick} onDelete={handleDeleteClick} />
             </div>
           </div>

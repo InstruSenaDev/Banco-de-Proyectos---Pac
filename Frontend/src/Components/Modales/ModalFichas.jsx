@@ -1,4 +1,4 @@
-import { useState,} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
@@ -15,16 +15,20 @@ const ModalFicha = ({ onClose }) => {
     let formErrors = {};
     let isValid = true;
 
-    // Validar Nombre de la ficha (solo letras)
-    const nombreFichaPattern = /^[A-Za-z\s]{2,50}$/;
-    if (!nombreFichaPattern.test(nombreFicha.trim())) {
+    // Validar Nombre de la ficha (solo letras, entre 2 y 50 caracteres)
+    if (!nombreFicha.trim()) {
+      formErrors.nombreFicha = 'El nombre de la ficha es obligatorio.';
+      isValid = false;
+    } else if (!/^[A-Za-z\s]{2,50}$/.test(nombreFicha.trim())) {
       formErrors.nombreFicha = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
       isValid = false;
     }
 
     // Validar Número de ficha (solo números, longitud exacta de 7 dígitos)
-    const fichasNumPattern = /^[0-9]{7}$/;
-    if (!fichasNumPattern.test(fichasNum.trim())) {
+    if (!fichasNum.trim()) {
+      formErrors.fichasNum = 'El número de ficha es obligatorio.';
+      isValid = false;
+    } else if (!/^[0-9]{7}$/.test(fichasNum.trim())) {
       formErrors.fichasNum = 'El número de ficha debe contener exactamente 7 dígitos.';
       isValid = false;
     }
@@ -41,7 +45,7 @@ const ModalFicha = ({ onClose }) => {
       const formData = {
         nombre: nombreFicha.trim(),
         numeroFicha: fichasNum.trim(),
-        estado: true, // Puedes ajustar esto según la lógica del estado
+        estado: true,
       };
 
       fetch('http://localhost:4000/api/registerFicha', {
@@ -61,7 +65,7 @@ const ModalFicha = ({ onClose }) => {
         })
         .then((data) => {
           console.log('Ficha registrada con éxito:', data);
-          onClose(); // Cerrar el modal al terminar
+          onClose();
         })
         .catch((error) => {
           console.error('Error al registrar ficha:', error);
@@ -72,6 +76,12 @@ const ModalFicha = ({ onClose }) => {
     } else {
       setIsSubmitting(false);
     }
+  };
+
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
+    // Limpiar el error específico cuando el usuario comienza a escribir
+    setErrors(prev => ({ ...prev, [e.target.id]: '' }));
   };
 
   return (
@@ -85,14 +95,14 @@ const ModalFicha = ({ onClose }) => {
         >
           <RiCloseLine className="size-5" aria-hidden={true} />
         </button>
-            <form onSubmit={handleSubmit} className="space-y-4">
-            <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-                Añade nuevo usuario
-            </h4>
-            <p className="mt-2 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
-                Por favor llene todos los datos del usuario
-            </p>
-          <div className="flex flex-col p-[5%] space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
+            Añade nueva ficha
+          </h4>
+          <p className="mt-2 text-tremor-default leading-6 text-tremor-content dark:text-dark-tremor-content">
+            Por favor llene todos los campos 
+          </p>
+          <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
               <div className="relative">
                 <Input2
@@ -100,26 +110,26 @@ const ModalFicha = ({ onClose }) => {
                   type="text"
                   placeholder="Sistemas"
                   value={nombreFicha}
-                  onChange={(e) => setNombreFicha(e.target.value)}
+                  onChange={handleInputChange(setNombreFicha)}
                   Text="Nombre del programa:"
                 />
-                {errors.nombreFicha && <p className="error-message">{errors.nombreFicha}</p>}
+                {errors.nombreFicha && <p className="error-message text-red-500 text-sm">{errors.nombreFicha}</p>}
               </div>
 
               <div className="relative">
                 <Input2
-                  id="FichasNum"
-                  type="number"
+                  id="fichasNum"
+                  type="text"
                   placeholder="2694265"
                   value={fichasNum}
-                  onChange={(e) => setFichasNum(e.target.value)}
+                  onChange={handleInputChange(setFichasNum)}
                   Text="Número de ficha:"
                 />
-                {errors.fichasNum && <p className="error-message">{errors.fichasNum}</p>}
+                {errors.fichasNum && <p className="error-message text-red-500 text-sm">{errors.fichasNum}</p>}
               </div>
             </div>
           </div>
-          <BotonSegundo text={isSubmitting ? 'Registrando...' : 'Agregar'} id="guardarBtn" disabled={isSubmitting} />
+          <BotonSegundo text="Agregar" id="guardarBtn" disabled={isSubmitting} />
         </form>
       </DialogPanel>
     </Dialog>

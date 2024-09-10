@@ -105,21 +105,6 @@ async function getTiposDeAreaPorArea(idArea) {
     }
   }
 
-  async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
-    try {
-      const client = await pool.connect();
-      const query = `
-        SELECT * FROM items
-        WHERE idarea = $1 AND idtiposdearea = $2
-      `;
-      const result = await client.query(query, [idArea, idTiposDeArea]);
-      client.release();
-      return result.rows;
-    } catch (error) {
-      console.error('Error al obtener ítems:', error);
-      throw error;
-    }
-  }
 
 // Obtener objetivos por área
 async function getObjetivosPorArea(idArea) {
@@ -224,9 +209,21 @@ async function registerFicha({ nombre, numeroFicha, estado }) {
   }
 }
 
-
-
-
+async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
+    try {
+      const client = await pool.connect();
+      const query = `
+        SELECT * FROM items
+        WHERE idarea = $1 AND idtiposdearea = $2
+      `;
+      const result = await client.query(query, [idArea, idTiposDeArea]);
+      client.release();
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      throw error;
+    }
+  }
 
 export {
     getAllPersonas,
@@ -235,12 +232,12 @@ export {
     getAllAlcances,
     getAllAreas,
     getTiposDeAreaPorArea,
-    getItemsPorAreaYTipo,
     getObjetivosPorArea,
     getObjetivos,
     agregarPersona,
     obtenerTodosLosProyectos,
     getAllFicha,
     registerFicha,
+    getItemsPorAreaYTipo,
 
 };

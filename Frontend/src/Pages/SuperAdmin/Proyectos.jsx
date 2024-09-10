@@ -47,7 +47,7 @@ const Proyectos = () => {
               </button>
               </p>
             </div>
-            <div className="bg-white shadow-md rounded-lg overflow-hidden">
+            <div >
               <GridListProyectos  />
             </div>
           </div>
