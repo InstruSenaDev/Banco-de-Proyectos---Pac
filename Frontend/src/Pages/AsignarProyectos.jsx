@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
-import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
-import AprendicesList from '../../Components/AprendicesList';
-import Loader from '../../Components/Loader';
-import BotonSegundo from '../../Components/BotonSegundo';
-import FichaSelector from '../../Components/FichaSelector';
+import LayoutPrincipal2 from '../layouts/LayoutPrincipal2';
+import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
+import AprendicesList from '../Components/AprendicesList';
+import Loader from '../Components/Loader';
+import BotonSegundo from '../Components/BotonSegundo';
+import FichaSelector from '../Components/FichaSelector';
 
 const AsignarProyectos = () => {
     const [fichas, setFichas] = useState([]);

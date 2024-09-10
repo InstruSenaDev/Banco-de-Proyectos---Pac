@@ -5,6 +5,9 @@ import Detalle from './Pages/Detalle';
 import Objetivos from './Pages/Objetivos';
 import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
+import AsignarProyectos from './Pages/AsignarProyectos';
+import Prueba from './Pages/Prueba';
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -14,12 +17,14 @@ function App() {
       <Routes>
         {/* Define las rutas correctamente */}
         <Route path="/" element={<Calificar />} />
+        <Route path='/prueba' element={<Prueba/>} />
         <Route path="/Calificar" element={<Calificar />} />
         <Route path="/Detalle/:id" element={<Detalle />} />
         {/* Ruta para los objetivos del proyecto */}
         <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
         <Route path="/alcance/:idproyecto" element={<Alcance />} />
         <Route path="/calificacion/:idproyecto" element={<Calificacion />} />
+        <Route path="/asignar-proyectos" element={<AsignarProyectos />} />
       </Routes>
     </Router>
   );

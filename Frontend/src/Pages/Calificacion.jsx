@@ -6,7 +6,6 @@ import { BarState } from "../Components/BarState";
 import { ModalComent } from "../Components/ModalComent";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import Loader from "../Components/Loader";
-import { ModalConfirm } from "../Components/ModalConfirm";
 import { usePostCalificacion } from "../../hooks/usePostCalificacion";
 
 const Calificacion = () => {
@@ -18,7 +17,6 @@ const Calificacion = () => {
     const [promedioFinal, setPromedioFinal] = useState(0);
     const [viewLoading, setViewLoading] = useState(true);
     const { postCalificacion, loading } = usePostCalificacion();
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     useEffect(() => {
         const promedioFinalCalculado = Math.round((promedioObjetivos + promedioAlcance) / 2);
@@ -32,7 +30,7 @@ const Calificacion = () => {
         const exito = await postCalificacion(idproyecto, promedioFinal, estado, comentario, detalles);
 
         if (exito) {
-            setShowConfirmModal(true);
+            navigate("/asignar-proyectos");
         }
     };
 
@@ -48,17 +46,12 @@ const Calificacion = () => {
         guardarCalificacion("Rechazado", comentario);
     };
 
-    const handleConfirmClose = () => {
-        setShowConfirmModal(false);
-        navigate("/");
-    };
-
     return (
         <Layoutprincipal title="Detalle del proyecto">
             {viewLoading ? (
                 <Loader />
             ) : (
-                <Layoutcontenido2 title="" text1="Calificacion del proyecto">
+                <Layoutcontenido2 title="" text1="Calificación del proyecto">
                     {loading ? (
                         <Loader />
                     ) : (
@@ -80,10 +73,6 @@ const Calificacion = () => {
                                 </Link>
                             </div>
                         </div>
-                    )}
-
-                    {showConfirmModal && (
-                        <ModalConfirm onClose={handleConfirmClose} />
                     )}
                 </Layoutcontenido2>
             )}
