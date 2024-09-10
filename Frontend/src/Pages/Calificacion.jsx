@@ -7,6 +7,7 @@ import { ModalComent } from "../Components/ModalComent";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import Loader from "../Components/Loader";
 import { ModalConfirm } from "../Components/ModalConfirm";
+import { usePostCalificacion } from "../../hooks/usePostCalificacion";
 
 const Calificacion = () => {
     const { idproyecto } = useParams();
@@ -15,8 +16,8 @@ const Calificacion = () => {
     const promedioObjetivos = location.state?.promedioObjetivos || 0;
     const promedioAlcance = location.state?.promedio || 0;
     const [promedioFinal, setPromedioFinal] = useState(0);
-    const [loading, setLoading] = useState(false);
     const [viewLoading, setViewLoading] = useState(true);
+    const { postCalificacion, loading } = usePostCalificacion();
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     useEffect(() => {
@@ -26,36 +27,12 @@ const Calificacion = () => {
     }, [promedioAlcance, promedioObjetivos]);
 
     const guardarCalificacion = async (estado, comentario) => {
-        setLoading(true);
         const detalles = [...(location.state.detallesObjetivos || []), ...(location.state.detallesAlcance || [])];
 
-        const calificacionData = {
-            idproyecto,
-            resultado: promedioFinal.toFixed(2),
-            estado,
-            comentario,
-            detalles
-        };
+        const exito = await postCalificacion(idproyecto, promedioFinal, estado, comentario, detalles);
 
-        try {
-            const response = await fetch("http://localhost:4000/api/calificaciones", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(calificacionData),
-            });
-
-            if (response.ok) {
-                setLoading(false);
-                setShowConfirmModal(true);
-            } else {
-                console.error("Error al guardar la calificación");
-                setLoading(false);
-            }
-        } catch (error) {
-            console.error("Error en la petición:", error);
-            setLoading(false);
+        if (exito) {
+            setShowConfirmModal(true);
         }
     };
 
