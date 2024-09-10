@@ -1,32 +1,28 @@
-import React, { useState } from 'react';
 
-const BotonPrincipal = ({ Text, className, id }) => {
-  const [active, setActive] = useState(false);
+import PropTypes from 'prop-types';
 
-  const handleClick = (event) => {
-    setActive(true);
-
-    // Reiniciar la clase de fondo en todos los botones
-    setTimeout(() => {
-      setActive(false);
-    }, 500); // Duración del efecto de cambio
-
-    // Aquí podrías agregar más lógica si es necesario
-  };
-
-  return (
-    <button
-      id={id}
-      className={`relative cursor-pointer font-semibold overflow-hidden z-10 border border-[#A3E784] group w-[175px] h-[44px] py-[10px] rounded-[5px] mt-3 self-center ${className || ''} ${active ? 'bg-[#A3E784]' : ''}`}
-      onClick={handleClick}
-    >
-      <span className="relative z-10 text-black group-hover:text-black text-[18px] duration-500">
-        {Text}
-      </span>
-      <span className="absolute w-full h-full bg-[#A3E784] -left-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:left-0 duration-500"></span>
-      <span className="absolute w-full h-full bg-[#A3E784] -right-32 top-0 -rotate-45 group-hover:rotate-0 group-hover:right-0 duration-500"></span>
-    </button>
-  );
+const BotonSegundoModal = ({ text, id, onClick}) => {
+    return (
+        <div className="flex justify-end">
+            <button
+                id={id}
+                onClick={onClick} 
+                className="w-[147px] h-[40px] z-30 rounded-[5px] text-white relative font-semibold font-sans border border-[#A3E784]
+          after:-z-20 after:absolute after:h-1 after:w-1 after:bg-[#90cc74] after:left-5 overflow-hidden after:bottom-0 after:translate-y-full
+          after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 after:transition-all after:duration-700
+          transition-all duration-700 mt-3">
+                <span className="relative z-10 text-black group-hover:text-black text-[16px] duration-500">
+                    {text}
+                </span>
+            </button>
+        </div>
+    );
 };
 
-export default BotonPrincipal;
+BotonSegundoModal.propTypes = {
+    text: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    onClick: PropTypes.string.isRequired,
+};
+
+export default BotonSegundoModal;

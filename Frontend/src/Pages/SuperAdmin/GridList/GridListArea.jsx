@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Loader from '../../Components/Loader';
+import Loader from '../../../Components/Loader';
 
 const GridListArea = () => {
   const [data, setData] = useState([]);
@@ -29,7 +28,6 @@ const GridListArea = () => {
         <thead className="bg-[#A3E784]">
           <tr>
             <th className="px-6 py-3 text-left text-gray-900">Nombre del Área</th>
-            <th className="px-6 py-3 text-gray-900">Accion</th>
           </tr>
         </thead>
         {loading ? (
@@ -45,16 +43,6 @@ const GridListArea = () => {
         {data.map((item) => (
               <tr key={item.idarea}>
                 <td className="px-6 py-4 whitespace-nowrap">{item.area}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-right">
-                <div className="flex items-center justify-center ">
-                  <button
-                        onClick
-                        className="p-3 text-red-500 hover:bg-red-100 rounded-lg"
-                      >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
-                  </div>
-                </td>
               </tr>
           ))}
         </tbody>
@@ -64,9 +52,5 @@ const GridListArea = () => {
   );
 };
 
-GridListArea.propTypes = {
-  onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
 
 export default GridListArea;

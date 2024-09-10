@@ -1,11 +1,11 @@
 
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
-import Layoutprincipal from '../layouts/LayoutPrincipal';
-import Layoutcontenido from '../Layouts/Layoutcontenido';
-import { CardBase } from '../Components/CardBase';
-import { ChartDonut } from '../Components/ChartDonut';
-import Loader from '../Components/Loader';
+import Layoutprincipal from '../../layouts/LayoutPrincipal';
+import Layoutcontenido from '../../Layouts/Layoutcontenido';
+import { CardBase } from '../../Components/CardBase';
+import { ChartDonut } from '../../Components/ChartDonut';
+import Loader from '../../Components/Loader';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);

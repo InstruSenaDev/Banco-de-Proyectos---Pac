@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../layouts/LayoutPrincipal';
-import Layoutcontenido from '../Layouts/Layoutcontenido4';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridList from './GridList/GridListU';
-import Loader from '../Components/Loader';
-import BotonSegundoModal from '../Components/BotonSegundoModal';
-import ModalUsuario from '../Components/Modales/ModalUsuario';
+import Loader from '../../Components/Loader';
+import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import ConfirmarDelete from '../../Components/Modales/ConfirmarDelete';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Usuarios = () => {
@@ -30,18 +30,6 @@ const Usuarios = () => {
     setIsModalOpen(true);
   };
 
-  const handleEditClick = (user) => {
-    setCurrentUser(user);
-    setActionType('edit');
-    setIsModalOpen(true);
-  };
-
-  const handleDeleteClick = (user) => {
-    setCurrentUser(user);
-    setActionType('delete');
-    setIsModalOpen(true);
-  };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setCurrentUser(null);
@@ -52,15 +40,6 @@ const Usuarios = () => {
     console.log('Agregar', user);
   };
 
-  const handleEditMember = (user) => {
-    // Lógica para editar un usuario
-    console.log('Editar', user);
-  };
-
-  const handleDeleteMember = (user) => {
-    // Lógica para borrar un usuario
-    console.log('Borrar ', user);
-  };
 
   const handleGoBack = () => {
     navigate('/dashboard'); // Redirigir al dashboard
@@ -88,14 +67,12 @@ const Usuarios = () => {
               <BotonSegundoModal text="Agregar Usuario" id="addUserBtn" onClick={handleAddClick}/>
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
-              <GridList onEdit={handleEditClick} onDelete={handleDeleteClick} />
+              <GridList />
             </div>
             {isModalOpen && (
-              <ModalUsuario
+              <ConfirmarDelete
                 onClose={handleCloseModal}
                 onAddMember={handleAddMember}
-                onEditMember={handleEditMember}
-                onDeleteMember={handleDeleteMember}
                 user={currentUser}
                 actionType={actionType}
               />

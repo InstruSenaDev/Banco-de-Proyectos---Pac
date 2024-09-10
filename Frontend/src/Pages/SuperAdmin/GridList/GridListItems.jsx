@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Loader from '../../Components/Loader';
+import Loader from '../../../Components/Loader';
 
 const GridListArea = () => {
   const [areas, setAreas] = useState([]);
@@ -95,14 +94,6 @@ const GridListArea = () => {
                     <td className="px-6 py-4 whitespace-nowrap pl-8 w-full" colSpan="2">
                       <div className="flex justify-between">
                       <span className="font-medium text-gray-900">{tipo.tiposdearea}</span>
-                        <div className="flex items-center justify-center ">
-                          <button
-                                onClick
-                                className="p-1 text-red-500 hover:bg-red-100 rounded-lg"
-                              >
-                                <i className="fas fa-trash-alt"></i>
-                              </button>
-                          </div>
                         </div>
                     </td>
                   </tr>
@@ -116,8 +107,5 @@ const GridListArea = () => {
   );
 };
 
-GridListArea.propTypes = {
-  onDelete: PropTypes.func.isRequired,
-};
 
 export default GridListArea;

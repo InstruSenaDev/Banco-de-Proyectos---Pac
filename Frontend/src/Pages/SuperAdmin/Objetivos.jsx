@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../layouts/LayoutPrincipal';
-import Layoutcontenido from '../Layouts/Layoutcontenido4';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
-import Loader from '../Components/Loader';
-import BotonSegundoModal from '../Components/BotonSegundoModal';
-import ModalObjetivos from '../Components/Modales/ModalObjetivos';
+import Loader from '../../Components/Loader';
+import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import ModalObjetivos from '../../Components/Modales/ModalObjetivos';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
@@ -30,18 +30,6 @@ const Area = () => {
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleEditClick = (user) => {
-    setCurrentUser(user);
-    setActionType('edit');
-    setIsModalOpen(true); // Abrir el modal
-  };
-
-  const handleDeleteClick = (user) => {
-    setCurrentUser(user);
-    setActionType('delete');
-    setIsModalOpen(true); // Abrir el modal
-  };
-
   const handleCloseModal = () => {
     setIsModalOpen(false); // Cerrar el modal
     setCurrentUser(null);
@@ -50,16 +38,6 @@ const Area = () => {
   const handleAddMember = (user) => {
     // Lógica para agregar un usuario
     console.log('Agregar ', user);
-  };
-
-  const handleEditMember = (user) => {
-    // Lógica para editar un usuario
-    console.log('Editar ', user);
-  };
-
-  const handleDeleteMember = (user) => {
-    // Lógica para borrar un usuario
-    console.log('Borrar', user);
   };
 
   const handleGoBack = () => {
@@ -88,14 +66,12 @@ const Area = () => {
               <BotonSegundoModal text="Agregar Tipo Area" id="addUserBtn" onClick={handleAddClick} />
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
-              <GridListObjetivos onEdit={handleEditClick} onDelete={handleDeleteClick} />
+              <GridListObjetivos />
             </div>
             {isModalOpen && (
               <ModalObjetivos
                 onClose={handleCloseModal}
                 onAddMember={handleAddMember}
-                onEditMember={handleEditMember}
-                onDeleteMember={handleDeleteMember}
                 user={currentUser}
                 actionType={actionType}
               />

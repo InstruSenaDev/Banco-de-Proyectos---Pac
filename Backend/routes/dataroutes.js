@@ -13,6 +13,8 @@ import {
     obtenerTodosLosProyectos,
     deletePerson,
     getAllFicha,
+    getUserProjects,
+    unlinkUserFromProject,
 
 
 } from '../controllers/datacontroler.js';
@@ -189,6 +191,28 @@ router.delete('/personas/:id', async (req, res) => {
         res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
     }
 });
+
+router.get('/personas/:id/proyectos', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const projects = await getUserProjects(id);
+      res.json(projects);
+    } catch (error) {
+      console.error('Error al obtener proyectos del usuario:', error);
+      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+  });
+  
+  router.post('/personas/:id/unlink-proyecto/:idproyecto', async (req, res) => {
+    try {
+      const { id, idproyecto } = req.params;
+      await unlinkUserFromProject(id, idproyecto);
+      res.json({ message: 'Usuario desligado del proyecto con éxito' });
+    } catch (error) {
+      console.error('Error al desligar usuario del proyecto:', error);
+      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+  });
 
 
 export default router;

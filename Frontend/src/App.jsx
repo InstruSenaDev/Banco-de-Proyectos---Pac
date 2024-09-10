@@ -1,16 +1,16 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Dashboard from './Pages/Dashboard';
-import Usuarios from './Pages/Usuarios';
-import Prueba from './Pages/Prueba';
-import Proyectos from './Pages/Proyectos';
-import Areas from './Pages/Areas';
-import TipoArea from './Pages/TipodeArea';
-import Objetivos from './Pages/Objetivos'
-import Alcance from './Pages/Alcance';
-import Items from './Pages/Items'
-import Ficha from'./Pages/Ficha';
+import Dashboard from './Pages/SuperAdmin/Dashboard';
+import Usuarios from './Pages//SuperAdmin/Usuarios';
+import Prueba from './Pages//SuperAdmin/Prueba';
+import Proyectos from './Pages//SuperAdmin/Proyectos';
+import Areas from './Pages//SuperAdmin/Areas';
+import TipoArea from './Pages//SuperAdmin/TipodeArea';
+import Objetivos from './Pages//SuperAdmin/Objetivos'
+import Alcance from './Pages//SuperAdmin/Alcance';
+import Items from './Pages//SuperAdmin/Items'
+import Ficha from './Pages//SuperAdmin/Ficha';
 
 
 

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Loader from '../../Components/Loader';
+import Loader from '../../../Components/Loader';
 
 const GridListFicha = () => {
   const [data, setData] = useState([]);
@@ -35,9 +34,8 @@ const Badge = ({ variant, children}) => {
         <thead className="bg-[#A3E784]">
           <tr>
             <th className="px-6 py-3 text-left text-gray-900">Nombre del Ficha</th>
-            <th className="px-6 py-3 text-left text-gray-900">Numero ficha</th>
             <th className="px-6 py-3 text-left text-gray-900">Estado</th>
-            <th className="px-6 py-3 text-gray-900">Accion</th>
+            <th className="px-6 py-3 text-left text-gray-900">Numero ficha</th>
           </tr>
         </thead>
         {loading ? (
@@ -50,7 +48,7 @@ const Badge = ({ variant, children}) => {
         </div>
       ) : (
         <tbody className="bg-white divide-y divide-gray-200 overflow-hidden">
-         {data.map((item) => (
+        {data.map((item) => (
               <tr key={item.idficha}>
                 <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -59,16 +57,6 @@ const Badge = ({ variant, children}) => {
                   </Badge>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">{item.numeroficha}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-right">
-                <div className="flex items-center justify-center ">
-                  <button
-                        onClick
-                        className="p-3 text-red-500 hover:bg-red-100 rounded-lg"
-                      >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
-                  </div>
-                </td>
               </tr>
           ))}
         </tbody>
@@ -78,9 +66,5 @@ const Badge = ({ variant, children}) => {
   );
 };
 
-GridListFicha.propTypes = {
-  onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
 
 export default GridListFicha;

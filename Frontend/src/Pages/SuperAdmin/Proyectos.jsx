@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../layouts/LayoutPrincipal';
-import Layoutcontenido from '../Layouts/Layoutcontenido4';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListProyectos from './GridList/GridListProyectos';
-import Loader from '../Components/Loader';
+import Loader from '../../Components/Loader';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 
 const Proyectos = () => {
   const [loading, setLoading] = useState(true);
-  const [ setCurrentUser] = useState(null);
-  const [ setActionType] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,10 +20,6 @@ const Proyectos = () => {
   }, []);
 
 
-  const handleDeleteClick = (proyectos) => {
-    setCurrentUser(proyectos);
-    setActionType('delete');
-  };
 
   const handleGoBack = () => {
     navigate('/dashboard'); // Redirigir al dashboard
@@ -55,7 +48,7 @@ const Proyectos = () => {
               </p>
             </div>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
-              <GridListProyectos onDelete={handleDeleteClick} />
+              <GridListProyectos  />
             </div>
           </div>
         </Layoutcontenido>

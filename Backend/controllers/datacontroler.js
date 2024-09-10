@@ -228,7 +228,25 @@ async function deletePerson(idpersonas) {
         throw error;
     }
 }
+
+async function getUserProjects(idpersonas) {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT idproyecto, nombre FROM proyecto WHERE idpersona = $1', [idpersonas]);
+      return result.rows;
+    } finally {
+      client.release();
+    }
+  }
   
+  async function unlinkUserFromProject(idpersonas, idproyecto) {
+    const client = await pool.connect();
+    try {
+      await client.query('UPDATE proyecto SET idpersona = NULL WHERE idproyecto = $1 AND idpersona = $2', [idproyecto, idpersonas]);
+    } finally {
+      client.release();
+    }
+  }
 
 
 export {
@@ -244,5 +262,8 @@ export {
     agregarPersona,
     obtenerTodosLosProyectos,
     deletePerson,
-    getAllFicha
+    getAllFicha,
+    getUserProjects,
+    unlinkUserFromProject
+
 };

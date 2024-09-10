@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
-import PropTypes from 'prop-types';
-import Loader from '../../Components/Loader';
+import Loader from '../../../Components/Loader';
 
 
-const GridListProyectos = ({ onEdit, }) => {
+const GridListProyectos = () => {
   const [data, setData] = useState([]); // Inicializa el estado con un array vacío
   const [loading, setLoading] = useState(true); // Estado para manejar la carga
 
@@ -31,7 +29,7 @@ const GridListProyectos = ({ onEdit, }) => {
           <tr>
             <th className="px-6 py-3 text-left text-gray-900">Nombre</th>
             <th className="px-6 py-3 text-left text-gray-900">Responsable</th>
-            <th className="px-6 py-3 text-gray-900">Accion</th>
+            <th className="px-6 py-3 text-left text-gray-900">Estado</th>
           </tr>
         </thead>
         {loading ? (
@@ -48,16 +46,6 @@ const GridListProyectos = ({ onEdit, }) => {
             <tr key={item.idproyecto}>
               <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.responsable}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-right">
-              <div className="flex items-center justify-center ">
-                  <button
-                        onClick={() => handleDelete(item.idpersonas)}
-                        className="p-3 text-red-500 hover:bg-red-100 rounded-lg"
-                      >
-                        <i className="fas fa-trash-alt"></i>
-                      </button>
-                </div>
-              </td>
             </tr>
           ))}
         </tbody>
@@ -67,10 +55,5 @@ const GridListProyectos = ({ onEdit, }) => {
   );
 }
 
-
-GridListProyectos.propTypes = {
-  onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
-};
 
 export default GridListProyectos;
