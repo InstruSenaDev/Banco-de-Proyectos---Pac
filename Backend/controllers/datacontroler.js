@@ -228,18 +228,24 @@ const getAprendicesByFicha = async (req, res) => {
 };
 
 // Controlador para asignar proyectos
+
 const asignarProyecto = async (req, res) => {
   const { idproyecto, idpersona } = req.body;
 
+  console.log('Datos recibidos:', { idproyecto, idpersona }); // Log de los datos recibidos
+
   try {
-    const result = await db.query(
+    const result = await pool.query( // Usando pool.query correctamente
       'INSERT INTO asignaciones_proyectos (idproyecto, idpersona) VALUES ($1, $2) RETURNING *',
       [idproyecto, idpersona]
     );
+
+    console.log('Resultado de la inserción:', result.rows[0]); // Log del resultado
+
     res.status(201).json({ success: true, data: result.rows[0] });
   } catch (error) {
-    console.error('Error al asignar proyecto:', error);
-    res.status(500).json({ success: false, message: 'Error al asignar proyecto' });
+    console.error('Error al asignar proyecto:', error); // Log del error
+    res.status(500).json({ success: false, message: 'Error al asignar proyecto', error: error.message });
   }
 };
 

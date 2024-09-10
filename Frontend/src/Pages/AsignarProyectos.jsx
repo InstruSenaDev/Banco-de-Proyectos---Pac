@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
 import Layoutprincipal from '../Layouts/Layoutprincipal';
-import Layoutcontenido from '../Layouts/Layoutcontenido';
+import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
 import useFichasYAprendices from '../../hooks/useFichasYAprendices';
+import { useAsignarProyecto } from '../../hooks/useAsignarProyecto';
 import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
-import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
+
 const AsignarProyectos = () => {
   const {
     fichas,
@@ -15,6 +16,24 @@ const AsignarProyectos = () => {
     loading,
     error,
   } = useFichasYAprendices();
+
+  const { asignarProyecto, loading: saving, error: saveError } = useAsignarProyecto();
+  const [selectedAprendices, setSelectedAprendices] = useState([]);
+
+  const handleCheckboxChange = (idpersona) => {
+    setSelectedAprendices(prevState =>
+      prevState.includes(idpersona)
+        ? prevState.filter(id => id !== idpersona)
+        : [...prevState, idpersona]
+    );
+  };
+
+  const handleGuardarClick = async () => {
+    for (const idpersona of selectedAprendices) {
+      await asignarProyecto(selectedFicha, idpersona);
+    }
+    // Aquí puedes agregar lógica adicional después de guardar, como mostrar una notificación o redirigir al usuario.
+  };
 
   return (
     <Layoutprincipal title="Asignación de Proyecto">
@@ -62,6 +81,8 @@ const AsignarProyectos = () => {
                         <input
                           type="checkbox"
                           className="form-checkbox h-5 w-5 text-green-500"
+                          checked={selectedAprendices.includes(aprendiz.idpersonas)}
+                          onChange={() => handleCheckboxChange(aprendiz.idpersonas)}
                         />
                       </TableCell>
                     </TableRow>
@@ -72,9 +93,11 @@ const AsignarProyectos = () => {
           </div>
 
           <div className="flex justify-end mt-6 mr-4 space-x-4">
-          <BotonPrincipal Text='Volver'/>
-          <BotonSegundo Text='Guardar'/>
+            <BotonPrincipal Text='Volver' />
+            <BotonSegundo Text='Guardar' onClick={handleGuardarClick} disabled={saving} />
           </div>
+
+          {saveError && <p className="text-red-500">Error al guardar la asignación: {saveError}</p>}
         </Card>
       </Layoutcontenido2>
     </Layoutprincipal>
