@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 
 import transporter from '../config/nodemailerConfig.js';
-import { checkEmailExists, updateProfile,  updatePassword, checkIfUserExists, getAllPersonas, 
+import { checkEmailExists, updateProfile,  updatePassword, checkIfUserExists, getAllPersonas, getAllFicha,
   getAllUsuario, 
   registerPerson, 
   loginPerson, 
@@ -174,6 +174,75 @@ router.post('/register', async (req, res) => {
       res.status(500).json({ error: 'Internal server error', details: error.message });
   }
 });
+
+// Ruta para obtener todas las preguntas junto con sus categorías
+router.get('/alcances', async (req, res) => {
+  try {
+      const alcances = await getAllAlcances();
+      res.json(alcances);
+  } catch (error) {
+      console.error('Error al obtener alcances:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
+// Ruta para obtener todas las áreas
+router.get('/areas', async (req, res) => {
+  try {
+      const areas = await getAllAreas();
+      res.json(areas);
+  } catch (error) {
+      console.error('Error al obtener áreas:', error);
+      res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
+  }
+});
+
+// Ruta para obtener los tipos de área de acuerdo al área seleccionada
+router.get('/tipos-de-area/:idArea', async (req, res) => {
+  try {
+    const idArea = req.params.idArea;
+    const tiposDeArea = await getTiposDeAreaPorArea(idArea);
+    res.json(tiposDeArea);
+  } catch (error) {
+    console.error('Error al obtener tipos de área:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
+router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+  try {
+    const { idArea, idTiposDeArea } = req.params;
+    const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
+    res.json(items);
+  } catch (error) {
+    console.error('Error al obtener ítems:', error);
+    res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
+// Ruta para obtener todos los objetivos
+router.get('/objetivos', async (req, res) => {
+  try {
+      const objetivos = await getObjetivos();
+      res.json(objetivos);
+  } catch (error) {
+      console.error('Error al obtener objetivos:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+  }
+});
+
+
+router.get('/objetivos/:idarea', async (req, res) => {
+  const { idarea } = req.params;
+  try {
+      const objetivos = await getObjetivosPorArea(idarea);
+      res.json(objetivos);
+  } catch (error) {
+      console.error('Error al obtener objetivos:', error);
+      res.status(500).json({ error: 'Error al obtener objetivos' });
+  }
+});
+
 
 
 // Ruta para iniciar sesión
@@ -398,6 +467,16 @@ router.post('/guardarRespuestasObjetivos', async (req, res) => {
   } catch (error) {
     console.error('Error al guardar respuestas:', error);
     res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+  }
+});
+
+router.get('/ficha', async (req, res) => {
+  try {
+      const ficha = await getAllFicha();
+      res.json(ficha);
+  } catch (error) {
+      console.error('Error al obtener fichas:', error);
+      res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
   }
 });
 
