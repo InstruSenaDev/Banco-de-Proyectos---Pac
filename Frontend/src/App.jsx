@@ -6,7 +6,6 @@ import Objetivos from './Pages/Objetivos';
 import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
 import AsignarProyectos from './Pages/AsignarProyectos';
-import Prueba from './Pages/Prueba';
 
 
 function App() {
@@ -17,7 +16,6 @@ function App() {
       <Routes>
         {/* Define las rutas correctamente */}
         <Route path="/" element={<Calificar />} />
-        <Route path='/prueba' element={<Prueba/>} />
         <Route path="/Calificar" element={<Calificar />} />
         <Route path="/Detalle/:id" element={<Detalle />} />
         {/* Ruta para los objetivos del proyecto */}
