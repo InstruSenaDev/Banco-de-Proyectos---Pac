@@ -65,6 +65,8 @@ const VistaAreas1 = () => {
     return <Loader />; // Asegúrate de tener un componente Loader
   }
 
+  const projectId = new URLSearchParams(window.location.search).get('projectId'); // Obtener projectId
+
   return (
     <LayoutPrincipal title="">
       <Layoutcontenido title="">
@@ -86,7 +88,7 @@ const VistaAreas1 = () => {
         </div>
 
         <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-          <a href="/RegistroProyecto" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
+          <a href={`/Usuario/RegistroProyecto/${projectId}`} className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:pr-8">
             <BotonPrincipal Text="Volver" />
           </a>
         </div>

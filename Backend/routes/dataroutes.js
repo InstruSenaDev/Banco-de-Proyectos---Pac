@@ -21,7 +21,8 @@ import {
     getUserNameById,
     getFichas,
     getAprendicesByFicha,
-    getProyectosUsuario
+    getProyectosUsuario,
+    updateProject
 
 
 } from '../controllers/datacontroler.js';
@@ -182,6 +183,48 @@ router.post('/proyectos', async (req, res) => {
     }
 });
 
+
+// Ruta para actualizar un proyecto existente
+router.put('/proyectos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
+
+        // Asegúrate de que el idpersona está presente y es válido
+        if (!idpersona) {
+            return res.status(400).json({ error: 'Id de usuario no disponible. El usuario debe estar autenticado.' });
+        }
+
+        // Convertir cadenas vacías a null
+        idarea = idarea || null;
+        idficha = idficha || null;
+        idrespuestaobjetivos = idrespuestaobjetivos || null;
+        idrespuestaalcance = idrespuestaalcance || null;
+        iditems = iditems || null;
+        idtiposdearea = idtiposdearea || null;
+
+        const updatedProject = await updateProject({
+            idproyecto: id,
+            nombre,
+            impacto,
+            responsable,
+            disponibilidad,
+            dia,
+            idarea,
+            idficha,
+            idpersona,
+            idrespuestaobjetivos,
+            idrespuestaalcance,
+            iditems,
+            idtiposdearea,
+        });
+
+        res.status(200).json(updatedProject);
+    } catch (error) {
+        console.error('Error al actualizar proyecto:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
 
 // Ruta para obtener todas las preguntas junto con sus categorías
 router.get('/alcances', async (req, res) => {
