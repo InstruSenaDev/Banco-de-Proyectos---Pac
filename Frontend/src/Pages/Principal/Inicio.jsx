@@ -42,6 +42,7 @@ const Inicio = () => {
         }
       } else {
         localStorage.setItem('userId', result.id); // Almacena el id del usuario
+        localStorage.setItem('userName', result.nombre); // Almacena el nombre del usuario
         localStorage.setItem('userRole', result.rol); // Almacena el rol del usuario
   
         // Redirige según el rol del usuario

@@ -1,7 +1,8 @@
+// /frontend/components/Navbar.js
 import React from 'react';
 import Buscador from '../Components/Buscador';
 
-const Navbar = ({ Text }) => {
+const Navbar = ({ userName }) => {
   return (
     <nav className="bg-white flex p-4 justify-between">
       <div className="flex items-start">
@@ -10,7 +11,9 @@ const Navbar = ({ Text }) => {
       
       <div className="flex grid-cols-2 justify-center items-center mr-6 max-[768px]:hidden">
         <img src="/public/img/perfil.png" alt="User Avatar" className="flex rounded-full w-12 h-12 mr-2 justify-end" />
-        <span className="text-black">Karen Riascos <br />{Text}</span>
+        <span className="text-blue-800">
+          {userName} <br />
+        </span>
       </div>
     </nav>
   );

@@ -5,8 +5,11 @@ import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import BotonPrincipal from '../../Components/BotonPrincipal.jsx';
 import ModalPerfil from '../../Components/Modal.jsx';
+import Navbar from '../../Components/Navbar'; // Ajusta la ruta si es necesario
 
 const EditarPerfil = () => {
+
+
   const [formData, setFormData] = useState({
     id: null,
     nombre: '',
@@ -43,7 +46,7 @@ const EditarPerfil = () => {
 
     // Validar nombre
     if (formData.nombre.trim() === '') {
-      newErrors.nombre = 'El nombre completo es requerido.';
+      newErrors.nombre = 'El nombre completo es obligatorio.';
       isValid = false;
     } else if (!/^[a-zA-Z\s]+$/.test(formData.nombre.trim())) {
       newErrors.nombre = 'El nombre solo puede contener letras y espacios.';
@@ -67,7 +70,7 @@ const EditarPerfil = () => {
 
     // Validar teléfono
     if (formData.telefono.trim() === '') {
-      newErrors.telefono = 'El teléfono es requerido.';
+      newErrors.telefono = 'El teléfono es obligatorio';
       isValid = false;
     } else if (!/^\d+$/.test(formData.telefono.trim())) {
       newErrors.telefono = 'El teléfono solo puede contener dígitos.';
@@ -193,8 +196,10 @@ if (formData.confiContraseña.trim() === '') {
   };
 
   return (
+    
     <LayoutPrincipal title="Editar Perfil">
       <Layoutcontenido3 title="Editar Perfil">
+
         <div className="w-full md:w-1/2">
           <div className="flex flex-col p-[5%] Flex-box">
             <form onSubmit={handleSubmit} className="">
@@ -223,7 +228,7 @@ if (formData.confiContraseña.trim() === '') {
                 value={formData.numerodocumento}
                 onChange={handleChange}
               />
-             <div className="text-red-500">{errors.nombre}</div> {/* Muestra el error de nombre */}
+             <div className="text-red-500">{errors.numerodocumento}</div> {/* Muestra el error de nombre */}
 
               <Input
                 placeholder="Teléfono"

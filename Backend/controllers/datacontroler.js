@@ -147,7 +147,8 @@ async function loginPerson(correo, contraseña) {
             const match = await bcrypt.compare(contraseña, person.contraseña);
             if (match) {
                 console.log('ID del usuario encontrado:', person.idpersonas);  // Mostrar el ID en el backend
-                return { id: person.idpersonas, rol: person.idrol };  // Devuelve el idpersonas y el rol del usuario
+                console.log('nombre encontrado:', person.nombre);  // Mostrar el ID en el backend
+                return { id: person.idpersonas, rol: person.idrol, nombre: person.nombre };  // Devuelve el idpersonas y el rol del usuario
             } else {
                 return null;
             }
