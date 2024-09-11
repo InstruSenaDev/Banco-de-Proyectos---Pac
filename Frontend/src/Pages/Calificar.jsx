@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import CardProyect from "../Components/CardProyect";
 import RadioButton from "../Components/RadioButton";
 import BotonSegundo from "../Components/BotonSegundo";
-import Layoutprincipal from "../Layouts/Layoutprincipal";
 import Layoutcontenido from "../Layouts/Layoutcontenido";
+import Layoutprincipal from "../Layouts/LayoutPrincipal";
 
 const Calificar = () => {
   const [data, setData] = useState([]);
@@ -26,6 +26,8 @@ const Calificar = () => {
         const proyectos = await response.json();
         console.log('Proyectos obtenidos:', proyectos);
         setData(proyectos);
+        console.log(data);
+        
       } else {
         console.error("Error al obtener los proyectos:", response.statusText);
       }

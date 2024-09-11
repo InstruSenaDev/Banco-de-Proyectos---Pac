@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Layoutprincipal from "../Layouts/Layoutprincipal";
-import Layoutcontenido2 from "../Layouts/Layoutcontenido2";
+import Layoutprincipal from "../Layouts/LayoutPrincipal";
+import Layoutcontenido2 from "../layouts/Layoutcontenido2";
 import { ListProject } from "../Components/ListProject";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
