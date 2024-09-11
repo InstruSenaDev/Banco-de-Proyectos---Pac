@@ -3,7 +3,6 @@ import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
 import SelectBoxFicha from '../SelectBoxFicha';
 import SelectBoxTi from '../SelectBoxTI2';
-import BotonSegundoModal from '../BotonSegundoModal';
 import { useForm } from '../../../hooks/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
@@ -14,12 +13,6 @@ export default function ModalUsuario({ onClose, onAddMember }) {
 
   const handleRolChange = (value) => {
     handleInputChange({ target: { id: 'tipoRol', value } });
-    // Mostrar/ocultar ficha dependiendo del rol
-    if (value.toLowerCase() === 'aprendiz') {
-      // Mostrar campo de ficha
-    } else {
-      // Ocultar campo de ficha
-    }
   };
 
   return (
@@ -109,7 +102,13 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
-          <BotonSegundoModal text="Agregar" id="guardarBtn" />
+          <button
+            type="submit"
+            id="guardarBtn"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Agregar
+          </button>
         </form>
       </DialogPanel>
     </Dialog>

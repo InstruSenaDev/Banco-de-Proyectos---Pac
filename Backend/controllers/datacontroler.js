@@ -1,6 +1,27 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
+async function checkEmailExists(correo) {
+    if (!correo) {
+        throw new Error('El correo electrónico es requerido.');
+    }
+    try {
+        const client = await pool.connect();
+        const result = await client.query('SELECT COUNT(*) FROM personas WHERE correo = $1', [correo]);
+        client.release();
+        
+        if (result.rows[0].count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error en checkEmailExists:', error);
+        throw new Error('Error en la base de datos al verificar el correo electrónico.');
+    }
+}
+
+
 // Función para obtener todas las personas
 async function getAllPersonas() {
     try {
@@ -31,32 +52,6 @@ async function getAllUsuario() {
         throw error;
     }
 }
-
-// Función para registrar una nueva persona
-async function registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, idficha }) {
-    try {
-        console.log('Contraseña original:', contraseña);
-        
-        // Cifrar la contraseña
-        const hashedPassword = await bcrypt.hash(contraseña, 10);
-        
-        console.log('Contraseña cifrada:', hashedPassword);
-
-        const client = await pool.connect();
-        const result = await client.query(
-            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, idficha) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-            [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, hashedPassword, idrol, idficha]
-        );
-        client.release();
-        console.log('Persona registrada con éxito:', result.rows[0]);
-        return result.rows[0];
-    } catch (error) {
-        console.error('Error al registrar persona:', error);
-        throw error;
-    }
-}
-
-
 
 // Función para obtener todas las preguntas junto con sus categorías
 async function getAllAlcances() {
@@ -139,18 +134,25 @@ async function getObjetivos() {
     }
 };
 
-async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
+
+async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado, idficha }) {
     try {
-        console.log('Datos recibidos en registerPerson:', { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado });
+        // Verificar que los parámetros no estén vacíos
+        if (!nombre || !tipodocumento || !numerodocumento || !telefono || !correo || !contraseña || !idrol || !estado || !idficha) {
+            throw new Error('Todos los campos deben estar completos.');
+        }
 
         // Cifrar la contraseña
         const hashedPassword = await bcrypt.hash(contraseña, 10);
-        console.log('Contraseña cifrada:', hashedPassword);
+
+        // Convertir idrol e idficha a enteros si es necesario
+        const idrolInt = parseInt(idrol, 10);
+        const idfichaInt = parseInt(idficha, 10);
 
         const client = await pool.connect();
         const result = await client.query(
-            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrol, estado || null]
+            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado, idficha) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrolInt, estado, idfichaInt]
         );
         client.release();
         console.log('Persona registrada con éxito:', result.rows[0]);
@@ -160,6 +162,8 @@ async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreem
         throw error;
     }
 }
+
+
 
 // Función para obtener todos los proyectos de la base de datos
 async function obtenerTodosLosProyectos() {
@@ -306,7 +310,6 @@ async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
 export {
     getAllPersonas,
     getAllUsuario,
-    registerPerson,
     getAllAlcances,
     getAllAreas,
     getTiposDeAreaPorArea,
@@ -320,5 +323,6 @@ export {
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
+    checkEmailExists
 
 };

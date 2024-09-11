@@ -2,7 +2,6 @@ import express from 'express';
 import {
     getAllPersonas,
     getAllUsuario,
-    registerPerson,
     getAllAlcances,
     getAllAreas,
     getTiposDeAreaPorArea,
@@ -12,7 +11,6 @@ import {
     obtenerTodosLosProyectos,
     getAllFicha,
     registerArea,
-    getAllItemsArea,
     registerFicha,
     getTipoDeArea,
     registerTipoDeArea,
@@ -23,6 +21,21 @@ import {
 
 const router = express.Router();
 
+router.post('/check-email', async (req, res) => {
+    const { correo } = req.body;
+
+    if (!correo) {
+        return res.status(400).json({ error: 'Correo electrónico es requerido.' });
+    }
+
+    try {
+        const exists = await checkEmailExists(correo);
+        res.json({ exists });
+    } catch (error) {
+        console.error('Error en el endpoint check-email:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
@@ -45,27 +58,6 @@ router.get('/usuarios', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
-
-// Ruta para registrar una nueva persona
-router.post('/register', async (req, res) => {
-    try {
-        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol,  idficha } = req.body;
-
-        // Verificar si el correo ya existe
-        const emailExists = await checkEmailExists(correo);
-        if (emailExists) {
-            return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
-        }
-
-        // Registrar la nueva persona si el correo no existe
-        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, idficha });
-        res.status(201).json(newPerson);
-    } catch (error) {
-        console.error('Error al registrar persona:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-
 
 // Ruta para obtener todas las preguntas junto con sus categorías
 router.get('/alcances', async (req, res) => {
@@ -126,7 +118,8 @@ router.get('/objetivos/:idarea', async (req, res) => {
 
 router.post('/agregarpersona', async (req, res) => {
     try {
-        const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol } = req.body;
+        // Desestructurar `idficha` junto con los otros campos
+        const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha } = req.body;
 
         // Verificar si el correo ya existe
         const emailExists = await checkEmailExists(correo);
@@ -134,8 +127,8 @@ router.post('/agregarpersona', async (req, res) => {
             return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
         }
 
-        // Registrar la nueva persona si el correo no existe
-        const newPerson = await agregarPersona({ nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol });
+        // Registrar la nueva persona incluyendo `idficha`
+        const newPerson = await agregarPersona({ nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha });
         res.status(201).json(newPerson);
     } catch (error) {
         console.error('Error al registrar persona:', error);
@@ -151,17 +144,6 @@ router.get('/proyecto', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener proyectos:', error);
         res.status(500).json({ error: 'Error al obtener proyectos' });
-    }
-});
-
-// Ruta para obtener todos los items en itemsarea
-router.get('/api/itemsArea', async (req, res) => {
-    try {
-        const items = await getAllItemsArea();
-        res.status(200).json(items);
-    } catch (error) {
-        console.error('Error al obtener items:', error);
-        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
 });
 

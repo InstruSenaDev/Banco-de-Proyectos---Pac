@@ -11,7 +11,7 @@ export function useForm(onSuccess) {
     celular: '',
     fichaSeleccionada: '',
   });
-  
+
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -21,7 +21,7 @@ export function useForm(onSuccess) {
     // Validar Nombre del usuario
     const nombrePattern = /^[A-Za-z\s]{2,50}$/;
     if (!nombrePattern.test(formValues.nombreUsu.trim())) {
-      errors.nombreUsu = "El nombre debe contener solo letras";
+      errors.nombreUsu = "El nombre debe contener solo letras.";
       isValid = false;
     }
 
@@ -32,9 +32,9 @@ export function useForm(onSuccess) {
     }
 
     // Validar Número de documento
-    const numeroDocPattern = /^[0-9]{6,15}$/;
+    const numeroDocPattern = /^[0-9]{6,10}$/;
     if (!numeroDocPattern.test(formValues.numeroDoc.trim())) {
-      errors.numeroDoc = "El número de documento debe tener una longitud de 10 dígitos.";
+      errors.numeroDoc = "El número de documento no es valido.";
       isValid = false;
     }
 
@@ -58,9 +58,9 @@ export function useForm(onSuccess) {
     }
 
     // Validar Teléfono
-    const celularPattern = /^[0-9]{10,15}$/;
+    const celularPattern = /^[0-9]{10,12}$/;
     if (!celularPattern.test(formValues.celular.trim())) {
-      errors.celular = "El teléfono debe contener solo números, con una longitud de 10 dígitos.";
+      errors.celular = "El teléfono no es valido.";
       isValid = false;
     }
 
@@ -82,27 +82,28 @@ export function useForm(onSuccess) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      try {
-        const response = await fetch('http://localhost:4000/api/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formValues)
-        });
+        try {
+            const response = await fetch('http://localhost:4000/api/agregarpersona', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formValues)
+            });
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Error desconocido');
+            if (!response.ok) {
+                const error = await response.json();
+                console.error('Error en la respuesta del servidor:', error);
+                throw new Error(error.error || 'Error desconocido');
+            }
+
+            const data = await response.json();
+            onSuccess(data);
+        } catch (error) {
+            console.error('Error al registrar usuario:', error);
         }
-
-        const data = await response.json();
-        onSuccess(data);
-      } catch (error) {
-        console.error('Error al registrar usuario:', error);
-      }
     }
-  };
+};
 
   return {
     formValues,

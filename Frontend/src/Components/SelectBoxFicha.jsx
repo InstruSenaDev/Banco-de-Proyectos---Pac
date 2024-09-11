@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const SelectBoxFicha = ({ id, text, value, onChange }) => {
+const SelectBoxFicha = ({ id, text, value, onChange, error }) => {
   const [fichas, setFichas] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,24 +22,30 @@ const SelectBoxFicha = ({ id, text, value, onChange }) => {
   }, []);
 
   return (
-    <div className="">
-      <label htmlFor={id} className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+    <div className="space-y-2 w-full">
+      <label
+        htmlFor={id}
+        className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+      >
         {text}
       </label>
       <select
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong"
+        className={`bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong ${error ? 'border-red-500' : 'border-[#D5D5D5]'}`}
         disabled={loading}
       >
         <option value="">Elige una ficha</option>
-        {fichas.map((ficha) => (
-          <option key={ficha.id} value={ficha.id}>
-          {`${ficha.nombre} - ${ficha.numeroficha}`}
+        {fichas.length > 0 && fichas.map((ficha) => (
+          <option key={ficha.id || ficha.nombre} value={ficha.id}>
+            {`${ficha.nombre} - ${ficha.numeroficha}`}
           </option>
         ))}
       </select>
+      {error && (
+        <p className="text-red-500 text-sm">{error}</p>
+      )}
     </div>
   );
 };
@@ -49,6 +55,7 @@ SelectBoxFicha.propTypes = {
   text: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  error: PropTypes.string, // Nueva propiedad para mensajes de error
 };
 
 export default SelectBoxFicha;
