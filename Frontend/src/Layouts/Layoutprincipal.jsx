@@ -7,14 +7,14 @@ import PostLayout from './PostLayout';
 const Layoutprincipal = ({ title, children }) => {
   return (
     <PostLayout title={title}>
-      <div>
-        <header className="w-full h-full bg-white sticky top-0 z-10">
-          <Navbar text="usuario" />
+      <div className='p-0 m-0 w-full'>
+        <header className="w-full h-full bg-white sticky top-0 z-10 p-0 m-0">
+          <Navbar text="usuario p-0 m-0" />
         </header>
 
-        <aside className='w-full'>
+        <aside className='w-full p-0 m-0'>
           <Menu />
-        </aside>
+        </aside> 
 
           {children}
 

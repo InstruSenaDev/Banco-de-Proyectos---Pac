@@ -80,6 +80,7 @@ const usePostCalificacion = () => {
         };
 
         try {
+            // Primero, realiza la solicitud para guardar la calificación
             const response = await fetch("http://localhost:4000/api/calificaciones", {
                 method: "POST",
                 headers: {
@@ -89,8 +90,18 @@ const usePostCalificacion = () => {
             });
 
             if (response.ok) {
-                setLoading(false);
-                navigate("/calificar");
+                const calificacion = await response.json();
+
+                // Ahora actualiza el idcalificacion en la tabla de proyecto
+                const actualizarResponse = await actualizarIdCalificacion(idproyecto, calificacion.idcalificacion);
+                
+                if (actualizarResponse.ok) {
+                    setLoading(false);
+                    navigate("/calificar");
+                } else {
+                    console.error("Error al actualizar idcalificacion");
+                    setLoading(false);
+                }
             } else {
                 console.error("Error al guardar la calificación");
                 setLoading(false);
@@ -101,8 +112,26 @@ const usePostCalificacion = () => {
         }
     };
 
+    const actualizarIdCalificacion = async (idproyecto, idcalificacion) => {
+        try {
+            const response = await fetch("http://localhost:4000/api/actualizar-idcalificacion", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ idproyecto, idcalificacion }),
+            });
+
+            return response;
+        } catch (error) {
+            console.error("Error al actualizar idcalificacion:", error);
+            return { ok: false };
+        }
+    };
+
     return { postCalificacion, loading };
 };
 
 export default usePostCalificacion;
+
 

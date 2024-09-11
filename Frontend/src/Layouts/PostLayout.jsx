@@ -25,7 +25,7 @@ const PosLayout = ({ title, children }) => {
     //   </body>
     // </html>
 
-    <div className='bg-[#F5F6FA] m-0 p-0 '>
+    <div className='bg-[#F5F6FA] m-0 p-0 w-full'>
       {children}
 
     </div>

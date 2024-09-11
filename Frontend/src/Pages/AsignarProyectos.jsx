@@ -112,9 +112,9 @@ import { useParams } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
 import Layoutprincipal from '../Layouts/Layoutprincipal';
 import Layoutcontenido2 from '../layouts/Layoutcontenido2';
-import BotonPrincipal from '../Components/BotonPrincipal';
 import BotonSegundo from '../Components/BotonSegundo';
 import useFichasYAprendices from '../../hooks/useFichasYAprendices';
+import usePostCalificacion from '../../hooks/usePostCalificacion'; // Importa el hook
 
 const AsignarProyectos = () => {
   const { idproyecto } = useParams();
@@ -128,8 +128,7 @@ const AsignarProyectos = () => {
   } = useFichasYAprendices();
 
   const [selectedAprendices, setSelectedAprendices] = useState([]);
-  const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState(null);
+  const { postCalificacion, loading: saving } = usePostCalificacion(); // Usa el hook
 
   const handleCheckboxChange = (idpersona) => {
     setSelectedAprendices(prevState =>
@@ -139,35 +138,20 @@ const AsignarProyectos = () => {
     );
   };
 
-  const assignProject = async (idficha, selectedAprendices, idproyecto) => {
-    setSaving(true);
-    setSaveError(null);
-    try {
-      // Aquí iría la lógica para hacer la solicitud al backend
-      const response = await fetch('http://localhost:4000/api/asignar-proyectos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ idficha, selectedAprendices, idproyecto }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al guardar la asignación');
-      }
-
-      alert('Asignación guardada exitosamente');
-    } catch (error) {
-      setSaveError(error.message);
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const handleGuardarClick = async () => {
+    const estado = "Asignado";
+    const comentario = "Asignación de proyecto realizada"; // Puedes modificar este texto según tus necesidades
+
+    // Detalles que podrían ser relevantes para la asignación
+    const detalles = selectedAprendices.map(idpersona => ({
+      idpersona,
+      idficha: selectedFicha,
+      idproyecto,
+    }));
+
     try {
-      await assignProject(selectedFicha, selectedAprendices, idproyecto);
-      // Aquí puedes agregar lógica adicional después de guardar, como redirigir al usuario.
+      await postCalificacion(idproyecto, 0, estado, comentario, detalles); // Llama a postCalificacion desde el hook
+      // La redirección se maneja dentro del hook
     } catch (error) {
       alert('Hubo un error al guardar la asignación');
     }
@@ -234,7 +218,7 @@ const AsignarProyectos = () => {
             <BotonSegundo Text='Guardar' onClick={handleGuardarClick} disabled={saving} />
           </div>
 
-          {saveError && <p className="text-red-500">Error al guardar la asignación: {saveError}</p>}
+          {error && <p className="text-red-500">Error al guardar la asignación: {error}</p>}
         </Card>
       </Layoutcontenido2>
     </Layoutprincipal>

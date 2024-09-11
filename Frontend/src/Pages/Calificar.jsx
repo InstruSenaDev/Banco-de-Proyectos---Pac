@@ -26,7 +26,6 @@ const Calificar = () => {
         const proyectos = await response.json();
         console.log('Proyectos obtenidos:', proyectos);
         setData(proyectos);
-        console.log(data);
         
       } else {
         console.error("Error al obtener los proyectos:", response.statusText);
