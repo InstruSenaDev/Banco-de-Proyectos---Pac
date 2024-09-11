@@ -32,7 +32,7 @@ const Sidebar = () => {
   // Función para cerrar sesión
   const handleLogout = () => {
     localStorage.clear(); // Limpia el localStorage
-    window.location.href = '/login'; // Redirige a la página de login
+    window.location.href = '/'; // Redirige a la página de login
   };
 
   return (
