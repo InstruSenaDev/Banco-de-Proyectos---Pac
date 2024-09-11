@@ -1,18 +1,18 @@
-// Calificar.js
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardProyect";
 import BotonSegundo from "../../Components/BotonSegundo";
 import Layoutprincipal from "../../Layouts/Layoutprincipal";
 import Layoutcontenido from "../../Layouts/Layoutcontenido";
-import Modal from "../../Components/Modal"; // Asegúrate de que la ruta sea correcta
+import ModalAsignaciones from "../../Components/Modales/Modal";
 
 const Calificar = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProjectPeople, setSelectedProjectPeople] = useState([]);
+  const [selectedProjectName, setSelectedProjectName] = useState('');
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -22,6 +22,7 @@ const Calificar = () => {
           throw new Error('Error al obtener los proyectos');
         }
         const data = await response.json();
+        console.log('Datos recibidos:', data); // Para depuración
         setProjects(data);
       } catch (error) {
         setError(error.message);
@@ -33,13 +34,17 @@ const Calificar = () => {
     fetchProjects();
   }, []);
 
-  const handleOpenModal = (project) => {
-    setSelectedProject(project);
+  const handleOpenModal = (projectName, people) => {
+    console.log('Abriendo modal para:', projectName, people); // Para depuración
+    setSelectedProjectName(projectName);
+    setSelectedProjectPeople(people);
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
+    setSelectedProjectPeople([]);
+    setSelectedProjectName('');
   };
 
   return (
@@ -51,30 +56,27 @@ const Calificar = () => {
           <p className="text-center text-red-500">Error: {error}</p>
         ) : projects.length > 0 ? (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab">
-            {projects.map((project) => (
+            {projects.map((project, index) => (
               <CardProyect
-                key={project.idproyecto}
+                key={index}
                 Text={project.nombre_proyecto}
-                personName={project.personas_asignadas.map(person => person.nombre_persona).join(', ')}
-                onOpenModal={() => handleOpenModal(project)}
-              />
+                onOpenModal={() => handleOpenModal(project.nombre_proyecto, project.personas_asignadas)}
+              >
+                <Link to={`/Detalle/${project.idproyecto}`}>
+                  <BotonSegundo Text="Ver" />
+                </Link>
+              </CardProyect>
             ))}
           </div>
         ) : (
           <p className="text-center">No hay proyectos para mostrar.</p>
         )}
-
-        {modalOpen && selectedProject && (
-          <Modal onClose={handleCloseModal}>
-            <h2 className="text-xl font-bold mb-4">Personas asignadas al proyecto {selectedProject.nombre_proyecto}</h2>
-            <ul>
-              {selectedProject.personas_asignadas.map((person, index) => (
-                <li key={index} className="text-lg">{person.nombre_persona}</li>
-              ))}
-            </ul>
-            <button onClick={handleCloseModal} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Cerrar</button>
-          </Modal>
-        )}
+        <ModalAsignaciones
+          isOpen={modalOpen}
+          onClose={handleCloseModal}
+          projectName={selectedProjectName}
+          people={selectedProjectPeople}
+        />
       </Layoutcontenido>
     </Layoutprincipal>
   );

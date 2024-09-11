@@ -1,13 +1,76 @@
 import { pool } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
-
+const nodemailer = require('nodemailer');
+const path = require('path');
+const fs = require('fs');
 import session from 'express-session';
+
+
+
+
+export const sendEmail = async (req, res) => {
+    const { recipient, subject, message } = req.body;
+    const pdfPath = req.file.path;
+  
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'pac.bancodeproyectos@gmail.com',
+        pass: 'pxikzyjednmxlsud', // Usa la nueva contraseña de aplicación aquí
+      }
+    });
+  
+    const mailOptions = {
+      from: 'pac.bancodeproyectos@gmail.com', // Reemplaza con tu correo
+      to: recipient,
+      subject: subject,
+      text: message,
+      attachments: [
+        {
+          path: pdfPath
+        }
+      ]
+    };
+  
+    try {
+      await transporter.sendMail(mailOptions);
+      fs.unlinkSync(pdfPath); // Elimina el archivo después de enviarlo
+      res.status(200).json({ message: 'Correo enviado exitosamente.' });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al enviar el correo: ' + error.message });
+    }
+  };
+
 
 // Ejemplo de cómo podrías usar session en tu controlador
 export const someControllerFunction = (req, res) => {
     // Aquí puedes trabajar con req.session si necesitas manejar la sesión
     res.status(200).json({ message: 'Controlador de datos funcionando' });
+};
+
+export const getAssignedProjects = async () => {
+    try {
+        const result = await pool.query(
+            `SELECT 
+                proyecto.idproyecto,
+                proyecto.nombre AS nombre_proyecto,
+                json_agg(json_build_object('nombre_persona' personas.nombre)) AS personas_asignadas
+            FROM 
+                asignaciones_proyectos
+            JOIN 
+                proyecto ON asignaciones_proyectos.idproyecto = proyecto.idproyecto
+            JOIN 
+                personas ON asignaciones_proyectos.idpersona = personas.idpersonas
+            WHERE 
+                personas.idrol = 4
+            GROUP BY 
+                proyecto.idproyecto, proyecto.nombre;`
+        );
+        return result.rows;
+    } catch (error) {
+        throw new Error('Error al obtener proyectos asignados: ' + error.message);
+    }
 };
 
 export const updateProfile = async (id, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña) => {
@@ -481,7 +544,15 @@ async function getAllFicha() {
   }
 }
 
-export { checkEmailExists, checkIfUserExists, updatePassword, getAllPersonas, obtenerTodosLosProyectos, getAllFicha,
+// Combine all your exports in a single statement
+export {
+    sendEmail,
+    checkEmailExists,
+    checkIfUserExists,
+    updatePassword,
+    getAllPersonas,
+    obtenerTodosLosProyectos,
+    getAllFicha,
     getAllUsuario,
     registerPerson,
     loginPerson,
@@ -496,4 +567,5 @@ export { checkEmailExists, checkIfUserExists, updatePassword, getAllPersonas, ob
     updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos, };
+    guardarRespuestasObjetivos
+  };

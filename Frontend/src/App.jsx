@@ -9,7 +9,7 @@ import VistaUsuario from './Pages/Usuario/VistaUsuario'
 import VistaMisProyecto from './Pages/Usuario/VistaMisProyecto'
 import EditarPerfil from './Pages/Aprendiz/EditarPerfil'
 
-import Dashboard from './Pages/SuperAdmin/Dashboard';
+import Dashboard from './Pages/Aprendiz/Correo';
 import Usuarios from './Pages//SuperAdmin/Usuarios';
 import Prueba from './Pages//SuperAdmin/Prueba';
 import Proyectos from './Pages//SuperAdmin/Proyectos';
