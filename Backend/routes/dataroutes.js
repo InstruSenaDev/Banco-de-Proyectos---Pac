@@ -11,8 +11,13 @@ import {
     agregarPersona,
     obtenerTodosLosProyectos,
     getAllFicha,
+    registerArea,
+    getAllItemsArea,
     registerFicha,
-    getItemsPorAreaYTipo,
+    getTipoDeArea,
+    registerTipoDeArea,
+    registerItemArea,
+    checkEmailExists
 
 } from '../controllers/datacontroler.js';
 
@@ -44,7 +49,7 @@ router.get('/usuarios', async (req, res) => {
 // Ruta para registrar una nueva persona
 router.post('/register', async (req, res) => {
     try {
-        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol } = req.body;
+        const { nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol,  idficha } = req.body;
 
         // Verificar si el correo ya existe
         const emailExists = await checkEmailExists(correo);
@@ -53,7 +58,7 @@ router.post('/register', async (req, res) => {
         }
 
         // Registrar la nueva persona si el correo no existe
-        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol });
+        const newPerson = await registerPerson({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, idficha });
         res.status(201).json(newPerson);
     } catch (error) {
         console.error('Error al registrar persona:', error);
@@ -149,6 +154,17 @@ router.get('/proyecto', async (req, res) => {
     }
 });
 
+// Ruta para obtener todos los items en itemsarea
+router.get('/api/itemsArea', async (req, res) => {
+    try {
+        const items = await getAllItemsArea();
+        res.status(200).json(items);
+    } catch (error) {
+        console.error('Error al obtener items:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+});
+
 
   router.get('/ficha', async (req, res) => {
     try {
@@ -157,6 +173,22 @@ router.get('/proyecto', async (req, res) => {
     } catch (error) {
         console.error('Error al obtener fichas:', error);
         res.status(500).json({ error: 'Error interno del servidor', detalles: error.message });
+    }
+});
+
+
+// Definir la ruta para registrar el área
+router.post('/api/registerArea', async (req, res) => {
+    try {
+        const { area } = req.body;
+        const newArea = await registerArea({ area });
+        if (newArea.error) {
+            return res.status(400).json({ error: newArea.error });
+        }
+        return res.status(201).json(newArea);
+    } catch (error) {
+        console.error('Error al registrar área:', error);
+        return res.status(500).json({ error: 'Error al registrar área' });
     }
 });
 
@@ -170,15 +202,57 @@ router.post('/registerFicha', async (req, res) => {
     }
 });
 
-router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
-    try {
-      const { idArea, idTiposDeArea } = req.params;
-      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
-      res.json(items);
-    } catch (error) {
-      console.error('Error al obtener ítems:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+
+// Obtener tipos de área por área específica
+router.get('/tipodearea/:idarea', async (req, res) => {
+    const idarea = Number(req.params.idarea); // Asegurarse de que idarea es un número
+
+    if (isNaN(idarea)) {
+        return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
     }
-  });
+    try {
+        const tiposDeArea = await getTipoDeArea(idarea);
+        res.status(200).json(tiposDeArea);
+    } catch (error) {
+        console.error('Error al obtener tipos de área:', error);
+        res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+    }
+});
+
+// Registro de tipo de área
+router.post('/registerTipoDeArea', async (req, res) => {
+    try {
+        const { tiposdearea, estado, idarea } = req.body;
+        // console.log("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req);
+        
+        if (typeof idarea !== 'number' || isNaN(idarea)) {
+            return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
+        }
+
+        const newTipoDeArea = await registerTipoDeArea({ tiposdearea, estado, idarea });
+        if (newTipoDeArea.error) {
+            return res.status(400).json({ error: newTipoDeArea.error });
+        }
+
+        res.status(201).json(newTipoDeArea);
+    } catch (error) {
+        console.error('Error al registrar tipo aaaade área aaaaa:', error.message);
+        return res.status(500).json({ error: error.message });
+    }
+});
+
+// Ruta para registrar un nuevo item en itemsarea
+router.post('/api/registerItemArea', async (req, res) => {
+    try {
+        const { items, estado, idtiposdearea, idarea } = req.body;
+        const newItem = await registerItemArea({ items, estado, idtiposdearea, idarea });
+        res.status(201).json(newItem);
+    } catch (error) {
+        console.error('Error al registrar item:', error);
+        res.status(500).json({ error: 'Error al registrar item.', details: error.message });
+    }
+});
+
+
 
 export default router;

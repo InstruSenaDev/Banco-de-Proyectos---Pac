@@ -1,50 +1,55 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListArea from './GridList/GridListArea';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import BotonSegundo from '../../Components/BotonSegundo';
 import Areas from '../../Components/Modales/ModalAreas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado del modal
+  const [areas, setAreas] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    fetchAreas();
   }, []);
 
+  const fetchAreas = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/areas');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setAreas(data);
+    } catch (error) {
+      console.error("Error fetching areas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleAddClick = () => {
-    setCurrentUser(null);
-    setActionType('add');
-    setIsModalOpen(true); // Abrir el modal
+    setIsModalOpen(true);  // Abrir modal al hacer clic
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal
-    setCurrentUser(null);
+    setIsModalOpen(false);  // Cerrar modal
   };
 
-  const handleAddMember = (areas) => {
-    // Lógica para agregar un usuario
-    console.log('Agregar areas:', areas);
+  const handleAddArea = (newArea) => {
+    setAreas([...areas, newArea]);  // Actualizar lista de áreas con la nueva área
+    fetchAreas();  // Refrescar datos
   };
 
   const handleGoBack = () => {
-    navigate('/dashboard'); // Redirigir al dashboard
+    navigate('/dashboard');
   };
-
-  
 
   return (
     <LayoutPrincipal title="Areas">
@@ -63,17 +68,15 @@ const Area = () => {
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick} />
+              <BotonSegundo text="Agregar Area" to="/crearareas" />
             </div>
             <div>
-              <GridListArea />
+              <GridListArea areas={areas} />
             </div>
             {isModalOpen && (
               <Areas
-                onClose={handleCloseModal}
-                onAddMember={handleAddMember}
-                user={currentUser}
-                actionType={actionType}
+                onClose={handleCloseModal}  // Cerrar modal
+                onAddMember={handleAddArea}  // Agregar nueva área a la lista
               />
             )}
           </div>

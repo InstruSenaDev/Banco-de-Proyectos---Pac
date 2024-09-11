@@ -11,6 +11,7 @@ import Objetivos from './Pages//SuperAdmin/Objetivos'
 import Alcance from './Pages//SuperAdmin/Alcance';
 import Items from './Pages//SuperAdmin/Items'
 import Ficha from './Pages//SuperAdmin/Ficha';
+import CrearAreas from './Pages/SuperAdmin/CrearArea'
 
 
 
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/alcance" element={<Alcance/>} />
         <Route path="/items" element={<Items/>} />
         <Route path="/ficha" element={<Ficha/>} />
+        <Route path='/crearareas' element={<CrearAreas/> }/>
       </Routes>
     </Router>
   );

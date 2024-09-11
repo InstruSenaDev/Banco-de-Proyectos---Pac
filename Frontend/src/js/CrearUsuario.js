@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const guardarBtn = document.getElementById("guardarBtn");
+
     guardarBtn.addEventListener("click", function (event) {
         event.preventDefault();
 
@@ -34,6 +35,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 idrol: roleMap[document.getElementById("tipoRol").value.toLowerCase()], // Convertir el nombre del rol a su ID
                 estado: document.querySelector('input[name="estado"]:checked') ? document.querySelector('input[name="estado"]:checked').value : null // Campo opcional
             };
+
+            // Si el rol es Aprendiz, agregar idficha
+            const tipoRol = document.getElementById("tipoRol").value.toLowerCase();
+            if (tipoRol === 'aprendiz') {
+                const fichaSeleccionada = document.getElementById("fichaSeleccionada") ? document.getElementById("fichaSeleccionada").value : null;
+                if (fichaSeleccionada) {
+                    formData.idficha = fichaSeleccionada;
+                } else {
+                    alert('Por favor, seleccione una ficha.');
+                    return;
+                }
+            }
 
             console.log('Datos del formulario:', formData);
 
@@ -147,6 +160,20 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         } else {
             celularError.textContent = "";
+        }
+
+        // Validar Ficha si el rol es Aprendiz
+        const tipoRolValue = document.getElementById("tipoRol").value.toLowerCase();
+        if (tipoRolValue === 'aprendiz') {
+            const fichaSeleccionada = document.getElementById("fichaSeleccionada") ? document.getElementById("fichaSeleccionada").value : null;
+            if (!fichaSeleccionada) {
+                const fichaError = document.getElementById("fichaError");
+                fichaError.textContent = "Debe seleccionar una ficha para el aprendiz.";
+                isValid = false;
+            } else {
+                const fichaError = document.getElementById("fichaError");
+                fichaError.textContent = "";
+            }
         }
 
         return isValid;

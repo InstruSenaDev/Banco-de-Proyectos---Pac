@@ -5,6 +5,7 @@ import Input2 from '../Input2';
 import BotonSegundo from '../BotonSegundoModal';
 import SelectBoxArea from '../SelectBoxArea';
 import PropTypes from 'prop-types';
+import useTipoArea from '../../../hooks/useTipoArea';
 
 // Función para obtener áreas
 const fetchArea = async () => {
@@ -22,7 +23,8 @@ const fetchArea = async () => {
 };
 
 export default function TipoArea({ onClose }) {
-    const [area, setAreaOptions] = useState([]);
+    const [areaOptions, setAreaOptions] = useState([]);
+    const { formData, errors,  handleSubmit, handleChange } = useTipoArea();
 
     // Obtener áreas al montar el componente
     useEffect(() => {
@@ -49,22 +51,28 @@ export default function TipoArea({ onClose }) {
                 >
                     <RiCloseLine className="size-5" aria-hidden={true} />
                 </button>
-                <form action="#" method="POST" className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
                                 <SelectBoxArea
-                                    id="area-select"
-                                    Text="Seleccione un Area"
-                                    options={area}
+                                    id="idarea"
+                                    Text="Seleccione un Área"
+                                    options={areaOptions}
+                                    value={formData.idarea}
+                                    onChange={handleChange}
+                                    error={errors.idarea}
                                 />
                             </div>
                             <div>
                                 <Input2
-                                    id="nombreArea"
+                                    id="nombreTipoArea"
                                     type="text"
-                                    placeholder="Area"
-                                    Text="Area:"
+                                    placeholder="Nombre del Tipo de Área"
+                                    Text="Tipo de Área:"
+                                    value={formData.nombreTipoArea}
+                                    onChange={handleChange}
+                                    error={errors.nombreTipoArea}
                                 />
                             </div>
                         </div>
@@ -78,4 +86,4 @@ export default function TipoArea({ onClose }) {
 
 TipoArea.propTypes = {
     onClose: PropTypes.func.isRequired,
-  };
+};
