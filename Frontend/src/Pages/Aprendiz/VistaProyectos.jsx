@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardProyect";
 import BotonSegundo from "../../Components/BotonSegundo";
-import Layoutprincipal from "../../Layouts/Layoutprincipal";
-import Layoutcontenido from "../../Layouts/Layoutcontenido";
+import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import Layoutcontenido from "../../Layouts/Layoutcontenido3";
 import ModalAsignaciones from "../../Components/Modales/Modal";
 
 const Calificar = () => {
@@ -48,7 +48,7 @@ const Calificar = () => {
   };
 
   return (
-    <Layoutprincipal title="Proyectos">
+    <LayoutPrincipal title="Proyectos">
       <Layoutcontenido title="contenido">
         {loading ? (
           <p className="text-center">Cargando proyectos...</p>
@@ -62,9 +62,9 @@ const Calificar = () => {
                 Text={project.nombre_proyecto}
                 onOpenModal={() => handleOpenModal(project.nombre_proyecto, project.personas_asignadas)}
               >
-                <Link to={`/Detalle/${project.idproyecto}`}>
-                  <BotonSegundo Text="Ver" />
-                </Link>
+                  <a href="/Aprendiz/Formulario">
+                  <BotonSegundo Text="Informe Proyecto" />
+                  </a>
               </CardProyect>
             ))}
           </div>
@@ -78,7 +78,7 @@ const Calificar = () => {
           people={selectedProjectPeople}
         />
       </Layoutcontenido>
-    </Layoutprincipal>
+    </LayoutPrincipal>
   );
 };
 

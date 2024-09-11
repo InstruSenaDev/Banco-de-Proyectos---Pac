@@ -1,9 +1,53 @@
 import { pool } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
+import transporter from '../config/nodemailerConfig.js';
 
-
-
+import multer from 'multer';
+// Configuración de multer para manejar la subida de archivos
+const upload = multer({ 
+    storage: multer.memoryStorage(),
+    fileFilter: (req, file, cb) => {
+      if (file.mimetype === 'application/pdf') {
+        cb(null, true);
+      } else {
+        cb(new Error('Solo se permiten archivos PDF'), false);
+      }
+    }
+  }).single('file');
+  
+  export const sendEmail = (req, res) => {
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({ error: err.message });
+      }
+  
+      const { fromEmail, toEmail, subject, message } = req.body;
+  
+      let mailOptions = {
+        from: fromEmail,
+        to: toEmail,
+        subject: subject,
+        text: message,
+      };
+  
+      if (req.file) {
+        mailOptions.attachments = [{
+          filename: req.file.originalname,
+          content: req.file.buffer
+        }];
+      }
+  
+      try {
+        let info = await transporter.sendMail(mailOptions);
+        console.log("Message sent: %s", info.messageId);
+        res.status(200).json({ message: "Correo enviado con éxito" });
+      } catch (error) {
+        console.error("Error al enviar el correo:", error);
+        res.status(500).json({ error: "Error al enviar el correo" });
+      }
+    });
+  };
 
 
 
@@ -511,7 +555,7 @@ async function getAllFicha() {
 
 // Combine all your exports in a single statement
 export {
-
+    multer,
     checkEmailExists,
     checkIfUserExists,
     updatePassword,

@@ -136,25 +136,36 @@ const ReportForm = () => {
                 onChange={handleChange}
               />
             
-          
-
-          </form>
-          
-        
-
-          </div>
-          
-        </div>
-        <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 md:p-8">
-            <a href="/Aprendiz/VistaProyectos">
-              <BotonPrincipal Text="Volver" />
-              </a>
-            
+            <div className=" m-[10px] flex justify-end   ">
            <ButtonComponent
             Text="Generar PDF"
             id="generatePDF"
                onClick={generatePDF} // Asegúrate de que la función se pasa correctamente
-       /> </div>
+               
+              /> </div>
+
+          </form>
+          
+        
+          </div>
+      
+          </div>
+          <div className="flex flex-col w-full items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 ">
+          
+          <div className=" ">
+            <a href="/Aprendiz/VistaProyectos">
+              <BotonPrincipal Text="Volver" />
+              </a>
+            </div>
+            <div className="mb-10  ">
+            <a href="/Aprendiz/Reporte">
+              <BotonPrincipal Text="Siguiente" />
+              </a>
+            </div>
+          
+        </div>
+          
+      
       </Layoutcontenido3>
     </LayoutPrincipal>
   );

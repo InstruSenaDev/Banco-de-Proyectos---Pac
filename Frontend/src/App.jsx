@@ -11,6 +11,7 @@ import VistaMisProyecto from './Pages/Usuario/VistaMisProyecto'
 import Formulario from './Pages/Aprendiz/Formulario'
 import EditarPerfil from './Pages/Aprendiz/EditarPerfil'
 import VistaProyectos from './Pages/Aprendiz/VistaProyectos'
+import Reporte from './Pages/Aprendiz/Reporte'
 
 import Dashboard from './Pages/Aprendiz/VistaProyectos';
 import Usuarios from './Pages//SuperAdmin/Usuarios';
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Inicio/>} />
         <Route path="/Aprendiz/VistaAprendiz" element={<VistaAprendiz/>} />
+        <Route path="/Aprendiz/Reporte" element={<Reporte/>} />
         <Route path="/Aprendiz/VistaProyectos" element={<VistaProyectos/>} />
         <Route path="/Aprendiz/EditarPefil" element={<EditarPerfil/>} />
         <Route path="/Aprendiz/Formulario" element={<Formulario/>} />

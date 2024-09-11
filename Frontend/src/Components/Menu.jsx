@@ -24,7 +24,7 @@ const Sidebar = () => {
     4: [
       { icon: "fas fa-home", to: "/Aprendiz/VistaAprendiz", label: "Home" },
       { icon: "fas fa-tachometer-alt", to: "/Aprendiz/VistaProyectos", label: "Proyectos Asignados" },
-      { icon: "fas fa-tachometer-alt", to: "/Aprendiz/Formulario", label: "Proyectos Asignados" },
+
       { icon: "fas fa-user-edit", to: "/Aprendiz/EditarPefil", label: "Editar Perfil" },
     ],
   };

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 
 import transporter from '../config/nodemailerConfig.js';
-import { checkEmailExists, updateProfile, getAssignedProjects,  updatePassword, checkIfUserExists, getAllPersonas, getAllFicha,
+import { checkEmailExists, sendEmail, updateProfile, getAssignedProjects,  updatePassword, checkIfUserExists, getAllPersonas, getAllFicha,
   getAllUsuario, 
   registerPerson, 
   loginPerson, 
@@ -24,7 +24,7 @@ import { checkEmailExists, updateProfile, getAssignedProjects,  updatePassword, 
 
 const router = express.Router();
 
-
+router.post('/send-email', sendEmail);
 
 // Ruta para obtener proyectos asignados a aprendices
 router.get('/assigned-projects', async (req, res) => {
