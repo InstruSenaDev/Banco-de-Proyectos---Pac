@@ -1,5 +1,3 @@
-// src/hooks/usePostCalificacion.js
-
 import { useState } from "react";
 
 export const usePostCalificacion = () => {
@@ -17,6 +15,7 @@ export const usePostCalificacion = () => {
         };
 
         try {
+            // Crear calificación
             const response = await fetch("http://localhost:4000/api/calificaciones", {
                 method: "POST",
                 headers: {
@@ -25,12 +24,31 @@ export const usePostCalificacion = () => {
                 body: JSON.stringify(calificacionData),
             });
 
-            setLoading(false);
-
             if (response.ok) {
-                return true;
+                const data = await response.json();
+                const idcalificacion = data.idcalificacion;
+
+                // Actualizar proyecto con el idcalificacion
+                const updateResponse = await fetch("http://localhost:4000/api/actualizar-idcalificacion", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ idproyecto, idcalificacion }),
+                });
+
+                setLoading(false);
+
+                if (updateResponse.ok) {
+                    console.log("idcalificacion actualizado correctamente en el proyecto");
+                    return true;
+                } else {
+                    console.error("Error al actualizar el idcalificacion en el proyecto");
+                    return false;
+                }
             } else {
                 console.error("Error al guardar la calificación");
+                setLoading(false);
                 return false;
             }
         } catch (error) {

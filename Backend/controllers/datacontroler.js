@@ -234,7 +234,6 @@ const actualizarEstadoRespuestas = async (req, res) => {
 
 
 // Controlador para actualizar el estado de las respuestas de alcance
-// Controlador para actualizar el estado de las respuestas de alcance
 const actualizarEstadoRespuestasAlcance = async (req, res) => {
   const detalles = req.body;
   console.log('Datos recibidos para actualizar:', detalles);
@@ -270,6 +269,51 @@ const actualizarEstadoRespuestasAlcance = async (req, res) => {
 };
 
 
+const actualizarIdCalificacion = async (req, res) => {
+  const { idproyecto, idcalificacion } = req.body;
+
+  try {
+    // Actualiza el proyecto con el idcalificacion
+    const result = await pool.query(
+      `UPDATE proyecto 
+       SET idcalificacion = $1 
+       WHERE idproyecto = $2 
+       RETURNING *`,
+      [idcalificacion, idproyecto]
+    );
+
+    if (result.rowCount > 0) {
+      res.status(200).json({ message: "idcalificacion actualizado correctamente", proyecto: result.rows[0] });
+    } else {
+      res.status(404).json({ message: "Proyecto no encontrado" });
+    }
+  } catch (error) {
+    console.error("Error al actualizar idcalificacion:", error);
+    res.status(500).json({ message: "Error al actualizar idcalificacion" });
+  }
+};
+
+
+const getProyectosAsignados = async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT p.idproyecto, p.nombre, p.responsable
+      FROM proyecto p
+      JOIN asignaciones_proyectos ap ON p.idproyecto = ap.idproyecto
+      JOIN personas pe ON ap.idpersona = pe.idpersonas
+    `);
+
+    if (result.rows.length > 0) {
+      res.json(result.rows);
+    } else {
+      res.status(404).json({ message: 'No hay proyectos asignados.' });
+    }
+  } catch (error) {
+    console.error('Error al obtener proyectos asignados:', error);
+    res.status(500).json({ message: 'Error al obtener proyectos asignados' });
+  }
+};
+
 export {
   getProyectos,
   getProyectoById,
@@ -280,6 +324,8 @@ export {
   getFichas,
   getAprendicesByFicha,
   asignarProyecto,
-  actualizarEstadoRespuestasAlcance
+  actualizarEstadoRespuestasAlcance,
+  actualizarIdCalificacion,
+  getProyectosAsignados
 };
 

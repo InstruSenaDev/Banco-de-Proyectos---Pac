@@ -37,6 +37,8 @@ const Calificacion = () => {
             } else {
                 setMostrarModal(true);
             }
+        } else {
+            console.error("Hubo un problema al guardar la calificación o al actualizar el proyecto.");
         }
     };
 

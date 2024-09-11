@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; 
 import { Link } from "react-router-dom";
 import CardProyect from "../Components/CardProyect";
 import RadioButton from "../Components/RadioButton";
@@ -13,7 +13,13 @@ const Calificar = () => {
   // Función para obtener proyectos desde la API, filtrados por estado
   const fetchProyecto = async (estado) => {
     try {
-      const url = `http://localhost:4000/api/proyectos?estado=${estado}`;
+      // Limpiar el estado antes de realizar la nueva petición
+      setData([]);
+      
+      let url = `http://localhost:4000/api/proyectos?estado=${estado}`;
+      if (estado === 'Asignados') {
+        url = 'http://localhost:4000/api/proyectos/asignados';
+      }
       console.log('Fetching URL:', url);
       const response = await fetch(url);
       if (response.ok) {
@@ -28,28 +34,37 @@ const Calificar = () => {
     }
   };
 
+  // Usar useEffect para llamar a fetchProyecto cada vez que cambie el filtro
+  useEffect(() => {
+    fetchProyecto(filter);
+  }, [filter]); // Se llama cada vez que el filtro cambia
+
   return (
     <Layoutprincipal title="Proyectos">
       <Layoutcontenido title="contenido">
         <div className="flex flex-col items-center">
           <div className="w-full max-w-7xl">
             <div className="flex justify-start mb-4 ml-9">
-              <div className="grid grid-cols-4 gap-x-8 gap-y-4 mt-4">
+              <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4">
                 <RadioButton
                   Text="Recibidos"
-                  onClick={() => fetchProyecto('Recibidos')}
+                  onClick={() => setFilter('Recibidos')}
                 />
                 <RadioButton
                   Text="Aceptado"
-                  onClick={() => fetchProyecto('Aceptado')}
+                  onClick={() => setFilter('Aceptado')}
                 />
                 <RadioButton
                   Text="Rechazado"
-                  onClick={() => fetchProyecto('Rechazado')}
+                  onClick={() => setFilter('Rechazado')}
                 />
                 <RadioButton
                   Text="Devueltos"
-                  onClick={() => fetchProyecto('Devuelto')}
+                  onClick={() => setFilter('Devuelto')}
+                />
+                <RadioButton
+                  Text="Asignados"
+                  onClick={() => setFilter('Asignados')}
                 />
               </div>
             </div>

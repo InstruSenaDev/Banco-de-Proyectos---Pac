@@ -10,10 +10,15 @@ import {
    getFichas, 
    getAprendicesByFicha,
    asignarProyecto,
-   actualizarEstadoRespuestasAlcance
+   actualizarEstadoRespuestasAlcance,
+   actualizarIdCalificacion,
+   getProyectosAsignados
+
   } from '../controllers/datacontroler.js';
 
 const router = express.Router();
+
+router.get('/proyectos/asignados', getProyectosAsignados);
 
 // Ruta para obtener proyectos, con filtrado opcional por estado de calificación
 router.get('/proyectos', getProyectos);
@@ -34,6 +39,7 @@ router.get('/proyectos/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
 
 router.get('/respuestas/:idproyecto', async (req, res) => {
   try {
@@ -108,6 +114,10 @@ router.post('/asignar-proyectos', asignarProyecto);
 
 // Ruta para actualizar el estado de las respuestas de alcance
 router.post('/actualizarEstadoRespuestasAlcance', actualizarEstadoRespuestasAlcance);
+
+// Ruta para actualizar el idcalificacion en la tabla proyecto
+router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
+
 
 
 export default router;
