@@ -57,21 +57,21 @@ const useDetalleCalificacion = (idproyecto) => {
         },
         body: JSON.stringify(detalles),
       });
-
+  
       if (!response.ok) {
-        throw new Error(`Error al guardar detalles: ${response.statusText}`);
+        throw new Error('Error al guardar los detalles de calificación');
       }
-
-      const result = await response.json();
-      return result;
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    } finally {
+  
+      const data = await response.json();
+      console.log('Respuesta del servidor:', data);
       setLoading(false);
+      return data;
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+      throw error;
     }
   };
-
   return { guardarDetalleCalificacion, loading, error };
 };
 

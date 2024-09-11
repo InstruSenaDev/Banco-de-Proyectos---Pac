@@ -153,53 +153,8 @@ const guardarCalificacion = async (req, res) => {
 };
 
 
-// Controlador para actualizar el estado de las respuestas
-async function actualizarEstadoRespuestas(respuestas) {
-  const client = await pool.connect();
 
-  try {
-    // Iniciar una transacción
-    await client.query('BEGIN');
 
-    for (const respuesta of respuestas) {
-      const { idproyecto, idobjetivos, estado } = respuesta;
-
-      // Verifica si ya existe una respuesta para este proyecto y objetivo
-      const selectQuery = `
-              SELECT idrespuestasobjetivos 
-              FROM respuestasobjetivos 
-              WHERE idproyecto = $1 AND idobjetivos = $2
-          `;
-      const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
-
-      if (selectResult.rows.length > 0) {
-        // Si existe, realiza un UPDATE
-        const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
-        const updateQuery = `
-                  UPDATE respuestasobjetivos 
-                  SET estado = $1 
-                  WHERE idrespuestasobjetivos = $2
-              `;
-        await client.query(updateQuery, [estado, idrespuestasobjetivos]);
-      } else {
-        // Manejo de caso si la respuesta no existe (opcional)
-        console.log(`No existe respuesta para idproyecto ${idproyecto} y idobjetivos ${idobjetivos}`);
-      }
-    }
-
-    // Finaliza la transacción
-    await client.query('COMMIT');
-    console.log('Estado actualizado con éxito');
-  } catch (error) {
-    console.error('Error al actualizar estado:', error);
-
-    // Si ocurre un error, deshaz la transacción
-    await client.query('ROLLBACK');
-    throw error;
-  } finally {
-    client.release();
-  }
-}
 
 // Obtener todas las fichas activas
 const getFichas = async (req, res) => {
@@ -249,6 +204,71 @@ const asignarProyecto = async (req, res) => {
   }
 };
 
+// Controlador para actualizar el estado de las respuestas objetivos
+const actualizarEstadoRespuestas = async (req, res) => {
+  const detalles = req.body;
+  console.log('Datos recibidos para actualizar:', detalles);
+  
+  try {
+    const queries = detalles.map((detalle) => {
+      const { idproyecto, idrespuestasobjetivos, estado } = detalle;
+      const estadoFinal = estado === "Aprobado" ? "Aprobado" : "No aceptado";
+      console.log(`Actualizando estado para idproyecto: ${idproyecto}, idrespuestasobjetivos: ${idrespuestasobjetivos}, estado: ${estadoFinal}`);
+      return pool.query(
+        `UPDATE respuestasobjetivos 
+         SET estado = $1 
+         WHERE idproyecto = $2 AND idrespuestasobjetivos = $3
+         RETURNING *`,
+        [estadoFinal, idproyecto, idrespuestasobjetivos]
+      );
+    });
+
+    const results = await Promise.all(queries);
+    const updatedRows = results.map(result => result.rows[0]);
+    res.status(200).json({ message: 'Estados actualizados correctamente', updatedData: updatedRows });
+  } catch (error) {
+    console.error('Error al actualizar estados:', error);
+    res.status(500).json({ message: 'Error al actualizar estados', error: error.message });
+  }
+};
+
+
+// Controlador para actualizar el estado de las respuestas de alcance
+// Controlador para actualizar el estado de las respuestas de alcance
+const actualizarEstadoRespuestasAlcance = async (req, res) => {
+  const detalles = req.body;
+  console.log('Datos recibidos para actualizar:', detalles);
+
+  try {
+    const queries = detalles.map((detalle) => {
+      const { idproyecto, idrespuesta, estado } = detalle;
+      
+      // Validación de datos
+      if (!idproyecto || !idrespuesta) {
+        throw new Error(`Datos incompletos: idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}`);
+      }
+
+      const estadoFinal = estado || "No aceptado";
+      console.log(`Actualizando estado para idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}, estado: ${estadoFinal}`);
+      
+      return pool.query(
+        `UPDATE respuestasalcance
+         SET estado = $1
+         WHERE idproyecto = $2 AND idrespuesta = $3
+         RETURNING *`,
+        [estadoFinal, idproyecto, idrespuesta]
+      );
+    });
+
+    const results = await Promise.all(queries);
+    const updatedRows = results.map(result => result.rows[0]);
+    res.status(200).json({ message: 'Estados actualizados correctamente', updatedData: updatedRows });
+  } catch (error) {
+    console.error('Error al actualizar estados:', error);
+    res.status(400).json({ message: 'Error al actualizar estados', error: error.message });
+  }
+};
+
 
 export {
   getProyectos,
@@ -259,6 +279,7 @@ export {
   actualizarEstadoRespuestas,
   getFichas,
   getAprendicesByFicha,
-  asignarProyecto
+  asignarProyecto,
+  actualizarEstadoRespuestasAlcance
 };
 

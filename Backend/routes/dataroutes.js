@@ -9,7 +9,8 @@ import {
    actualizarEstadoRespuestas, 
    getFichas, 
    getAprendicesByFicha,
-   asignarProyecto
+   asignarProyecto,
+   actualizarEstadoRespuestasAlcance
   } from '../controllers/datacontroler.js';
 
 const router = express.Router();
@@ -94,21 +95,7 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
 router.post('/calificaciones', guardarCalificacion);
 
 // Ruta para actualizar el estado de las respuestas
-router.post('/actualizarEstadoRespuestas', async (req, res) => {
-  try {
-      const respuestas = req.body;
-
-      if (!Array.isArray(respuestas)) {
-          return res.status(400).json({ error: 'Formato de datos inválido' });
-      }
-
-      await actualizarEstadoRespuestas(respuestas);
-      res.status(200).json({ message: 'Estado actualizado correctamente' });
-  } catch (error) {
-      console.error('Error al actualizar estado:', error);
-      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
-  }
-});
+router.post('/actualizarEstadoRespuestas', actualizarEstadoRespuestas);
 
 // Ruta para obtener todas las fichas activas
 router.get('/fichas', getFichas);
@@ -118,6 +105,9 @@ router.get('/aprendices/:idficha', getAprendicesByFicha);
 
 // Ruta para asignar proyectos
 router.post('/asignar-proyectos', asignarProyecto);
+
+// Ruta para actualizar el estado de las respuestas de alcance
+router.post('/actualizarEstadoRespuestasAlcance', actualizarEstadoRespuestasAlcance);
 
 
 export default router;
