@@ -6,6 +6,8 @@ import BotonPrincipal from "../../Components/BotonPrincipal";
 import AceptarTerminos from "../../Components/AceptarTerminos";
 import SelectBoxTI from "../../Components/SelectBoxTI";
 import Loader from "../../Components/Loader";
+import LayoutFormulario from "../../layouts/LayoutFormulario";
+
 const Registro = () => {
   const [formValues, setFormValues] = useState({
     nombre: "",
@@ -172,7 +174,8 @@ const Registro = () => {
 
 
   return (
-    <div className="flex flex-col-reverse md:flex-row min-h-screen items-center justify-center gap-8 p-4 md:p-8">
+    <LayoutFormulario>
+    <div className="flex flex-col-reverse md:flex-row min-h-screen items-center justify-center p-4 md:p-8">
   <div className="flex justify-center w-full md:w-1/2">
         <form
           id="formu"
@@ -180,9 +183,9 @@ const Registro = () => {
           method="post"
           onSubmit={handleSubmit}
         >
-          <div className="logo-sena flex m-auto items-center justify-center w-80 h-28 bg-[#A3E784] rounded-bl-[50px] rounded-br-[50px]">
+          <div className="logo-sena flex m-auto items-center justify-center w-full h-28 bg-[#A3E784] rounded-bl-[50px] rounded-br-[50px]">
             <img
-              className="sena w-20 h-20"
+              className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
               src="/public/img/Logo.png"
               width="10"
               height="10"
@@ -348,6 +351,7 @@ const Registro = () => {
         />
       </div>
     </div>
+    </LayoutFormulario>
   );
 };
 
