@@ -1,6 +1,6 @@
 import express from 'express';
 import { pool } from '../config/db.js';
-const multer = require('multer');
+
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
 
@@ -19,29 +19,12 @@ import { checkEmailExists, updateProfile, getAssignedProjects,  updatePassword, 
   getObjetivosPorArea,
   updateProjectWithArea,
   updateProjectTipo,
-  updateProyectoItem, dataController,
+  updateProyectoItem,
   guardarRespuestasObjetivos } from '../controllers/datacontroler.js';
 
 const router = express.Router();
 
-// Configuración de multer para manejar archivos
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
-});
-const upload = multer({ storage: storage });
 
-router.post('/send-email', upload.single('pdf'), dataController.sendEmail);
-
-// Ruta para establecer una cookie
-router.get('/set-cookie', (req, res) => {
-  res.cookie('testCookie', 'testValue', { maxAge: 900000, httpOnly: true });
-  res.send('Cookie has been set');
-});
 
 // Ruta para obtener proyectos asignados a aprendices
 router.get('/assigned-projects', async (req, res) => {

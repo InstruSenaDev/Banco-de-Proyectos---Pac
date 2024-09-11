@@ -1,46 +1,11 @@
 import { pool } from '../config/db.js';
 import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt';
-const nodemailer = require('nodemailer');
-const path = require('path');
-const fs = require('fs');
-import session from 'express-session';
 
 
 
 
-export const sendEmail = async (req, res) => {
-    const { recipient, subject, message } = req.body;
-    const pdfPath = req.file.path;
-  
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'pac.bancodeproyectos@gmail.com',
-        pass: 'pxikzyjednmxlsud', // Usa la nueva contraseña de aplicación aquí
-      }
-    });
-  
-    const mailOptions = {
-      from: 'pac.bancodeproyectos@gmail.com', // Reemplaza con tu correo
-      to: recipient,
-      subject: subject,
-      text: message,
-      attachments: [
-        {
-          path: pdfPath
-        }
-      ]
-    };
-  
-    try {
-      await transporter.sendMail(mailOptions);
-      fs.unlinkSync(pdfPath); // Elimina el archivo después de enviarlo
-      res.status(200).json({ message: 'Correo enviado exitosamente.' });
-    } catch (error) {
-      res.status(500).json({ message: 'Error al enviar el correo: ' + error.message });
-    }
-  };
+
 
 
 // Ejemplo de cómo podrías usar session en tu controlador
@@ -55,7 +20,7 @@ export const getAssignedProjects = async () => {
             `SELECT 
                 proyecto.idproyecto,
                 proyecto.nombre AS nombre_proyecto,
-                json_agg(json_build_object('nombre_persona' personas.nombre)) AS personas_asignadas
+                json_agg(json_build_object('nombre_persona', personas.nombre)) AS personas_asignadas
             FROM 
                 asignaciones_proyectos
             JOIN 
@@ -546,7 +511,7 @@ async function getAllFicha() {
 
 // Combine all your exports in a single statement
 export {
-    sendEmail,
+
     checkEmailExists,
     checkIfUserExists,
     updatePassword,

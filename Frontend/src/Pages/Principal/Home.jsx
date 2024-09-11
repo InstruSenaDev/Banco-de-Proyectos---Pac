@@ -16,7 +16,7 @@ const Home = () => {
         </span>
 
         <div className="flex space-x-4">
-          <a href="/Inicio">
+          <a href="/Principal/Inicio">
             <BotonPrincipal Text="Iniciar Sesión" />
           </a>
           <a href="/Registro1">

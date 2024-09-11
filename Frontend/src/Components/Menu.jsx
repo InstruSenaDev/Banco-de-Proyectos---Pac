@@ -11,7 +11,7 @@ const Sidebar = () => {
       { icon: "fas fa-user", to: "/VistaAprobados", label: "Vista Aprobados" },
       { icon: "fas fa-cog", to: "/AsignarProyecto", label: "Asignar Proyecto" },
     ],
-    4: [
+    2: [
       { icon: "fas fa-home", to: "/VistaMisProyectos", label: "Vista Mis Proyectos" },
       { icon: "fas fa-project-diagram", to: "/EditarPerfil", label: "Editar Perfil" },
     ],
@@ -21,9 +21,11 @@ const Sidebar = () => {
       { icon: "fas fa-edit", to: "/EditarRegistro", label: "Editar Registro" },
       { icon: "fas fa-upload", to: "/CargaMasiva", label: "Cargar Aprendices" },
     ],
-    2: [
-      { icon: "fas fa-tachometer-alt", to: "/ProyectosAsignados", label: "Proyectos Asignados" },
-      { icon: "fas fa-user-edit", to: "/EditarPerfil", label: "Editar Perfil" },
+    4: [
+      { icon: "fas fa-home", to: "/Aprendiz/VistaAprendiz", label: "Home" },
+      { icon: "fas fa-tachometer-alt", to: "/Aprendiz/VistaProyectos", label: "Proyectos Asignados" },
+      { icon: "fas fa-tachometer-alt", to: "/Aprendiz/Formulario", label: "Proyectos Asignados" },
+      { icon: "fas fa-user-edit", to: "/Aprendiz/EditarPefil", label: "Editar Perfil" },
     ],
   };
 
