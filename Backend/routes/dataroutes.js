@@ -1,5 +1,5 @@
 import express from 'express';
-import {
+import {addUser,
     getAllPersonas,
     getAllUsuario,
     getAllAlcances,
@@ -19,7 +19,10 @@ import {
 
 } from '../controllers/datacontroler.js';
 
+
 const router = express.Router();
+
+router.post('/addUser', addUser);
 
 router.post('/check-email', async (req, res) => {
     const { correo } = req.body;

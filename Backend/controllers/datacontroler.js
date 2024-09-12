@@ -1,6 +1,33 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
+
+export const addUser = async (req, res) => {
+    const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha } = req.body;
+
+    try {
+        // Verificar si el rol es 'Aprendiz' (puedes cambiar '4' por el id correcto según tu tabla)
+        if (idrol === 4 && !idficha) {
+            return res.status(400).json({ message: 'El campo idficha es requerido para los aprendices.' });
+        }
+
+        // Encriptar la contraseña
+        const hashedPassword = await bcrypt.hash(contraseña, 10);
+
+        // Insertar el nuevo usuario en la tabla 'personas'
+        const result = await pool.query(
+            `INSERT INTO personas (nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING idpersonas`,
+            [nombre, tipodocumento, numerodocumento, telefono, correo, hashedPassword, idrol, estado, idficha]
+        );
+
+        res.status(201).json({ message: 'Usuario creado exitosamente', userId: result.rows[0].idpersonas });
+    } catch (error) {
+        console.error('Error al registrar usuario:', error.message);
+        res.status(500).json({ message: 'Error al crear el usuario' });
+    }
+};
+
 async function checkEmailExists(correo) {
     if (!correo) {
         throw new Error('El correo electrónico es requerido.');
