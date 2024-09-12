@@ -7,6 +7,7 @@ import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
 import AsignarProyectos from './Pages/AsignarProyectos';
 import Asignados from './Pages/Asignados';
+import Navbar from './Components/Navbar';
 
 function App() {
   const [count, setCount] = useState(0);

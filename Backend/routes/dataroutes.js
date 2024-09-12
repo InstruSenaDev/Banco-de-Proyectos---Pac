@@ -13,6 +13,7 @@ import {
    actualizarEstadoRespuestasAlcance,
    actualizarIdCalificacion,
    getProyectosAsignados,
+   getSearch
  
   } from '../controllers/datacontroler.js';
 
@@ -118,15 +119,19 @@ router.post('/actualizarEstadoRespuestasAlcance', actualizarEstadoRespuestasAlca
 // Ruta para actualizar el idcalificacion en la tabla proyecto
 router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
 
-// Ruta para obtener proyectos asignados a aprendices
-router.get('/assigned-projects', async (req, res) => {
-  try {
-      const projects = await getAssignedProjects();
-      res.status(200).json(projects);
-  } catch (error) {
-      console.error('Error al obtener proyectos asignados:', error);
-      res.status(500).json({ error: 'Error al obtener proyectos asignados' });
-  }
-});
+// // Ruta para obtener proyectos asignados a aprendices
+// router.get('/assigned-projects', async (req, res) => {
+//   try {
+//       const projects = await getAssignedProjects();
+//       res.status(200).json(projects);
+//   } catch (error) {
+//       console.error('Error al obtener proyectos asignados:', error);
+//       res.status(500).json({ error: 'Error al obtener proyectos asignados' });
+//   }
+// });
+
+// Ruta para buscar proyectos
+router.get('/search', getSearch);
+
 
 export default router;

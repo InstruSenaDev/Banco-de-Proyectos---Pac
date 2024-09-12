@@ -348,6 +348,39 @@ const getProyectosAsignados = async (req, res) => {
   }
 };
 
+const getSearch = async (req, res) => {
+  try {
+    const { nombre } = req.query;
+
+    // Verificar si se ha ingresado un nombre para buscar
+    if (!nombre) {
+      return res.status(400).json({ message: 'Por favor, ingrese un nombre de proyecto para buscar.' });
+    }
+
+    // Construir la consulta basada en el nombre del proyecto
+    let query = `
+      SELECT p.idproyecto, p.nombre, p.impacto, p.responsable, p.disponibilidad, p.dia,
+             p.idrespuestaobjetivos, p.idarea, p.idficha, p.idpersona, p.idrespuestaalcance,
+             p.iditems, p.idtiposdearea, p.idcalificacion
+      FROM proyecto p
+      WHERE p.nombre ILIKE '%${nombre}%'
+    `;
+
+    const result = await pool.query(query);
+
+    if (result.rows.length > 0) {
+      res.json(result.rows);
+    } else {
+      res.status(404).json({ message: 'No se encontraron proyectos con ese nombre.' });
+    }
+  } catch (error) {
+    console.error('Error al buscar proyectos:', error);
+    res.status(500).json({ message: 'Error al buscar proyectos' });
+  }
+};
+
+
+
 
 export {
   getProyectos,
@@ -362,6 +395,7 @@ export {
   actualizarEstadoRespuestasAlcance,
   actualizarIdCalificacion,
   getProyectosAsignados,
+  getSearch
 
 };
 
