@@ -153,9 +153,6 @@ const guardarCalificacion = async (req, res) => {
 };
 
 
-
-
-
 // Obtener todas las fichas activas
 const getFichas = async (req, res) => {
   try {
@@ -351,6 +348,7 @@ const getProyectosAsignados = async (req, res) => {
   }
 };
 
+
 export {
   getProyectos,
   getProyectoById,
@@ -363,6 +361,7 @@ export {
   asignarProyecto,
   actualizarEstadoRespuestasAlcance,
   actualizarIdCalificacion,
-  getProyectosAsignados
+  getProyectosAsignados,
+
 };
 

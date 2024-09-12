@@ -6,7 +6,7 @@ import Objetivos from './Pages/Objetivos';
 import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
 import AsignarProyectos from './Pages/AsignarProyectos';
-
+import Asignados from './Pages/Asignados';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -25,6 +25,7 @@ function App() {
         <Route path="/asignar-proyectos" element={<AsignarProyectos />} />
         <Route path="/asignar-proyectos/:idproyecto" element={<AsignarProyectos />} />
         <Route path="/calificar/:idproyecto" element={<Calificacion />} />
+        <Route path='/asignados' element={<Asignados />} />
       </Routes>
     </Router>
   );

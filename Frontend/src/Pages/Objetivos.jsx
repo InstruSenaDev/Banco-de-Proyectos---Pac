@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Layoutprincipal from "../Layouts/Layoutprincipal";
+import Layoutprincipal from "../Layouts/LayoutPrincipal";
 import Grid from "../Components/Grid";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";

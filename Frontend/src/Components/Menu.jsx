@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Items1 from '../Components/Items1';
+import logoSena from '../../public/logoSena.svg'
 import '../css/Sidebar.css';
 
 const Menu = () => {
@@ -25,7 +26,7 @@ const Menu = () => {
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
           <div className="flex items-center">
-            <img src="/img/logo.svg" alt="Logo" className="w-10 h-10 pb-2" />
+            <img src={logoSena} alt="Logo" className="w-10 h-10 pb-2" />
             {isOpen && (
               <span className="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">
                 PAC
@@ -33,13 +34,13 @@ const Menu = () => {
             )}
           </div>
           <ul className="space-y-3 font-medium mt-5">
-            <Items1 icon="fas fa-home" href="#" label={isOpen ? 'Proyecto' : ''} />
-            <Items1 icon="fa-solid fa-user" href="#" label={isOpen ? 'Proyecto' : ''} />
-            <Items1 icon="fas fa-cog" href="#" label={isOpen ? 'Configuración' : ''} />
+            <Items1 icon="fas fa-home" href="#" label={isOpen ? 'Home' : ''} />
+            <Items1 icon="fa-solid fa-briefcase" href="#" label={isOpen ? 'Proyectos' : ''} />
+            <Items1 icon="fa-solid fa-users" href="#" label={isOpen ? 'Proyectos asignados' : ''} />
+            <Items1 icon="fa-solid fa-user" href="#" label={isOpen ? 'Perfil' : ''} />
             <Items1 icon="fas fa-sign-out-alt" href="#" label={isOpen ? 'Salir' : ''} />
-            <Items1 icon="fa-solid fa-user" href="#" label={isOpen ? 'Asignar proyectos' : ''} />
           </ul>
-        </div>
+        </div>     
       </aside>
     </div>
   );

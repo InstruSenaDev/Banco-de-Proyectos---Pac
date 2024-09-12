@@ -12,8 +12,8 @@ import {
    asignarProyecto,
    actualizarEstadoRespuestasAlcance,
    actualizarIdCalificacion,
-   getProyectosAsignados
-
+   getProyectosAsignados,
+ 
   } from '../controllers/datacontroler.js';
 
 const router = express.Router();
@@ -118,6 +118,15 @@ router.post('/actualizarEstadoRespuestasAlcance', actualizarEstadoRespuestasAlca
 // Ruta para actualizar el idcalificacion en la tabla proyecto
 router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
 
-
+// Ruta para obtener proyectos asignados a aprendices
+router.get('/assigned-projects', async (req, res) => {
+  try {
+      const projects = await getAssignedProjects();
+      res.status(200).json(projects);
+  } catch (error) {
+      console.error('Error al obtener proyectos asignados:', error);
+      res.status(500).json({ error: 'Error al obtener proyectos asignados' });
+  }
+});
 
 export default router;
