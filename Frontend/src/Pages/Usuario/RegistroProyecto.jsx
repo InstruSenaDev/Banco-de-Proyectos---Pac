@@ -196,32 +196,33 @@ const RegistroProyecto = () => {
                     </label>
                   </div>
 
-                  <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-y-4 gap-4">
-                    <div className="flex justify-center">
-                      <BotonPrincipal
-                        Text="Semanal"
-                        isSelected={frecuencia === 'Semanal'}
-                        onClick={() => handleFrecuenciaClick('Semanal')}
-                      />
+                  <div className="grid xl:grid-cols-1 2xl:grid-cols-3 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 gap-4">
+                      <div className="flex justify-center">
+                        <BotonPrincipal
+                          Text="Semanal"
+                          isSelected={frecuencia === 'Semanal'}
+                          onClick={() => handleFrecuenciaClick('Semanal')}
+                        />
+                      </div>
+                      <div className="flex justify-center">
+                        <BotonPrincipal
+                          Text="Quincenal"
+                          isSelected={frecuencia === 'Quincenal'}
+                          onClick={() => handleFrecuenciaClick('Quincenal')}
+                        />
+                      </div>
+                      <div className="flex justify-center">
+                        <BotonPrincipal
+                          Text="Mensual"
+                          isSelected={frecuencia === 'Mensual'}
+                          onClick={() => handleFrecuenciaClick('Mensual')}
+                        />
+                      </div>
+                      <span className="text-red-500 text-sm lg:col-span-3 md:col-span-1">
+                        {errors.frecuencia}
+                      </span>
                     </div>
-                    <div className="flex justify-center">
-                      <BotonPrincipal
-                        Text="Quincenal"
-                        isSelected={frecuencia === 'Quincenal'}
-                        onClick={() => handleFrecuenciaClick('Quincenal')}
-                      />
-                    </div>
-                    <div className="flex justify-center">
-                      <BotonPrincipal
-                        Text="Mensual"
-                        isSelected={frecuencia === 'Mensual'}
-                        onClick={() => handleFrecuenciaClick('Mensual')}
-                      />
-                    </div>
-                    <span className="text-red-500 text-sm sm:col-span-3">
-                      {errors.frecuencia}
-                    </span>
-                  </div>
+
 
                   <div className="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
                     <RadioButton2
