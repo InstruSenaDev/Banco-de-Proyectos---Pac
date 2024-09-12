@@ -13,13 +13,11 @@ import Items from './Pages//SuperAdmin/Items'
 import Ficha from './Pages//SuperAdmin/Ficha';
 
 
-
-
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/SuperAdmin/dashboard" element={<Dashboard />} />
         <Route path="/SuperAdmin/usuarios" element={<Usuarios />} />
         <Route path="/SuperAdmin/Prueba" element={<Prueba/>} />
         <Route path="/SuperAdmin/proyectos" element={<Proyectos/>} />

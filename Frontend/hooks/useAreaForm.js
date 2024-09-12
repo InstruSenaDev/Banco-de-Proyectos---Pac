@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function useAreaForm (onSuccess){
+export function useAreaForm(onSuccess) {
   const [formValues, setFormValues] = useState({
     area: '',
   });
@@ -14,7 +14,7 @@ export function useAreaForm (onSuccess){
     // Validar Nombre del área (solo letras y espacios)
     const nombrePattern = /^[A-Za-zÀ-ÿ\s.,]{2,50}$/;
     if (!nombrePattern.test(formValues.area.trim())) {
-      errors.nombre = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
+      errors.area = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';  // Cambiado a 'errors.area'
       isValid = false;
     }
 
@@ -29,7 +29,6 @@ export function useAreaForm (onSuccess){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Valores del formulario:", formValues); // Agrega esta línea para depuración
     if (validateForm()) {
       try {
         const response = await fetch('http://localhost:4000/api/registerArea', {
@@ -49,7 +48,7 @@ export function useAreaForm (onSuccess){
         const data = await response.json();
         onSuccess(data);
       } catch (error) {
-        console.error('Error al registrar usuario:', error);
+        console.error('Error al registrar el área:', error);
       }
     }
   };

@@ -7,10 +7,10 @@ export function useForm(onSuccess) {
     numeroDoc: '',
     correo: '',
     contrasena: '',
-    tipoRol: '',
+    tipoRol: '', // Mapeado a 'rol'
     celular: '',
-    fichaSeleccionada: '', // Este campo se valida solo si el rol es "Aprendiz"
-    estado: 'Activo', // Valor por defecto para el estado
+    fichaSeleccionada: '',
+    estado: 'Activo',
   });
 
   const [errors, setErrors] = useState({});
@@ -19,7 +19,7 @@ export function useForm(onSuccess) {
     const errors = {};
     let isValid = true;
 
-    // Validar Nombre del usuario
+    // Validar Nombre
     const nombrePattern = /^[A-Za-z\s]{2,50}$/;
     if (!nombrePattern.test(formValues.nombreUsu.trim())) {
       errors.nombreUsu = "El nombre debe contener solo letras.";
@@ -42,7 +42,7 @@ export function useForm(onSuccess) {
     // Validar Correo Electrónico
     const correoPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!correoPattern.test(formValues.correo.trim())) {
-      errors.correo = "El correo debe tener un formato válido (ejemplo@dominio.com).";
+      errors.correo = "El correo debe tener un formato válido.";
       isValid = false;
     }
 
@@ -58,16 +58,16 @@ export function useForm(onSuccess) {
       isValid = false;
     }
 
-    // Validar Teléfono
+    // Validar Celular
     const celularPattern = /^[0-9]{10,12}$/;
     if (!celularPattern.test(formValues.celular.trim())) {
       errors.celular = "El teléfono no es válido.";
       isValid = false;
     }
 
-    // Validar Ficha solo si el rol es Aprendiz
+    // Validar Ficha (solo si el rol es Aprendiz)
     if (formValues.tipoRol.toLowerCase() === 'aprendiz' && !formValues.fichaSeleccionada) {
-      errors.fichaSeleccionada = "Debe seleccionar una ficha para el aprendiz.";
+      errors.fichaSeleccionada = "Debe seleccionar una ficha.";
       isValid = false;
     }
 
@@ -82,7 +82,6 @@ export function useForm(onSuccess) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Valores del formulario:", formValues); // Agrega esta línea para depuración
     if (validateForm()) {
       try {
         const response = await fetch('http://localhost:4000/api/agregarpersona', {
@@ -90,15 +89,17 @@ export function useForm(onSuccess) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(formValues)
+          body: JSON.stringify({
+            ...formValues,
+            rol: formValues.tipoRol  // Renombrar tipoRol a rol
+          })
         });
-
+  
         if (!response.ok) {
           const error = await response.json();
-          console.error('Error en la respuesta del servidor:', error);
           throw new Error(error.error || 'Error desconocido');
         }
-
+  
         const data = await response.json();
         onSuccess(data);
       } catch (error) {

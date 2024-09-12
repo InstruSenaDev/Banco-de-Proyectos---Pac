@@ -1,37 +1,29 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Loader from '../../../Components/Loader';
-import ModalFicha from '../../../Components/Modales/ModalFichas';
 
-const GridListFicha = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el modal
-
-  // eslint-disable-next-line react/prop-types
+const GridListFicha = ({ fichas, setFichas }) => {
   const Badge = ({ variant, children }) => {
     const bgColor = variant === 'active' ? 'bg-green-200' : 'bg-red-200';
     return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
   };
 
   useEffect(() => {
-    const fetchFicha = async () => {
+    const fetchFichas = async () => {
       try {
         const response = await fetch('http://localhost:4000/api/ficha');
-        const ficha = await response.json();
-        setData(ficha);
+        const fichasData = await response.json();
+        setFichas(fichasData);
       } catch (error) {
         console.error('Error al obtener las fichas:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchFicha();
-  }, []);
+    fetchFichas();
+  }, [setFichas]);
 
-  const handleAddFicha = (newFicha) => {
-    setData((prevData) => [...prevData, newFicha]); // Añadimos la nueva ficha al final de la lista
-  };
+  if (fichas.length === 0) {
+    return <Loader />;
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
@@ -43,38 +35,20 @@ const GridListFicha = () => {
             <th className="px-6 py-3 text-left text-gray-900">Número ficha</th>
           </tr>
         </thead>
-        {loading ? (
-          <div id="loader" className="flex items-center justify-center h-screen absolute inset-0">
-            <div className="flex flex-col items-center justify-center h-full">
-              <div className="flex-grow" /> {/* Espaciador superior */}
-              <Loader />
-              <div className="flex-grow" /> {/* Espaciador inferior */}
-            </div>
-          </div>
-        ) : (
-          <tbody className="bg-white divide-y divide-gray-200 overflow-hidden">
-            {data.map((item) => (
-              <tr key={item.idficha}>
-                <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <Badge variant={item.estado ? 'active' : 'inactive'}>
-                    {item.estado ? 'Activo' : 'Inactivo'}
-                  </Badge>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.numeroficha}</td>
-              </tr>
-            ))}
-          </tbody>
-        )}
+        <tbody className="bg-white divide-y divide-gray-200 overflow-hidden">
+          {fichas.map((item) => (
+            <tr key={item.idficha}>
+              <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <Badge variant={item.estado ? 'active' : 'inactive'}>
+                  {item.estado ? 'Activo' : 'Inactivo'}
+                </Badge>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">{item.numeroficha}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
-
-      {/* Modal para agregar nueva ficha */}
-      {isModalOpen && (
-        <ModalFicha
-          onClose={() => setIsModalOpen(false)}
-          onFichaAdded={handleAddFicha}
-        />
-      )}
     </div>
   );
 };

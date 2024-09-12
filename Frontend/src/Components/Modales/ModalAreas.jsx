@@ -1,12 +1,12 @@
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import PropTypes from 'prop-types';
-import { useAreaForm }from '../../../hooks/useAreaForm';
+import { useAreaForm } from '../../../hooks/useAreaForm';
 
-export default function Areas ({ onClose, onAddArea }) {
-  const {formValues, errors, handleInputChange, handleSubmit } = useAreaForm ((data) => {
+export default function Areas({ onClose, onAddArea }) {
+  const { formValues, errors, handleInputChange, handleSubmit } = useAreaForm((data) => {
     onAddArea(data);  // Llama al callback para actualizar la vista
-    onClose();  // Cierra el modal después de añadir el usuario
+    onClose();  // Cierra el modal después de añadir el área
   });
 
   return (
@@ -48,10 +48,9 @@ export default function Areas ({ onClose, onAddArea }) {
       </DialogPanel>
     </Dialog>
   );
-};
+}
 
 Areas.propTypes = {
   onClose: PropTypes.func.isRequired,
   onAddArea: PropTypes.func.isRequired,
 };
-

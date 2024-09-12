@@ -20,7 +20,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    
+
     <Layoutprincipal title="Proyectos">
       {loading ? (
         <div id="loader" className="flex items-center justify-center h-screen">

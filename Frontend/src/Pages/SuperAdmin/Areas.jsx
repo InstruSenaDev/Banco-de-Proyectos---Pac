@@ -11,7 +11,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentArea, setCurrentArea] = useState(null);
   const [actionType, setActionType] = useState('');
 
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Area = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentUser(null);
+    setCurrentArea(null);
     setActionType('add');
     setIsModalOpen(true);
   };
@@ -33,12 +33,12 @@ const Area = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentUser(null);
+    setCurrentArea(null);
   };
 
-  const handleAddMember = (user) => {
+  const handleAddArea = (Area) => {
     // Lógica para agregar un usuario
-    console.log('Agregar', user);
+    console.log('Agregar', Area);
   };
 
 
@@ -71,8 +71,8 @@ const Area = () => {
             {isModalOpen && (
               <Areas
                 onClose={handleCloseModal}
-                onAddMember={handleAddMember}
-                user={currentUser}
+                onAddArea={handleAddArea}
+                Area={currentArea}
                 actionType={actionType}
               />
             )}

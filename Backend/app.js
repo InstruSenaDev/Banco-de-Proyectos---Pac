@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dataRoutes from './routes/dataroutes.js';
+const { agregarPersona } = require('./datacontroler');
 
 const app = express();
 const PORT = 4000;
@@ -10,10 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.post('/api/registerArea', async (req, res) => {
-    const { area } = req.body;
-    // El código para registrar el área en la base de datos
-  });
+router.post('/agregarpersona', agregarPersona);
 
 // Rutas de la API
 app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos

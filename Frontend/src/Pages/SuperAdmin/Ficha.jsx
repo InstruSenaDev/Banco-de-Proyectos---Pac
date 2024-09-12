@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalFicha from '../../Components/Modales/ModalFichas'; 
+import ModalFicha from '../../Components/Modales/ModalFichas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [, setCurrentUser] = useState(null); // Correcto
-  const [, setActionType] = useState(''); // Correcto
+  const [currentFicha, setCurrentFicha] = useState(null);
+  const [actionType, setActionType] = useState('');
+  const [fichas, setFichas] = useState([]);
 
   const navigate = useNavigate();
 
@@ -25,18 +26,44 @@ const Fichas = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentUser(null);
+    setCurrentFicha(null);
     setActionType('add');
-    setIsModalOpen(true); // Abrir el modal
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal
-    setCurrentUser(null);
+    setIsModalOpen(false);
+    setCurrentFicha(null);
+  };
+
+  const handleAddFicha = async (newFicha) => {
+    try {
+      console.log('Intentando registrar nueva ficha:', newFicha);
+      const response = await fetch('http://localhost:4000/api/registerFicha', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newFicha)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error al registrar la ficha: ${errorData.message || response.statusText}`);
+      }
+
+      const addedFicha = await response.json();
+      console.log('Ficha registrada exitosamente:', addedFicha);
+      setFichas(prevFichas => [...prevFichas, addedFicha]);
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error detallado al agregar ficha:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    }
   };
 
   const handleGoBack = () => {
-    navigate('/dashboard'); // Redirigir al dashboard
+    navigate('/SuperAdmin/dashboard');
   };
 
   return (
@@ -59,11 +86,14 @@ const Fichas = () => {
               <BotonSegundoModal text="Agregar Ficha" id="addFichaBtn" onClick={handleAddClick} />
             </div>
             <div>
-              <GridListFicha />
+              <GridListFicha fichas={fichas} setFichas={setFichas} />
             </div>
             {isModalOpen && (
-              <ModalFicha // Utiliza el modal correctamente
-                onClose={handleCloseModal} // Para cerrar el modal
+              <ModalFicha
+                onClose={handleCloseModal}
+                onAddFicha={handleAddFicha}
+                actionType={actionType}
+                Ficharea={currentFicha}
               />
             )}
           </div>

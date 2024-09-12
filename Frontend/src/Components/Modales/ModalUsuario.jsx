@@ -8,22 +8,17 @@ import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
-  const { formValues, errors, handleInputChange, handleSubmit } = useForm((data) => {
-    onAddMember(data);  // Llama al callback para actualizar la vista
-    onClose();  // Cierra el modal después de añadir el usuario
+  const { formValues, errors, handleInputChange, handleSubmit } = useForm(async (data) => {
+    onAddMember(data);
+    onClose();
   });
 
   const handleRolChange = (value) => {
     handleInputChange({ target: { id: 'tipoRol', value } });
   };
 
-  return (  
-    <Dialog
-      open={true}
-      onClose={onClose}
-      static={true}
-      className="z-[100]"
-    >
+  return (
+    <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
       <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
         <button
           type="button"
