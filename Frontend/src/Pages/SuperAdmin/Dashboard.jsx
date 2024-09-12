@@ -39,56 +39,56 @@ const Dashboard = () => {
               metricValue={50}
               progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
-              route="/usuarios"
+              route="/SuperAdmin/usuarios"
             />
             <CardBase
               title="Fichas"
               metricValue={20}
               progressText="Aprendices"
               buttonTex="Ver detalle"
-              route="/ficha"
+              route="/SuperAdmin/ficha"
             />
             <CardBase
               title="Proyectos"
               metricValue={50}
               progressText="Proyectos creados"
               buttonTex="Ver detalle"
-              route="/proyectos"
+              route="/SuperAdmin/proyectos"
             />
             <CardBase
               title="Areas"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/areas"
+              route="/SuperAdmin/areas"
             />
             <CardBase
               title="Tipos de Area"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/tipodearea"
+              route="/SuperAdmin/tipodearea"
             />
-             <CardBase
+            <CardBase
               title="Items"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/items"
+              route="/SuperAdmin/items"
             />
             <CardBase
               title="Objetivo"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/objetivos"
+              route="/SuperAdmin/objetivos"
             />
             <CardBase
               title="Alcance"
               metricValue={20}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
-              route="/alcance"
+              route="/SuperAdmin/alcance"
             />
           </div>
 

@@ -11,7 +11,7 @@ import Objetivos from './Pages//SuperAdmin/Objetivos'
 import Alcance from './Pages//SuperAdmin/Alcance';
 import Items from './Pages//SuperAdmin/Items'
 import Ficha from './Pages//SuperAdmin/Ficha';
-import CrearAreas from './Pages/SuperAdmin/CrearArea'
+
 
 
 
@@ -19,17 +19,16 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/SuperAdmin/Dashboard" element={<Dashboard />} />
-        <Route path="/usuarios" element={<Usuarios />} />
-        <Route path="/Prueba" element={<Prueba/>} />
-        <Route path="/proyectos" element={<Proyectos/>} />
-        <Route path="/areas" element={<Areas/>} />
-        <Route path="/tipodearea" element={<TipoArea/>} />
-        <Route path="/objetivos" element={<Objetivos/>} />
-        <Route path="/alcance" element={<Alcance/>} />
-        <Route path="/items" element={<Items/>} />
-        <Route path="/ficha" element={<Ficha/>} />
-        <Route path='/crearareas' element={<CrearAreas/> }/>
+        <Route path="/SuperAdmin/dashboard" element={<Dashboard />} />
+        <Route path="/SuperAdmin/usuarios" element={<Usuarios />} />
+        <Route path="/SuperAdmin/Prueba" element={<Prueba/>} />
+        <Route path="/SuperAdmin/proyectos" element={<Proyectos/>} />
+        <Route path="/SuperAdmin/areas" element={<Areas/>} />
+        <Route path="/SuperAdmin/tipodearea" element={<TipoArea/>} />
+        <Route path="/SuperAdmin/objetivos" element={<Objetivos/>} />
+        <Route path="/SuperAdmin/alcance" element={<Alcance/>} />
+        <Route path="/SuperAdmin/items" element={<Items/>} />
+        <Route path="/SuperAdmin/ficha" element={<Ficha/>} />
       </Routes>
     </Router>
   );

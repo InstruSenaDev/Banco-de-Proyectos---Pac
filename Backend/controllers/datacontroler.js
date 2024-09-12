@@ -135,33 +135,39 @@ async function getObjetivos() {
 };
 
 
-async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado, idficha }) {
+async function agregarPersona({ nombre, tipodocumento, numerodocumento, correo, contrasena, idrol, celular, idficha, estado }) {
     try {
-        // Verificar que los parámetros no estén vacíos
-        if (!nombre || !tipodocumento || !numerodocumento || !telefono || !correo || !contraseña || !idrol || !estado || !idficha) {
-            throw new Error('Todos los campos deben estar completos.');
-        }
-
-        // Cifrar la contraseña
-        const hashedPassword = await bcrypt.hash(contraseña, 10);
-
-        // Convertir idrol e idficha a enteros si es necesario
-        const idrolInt = parseInt(idrol, 10);
-        const idfichaInt = parseInt(idficha, 10);
-
-        const client = await pool.connect();
-        const result = await client.query(
-            'INSERT INTO personas (nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado, idficha) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
-            [nombre, tipodocumento, numerodocumento, nombreempresa || null, telefono, correo, hashedPassword, idrolInt, estado, idfichaInt]
-        );
-        client.release();
-        console.log('Persona registrada con éxito:', result.rows[0]);
-        return result.rows[0];
+      const response = await fetch('http://localhost:4000/api/agregarpersona', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre,
+          tipodocumento,
+          numerodocumento,
+          correo,
+          contrasena,
+          idrol,
+          celular,
+          idficha: rol === 'Aprendiz' ? idficha : null,
+          estado,
+        })
+      });
+  
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Error desconocido');
+      }
+  
+      return await response.json();
     } catch (error) {
-        console.error('Error al registrar persona:', error);
-        throw error;
+      console.error('Error al agregar persona:', error);
+      throw error;
     }
-}
+  }
+  
+
 
 
 

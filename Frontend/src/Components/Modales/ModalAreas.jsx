@@ -1,42 +1,49 @@
-import React from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import BotonSegundo from '../BotonSegundoModal';
 import PropTypes from 'prop-types';
+import { useAreaForm }from '../../../hooks/useAreaForm';
 
-
-const Areas = ({ onClose, onAddMember }) => {
-  const { areaName,  setAreaName, handleSubmit } = useAreaForm(onAddMember, onClose);
+export default function Areas ({ onClose, onAddArea }) {
+  const {formValues, errors, handleInputChange, handleSubmit } = useAreaForm ((data) => {
+    onAddArea(data);  // Llama al callback para actualizar la vista
+    onClose();  // Cierra el modal después de añadir el usuario
+  });
 
   return (
-    <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
-      <DialogPanel className="sm:max-w-md">
+    <Dialog
+      open={true}
+      onClose={onClose}
+      static={true}
+      className="z-[100]"
+    >
+      <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
         <button
           type="button"
-          className="absolute right-4 top-4 p-2 bg-transparent border-none text-tremor-content-subtle hover:text-tremor-content hover:bg-tremor-background-subtle dark:text-dark-tremor-content-subtle dark:hover:bg-dark-tremor-background-subtle dark:hover:text-tremor-content"
+          className="absolute right-4 top-4 p-2 bg-transparent border-none"
           onClick={onClose}
           aria-label="Close"
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <h4 className="font-semibold text-tremor-content-strong dark:text-dark-tremor-content-strong">
-            Añade una nueva Área
-          </h4>
-
+          <h4 className="font-semibold">Añade una nueva Área</h4>
           <div className="relative flex flex-col p-[5%] Flex-box space-y-6">
             <Input2
-              id="nombreArea"
+              id="area"
               type="text"
               placeholder="Nombre del Área"
-              value={areaName}
-              onChange={(e) => setAreaName(e.target.value)}
-              Text="Área:"
-              className="pr-10"
+              value={formValues.area}
+              onChange={handleInputChange}
+              error={errors.area}
             />
           </div>
-
-          <BotonSegundo text="Agregar" id="guardarBtn" />
+          <button
+            type="submit"
+            id="guardarBtn"
+            className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
+          >
+            Agregar
+          </button>
         </form>
       </DialogPanel>
     </Dialog>
@@ -45,7 +52,6 @@ const Areas = ({ onClose, onAddMember }) => {
 
 Areas.propTypes = {
   onClose: PropTypes.func.isRequired,
-  onAddMember: PropTypes.func.isRequired,
+  onAddArea: PropTypes.func.isRequired,
 };
 
-export default Areas;

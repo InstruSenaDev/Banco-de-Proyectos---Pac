@@ -43,7 +43,7 @@ const Usuarios = () => {
 
 
   const handleGoBack = () => {
-    navigate('/dashboard'); // Redirigir al dashboard
+    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
 
   return (

@@ -9,7 +9,8 @@ export function useForm(onSuccess) {
     contrasena: '',
     tipoRol: '',
     celular: '',
-    fichaSeleccionada: '',
+    fichaSeleccionada: '', // Este campo se valida solo si el rol es "Aprendiz"
+    estado: 'Activo', // Valor por defecto para el estado
   });
 
   const [errors, setErrors] = useState({});
@@ -34,7 +35,7 @@ export function useForm(onSuccess) {
     // Validar Número de documento
     const numeroDocPattern = /^[0-9]{6,10}$/;
     if (!numeroDocPattern.test(formValues.numeroDoc.trim())) {
-      errors.numeroDoc = "El número de documento no es valido.";
+      errors.numeroDoc = "El número de documento no es válido.";
       isValid = false;
     }
 
@@ -60,11 +61,11 @@ export function useForm(onSuccess) {
     // Validar Teléfono
     const celularPattern = /^[0-9]{10,12}$/;
     if (!celularPattern.test(formValues.celular.trim())) {
-      errors.celular = "El teléfono no es valido.";
+      errors.celular = "El teléfono no es válido.";
       isValid = false;
     }
 
-    // Validar Ficha si el rol es Aprendiz
+    // Validar Ficha solo si el rol es Aprendiz
     if (formValues.tipoRol.toLowerCase() === 'aprendiz' && !formValues.fichaSeleccionada) {
       errors.fichaSeleccionada = "Debe seleccionar una ficha para el aprendiz.";
       isValid = false;
@@ -81,29 +82,30 @@ export function useForm(onSuccess) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Valores del formulario:", formValues); // Agrega esta línea para depuración
     if (validateForm()) {
-        try {
-            const response = await fetch('http://localhost:4000/api/agregarpersona', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formValues)
-            });
+      try {
+        const response = await fetch('http://localhost:4000/api/agregarpersona', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formValues)
+        });
 
-            if (!response.ok) {
-                const error = await response.json();
-                console.error('Error en la respuesta del servidor:', error);
-                throw new Error(error.error || 'Error desconocido');
-            }
-
-            const data = await response.json();
-            onSuccess(data);
-        } catch (error) {
-            console.error('Error al registrar usuario:', error);
+        if (!response.ok) {
+          const error = await response.json();
+          console.error('Error en la respuesta del servidor:', error);
+          throw new Error(error.error || 'Error desconocido');
         }
+
+        const data = await response.json();
+        onSuccess(data);
+      } catch (error) {
+        console.error('Error al registrar usuario:', error);
+      }
     }
-};
+  };
 
   return {
     formValues,

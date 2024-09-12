@@ -4,51 +4,46 @@ import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListArea from './GridList/GridListArea';
 import Loader from '../../Components/Loader';
-import BotonSegundo from '../../Components/BotonSegundo';
+import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import Areas from '../../Components/Modales/ModalAreas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado del modal
-  const [areas, setAreas] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [actionType, setActionType] = useState('');
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchAreas();
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  const fetchAreas = async () => {
-    try {
-      const response = await fetch('http://localhost:4000/api/areas');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      setAreas(data);
-    } catch (error) {
-      console.error("Error fetching areas:", error);
-    } finally {
-      setLoading(false);
-    }
+  const handleAddClick = () => {
+    setCurrentUser(null);
+    setActionType('add');
+    setIsModalOpen(true);
   };
 
-  const handleAddClick = () => {
-    setIsModalOpen(true);  // Abrir modal al hacer clic
-  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);  // Cerrar modal
+    setIsModalOpen(false);
+    setCurrentUser(null);
   };
 
-  const handleAddArea = (newArea) => {
-    setAreas([...areas, newArea]);  // Actualizar lista de áreas con la nueva área
-    fetchAreas();  // Refrescar datos
+  const handleAddMember = (user) => {
+    // Lógica para agregar un usuario
+    console.log('Agregar', user);
   };
+
 
   const handleGoBack = () => {
-    navigate('/dashboard');
+    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
 
   return (
@@ -68,15 +63,17 @@ const Area = () => {
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundo text="Agregar Area" to="/crearareas" />
+              <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
             </div>
             <div>
-              <GridListArea areas={areas} />
+              <GridListArea />
             </div>
             {isModalOpen && (
               <Areas
-                onClose={handleCloseModal}  // Cerrar modal
-                onAddMember={handleAddArea}  // Agregar nueva área a la lista
+                onClose={handleCloseModal}
+                onAddMember={handleAddMember}
+                user={currentUser}
+                actionType={actionType}
               />
             )}
           </div>

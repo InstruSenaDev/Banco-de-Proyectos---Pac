@@ -1,76 +1,63 @@
-// hooks/useAreaForm.js
 import { useState } from 'react';
 
-const useAreaForm = () => {
-  const [area, setArea] = useState('');
-  const [estado, setEstado] = useState('');
-  const [errors, setErrors] = useState({
-    nombre: '',
-    estado: ''
+export function useAreaForm (onSuccess){
+  const [formValues, setFormValues] = useState({
+    area: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   const validateForm = () => {
+    const errors = {};
     let isValid = true;
-    let errors = {};
 
-    // Validar Nombre del área (solo letras)
+    // Validar Nombre del área (solo letras y espacios)
     const nombrePattern = /^[A-Za-zÀ-ÿ\s.,]{2,50}$/;
-    if (!nombrePattern.test(area.trim())) {
-      errors.nombre = 'El nombre debe contener solo letras';
+    if (!nombrePattern.test(formValues.area.trim())) {
+      errors.nombre = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
       isValid = false;
-    } else {
-      errors.nombre = '';
-    }
-
-    // Validar Estado
-    if (!estado) {
-      errors.estado = 'Debe seleccionar un estado.';
-      isValid = false;
-    } else {
-      errors.estado = '';
     }
 
     setErrors(errors);
     return isValid;
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Valores del formulario:", formValues); // Agrega esta línea para depuración
     if (validateForm()) {
-      const formData = {
-        area: area.trim(),
-      };
-
       try {
         const response = await fetch('http://localhost:4000/api/registerArea', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(formValues)
         });
 
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(`Error: ${error.error || 'Unknown error'}`);
+          console.error('Error en la respuesta del servidor:', error);
+          throw new Error(error.error || 'Error desconocido');
         }
 
         const data = await response.json();
-        console.log('Área registrada con éxito:', data);
-        window.location.href = '/areas';
+        onSuccess(data);
       } catch (error) {
-        console.error('Error al registrar área:', error);
+        console.error('Error al registrar usuario:', error);
       }
     }
   };
 
   return {
-    area,
-    estado,
+    formValues,
     errors,
-    handleSubmit
+    handleInputChange,
+    handleSubmit,
   };
-};
-
-export default useAreaForm;
+}

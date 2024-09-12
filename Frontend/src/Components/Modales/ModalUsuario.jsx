@@ -3,6 +3,8 @@ import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
 import SelectBoxFicha from '../SelectBoxFicha';
 import SelectBoxTi from '../SelectBoxTI2';
+import RadioButton3 from '../RadioButton3';
+import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
@@ -15,7 +17,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
     handleInputChange({ target: { id: 'tipoRol', value } });
   };
 
-  return (
+  return (  
     <Dialog
       open={true}
       onClose={onClose}
@@ -92,6 +94,26 @@ export default function ModalUsuario({ onClose, onAddMember }) {
                   error={errors.fichaSeleccionada}
                 />
               )}
+              <div className="space-y-6">
+                <div className="flex">
+                  <RadioButton3
+                    Text="Activo"
+                    id="estadoActivo"
+                    value="Activo"
+                    checked={formValues.estado === 'Activo'}
+                    onChange={() => handleInputChange({ target: { id: 'estado', value: 'Activo' } })}
+                    error={errors.estado}
+                  />
+                  <RadioButton3
+                    Text="Inactivo"
+                    id="estadoInactivo"
+                    value="Inactivo"
+                    checked={formValues.estado === 'Inactivo'}
+                    onChange={() => handleInputChange({ target: { id: 'estado', value: 'Inactivo' } })}
+                    error={errors.estado}
+                  />
+                </div>
+              </div>
               <Input2
                 id="celular"
                 type="text"
@@ -114,3 +136,8 @@ export default function ModalUsuario({ onClose, onAddMember }) {
     </Dialog>
   );
 }
+
+ModalUsuario.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onAddMember: PropTypes.func.isRequired,
+};

@@ -118,7 +118,6 @@ router.get('/objetivos/:idarea', async (req, res) => {
 
 router.post('/agregarpersona', async (req, res) => {
     try {
-        // Desestructurar `idficha` junto con los otros campos
         const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha } = req.body;
 
         // Verificar si el correo ya existe
@@ -127,7 +126,7 @@ router.post('/agregarpersona', async (req, res) => {
             return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
         }
 
-        // Registrar la nueva persona incluyendo `idficha`
+        // Registrar la nueva persona incluyendo idficha si corresponde
         const newPerson = await agregarPersona({ nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha });
         res.status(201).json(newPerson);
     } catch (error) {
@@ -135,6 +134,7 @@ router.post('/agregarpersona', async (req, res) => {
         res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 });
+
 
 // Ruta para obtener todos los proyectos
 router.get('/proyecto', async (req, res) => {
