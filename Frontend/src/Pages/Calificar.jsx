@@ -46,7 +46,7 @@ const Calificar = () => {
         <div className="flex flex-col items-center">
           <div className="w-full max-w-7xl">
             <div className="flex justify-start mb-4 ml-9">
-              <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4">
+              <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4"> 
                 <RadioButton
                   Text="Recibidos"
                   onClick={() => setFilter('Recibidos')}

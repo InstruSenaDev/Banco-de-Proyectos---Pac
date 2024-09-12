@@ -187,22 +187,59 @@ const getAprendicesByFicha = async (req, res) => {
 const asignarProyecto = async (req, res) => {
   const { idproyecto, idpersona } = req.body;
 
-  console.log('Datos recibidos:', { idproyecto, idpersona }); // Log de los datos recibidos
+  console.log('Datos recibidos:', { idproyecto, idpersona });
 
   try {
-    const result = await pool.query( // Usando pool.query correctamente
-      'INSERT INTO asignaciones_proyectos (idproyecto, idpersona) VALUES ($1, $2) RETURNING *',
+    if (!idpersona) {
+      // Si no se envía ningún aprendiz, actualiza el campo a NULL
+      const result = await pool.query(
+        `UPDATE asignaciones_proyectos 
+         SET idpersona = NULL
+         WHERE idproyecto = $1
+         RETURNING *`,
+        [idproyecto]
+      );
+
+      console.log('Asignación actualizada a NULL:', result.rows[0]);
+      return res.status(200).json({ success: true, message: 'Asignación actualizada a NULL', data: result.rows[0] });
+    }
+
+    // Verificar si ya existe una asignación con esos valores
+    const existingRecord = await pool.query(
+      `SELECT * FROM asignaciones_proyectos WHERE idproyecto = $1 AND idpersona = $2`,
       [idproyecto, idpersona]
     );
 
-    console.log('Resultado de la inserción:', result.rows[0]); // Log del resultado
+    if (existingRecord.rows.length > 0) {
+      // Si ya existe, actualizar la asignación
+      const updatedRecord = await pool.query(
+        `UPDATE asignaciones_proyectos 
+         SET idproyecto = $1, idpersona = $2
+         WHERE idproyecto = $1 AND idpersona = $2
+         RETURNING *`,
+        [idproyecto, idpersona]
+      );
+      
+      console.log('Asignación actualizada:', updatedRecord.rows[0]);
+      return res.status(200).json({ success: true, message: 'Asignación actualizada', data: updatedRecord.rows[0] });
+    } else {
+      // Si no existe, realizar la inserción
+      const newRecord = await pool.query(
+        `INSERT INTO asignaciones_proyectos (idproyecto, idpersona)
+         VALUES ($1, $2)
+         RETURNING *`,
+        [idproyecto, idpersona]
+      );
 
-    res.status(201).json({ success: true, data: result.rows[0] });
+      console.log('Asignación creada:', newRecord.rows[0]);
+      return res.status(201).json({ success: true, message: 'Asignación creada', data: newRecord.rows[0] });
+    }
   } catch (error) {
-    console.error('Error al asignar proyecto:', error); // Log del error
+    console.error('Error al asignar proyecto:', error.message);
     res.status(500).json({ success: false, message: 'Error al asignar proyecto', error: error.message });
   }
 };
+
 
 // Controlador para actualizar el estado de las respuestas objetivos
 const actualizarEstadoRespuestas = async (req, res) => {

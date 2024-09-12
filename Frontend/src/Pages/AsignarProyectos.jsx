@@ -106,15 +106,14 @@
 
 // export default AsignarProyectos;
 
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
-import Layoutprincipal from '../Layouts/Layoutprincipal';
+import Layoutprincipal from '../Layouts/LayoutPrincipal';
 import Layoutcontenido2 from '../layouts/Layoutcontenido2';
 import BotonSegundo from '../Components/BotonSegundo';
-import useFichasYAprendices from '../../hooks/useFichasYAprendices';
-import usePostCalificacion from '../../hooks/usePostCalificacion'; // Importa el hook
+import useFichasYAprendices from '../../hooks/useFichasYAprendices'; //hook para mostrar las fichas y aprendices disponibles
+import { useAsignarProyecto } from '../../hooks/useAsignarProyecto'; //hooks para la funcionalidad de guardar en la bd 
 
 const AsignarProyectos = () => {
   const { idproyecto } = useParams();
@@ -128,7 +127,7 @@ const AsignarProyectos = () => {
   } = useFichasYAprendices();
 
   const [selectedAprendices, setSelectedAprendices] = useState([]);
-  const { postCalificacion, loading: saving } = usePostCalificacion(); // Usa el hook
+  const { asignarProyecto, loading: saving, error: assignError } = useAsignarProyecto(); // Usa el hook
 
   const handleCheckboxChange = (idpersona) => {
     setSelectedAprendices(prevState =>
@@ -138,24 +137,24 @@ const AsignarProyectos = () => {
     );
   };
 
-  const handleGuardarClick = async () => {
-    const estado = "Asignado";
-    const comentario = "Asignación de proyecto realizada"; // Puedes modificar este texto según tus necesidades
-
-    // Detalles que podrían ser relevantes para la asignación
-    const detalles = selectedAprendices.map(idpersona => ({
-      idpersona,
-      idficha: selectedFicha,
-      idproyecto,
-    }));
-
-    try {
-      await postCalificacion(idproyecto, 0, estado, comentario, detalles); // Llama a postCalificacion desde el hook
-      // La redirección se maneja dentro del hook
-    } catch (error) {
-      alert('Hubo un error al guardar la asignación');
+const handleGuardarClick = async () => {
+  try {
+    if (selectedAprendices.length === 0) {
+      await asignarProyecto(idproyecto, null); // Envía null si no hay aprendices seleccionados
+      alert('No se seleccionó ningún aprendiz, la asignación se actualizó a NULL.');
+      return;
     }
-  };
+
+    for (const idpersona of selectedAprendices) {
+      await asignarProyecto(idproyecto, idpersona); // Llama al hook para cada aprendiz seleccionado
+    }
+
+    alert('Asignación guardada correctamente');
+  } catch (error) {
+    alert('Hubo un error al guardar la asignación');
+  }
+};
+
 
   return (
     <Layoutprincipal title="Asignación de Proyecto">
@@ -218,7 +217,7 @@ const AsignarProyectos = () => {
             <BotonSegundo Text='Guardar' onClick={handleGuardarClick} disabled={saving} />
           </div>
 
-          {error && <p className="text-red-500">Error al guardar la asignación: {error}</p>}
+          {assignError && <p className="text-red-500">Error al guardar la asignación: {assignError}</p>}
         </Card>
       </Layoutcontenido2>
     </Layoutprincipal>
@@ -226,3 +225,6 @@ const AsignarProyectos = () => {
 };
 
 export default AsignarProyectos;
+
+
+
