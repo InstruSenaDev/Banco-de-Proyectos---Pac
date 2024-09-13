@@ -43,10 +43,10 @@ const Calificar = () => {
   return (
     <Layoutprincipal title="Proyectos">
       <Layoutcontenido title="contenido">
-        <div className="flex flex-col items-center">
-          <div className="w-full max-w-7xl">
-            <div className="flex justify-start mb-4 ml-9">
-              <div className="grid grid-cols-5 gap-x-8 gap-y-4 mt-4"> 
+        <div className="">
+          <div className="w-full">
+             <div className="w-auto">
+              <div className="flex flex-wrap justify-start gap-y-4 lg:px-40 gap-x-8 lg:gap-y-4 mt-4 w-auto max-h-full  mb-10 "> 
                 <RadioButton
                   Text="Recibidos"
                   onClick={() => setFilter('Recibidos')}
@@ -68,9 +68,9 @@ const Calificar = () => {
                   onClick={() => setFilter('Asignados')}
                 />
               </div>
-            </div>
+            </div> 
 
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 font-josefin-slab">
+            <div className="flex justify-center flex-wrap w-full">
               {data.length > 0 ? (
                 data.map((proyecto) => (
                   <CardProyect
