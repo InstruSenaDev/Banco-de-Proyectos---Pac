@@ -373,6 +373,26 @@ async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
   }
 
 
+  async function getItemsByAreaAndType(idarea, idtiposdearea) {
+    try {
+        const client = await pool.connect();
+        const query = `
+            SELECT items.iditems, items.items, tipo_de_area.tiposdearea, area.area
+            FROM items
+            INNER JOIN tipo_de_area ON items.idtiposdearea = tipo_de_area.idtiposdearea
+            INNER JOIN area ON tipo_de_area.idarea = area.idarea
+            WHERE items.idarea = $1 AND items.idtiposdearea = $2
+        `;
+        const result = await client.query(query, [idarea, idtiposdearea]);
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching items:', error);
+        throw error;
+    }
+}
+
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -390,6 +410,7 @@ export {
     registerTipoDeArea,
     registerItemArea,
     checkEmailExists,
-    getItemsPorAreaYTipo
+    getItemsPorAreaYTipo,
+    getItemsByAreaAndType
 
 };

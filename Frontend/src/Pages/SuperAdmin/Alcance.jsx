@@ -42,7 +42,7 @@ const Area = () => {
 
 
   const handleGoBack = () => {
-    navigate('/dashboard'); // Redirigir al dashboard
+    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
 
   

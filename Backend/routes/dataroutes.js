@@ -15,7 +15,8 @@ import {addUser,
     registerTipoDeArea,
     registerItemArea,
     checkEmailExists,
-    getItemsPorAreaYTipo
+    getItemsPorAreaYTipo,
+    getItemsByAreaAndType
 
 } from '../controllers/datacontroler.js';
 
@@ -245,16 +246,26 @@ router.post('/api/registerItemArea', async (req, res) => {
 });
 
 
-router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+// router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+//     try {
+//       const { idArea, idTiposDeArea } = req.params;
+//       const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
+//       res.json(items);
+//     } catch (error) {
+//       console.error('Error al obtener ítems:', error);
+//       res.status(500).json({ error: 'Internal server error', details: error.message });
+//     }
+//   });
+
+router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
     try {
-      const { idArea, idTiposDeArea } = req.params;
-      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
-      res.json(items);
+        const { idarea, idtiposdearea } = req.params;
+        const items = await getItemsByAreaAndType(idarea, idtiposdearea);
+        res.json(items);
     } catch (error) {
-      console.error('Error al obtener ítems:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+        res.status(500).json({ message: 'Error fetching items', error: error.message });
     }
-  });
+});
 
 
 export default router;
