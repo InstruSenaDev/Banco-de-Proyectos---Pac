@@ -138,11 +138,16 @@ const Calificacion = () => {
         const detalles = [...(location.state.detallesObjetivos || []), ...(location.state.detallesAlcance || [])];
         try {
             await postCalificacion(idproyecto, promedioFinal, estado, comentario, detalles);
-            navigate(`/asignar-proyectos/${idproyecto}`);
+            if (estado === "Aceptado") {
+                navigate(`/asignar-proyectos/${idproyecto}`); // Reemplaza con la ruta de la siguiente vista
+            } else {
+                navigate('/'); // Reemplaza con la ruta de la vista de inicio
+            }
         } catch (error) {
             console.error("Error al guardar la calificación:", error);
         }
     };
+    
 
     const handleCancelConfirm = () => {
         setShowConfirmModal(false);
@@ -167,11 +172,11 @@ const Calificacion = () => {
                             </Card>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                                <Card decoration="top" decorationColor="blue">
+                                <Card decoration="top" decorationColor="emerald">
                                     <Text>Objetivos</Text>
                                     <Metric>{promedioObjetivos.toFixed(2)}</Metric>
                                 </Card>
-                                <Card decoration="top" decorationColor="blue">
+                                <Card decoration="top" decorationColor="emerald">
                                     <Text>Alcance</Text>
                                     <Metric>{promedioAlcance.toFixed(2)}</Metric>
                                 </Card>
@@ -185,7 +190,7 @@ const Calificacion = () => {
 
                             <div className="flex justify-center">
                                 <Link to={`/alcance/${idproyecto}`}>
-                                    <BotonPrincipal Text="Atrás" textColor="text-white" className="bg-blue-500 hover:bg-blue-600 font-bold py-2 px-4 rounded" />
+                                    <BotonPrincipal Text="Atrás" textColor="text-white" className="bg-[#A3E784] hover:bg-lime-500 font-bold py-2 px-4 rounded" />
                                 </Link>
                             </div>
                         </div>
