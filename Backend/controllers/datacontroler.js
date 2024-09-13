@@ -190,12 +190,6 @@ const agregarPersona = async (req, res) => {
     }
   };
   
-  module.exports = { agregarPersona };
-  
-
-
-
-
 
 // Función para obtener todos los proyectos de la base de datos
 async function obtenerTodosLosProyectos() {
@@ -339,6 +333,23 @@ async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
 }
 
 
+async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
+    try {
+      const client = await pool.connect();
+      const query = `
+        SELECT * FROM items
+        WHERE idarea = $1 AND idtiposdearea = $2
+      `;
+      const result = await client.query(query, [idArea, idTiposDeArea]);
+      client.release();
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      throw error;
+    }
+  }
+
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -355,6 +366,7 @@ export {
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
-    checkEmailExists
+    checkEmailExists,
+    getItemsPorAreaYTipo
 
 };

@@ -1,8 +1,16 @@
 import PropTypes from 'prop-types';
 
-const RadioButton3 = ({ Text, id, value, checked, onChange, error }) => {
+const RadioButton3 = ({ Text, id, value, checked, onChange, error,Text2,Text3 }) => {
   return (
-    <div className="flex items-center mr-[16px]">
+    <div className="flex space-x-4 items-center mr-[16px]">
+    
+    <label
+        htmlFor={id}
+        className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+      >
+        {Text3}
+      </label>
+    
       <input
         type="radio"
         id={id}
@@ -17,6 +25,22 @@ const RadioButton3 = ({ Text, id, value, checked, onChange, error }) => {
         className="ml-2 text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
       >
         {Text}
+      </label>
+
+      <input
+        type="radio"
+        id={id}
+        value={value}
+        name="estado" // Asegura que todos los radios compartan el mismo nombre
+        className="form-radio h-5 w-5 focus:ring-Verde checked:bg-Verde"
+        checked={checked} // Controla si está seleccionado
+        onChange={onChange} // Maneja el cambio cuando se selecciona
+      />
+      <label
+        htmlFor={id}
+        className="ml-2 text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+      >
+        {Text2}
       </label>
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>

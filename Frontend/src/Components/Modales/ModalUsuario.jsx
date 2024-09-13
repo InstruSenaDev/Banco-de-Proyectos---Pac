@@ -34,6 +34,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
             <div className="space-y-4">
               <Input2
                 id="nombreUsu"
+                Text="Nombre"
                 type="text"
                 placeholder="Nombre del usuario"
                 value={formValues.nombreUsu}
@@ -49,6 +50,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
               <Input2
                 id="numeroDoc"
+                Text="Numero Documento"
                 type="text"
                 placeholder="Número de documento"
                 value={formValues.numeroDoc}
@@ -57,6 +59,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
               <Input2
                 id="correo"
+                Text="Correo"
                 type="email"
                 placeholder="Correo"
                 value={formValues.correo}
@@ -67,6 +70,7 @@ export default function ModalUsuario({ onClose, onAddMember }) {
             <div className="space-y-4">
               <Input2
                 id="contrasena"
+                Text="Contraseña"
                 type="password"
                 placeholder="Contraseña"
                 value={formValues.contrasena}
@@ -89,43 +93,42 @@ export default function ModalUsuario({ onClose, onAddMember }) {
                   error={errors.fichaSeleccionada}
                 />
               )}
-              <div className="space-y-6">
+              <div className="space-y-7">
+              <div className='space-y-7'>
+              <h1 className='text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong'>Seleccione una opcion</h1>
                 <div className="flex">
                   <RadioButton3
                     Text="Activo"
+                    Text2="inactivo"
                     id="estadoActivo"
                     value="Activo"
                     checked={formValues.estado === 'Activo'}
                     onChange={() => handleInputChange({ target: { id: 'estado', value: 'Activo' } })}
                     error={errors.estado}
                   />
-                  <RadioButton3
-                    Text="Inactivo"
-                    id="estadoInactivo"
-                    value="Inactivo"
-                    checked={formValues.estado === 'Inactivo'}
-                    onChange={() => handleInputChange({ target: { id: 'estado', value: 'Inactivo' } })}
-                    error={errors.estado}
-                  />
+                </div>
                 </div>
               </div>
               <Input2
                 id="celular"
+                Text="Celular"
                 type="text"
                 placeholder="Celular"
                 value={formValues.celular}
                 onChange={handleInputChange}
                 error={errors.celular}
               />
+              </div>
             </div>
-          </div>
-          <button
-            type="submit"
-            id="guardarBtn"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Agregar
-          </button>
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                id="guardarBtn"
+                className="bg-Verde text-black px-14 py-2 rounded"
+              >
+                Agregar
+              </button>
+            </div>
         </form>
       </DialogPanel>
     </Dialog>

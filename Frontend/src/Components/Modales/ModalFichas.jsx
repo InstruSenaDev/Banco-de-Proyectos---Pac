@@ -6,8 +6,8 @@ import { useFichaForm } from '../../../hooks/useFichaForm';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
   const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm((data) => {
-    onAddFicha(data);  // Llama al callback para actualizar la vista
-    onClose();  // Cierra el modal después de añadir el usuario
+    onAddFicha(data);
+    onClose();
   });
 
   return (
@@ -27,7 +27,7 @@ export default function ModalFicha({ onClose, onAddFicha }) {
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
         <form onSubmit={handleSubmit} className="space-y-4">
-        <h4 className="font-semibold">Añade nueva ficha</h4>
+          <h4 className="font-semibold">Añade nueva ficha</h4>
           <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
               <div className="relative">
@@ -41,7 +41,6 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   error={errors.nombre}
                 />
               </div>
-
               <div className="relative">
                 <Input2
                   id="numeroficha"
@@ -53,9 +52,8 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   error={errors.numeroficha}
                 />
               </div>
-
               <div className="space-y-4">
-              <div className="flex">
+                <div className="flex">
                   <RadioButton3
                     Text="Activo"
                     id="estadoActivo"
@@ -87,7 +85,7 @@ export default function ModalFicha({ onClose, onAddFicha }) {
       </DialogPanel>
     </Dialog>
   );
-};
+}
 
 ModalFicha.propTypes = {
   onClose: PropTypes.func.isRequired,

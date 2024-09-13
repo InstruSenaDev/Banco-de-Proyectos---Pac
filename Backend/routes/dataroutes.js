@@ -11,11 +11,11 @@ import {addUser,
     obtenerTodosLosProyectos,
     getAllFicha,
     registerArea,
-    registerFicha,
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
-    checkEmailExists
+    checkEmailExists,
+    getItemsPorAreaYTipo
 
 } from '../controllers/datacontroler.js';
 
@@ -189,16 +189,6 @@ router.post('/api/registerArea', async (req, res) => {
     }
 });
 
-//Registro ficha
-router.post('/registerFicha', async (req, res) => {
-    try {
-        const newFicha = await registerFicha(req.body);
-        res.status(201).json(newFicha);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al registrar ficha' });
-    }
-});
-
 
 // Obtener tipos de área por área específica
 router.get('/tipodearea/:idarea', async (req, res) => {
@@ -250,6 +240,17 @@ router.post('/api/registerItemArea', async (req, res) => {
     }
 });
 
+
+router.get('/items/:idArea/:idTiposDeArea', async (req, res) => {
+    try {
+      const { idArea, idTiposDeArea } = req.params;
+      const items = await getItemsPorAreaYTipo(idArea, idTiposDeArea);
+      res.json(items);
+    } catch (error) {
+      console.error('Error al obtener ítems:', error);
+      res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+  });
 
 
 export default router;
