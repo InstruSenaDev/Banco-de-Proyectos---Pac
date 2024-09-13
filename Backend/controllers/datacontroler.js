@@ -222,33 +222,56 @@ async function obtenerTodosLosProyectos() {
 
 
 // Función para registrar Área
+// async function registerArea({ area }) {
+//     try {
+//         console.log('Datos recibidos en registerArea:', { area });
+
+//         const client = await pool.connect();
+
+//         // Verificar si el área ya existe
+//         const checkQuery = 'SELECT COUNT(*) FROM area WHERE area = $1';
+//         const checkResult = await client.query(checkQuery, [area]);
+
+//         if (parseInt(checkResult.rows[0].count) > 0) {
+//             console.log('El área ya existe.');
+//             client.release();
+//             return { error: 'El área ya existe.' };
+//         } else {
+//             // Insertar el área si no existe
+//             const insertQuery = 'INSERT INTO area (area) VALUES ($1) RETURNING *';
+//             const result = await client.query(insertQuery, [area]);
+//             client.release();
+//             console.log('Área registrada con éxito:', result.rows[0]);
+//             return result.rows[0];
+//         }
+//     } catch (error) {
+//         console.error('Error al registrar área:', error.message, error.stack);
+//         throw error;
+//     }
+// }
+
+// Controlador para registrar un área
 async function registerArea({ area }) {
     try {
-        console.log('Datos recibidos en registerArea:', { area });
-
-        const client = await pool.connect();
-
-        // Verificar si el área ya existe
-        const checkQuery = 'SELECT COUNT(*) FROM area WHERE area = $1';
-        const checkResult = await client.query(checkQuery, [area]);
-
-        if (parseInt(checkResult.rows[0].count) > 0) {
-            console.log('El área ya existe.');
-            client.release();
-            return { error: 'El área ya existe.' };
-        } else {
-            // Insertar el área si no existe
-            const insertQuery = 'INSERT INTO area (area) VALUES ($1) RETURNING *';
-            const result = await client.query(insertQuery, [area]);
-            client.release();
-            console.log('Área registrada con éxito:', result.rows[0]);
-            return result.rows[0];
+        // Asegúrate de que 'area' no sea undefined
+        if (!area) {
+            throw new Error('El campo "area" es obligatorio.');
         }
+        
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO area (area) VALUES ($1) RETURNING *',
+            [area.trim()]
+        );
+        client.release();
+        console.log('Área registrada con éxito:', result.rows[0]);
+        return result.rows[0];
     } catch (error) {
-        console.error('Error al registrar área:', error.message, error.stack);
+        console.error('Error al registrar el área:', error);
         throw error;
     }
 }
+
 // Función para registrar una nueva ficha
 async function registerFicha({ nombre, numeroficha, estado }) {
     try {
