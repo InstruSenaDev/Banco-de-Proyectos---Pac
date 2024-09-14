@@ -123,7 +123,13 @@ useEffect(() => {
 
             <form id="respuestasForm" onSubmit={handleSubmit}>
               <input type="hidden" name="idproyecto" value={projectId || ''} />
-
+              <button
+               onClick={handleBackClick} 
+              className="flex items-center text-black hover:text-lime-600"
+            >
+              <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
+              Volver
+            </button>
               <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
               </div>

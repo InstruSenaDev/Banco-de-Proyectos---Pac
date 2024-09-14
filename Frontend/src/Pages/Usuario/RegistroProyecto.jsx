@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';  // <--- Importa useParams
+import { useParams, useNavigate} from 'react-router-dom';  // <--- Importa useParams
 import LayoutPrincipal2 from '../../layouts/LayoutPrincipal2';
 import Layoutcontenido2 from '../../Layouts/Layoutcontenido2';
 import Input from '../../Components/Input';
@@ -10,6 +10,7 @@ import Loader from '../../Components/Loader';
 
 const RegistroProyecto = () => {
   const { idproyecto } = useParams();
+  const navigate = useNavigate(); 
   const [idProyecto, setIdProyecto] = useState(idproyecto || null); // Se inicializa con el idproyecto de los params
   const [nombreProyecto, setNombreProyecto] = useState('');
   const [impactoDelProyecto, setImpactoDelProyecto] = useState('');
@@ -132,6 +133,11 @@ const RegistroProyecto = () => {
       }
     }
   };
+
+    // Función para manejar el clic en "Volver"
+    const handleVolver = () => {
+      navigate('/Usuario/VistaUsuario');  // Redirige a la vista sin validar el formulario
+    };
 
   return (
     <LayoutPrincipal2 title="">
@@ -277,9 +283,18 @@ const RegistroProyecto = () => {
                       {errors.dias}
                     </span>
                   </div>
+                  
+                  <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                  <button
+                      type="button"  // Asegura que sea de tipo "button" para no enviar el formulario
+                      onClick={handleVolver}
+                    >
+                      <BotonPrincipal Text="Volver" />
+                    </button>
 
                   <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                    <BotonSegundo Text="Guardar" type="submit" />
+                    <BotonSegundo Text="Siguiente" type="submit" />
+                  </div>
                   </div>
                 </div>
               </form>
