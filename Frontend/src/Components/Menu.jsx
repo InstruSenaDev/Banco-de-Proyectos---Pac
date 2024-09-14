@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importa el hook useNavigate de react-router-dom
 import Items1 from '../Components/Items1';
- import logoSena from '../../public/logoSena.svg';
+import logoSena from '../../public/logoSena.svg';
 import '../css/Sidebar.css';
 
 const Menu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate(); // Crea una instancia de useNavigate
 
   const userRole = parseInt(localStorage.getItem('userRole'), 10);
 
@@ -45,7 +47,7 @@ const Menu = () => {
 
   const handleLogout = () => {
     localStorage.clear(); // Limpia el localStorage
-    window.location.href = '/'; // Redirige a la página de login
+    navigate('/'); // Redirige a la página de login usando react-router
   };
 
   return (
