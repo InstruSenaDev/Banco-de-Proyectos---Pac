@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import Layoutprincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal from "../Layouts/LayoutPrincipal";
 import Grid2 from "../Components/Grid2";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
 import BarraPreguntas from "../Components/BarraPreguntas";
-import useDetalleCalificacion from "../../hooks/useDetalleCalificacion";
+import useDetalleCalificacion from "../../hooks/Admin/useDetalleCalificacion"
 
 const Objetivos = () => {
   const { idproyecto } = useParams();
@@ -119,7 +119,7 @@ const Objetivos = () => {
   }, {});
 
   return (
-    <Layoutprincipal title="Objetivos del Proyecto">
+    <LayoutPrincipal title="Objetivos del Proyecto">
       <div className="flex justify-center min-h-screen">
         <div className="p-10 w-full max-w-7xl my-10">
           <div className="flex flex-col">
@@ -167,7 +167,7 @@ const Objetivos = () => {
           </div>
         </div>
       </div>
-    </Layoutprincipal>
+    </LayoutPrincipal>
   );
 };
 

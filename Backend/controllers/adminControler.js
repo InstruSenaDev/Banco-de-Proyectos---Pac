@@ -1,6 +1,7 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
+import transporter from '../config/nodemailerConfig.js';
 
 // Controlador para obtener proyectos con filtrado opcional por estado de calificación
 const getProyectos = async (req, res) => {
@@ -380,6 +381,41 @@ const getSearch = async (req, res) => {
   }
 };
 
+// Enviar correos para los comentenatrio
+export const enviarCorreo = async (req, res) => {
+  const { email, comentario } = req.body;
+  const subject = `Notificación sobre el Estado de su Proyecto`;
+
+
+  const htmlContent = `
+    <html>
+      <body style="font-family: Arial, sans-serif; color: #333; background-color: #f9f9f9; padding: 20px;">
+        <div style="max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+     
+          <h2 style="color: #4CAF50;">Estado de su Proyecto: </h2>
+          <p style="font-size: 16px; color: #555;">Has recibido un nuevo comentario:</p>
+          <blockquote style="border-left: 5px solid #4CAF50; padding-left: 15px; margin: 10px 0; font-style: italic;">
+            ${comentario}
+          </blockquote>
+          <p style="font-size: 14px; color: #777;">Este es un correo automático, por favor no respondas.</p>
+        </div>
+      </body>
+    </html>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from: 'pac.bancodeproyectos@gmail.com',
+      to: email,
+      subject: subject,
+      html: htmlContent,
+    });
+    res.status(200).json({ message: 'Correo enviado exitosamente' });
+  } catch (error) {
+    console.error('Error al enviar el correo:', error);
+    res.status(500).json({ message: 'Error al enviar el correo' });
+  }
+};
 
 
 

@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
-import Layoutprincipal from '../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../Layouts/LayoutPrincipal';
 import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
 import BotonSegundo from '../Components/BotonSegundo';
-import useFichasYAprendices from '../../hooks/useFichasYAprendices'; //hook para mostrar las fichas y aprendices disponibles
-import { useAsignarProyecto } from '../../hooks/useAsignarProyecto'; //hooks para la funcionalidad de guardar en la bd 
+import useFichasYAprendices from '../../hooks/Admin/useFichasYAprendices'; //hook para mostrar las fichas y aprendices disponibles
+import { useAsignarProyecto } from '../../hooks/Admin/useAsignarProyecto'; //hooks para la funcionalidad de guardar en la bd 
 
 const AsignarProyectos = () => {
   const { idproyecto } = useParams();
@@ -50,7 +50,7 @@ const handleGuardarClick = async () => {
 
 
   return (
-    <Layoutprincipal title="Asignación de Proyecto">
+    <LayoutPrincipal title="Asignación de Proyecto">
       <Layoutcontenido2 text1="Asignar Proyecto">
         <Card className='h-[450px]'>
           <div className="flex items-center mb-6">
@@ -113,7 +113,7 @@ const handleGuardarClick = async () => {
           {assignError && <p className="text-red-500">Error al guardar la asignación: {assignError}</p>}
         </Card>
       </Layoutcontenido2>
-    </Layoutprincipal>
+    </LayoutPrincipal>
   );
 };
 

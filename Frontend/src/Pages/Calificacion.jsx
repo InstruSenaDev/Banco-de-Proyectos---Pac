@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
-import Layoutprincipal from "../layouts/LayoutPrincipal";
+import LayoutPrincipal from "../Layouts/LayoutPrincipal";
 import Layoutcontenido2 from "../Layouts/Layoutcontenido2";
 import { BarState } from "../Components/BarState";
 import { ModalComent } from "../Components/ModalComent";
 import BotonPrincipal from "../Components/BotonPrincipal";
+import BotonBack from "../Components/BotonBack";
 import Loader from "../Components/Loader";
 import { ModalConfirm } from "../Components/ModalConfirm";
-import usePostCalificacion from "../../hooks/usePostCalificacion";
+import usePostCalificacion from "../../hooks/Admin/usePostCalificacion"
 import { Card, Text, Metric } from "@tremor/react";
 
 const Calificacion = () => {
@@ -49,14 +50,14 @@ const Calificacion = () => {
             console.error("Error al guardar la calificación:", error);
         }
     };
-    
+
 
     const handleCancelConfirm = () => {
         setShowConfirmModal(false);
     };
 
     return (
-        <Layoutprincipal title="Detalle del proyecto">
+        <LayoutPrincipal title="Detalle del proyecto">
             {viewLoading ? (
                 <Loader />
             ) : (
@@ -64,7 +65,12 @@ const Calificacion = () => {
                     {loading ? (
                         <Loader />
                     ) : (
-                        <div className="w-full max-w-4xl mx-auto px-4 py-8">
+                        <div className="w-full mx-auto">
+                            <div className="flex justify-start pb-4">
+                                <Link to={`/alcance/${idproyecto}`}>
+                                    <BotonBack Text="Atrás" textColor="text-white" className="bg-[#A3E784] hover:bg-lime-500 font-bold py-2 px-4 rounded" />
+                                </Link>
+                            </div>
                             <Card className="mb-8 p-6">
                                 <Text className="text-center text-xl font-semibold mb-2">Promedio Final</Text>
                                 <Metric className="text-center text-4xl font-bold mb-4">{promedioFinal.toFixed(2)}</Metric>
@@ -90,11 +96,7 @@ const Calificacion = () => {
                                 <ModalComent text="Aceptar" buttonColor="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Aceptado", comentario)} />
                             </div>
 
-                            <div className="flex justify-center">
-                                <Link to={`/alcance/${idproyecto}`}>
-                                    <BotonPrincipal Text="Atrás" textColor="text-white" className="bg-[#A3E784] hover:bg-lime-500 font-bold py-2 px-4 rounded" />
-                                </Link>
-                            </div>
+
                         </div>
                     )}
 
@@ -106,7 +108,7 @@ const Calificacion = () => {
                     )}
                 </Layoutcontenido2>
             )}
-        </Layoutprincipal>
+        </LayoutPrincipal>
     );
 };
 
