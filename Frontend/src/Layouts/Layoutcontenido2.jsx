@@ -2,7 +2,7 @@ import React from 'react';
 
 const Layoutcontenido2 = ({ title, text1, children }) => {
   return (
-    <main className="pt-12 pb-20 pl-56 pr-44 2xl:pl-96 2xl:pr-96 2xl:pb-48">
+    <main className="sm:pt-12 sm:pb-20 sm:pl-56 sm:pr-44 2xl:pl-96 2xl:pr-96 2xl:pb-48">
       <div className="w-full flex justify-center">
         <h1 className="text-3xl font-bold font-josefin-slab text-center m-8">{text1}</h1>
       </div>
