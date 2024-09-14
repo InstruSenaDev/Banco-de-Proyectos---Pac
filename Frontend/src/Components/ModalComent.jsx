@@ -8,7 +8,7 @@ export function ModalComent({ buttonColor = 'bg-[#A3E784]', text = 'Abrir coment
 
   const handleOpenConfirm = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/enviocorreo', {
+      const response = await fetch('http://localhost:4000/api/admin/enviocorreo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

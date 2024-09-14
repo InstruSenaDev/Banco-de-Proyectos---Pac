@@ -6,7 +6,7 @@ const Layoutcontenido2 = ({ title, text1, children }) => {
       <div className="w-full flex justify-center">
         <h1 className="text-3xl font-bold font-josefin-slab text-center m-8">{text1}</h1>
       </div>
-      <div className="w-full min-h-screen p-9 m-0 rounded-lg bg-white">
+      <div className="w-full min-h-max p-9 m-0 rounded-lg bg-white">
         {children}
       </div>
     </main>

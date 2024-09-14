@@ -65,7 +65,7 @@ const Calificacion = () => {
                     {loading ? (
                         <Loader />
                     ) : (
-                        <div className="w-full mx-auto">
+                        <div className="w-full mx-auto ">
                             <div className="flex justify-start pb-4">
                                 <Link to={`/alcance/${idproyecto}`}>
                                     <BotonBack Text="Atrás" textColor="text-white" className="bg-[#A3E784] hover:bg-lime-500 font-bold py-2 px-4 rounded" />
