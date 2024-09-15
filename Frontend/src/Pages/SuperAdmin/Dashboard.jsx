@@ -1,4 +1,3 @@
-
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
 import Layoutprincipal from '../../layouts/LayoutPrincipal';
@@ -9,6 +8,7 @@ import Loader from '../../Components/Loader';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
+  const [userCount, setUserCount] = useState(0);
 
   useEffect(() => {
     // Simula un tiempo de carga de 2 segundos
@@ -16,11 +16,23 @@ const Dashboard = () => {
       setLoading(false);
     }, 2000);
 
+    // Aquí puedes mover la lógica de contar los usuarios sin renderizar la tabla
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/usuarios');
+        const usersData = await response.json();
+        setUserCount(usersData.length); // Actualiza el conteo de usuarios
+      } catch (error) {
+        console.error('Error al obtener los usuarios:', error);
+      }
+    };
+
+    fetchUsers();
+
     return () => clearTimeout(timer);
   }, []);
 
   return (
-
     <Layoutprincipal title="Proyectos">
       {loading ? (
         <div id="loader" className="flex items-center justify-center h-screen">
@@ -34,9 +46,9 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-wrap gap-3 justify-center mt-16 z-0 w-full">
-          <CardBase
+            <CardBase
               title="Usuarios"
-              metricValue={50}
+              metricValue={userCount}
               progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
               route="/SuperAdmin/usuarios"
@@ -89,6 +101,13 @@ const Dashboard = () => {
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/alcance"
+            />
+            <CardBase
+              title="CREAR REGISTRO"
+              metricValue={20}
+              progressText="Registro de proyecto"
+              buttonTex="Ver detalle"
+              route="/SuperAdmin/areatable"
             />
           </div>
 

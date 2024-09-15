@@ -1,12 +1,19 @@
 import { useEffect } from 'react';
 import Loader from '../../../Components/Loader';
+import PropTypes from 'prop-types';
 
-const GridListFicha = ({ fichas, setFichas }) => {
+
   const Badge = ({ variant, children }) => {
     const bgColor = variant === 'active' ? 'bg-green-200' : 'bg-red-200';
     return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
   };
 
+  Badge.propTypes = {
+    variant: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+  }
+
+  const GridListFicha = ({ fichas, setFichas }) => {
   useEffect(() => {
     const fetchFichas = async () => {
       try {
@@ -53,4 +60,8 @@ const GridListFicha = ({ fichas, setFichas }) => {
   );
 };
 
+GridListFicha.propTypes = {
+  fichas: PropTypes.func.isRequired,
+  setFichas: PropTypes.func.isRequired,
+};
 export default GridListFicha;

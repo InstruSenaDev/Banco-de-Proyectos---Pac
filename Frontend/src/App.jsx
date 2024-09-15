@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/SuperAdmin/alcance" element={<Alcance/>} />
         <Route path="/SuperAdmin/items" element={<Items/>} />
         <Route path="/SuperAdmin/ficha" element={<Ficha/>} />
-        <Route path="/SuperAdmin/AreaTable" element={<AreaTable/>} />
+        <Route path="/SuperAdmin/areatable" element={<AreaTable/>} />
       </Routes>
     </Router>
   );
