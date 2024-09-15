@@ -8,7 +8,7 @@ import Loader from '../../Components/Loader';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
-  const [userCount, setUserCount] = useState(0);
+  const [, setUserCount] = useState(0);
 
   useEffect(() => {
     // Simula un tiempo de carga de 2 segundos
@@ -48,7 +48,7 @@ const Dashboard = () => {
           <div className="flex flex-wrap gap-3 justify-center mt-16 z-0 w-full">
             <CardBase
               title="Usuarios"
-              metricValue={userCount}
+              metricValue={40}
               progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
               route="/SuperAdmin/usuarios"

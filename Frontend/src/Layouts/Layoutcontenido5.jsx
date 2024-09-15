@@ -8,9 +8,9 @@ const Layoutcontenido5 = ({title,  children}) => {
         {title}
       </span>
 
-      <main className="flex justify-center h-[100vh] max-[768px]:h-[100%]">
-        <div className="flex-wrap w-[65%] max-[768px]:w-[70%] mt-[1%] h-[90%] bg-white rounded-lg border-none border-Borde_gris flex items-center absolute justify-center">
-          <div className="flex flex-wrap justify-center w-[90%]">
+      <main className="flex justify-center h-[100vh] max-[768px]:h-[100%] ">
+        <div className=" flex-wrap w-[65%] max-[768px]:w-[70%] mt-[1%] h-[85%] bg-white rounded-lg border-none border-Borde_gris flex items-center adsolute  justify-center ">
+        <div className="flex flex-wrap justify-center w-[90%] ">
             {children}
           </div>
         </div>
