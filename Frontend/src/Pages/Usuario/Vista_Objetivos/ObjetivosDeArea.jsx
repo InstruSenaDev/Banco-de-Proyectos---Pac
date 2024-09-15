@@ -12,9 +12,11 @@ const ObjetivosDeArea = () => {
   const [objetivos, setObjetivos] = useState([]);
   const [groupedObjetivos, setGroupedObjetivos] = useState({});
   const [respuestas, setRespuestas] = useState({});
+  const [respuestasExistentes, setRespuestasExistentes] = useState([]);
   const [error, setError] = useState(null);
   const projectId = new URLSearchParams(location.search).get('projectId');
 
+  // Obtener objetivos
   useEffect(() => {
     const fetchObjetivos = async (idArea) => {
       try {
@@ -34,6 +36,7 @@ const ObjetivosDeArea = () => {
     }
   }, [idarea]);
 
+  // Agrupar objetivos por categoría
   useEffect(() => {
     const grouped = objetivos.reduce((acc, objetivo) => {
       if (!acc[objetivo.categoria]) {
@@ -45,6 +48,26 @@ const ObjetivosDeArea = () => {
     setGroupedObjetivos(grouped);
   }, [objetivos]);
 
+  // Obtener respuestas existentes (sin prellenar los radios)
+  useEffect(() => {
+    const fetchRespuestasExistentes = async (idproyecto) => {
+      try {
+        const response = await fetch(`http://localhost:4000/api/respuestas/${idproyecto}`);
+        if (!response.ok) {
+          throw new Error(`Error fetching respuestas: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setRespuestasExistentes(data.respuestas); // Solo almacenarlas, no prellenarlas
+      } catch (error) {
+        console.error('Error fetching respuestas:', error);
+      }
+    };
+
+    if (projectId) {
+      fetchRespuestasExistentes(projectId);
+    }
+  }, [projectId]);
+
   const handleRadioChange = (event) => {
     const { name, value } = event.target;
     setRespuestas({
@@ -53,6 +76,7 @@ const ObjetivosDeArea = () => {
     });
   };
 
+  // Calcular promedio y enviar respuestas
   const handleSubmit = async (event) => {
     event.preventDefault();
   
@@ -69,19 +93,38 @@ const ObjetivosDeArea = () => {
   
     setError(null);
   
+    // Imprime las respuestas para verificar su contenido
+    console.log('Respuestas:', respuestas);
+  
+    const respuestasSeleccionadas = Object.keys(respuestas).map((key) => {
+      return respuestas[key] === 'true' ? 1 : 0;
+    });
+  
+    // Imprime las respuestas seleccionadas para verificar su transformación
+    console.log('Respuestas seleccionadas:', respuestasSeleccionadas);
+  
+    // Calcular el promedio de respuestas en porcentaje
+    const total = respuestasSeleccionadas.reduce((acc, curr) => acc + curr, 0);
+    const totalPreguntas = respuestasSeleccionadas.length;
+    const promedio = totalPreguntas > 0 ? (total / totalPreguntas) * 100 : 0;
+  
+    console.log(`Total: ${total}`);
+    console.log(`Promedio de respuestas (en porcentaje): ${promedio}`);
+  
     const data = {
       ...respuestas,
       idproyecto: projectId || '',
+      promedio: promedio,
     };
   
     try {
-    const response = await fetch(`http://localhost:4000/api/guardarRespuestasObjetivos`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+      const response = await fetch(`http://localhost:4000/api/guardarPuntosObjetivos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
   
       if (!response.ok) {
         throw new Error(`Error al actualizar respuestas: ${response.statusText}`);
@@ -96,16 +139,15 @@ const ObjetivosDeArea = () => {
     }
   };
 
-
   const handleBackClick = () => {
-    // Recupera la URL de ItemsDeArea desde localStorage
     const returnUrl = localStorage.getItem('itemsReturnUrl') || '/';
-  navigate(returnUrl);
-};
-useEffect(() => {
-  // Guarda la URL de ObjetivosDeArea para volver a ItemsDeArea
-  localStorage.setItem('objetivosReturnUrl', `/Usuario/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
-}, [idarea, idtiposdearea, projectId]);
+    navigate(returnUrl);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('objetivosReturnUrl', `/Usuario/Vista_Objetivos/ObjetivosDeArea/${idarea}/${idtiposdearea}?projectId=${projectId}`);
+  }, [idarea, idtiposdearea, projectId]);
+
   return (
     <LayoutPrincipal title="">
       <div className="flex justify-center min-h-screen">
@@ -124,12 +166,13 @@ useEffect(() => {
             <form id="respuestasForm" onSubmit={handleSubmit}>
               <input type="hidden" name="idproyecto" value={projectId || ''} />
               <button
-               onClick={handleBackClick} 
-              className="flex items-center text-black hover:text-lime-600"
-            >
-              <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
-              Volver
-            </button>
+                type="button"
+                onClick={handleBackClick}
+                className="flex items-center text-black hover:text-lime-600"
+              >
+                <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
+                Volver
+              </button>
               <div className="grid grid-cols-12 bg-[#A3E784] font-bold py-4 rounded-t-lg border-b">
                 <div className="col-span-12 md:col-span-2 text-center md:text-left px-6">OBJETIVOS</div>
               </div>
@@ -147,7 +190,7 @@ useEffect(() => {
                   </div>
 
                   {groupedObjetivos[categoriaNombre].map((objetivo, index) => (
-                    <Grid 
+                    <Grid
                       key={objetivo.idobjetivos}
                       Text1={`${index + 1}. ${objetivo.descripcion}`}
                       id1={`radioButton-grid${objetivo.idobjetivos}-si`}
@@ -165,9 +208,8 @@ useEffect(() => {
                   <BotonPrincipal Text="Volver" />
                 </button>
                 <button type="submit" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                  <BotonSegundo Text="Siguiente" />
+                  <BotonPrincipal Text="Siguiente" />
                 </button>
-             
               </div>
             </form>
           </div>

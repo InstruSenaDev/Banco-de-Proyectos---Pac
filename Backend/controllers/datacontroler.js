@@ -492,7 +492,151 @@ const getProyectosUsuario = async (req, res) => {
     }
   };
   
+  const getRespuestasByProyecto = async (idproyecto) => {
+    try {
+      const result = await pool.query(
+        `SELECT ro.idrespuestasobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, 
+                o.descripcion, c.nombre AS categoria
+           FROM respuestasobjetivos ro
+           JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
+           JOIN categoriasobjetivos c ON o.idcategoriasobjetivos = c.idcategoriasobjetivos
+           WHERE ro.idproyecto = $1`,
+        [idproyecto]
+      );
+  
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener las respuestas de la base de datos:', error);
+      throw error; // Lanzar el error para que sea manejado en las rutas
+    }
+  };
 
+
+  // Controlador para guardar las respuestas y calcular el promedio
+  const guardarPuntosObjetivos = async (req, res) => {
+    try {
+      const { idproyecto, promedio, ...respuestas } = req.body;
+  
+      // Guarda las respuestas en la base de datos
+      const queryGuardarRespuestas = `
+        INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta)
+        VALUES ($1, $2, $3)
+      `;
+  
+      for (const [preguntaId, respuesta] of Object.entries(respuestas)) {
+        const idobjetivos = preguntaId.replace('pregunta', ''); // Extraer el número del id
+        await pool.query(queryGuardarRespuestas, [idproyecto, idobjetivos, respuesta]);
+      }
+  
+      // Actualiza el campo 'puntosobjetivos' en la tabla Proyecto
+      const queryActualizarProyecto = `
+        UPDATE proyecto
+        SET puntosobjetivos = $1
+        WHERE idproyecto = $2
+      `;
+      await pool.query(queryActualizarProyecto, [promedio, idproyecto]);
+  
+      res.status(200).json({ message: 'Respuestas y promedio guardados correctamente' });
+    } catch (error) {
+      console.error('Error al guardar respuestas:', error);
+      res.status(500).json({ error: 'Error al guardar respuestas' });
+    }
+  };
+
+  const getRespuestasAlcanceByProyecto = async (idproyecto) => {
+    try {
+      const result = await pool.query(
+        `SELECT ra.idrespuesta, ra.idproyecto, ra.idalcance, ra.respuesta, 
+                a.descripcion, c.nombre AS categoria
+           FROM respuestasalcance ra
+           JOIN alcance a ON ra.idalcance = a.idalcance
+           JOIN categoriasalcance c ON a.idcategoriasalcance = c.idcategoriasalcance
+           WHERE ra.idproyecto = $1`,
+        [idproyecto]
+      );
+  
+      console.log(result.rows); // Imprime los resultados para verificar que las categorías están incluidas
+      return result.rows;
+    } catch (error) {
+      console.error('Error al obtener las respuestas de alcance de la base de datos:', error);
+      throw error;
+    }
+  };
+  
+
+//   const guardarPuntosAlcance = async (req, res) => {
+//     try {
+//       const { idproyecto, respuestas, promedio } = req.body;
+  
+//       // Verifica que el promedio sea un número
+//       if (isNaN(promedio) || promedio === undefined || promedio === null) {
+//         return res.status(400).json({ error: 'Promedio inválido' });
+//       }
+  
+//       // Calcula el puntaje total basado en respuestas verdaderas
+//       const respuestasValues = Object.values(respuestas);
+//       const respuestasTrue = respuestasValues.filter(respuesta => respuesta === true).length;
+//       const totalRespuestas = respuestasValues.length;
+  
+//       // Calcula el promedio en base a respuestas verdaderas
+//       const nuevoPromedio = (respuestasTrue / totalRespuestas) * 100;
+  
+//       // Guarda las respuestas en la base de datos
+//       const queryGuardarRespuestas = `
+//         INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta)
+//         VALUES ($1, $2, $3)
+//       `;
+  
+//       for (const [alcanceId, respuesta] of Object.entries(respuestas)) {
+//         await pool.query(queryGuardarRespuestas, [idproyecto, alcanceId, respuesta]);
+//       }
+  
+//       // Actualiza el campo 'puntosalcance' en la tabla Proyecto
+//       const queryActualizarProyecto = `
+//         UPDATE proyecto
+//         SET puntosalcance = $1
+//         WHERE idproyecto = $2
+//       `;
+//       await pool.query(queryActualizarProyecto, [parseFloat(nuevoPromedio), idproyecto]);
+  
+//       res.status(200).json({ message: 'Respuestas y promedio guardados correctamente' });
+//     } catch (error) {
+//       console.error('Error al guardar respuestas:', error);
+//       res.status(500).json({ error: 'Error al guardar respuestas' });
+//     }
+//   };
+  
+  const guardarPuntosAlcance = async (req, res) => {
+    try {
+      const { idproyecto, promedio, ...respuestas } = req.body;
+  
+      // Guarda las respuestas en la base de datos
+      const queryGuardarRespuestas = `
+        INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta)
+        VALUES ($1, $2, $3)
+      `;
+  
+      for (const [preguntaId, respuesta] of Object.entries(respuestas)) {
+        const idalcance = preguntaId.replace('pregunta', ''); // Extraer el número del id
+        await pool.query(queryGuardarRespuestas, [idproyecto, idalcance, respuesta]);
+      }
+  
+      // Actualiza el campo 'puntosobjetivos' en la tabla Proyecto
+      const queryActualizarProyecto = `
+        UPDATE proyecto
+        SET puntosalcance = $1
+        WHERE idproyecto = $2
+      `;
+      await pool.query(queryActualizarProyecto, [promedio, idproyecto]);
+  
+      res.status(200).json({ message: 'Respuestas y promedio guardados correctamente' });
+    } catch (error) {
+      console.error('Error al guardar respuestas:', error);
+      res.status(500).json({ error: 'Error al guardar respuestas' });
+    }
+  };
+  
+  
 export {
     getAllPersonas,
     getAllUsuario,
@@ -516,5 +660,9 @@ export {
     getFichas,
     getAprendicesByFicha,
     getProyectosUsuario,
-    updateProject
+    updateProject,
+    getRespuestasByProyecto,
+    guardarPuntosObjetivos,
+    getRespuestasAlcanceByProyecto,
+    guardarPuntosAlcance
 };
