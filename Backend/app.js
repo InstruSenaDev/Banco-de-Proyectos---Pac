@@ -5,6 +5,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import aprendizRoutes from './routes/aprendizRoutes.js';
 import superAdmin from './routes/superAdminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import saveRoutes from './routes/saveRoutes.js'
 import { cookieMiddleware } from './middleware/cookieMiddleware.js';
 
 const app = express();
@@ -29,6 +30,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/aprendiz', aprendizRoutes);
 app.use('/api/superAdmin', superAdmin);
 app.use('/api/user', userRoutes);
+app.use('/api/save', saveRoutes);
 
 // Manejo de errores
 app.use((err, req, res, next) => {

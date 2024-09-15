@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Tab, TabGroup, TabList } from '@tremor/react';
 
 export function Evaluar({ onChange, initialValue }) {
-  const [selectedTab, setSelectedTab] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(initialValue); // Establece el estado inicial aquí
 
   useEffect(() => {
-    if (initialValue) {
+    if (initialValue !== null) {
       setSelectedTab(initialValue);
     }
   }, [initialValue]);

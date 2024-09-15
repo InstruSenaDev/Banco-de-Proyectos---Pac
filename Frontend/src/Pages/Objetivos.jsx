@@ -5,7 +5,8 @@ import Grid2 from "../Components/Grid2";
 import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
 import BarraPreguntas from "../Components/BarraPreguntas";
-import useDetalleCalificacion from "../../hooks/Admin/useDetalleCalificacion"
+import useDetalleCalificacion from "../../hooks/Admin/useDetalleCalificacion";
+import useAprobacionesAdmin from "../../hooks/Admin/useAprobacionesAdmin"; // Nuevo hook importado
 
 const Objetivos = () => {
   const { idproyecto } = useParams();
@@ -15,7 +16,8 @@ const Objetivos = () => {
   const [promedio, setPromedio] = useState(0);
   const navigate = useNavigate();
 
-  const { guardarDetalleCalificacion, loading, error } = useDetalleCalificacion(idproyecto);
+  const { guardarDetalleCalificacion, loading: loadingGuardar, error: errorGuardar } = useDetalleCalificacion(idproyecto);
+  const { aprobaciones, loading: loadingAprobaciones, error: errorAprobaciones } = useAprobacionesAdmin(idproyecto); // Uso del nuevo hook
 
   useEffect(() => {
     const fetchRespuestas = async () => {
@@ -24,16 +26,15 @@ const Objetivos = () => {
         if (response.ok) {
           const data = await response.json();
           setRespuestas(data.respuestas);
-  
-          // Inicializa selecciones y calificaciones basadas en los datos actualizados
+
           const seleccionesIniciales = data.respuestas.reduce((acc, respuesta) => {
             acc[respuesta.id] = respuesta.respuesta ? "Sí" : "No";
             return acc;
           }, {});
           setSelecciones(seleccionesIniciales);
-  
+
           const calificacionesIniciales = data.respuestas.reduce((acc, respuesta) => {
-            acc[respuesta.id] = respuesta.estado || null; // Usa null si no hay estado
+            acc[respuesta.id] = respuesta.estado || null;
             return acc;
           }, {});
           setCalificaciones(calificacionesIniciales);
@@ -44,9 +45,20 @@ const Objetivos = () => {
         console.error("Error de red al obtener las respuestas:", error);
       }
     };
-  
+
     fetchRespuestas();
   }, [idproyecto]);
+
+  // Actualiza las calificaciones con las aprobaciones del administrador cuando se obtengan
+  useEffect(() => {
+    if (aprobaciones.length > 0) {
+      const calificacionesActualizadas = aprobaciones.reduce((acc, aprobacion) => {
+        acc[aprobacion.idrespuestasobjetivos] = aprobacion.estado;
+        return acc;
+      }, {});
+      setCalificaciones((prev) => ({ ...prev, ...calificacionesActualizadas }));
+    }
+  }, [aprobaciones]);
 
   const handleSelectionChange = (id, value) => {
     setSelecciones((prev) => ({
@@ -54,7 +66,7 @@ const Objetivos = () => {
       [id]: value,
     }));
   };
-  
+
   const handleEvaluarChange = (id, value) => {
     setCalificaciones((prev) => ({
       ...prev,
@@ -68,9 +80,7 @@ const Objetivos = () => {
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestas.length]);
 
-
   const handleNextClick = async () => {
-    // Verificar si todas las preguntas tienen una respuesta seleccionada
     const allAnswered = respuestas.every((respuesta) => selecciones[respuesta.id] && calificaciones[respuesta.id]);
 
     if (!allAnswered) {
@@ -87,7 +97,6 @@ const Objetivos = () => {
     try {
         await guardarDetalleCalificacion(detalles);
 
-        // Actualiza los datos localmente después de guardar
         setRespuestas((prevRespuestas) =>
             prevRespuestas.map((respuesta) => ({
                 ...respuesta,
@@ -104,8 +113,7 @@ const Objetivos = () => {
     } catch (err) {
         console.error('Error al guardar los detalles:', err);
     }
-};
-
+  };
 
   const preguntasAgrupadas = respuestas.reduce((acc, respuesta) => {
     if (!respuesta.categoria) {
@@ -138,18 +146,18 @@ const Objetivos = () => {
                 </div>
 
                 {preguntasAgrupadas[categoria].map((respuesta) => (
-      <Grid2
-        key={respuesta.id}
-        Text1={respuesta.descripcion}
-        id1={`respuesta-si-${respuesta.id}`}
-        id2={`respuesta-no-${respuesta.id}`}
-        name={`respuesta-${respuesta.id}`}
-        seleccionado={selecciones[respuesta.id] || "No"}
-        onChange={handleSelectionChange}
-        handleEvaluarChange={handleEvaluarChange}
-        id={respuesta.id}
-        calificacion={calificaciones[respuesta.id]}
-      />
+                  <Grid2
+                    key={respuesta.id}
+                    Text1={respuesta.descripcion}
+                    id1={`respuesta-si-${respuesta.id}`}
+                    id2={`respuesta-no-${respuesta.id}`}
+                    name={`respuesta-${respuesta.id}`}
+                    seleccionado={selecciones[respuesta.id] || "No"}
+                    onChange={handleSelectionChange}
+                    handleEvaluarChange={handleEvaluarChange}
+                    id={respuesta.id}
+                    calificacion={calificaciones[respuesta.id]}  // Aquí se muestra la calificación del administrador
+                  />
                 ))}
               </div>
             ))}

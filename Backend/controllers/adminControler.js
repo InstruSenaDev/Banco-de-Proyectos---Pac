@@ -240,71 +240,6 @@ const asignarProyecto = async (req, res) => {
 };
 
 
-// Controlador para actualizar el estado de las respuestas objetivos
-const actualizarEstadoRespuestas = async (req, res) => {
-  const detalles = req.body;
-  console.log('Datos recibidos para actualizar:', detalles);
-  
-  try {
-    const queries = detalles.map((detalle) => {
-      const { idproyecto, idrespuestasobjetivos, estado } = detalle;
-      const estadoFinal = estado === "Aprobado" ? "Aprobado" : "No aceptado";
-      console.log(`Actualizando estado para idproyecto: ${idproyecto}, idrespuestasobjetivos: ${idrespuestasobjetivos}, estado: ${estadoFinal}`);
-      return pool.query(
-        `UPDATE respuestasobjetivos 
-         SET estado = $1 
-         WHERE idproyecto = $2 AND idrespuestasobjetivos = $3
-         RETURNING *`,
-        [estadoFinal, idproyecto, idrespuestasobjetivos]
-      );
-    });
-
-    const results = await Promise.all(queries);
-    const updatedRows = results.map(result => result.rows[0]);
-    res.status(200).json({ message: 'Estados actualizados correctamente', updatedData: updatedRows });
-  } catch (error) {
-    console.error('Error al actualizar estados:', error);
-    res.status(500).json({ message: 'Error al actualizar estados', error: error.message });
-  }
-};
-
-
-// Controlador para actualizar el estado de las respuestas de alcance
-const actualizarEstadoRespuestasAlcance = async (req, res) => {
-  const detalles = req.body;
-  console.log('Datos recibidos para actualizar:', detalles);
-
-  try {
-    const queries = detalles.map((detalle) => {
-      const { idproyecto, idrespuesta, estado } = detalle;
-      
-      // Validación de datos
-      if (!idproyecto || !idrespuesta) {
-        throw new Error(`Datos incompletos: idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}`);
-      }
-
-      const estadoFinal = estado || "No aceptado";
-      console.log(`Actualizando estado para idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}, estado: ${estadoFinal}`);
-      
-      return pool.query(
-        `UPDATE respuestasalcance
-         SET estado = $1
-         WHERE idproyecto = $2 AND idrespuesta = $3
-         RETURNING *`,
-        [estadoFinal, idproyecto, idrespuesta]
-      );
-    });
-
-    const results = await Promise.all(queries);
-    const updatedRows = results.map(result => result.rows[0]);
-    res.status(200).json({ message: 'Estados actualizados correctamente', updatedData: updatedRows });
-  } catch (error) {
-    console.error('Error al actualizar estados:', error);
-    res.status(400).json({ message: 'Error al actualizar estados', error: error.message });
-  }
-};
-
-
 const actualizarIdCalificacion = async (req, res) => {
   const { idproyecto, idcalificacion } = req.body;
 
@@ -425,11 +360,9 @@ export {
   getRespuestasByProyecto,
   getRespuestasAlcanceByProyecto,
   guardarCalificacion,
-  actualizarEstadoRespuestas,
   getFichas,
   getAprendicesByFicha,
   asignarProyecto,
-  actualizarEstadoRespuestasAlcance,
   actualizarIdCalificacion,
   getProyectosAsignados,
   getSearch

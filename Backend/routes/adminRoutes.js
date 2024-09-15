@@ -10,11 +10,9 @@ import {
    getRespuestasByProyecto, 
    getRespuestasAlcanceByProyecto, 
    guardarCalificacion, 
-   actualizarEstadoRespuestas, 
    getFichas, 
    getAprendicesByFicha,
    asignarProyecto,
-   actualizarEstadoRespuestasAlcance,
    actualizarIdCalificacion,
    getProyectosAsignados,
    getSearch,
@@ -106,9 +104,6 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
   // Ruta para guardar la calificación
 router.post('/calificaciones', guardarCalificacion);
 
-// Ruta para actualizar el estado de las respuestas
-router.post('/actualizarEstadoRespuestas', actualizarEstadoRespuestas);
-
 // Ruta para obtener todas las fichas activas
 router.get('/fichas', getFichas);
 
@@ -117,9 +112,6 @@ router.get('/aprendices/:idficha', getAprendicesByFicha);
 
 // Ruta para asignar proyectos
 router.post('/asignar-proyectos', asignarProyecto);
-
-// Ruta para actualizar el estado de las respuestas de alcance
-router.post('/actualizarEstadoRespuestasAlcance', actualizarEstadoRespuestasAlcance);
 
 // Ruta para actualizar el idcalificacion en la tabla proyecto
 router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
