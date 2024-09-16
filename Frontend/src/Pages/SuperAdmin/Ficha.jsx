@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal';
@@ -5,29 +6,38 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalFicha from '../../Components/Modales/ModalFichas';
+import ModalFicha from '../../Components/Modales/ModalFichas'; // Cambiado para coincidir con el nombre correcto
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentFicha, setCurrentFicha] = useState(null);
-  const [actionType, setActionType] = useState('');
   const [fichas, setFichas] = useState([]);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchFichas = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/fichas');
+        if (!response.ok) {
+          throw new Error('Error al cargar las fichas');
+        }
+        const data = await response.json();
+        setFichas(data);
+      } catch (error) {
+        console.error('Error al cargar fichas:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchFichas();
   }, []);
 
   const handleAddClick = () => {
     setCurrentFicha(null);
-    setActionType('add');
     setIsModalOpen(true);
   };
 
@@ -39,7 +49,7 @@ const Fichas = () => {
   const handleAddFicha = async (newFicha) => {
     try {
       console.log('Intentando registrar nueva ficha:', newFicha);
-      const response = await fetch('http://localhost:4000/api/registerFicha', {
+      const response = await fetch('http://localhost:4000/api/fichas', { // URL corregida
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,8 +102,7 @@ const Fichas = () => {
               <ModalFicha
                 onClose={handleCloseModal}
                 onAddFicha={handleAddFicha}
-                actionType={actionType}
-                Ficharea={currentFicha}
+                ficha={currentFicha} // Ajustado para coincidir con el nombre del prop en ModalFicha
               />
             )}
           </div>

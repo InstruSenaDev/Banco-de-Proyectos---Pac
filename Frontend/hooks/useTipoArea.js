@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
-const useTipoArea = () => {
+const useTipoArea = (onClose) => {
     const [formData, setFormData] = useState({
         nombreTipoArea: '',
-        estado: true,
-        idarea: 7
+        idarea: ''
     });
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const validateForm = () => {
         let isValid = true;
@@ -23,9 +23,9 @@ const useTipoArea = () => {
             isValid = false;
         }
 
-        // Validar Estado (al menos un radio button debe estar seleccionado)
-        if (!formData.estado) {
-            newErrors.estado = "Debe seleccionar un estado.";
+        // Validar idarea
+        if (!formData.idarea) {
+            newErrors.idarea = "Debe seleccionar un área.";
             isValid = false;
         }
 
@@ -37,7 +37,7 @@ const useTipoArea = () => {
         event.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('http://localhost:4000/api/registerTipoDeArea', {
+                const response = await fetch('http://localhost:4000/api/tipos-de-area', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -56,16 +56,15 @@ const useTipoArea = () => {
                 // Reset form after success
                 setFormData({
                     nombreTipoArea: '',
-                    estado: true,
-                    idarea: 7
+                    idarea: ''
                 });
-                setTimeout(() => {
-                    window.location.href = '/VistaCrearRegistro';
-                }, 1000);
+
+                // Cerrar el modal después de enviar con éxito
+                if (onClose) onClose();
 
             } catch (error) {
                 console.error('Error al registrar tipo de área:', error);
-                setSuccessMessage("Hubo un problema al registrar el tipo de área.");
+                setErrorMessage('Hubo un problema al registrar el tipo de área.');
             }
         }
     };
@@ -82,9 +81,11 @@ const useTipoArea = () => {
         formData,
         errors,
         successMessage,
+        errorMessage,
         handleSubmit,
         handleChange
     };
 };
 
 export default useTipoArea;
+

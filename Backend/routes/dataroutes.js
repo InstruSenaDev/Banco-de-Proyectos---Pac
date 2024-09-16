@@ -1,5 +1,6 @@
 import express from 'express';
-import {addUser,
+import {
+    addUser,
     getAllPersonas,
     getAllUsuario,
     getAllAlcances,
@@ -15,13 +16,27 @@ import {addUser,
     registerTipoDeArea,
     registerItemArea,
     checkEmailExists,
-    getItemsPorAreaYTipo,
-    getItemsByAreaAndType
+
+    getItemsByAreaAndType,
+    insertItem,
+    addTipoDeArea,
+    getItemsByTipoDeArea,
+    registerFicha,
+    getTiposDeArea
 
 } from '../controllers/datacontroler.js';
 
 
 const router = express.Router();
+
+
+router.post('/insertItem', insertItem);
+router.get('/tipos-de-area', getTiposDeArea);
+router.post('/tipos-de-area', addTipoDeArea);
+router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
+
+router.post('/fichas', registerFicha);
+
 
 router.post('/addUser', addUser);
 
@@ -88,14 +103,14 @@ router.get('/areas', async (req, res) => {
 // Ruta para obtener los tipos de área de acuerdo al área seleccionada
 router.get('/tipos-de-area/:idArea', async (req, res) => {
     try {
-      const idArea = req.params.idArea;
-      const tiposDeArea = await getTiposDeAreaPorArea(idArea);
-      res.json(tiposDeArea);
+        const idArea = req.params.idArea;
+        const tiposDeArea = await getTiposDeAreaPorArea(idArea);
+        res.json(tiposDeArea);
     } catch (error) {
-      console.error('Error al obtener tipos de área:', error);
-      res.status(500).json({ error: 'Internal server error', details: error.message });
+        console.error('Error al obtener tipos de área:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
-  });
+});
 
 // Ruta para obtener todos los objetivos
 router.get('/objetivos', async (req, res) => {
@@ -131,16 +146,16 @@ router.post('/agregarpersona', async (req, res) => {
         }
 
         // Registrar la nueva persona incluyendo idficha si el rol es Aprendiz
-        const newPerson = await agregarPersona({ 
-            nombre, 
-            tipodocumento, 
-            numerodocumento, 
-            telefono, 
-            correo, 
-            contraseña, 
-            idrol, 
-            estado, 
-            idficha: idrol === 'Aprendiz' ? idficha : null 
+        const newPerson = await agregarPersona({
+            nombre,
+            tipodocumento,
+            numerodocumento,
+            telefono,
+            correo,
+            contraseña,
+            idrol,
+            estado,
+            idficha: idrol === 'Aprendiz' ? idficha : null
         });
 
         res.status(201).json(newPerson);
@@ -164,7 +179,7 @@ router.get('/proyecto', async (req, res) => {
 });
 
 
-  router.get('/ficha', async (req, res) => {
+router.get('/ficha', async (req, res) => {
     try {
         const ficha = await getAllFicha();
         res.json(ficha);
@@ -179,12 +194,12 @@ router.get('/proyecto', async (req, res) => {
 router.post('/registerArea', async (req, res) => {
     try {
         const { area } = req.body;
-    
+
         // Verifica si el campo "area" está presente
         if (!area) {
             return res.status(400).json({ message: 'El campo "area" es obligatorio.' });
         }
-    
+
         const newArea = await registerArea({ area });
         res.status(201).json({
             message: 'Área registrada exitosamente',
@@ -216,7 +231,7 @@ router.post('/registerTipoDeArea', async (req, res) => {
     try {
         const { tiposdearea, estado, idarea } = req.body;
         // console.log("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",req);
-        
+
         if (typeof idarea !== 'number' || isNaN(idarea)) {
             return res.status(400).json({ error: 'El idarea debe ser un número válido.' });
         }

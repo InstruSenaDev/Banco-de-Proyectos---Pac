@@ -6,7 +6,6 @@ import GridListTipoArea from './GridList/GridListTipoArea';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import TipoAreas from '../../Components/Modales/ModalTipoAreas';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
@@ -40,7 +39,6 @@ const Area = () => {
     console.log('Agregar', user);
   };
 
-
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
@@ -59,7 +57,7 @@ const Area = () => {
                 onClick={handleGoBack}
                 className="flex items-center text-black hover:text-Verde"
               >
-                <ArrowLeftIcon className="w-5 h-5 mr-2" />
+                <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Tipo Area" id="addUserBtn" onClick={handleAddClick} />
@@ -84,3 +82,4 @@ const Area = () => {
 };
 
 export default Area;
+

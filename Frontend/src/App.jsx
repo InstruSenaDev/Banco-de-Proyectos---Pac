@@ -20,15 +20,15 @@ const App = () => {
       <Routes>
         <Route path="/SuperAdmin/dashboard" element={<Dashboard />} />
         <Route path="/SuperAdmin/usuarios" element={<Usuarios />} />
-        <Route path="/SuperAdmin/Prueba" element={<Prueba/>} />
-        <Route path="/SuperAdmin/proyectos" element={<Proyectos/>} />
-        <Route path="/SuperAdmin/areas" element={<Areas/>} />
-        <Route path="/SuperAdmin/tipodearea" element={<TipoArea/>} />
-        <Route path="/SuperAdmin/objetivos" element={<Objetivos/>} />
-        <Route path="/SuperAdmin/alcance" element={<Alcance/>} />
-        <Route path="/SuperAdmin/items" element={<Items/>} />
-        <Route path="/SuperAdmin/ficha" element={<Ficha/>} />
-        <Route path="/SuperAdmin/areatable" element={<AreaTable/>} />
+        <Route path="/SuperAdmin/Prueba" element={<Prueba />} />
+        <Route path="/SuperAdmin/proyectos" element={<Proyectos />} />
+        <Route path="/SuperAdmin/areas" element={<Areas />} />
+        <Route path="/SuperAdmin/tipodearea" element={<TipoArea />} />
+        <Route path="/SuperAdmin/objetivos" element={<Objetivos />} />
+        <Route path="/SuperAdmin/alcance" element={<Alcance />} />
+        <Route path="/SuperAdmin/items" element={<Items />} />
+        <Route path="/SuperAdmin/ficha" element={<Ficha />} />
+        <Route path="/SuperAdmin/areatable" element={<AreaTable />} />
       </Routes>
     </Router>
   );

@@ -3,7 +3,7 @@ import { useState } from 'react';
 export function useFichaForm(onSuccess) {
   const [formValues, setFormValues] = useState({
     nombre: '',
-    estado: 'Activo',
+    estado: true, // Estado por defecto como booleano
     numeroficha: ''
   });
 
@@ -31,7 +31,11 @@ export function useFichaForm(onSuccess) {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    if (id === 'estado') {
+      setFormValues(prevValues => ({ ...prevValues, [id]: value === 'true' }));
+    } else {
+      setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -39,7 +43,7 @@ export function useFichaForm(onSuccess) {
     console.log("Valores del formulario:", formValues);
     if (validateForm()) {
       try {
-        const response = await fetch('http://localhost:4000/api/registerFicha', {
+        const response = await fetch('http://localhost:4000/api/fichas', { // URL correcta de la API
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -69,3 +73,4 @@ export function useFichaForm(onSuccess) {
     handleSubmit,
   };
 }
+
