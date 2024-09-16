@@ -6,51 +6,29 @@ import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonSegundo from "../Components/BotonSegundo";
 import BarraPreguntas from "../Components/BarraPreguntas";
 import useDetalleCalificacion from "../../hooks/Admin/useDetalleCalificacion";
-import useAprobacionesAdmin from "../../hooks/Admin/useAprobacionesAdmin"; // Nuevo hook importado
+import useAprobacionesAdmin from "../../hooks/Admin/useAprobacionesAdmin";
+import Loader from "../Components/Loader";
+import useFetchRespuestas from "../../hooks/Admin/useFetchRespuestas";
 
 const Objetivos = () => {
   const { idproyecto } = useParams();
-  const [respuestas, setRespuestas] = useState([]);
-  const [selecciones, setSelecciones] = useState({});
-  const [calificaciones, setCalificaciones] = useState({});
+
+  // Uso de key para forzar la remonción del componente al cambiar de proyecto
+  return <ObjetivosComponent key={idproyecto} idproyecto={idproyecto} />;
+};
+
+const ObjetivosComponent = ({ idproyecto }) => {
   const [promedio, setPromedio] = useState(0);
   const navigate = useNavigate();
 
   const { guardarDetalleCalificacion, loading: loadingGuardar, error: errorGuardar } = useDetalleCalificacion(idproyecto);
-  const { aprobaciones, loading: loadingAprobaciones, error: errorAprobaciones } = useAprobacionesAdmin(idproyecto); // Uso del nuevo hook
+  const { aprobaciones, loading: loadingAprobaciones, error: errorAprobaciones } = useAprobacionesAdmin(idproyecto);
+
+  // Usa el hook personalizado
+  const { respuestas, selecciones, setSelecciones, calificaciones, setCalificaciones } = useFetchRespuestas(idproyecto);
 
   useEffect(() => {
-    const fetchRespuestas = async () => {
-      try {
-        const response = await fetch(`http://localhost:4000/api/admin/respuestas/${idproyecto}`);
-        if (response.ok) {
-          const data = await response.json();
-          setRespuestas(data.respuestas);
-
-          const seleccionesIniciales = data.respuestas.reduce((acc, respuesta) => {
-            acc[respuesta.id] = respuesta.respuesta ? "Sí" : "No";
-            return acc;
-          }, {});
-          setSelecciones(seleccionesIniciales);
-
-          const calificacionesIniciales = data.respuestas.reduce((acc, respuesta) => {
-            acc[respuesta.id] = respuesta.estado || null;
-            return acc;
-          }, {});
-          setCalificaciones(calificacionesIniciales);
-        } else {
-          console.error("Error al obtener las respuestas:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error de red al obtener las respuestas:", error);
-      }
-    };
-
-    fetchRespuestas();
-  }, [idproyecto]);
-
-  // Actualiza las calificaciones con las aprobaciones del administrador cuando se obtengan
-  useEffect(() => {
+    // Recargar aprobaciones al montar el componente
     if (aprobaciones.length > 0) {
       const calificacionesActualizadas = aprobaciones.reduce((acc, aprobacion) => {
         acc[aprobacion.idrespuestasobjetivos] = aprobacion.estado;
@@ -59,6 +37,12 @@ const Objetivos = () => {
       setCalificaciones((prev) => ({ ...prev, ...calificacionesActualizadas }));
     }
   }, [aprobaciones]);
+
+  useEffect(() => {
+    const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
+    const promedioCalculado = respuestas.length > 0 ? (aprobados / respuestas.length) * 100 : 0;
+    setPromedio(promedioCalculado);
+  }, [calificaciones, respuestas.length]);
 
   const handleSelectionChange = (id, value) => {
     setSelecciones((prev) => ({
@@ -74,44 +58,32 @@ const Objetivos = () => {
     }));
   };
 
-  useEffect(() => {
-    const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
-    const promedioCalculado = respuestas.length > 0 ? (aprobados / respuestas.length) * 100 : 0;
-    setPromedio(promedioCalculado);
-  }, [calificaciones, respuestas.length]);
-
   const handleNextClick = async () => {
     const allAnswered = respuestas.every((respuesta) => selecciones[respuesta.id] && calificaciones[respuesta.id]);
 
     if (!allAnswered) {
-        alert("Debes selecionar todas las opciones de calificar para poder avanzar");
-        return;
+      alert("Debes selecionar todas las opciones de calificar para poder avanzar");
+      return;
     }
 
     const detalles = respuestas.map((respuesta) => ({
-        idproyecto,
-        idrespuestasobjetivos: respuesta.id,
-        estado: calificaciones[respuesta.id],
+      idproyecto,
+      idrespuestasobjetivos: respuesta.id,
+      estado: calificaciones[respuesta.id],
     }));
 
     try {
-        await guardarDetalleCalificacion(detalles);
+      await guardarDetalleCalificacion(detalles);
 
-        setRespuestas((prevRespuestas) =>
-            prevRespuestas.map((respuesta) => ({
-                ...respuesta,
-                estado: selecciones[respuesta.id] === "Sí" ? "Aprobado" : "No aceptado",
-            }))
-        );
-
-        navigate(`/alcance/${idproyecto}`, {
-            state: {
-                promedioObjetivos: promedio,
-                detallesObjetivos: detalles,
-            },
-        });
+      // No se necesita actualizar el estado de respuestas aquí, solo navega a la siguiente pantalla
+      navigate(`/alcance/${idproyecto}`, {
+        state: {
+          promedioObjetivos: promedio,
+          detallesObjetivos: detalles,
+        },
+      });
     } catch (err) {
-        console.error('Error al guardar los detalles:', err);
+      console.error('Error al guardar los detalles:', err);
     }
   };
 
@@ -125,6 +97,11 @@ const Objetivos = () => {
     acc[respuesta.categoria].push(respuesta);
     return acc;
   }, {});
+
+  // Muestra el loader mientras los datos están cargando
+  if (loadingGuardar || loadingAprobaciones) {
+    return <Loader />;
+  }
 
   return (
     <LayoutPrincipal title="Objetivos del Proyecto">
