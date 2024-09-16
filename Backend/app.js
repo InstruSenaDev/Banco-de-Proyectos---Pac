@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dataRoutes from './routes/dataroutes.js';
+
 import { cookieMiddleware } from './middleware/cookieMiddleware.js';
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas de la API
 app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos
+
 
 // Manejo de errores
 app.use((err, req, res, next) => {

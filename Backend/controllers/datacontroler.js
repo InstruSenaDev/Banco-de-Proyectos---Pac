@@ -21,6 +21,8 @@ async function checkEmailExists(correo) {
     }
 }
 
+  
+
 // Función para obtener todas las personas
 async function getAllPersonas() {
     try {
@@ -352,67 +354,67 @@ async function updateProyectoItem({ projectId, itemId }) {
     }
   }
   
-  async function guardarRespuestasObjetivos(respuestas) {
-    const client = await pool.connect();
+//   async function guardarRespuestasObjetivos(respuestas) {
+//     const client = await pool.connect();
 
-    try {
-        // Iniciar una transacción
-        await client.query('BEGIN');
+//     try {
+//         // Iniciar una transacción
+//         await client.query('BEGIN');
 
-        for (const respuesta of respuestas) {
-            const { idproyecto, idobjetivos, respuesta: valorRespuesta } = respuesta;
+//         for (const respuesta of respuestas) {
+//             const { idproyecto, idobjetivos, respuesta: valorRespuesta } = respuesta;
 
-            // Verifica si ya existe una respuesta para este proyecto y objetivo
-            const selectQuery = `
-                SELECT idrespuestasobjetivos 
-                FROM respuestasobjetivos 
-                WHERE idproyecto = $1 AND idobjetivos = $2
-            `;
-            const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
+//             // Verifica si ya existe una respuesta para este proyecto y objetivo
+//             const selectQuery = `
+//                 SELECT idrespuestasobjetivos 
+//                 FROM respuestasobjetivos 
+//                 WHERE idproyecto = $1 AND idobjetivos = $2
+//             `;
+//             const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
 
-            if (selectResult.rows.length > 0) {
-                // Si existe, realiza un UPDATE
-                const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
-                const updateQuery = `
-                    UPDATE respuestasobjetivos 
-                    SET respuesta = $1 
-                    WHERE idrespuestasobjetivos = $2
-                `;
-                await client.query(updateQuery, [valorRespuesta, idrespuestasobjetivos]);
-            } else {
-                // Si no existe, realiza un INSERT
-                const insertQuery = `
-                    INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) 
-                    VALUES ($1, $2, $3) RETURNING idrespuestasobjetivos
-                `;
-                const insertResult = await client.query(insertQuery, [idproyecto, idobjetivos, valorRespuesta]);
+//             if (selectResult.rows.length > 0) {
+//                 // Si existe, realiza un UPDATE
+//                 const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
+//                 const updateQuery = `
+//                     UPDATE respuestasobjetivos 
+//                     SET respuesta = $1 
+//                     WHERE idrespuestasobjetivos = $2
+//                 `;
+//                 await client.query(updateQuery, [valorRespuesta, idrespuestasobjetivos]);
+//             } else {
+//                 // Si no existe, realiza un INSERT
+//                 const insertQuery = `
+//                     INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) 
+//                     VALUES ($1, $2, $3) RETURNING idrespuestasobjetivos
+//                 `;
+//                 const insertResult = await client.query(insertQuery, [idproyecto, idobjetivos, valorRespuesta]);
 
-                // Extrae el idrespuestasobjetivos generado
-                const idrespuestasobjetivos = insertResult.rows[0].idrespuestasobjetivos;
+//                 // Extrae el idrespuestasobjetivos generado
+//                 const idrespuestasobjetivos = insertResult.rows[0].idrespuestasobjetivos;
 
-                // Actualiza la tabla `proyecto` con este idrespuestasobjetivos si es necesario
-                const updateProyectoQuery = `
-                    UPDATE proyecto 
-                    SET idrespuestaobjetivos = $1 
-                    WHERE idproyecto = $2
-                `;
-                await client.query(updateProyectoQuery, [idrespuestasobjetivos, idproyecto]);
-            }
-        }
+//                 // Actualiza la tabla `proyecto` con este idrespuestasobjetivos si es necesario
+//                 const updateProyectoQuery = `
+//                     UPDATE proyecto 
+//                     SET idrespuestaobjetivos = $1 
+//                     WHERE idproyecto = $2
+//                 `;
+//                 await client.query(updateProyectoQuery, [idrespuestasobjetivos, idproyecto]);
+//             }
+//         }
 
-        // Finaliza la transacción
-        await client.query('COMMIT');
-        console.log('Respuestas y actualización del proyecto guardadas con éxito');
-    } catch (error) {
-        console.error('Error al guardar respuestas:', error);
+//         // Finaliza la transacción
+//         await client.query('COMMIT');
+//         console.log('Respuestas y actualización del proyecto guardadas con éxito');
+//     } catch (error) {
+//         console.error('Error al guardar respuestas:', error);
 
-        // Si ocurre un error, deshaz la transacción
-        await client.query('ROLLBACK');
-        throw error;
-    } finally {
-        client.release();
-    }
-}
+//         // Si ocurre un error, deshaz la transacción
+//         await client.query('ROLLBACK');
+//         throw error;
+//     } finally {
+//         client.release();
+//     }
+// }
 
 async function agregarPersona({ nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña, idrol, estado }) {
     try {
@@ -492,58 +494,98 @@ const getProyectosUsuario = async (req, res) => {
     }
   };
   
-  const getRespuestasByProyecto = async (idproyecto) => {
+// Obtener respuestas por ID de proyecto y calcular el promedio de respuestas positivas
+const getRespuestasByProyecto = async (idproyecto) => {
+  try {
+    const result = await pool.query(
+      `SELECT ro.idrespuestasobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, 
+              o.descripcion, c.nombre AS categoria
+         FROM respuestasobjetivos ro
+         JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
+         JOIN categoriasobjetivos c ON o.idcategoriasobjetivos = c.idcategoriasobjetivos
+         WHERE ro.idproyecto = $1`,
+      [idproyecto]
+    );
+
+    return result.rows;
+  } catch (error) {
+    console.error('Error al obtener las respuestas de la base de datos:', error);
+    throw error; // Lanzar el error para que sea manejado en las rutas
+  }
+};
+
+const guardarRespuestasYActualizarPuntos = async (req, res) => {
+    const client = await pool.connect();
+
     try {
-      const result = await pool.query(
-        `SELECT ro.idrespuestasobjetivos, ro.idproyecto, ro.idobjetivos, ro.respuesta, 
-                o.descripcion, c.nombre AS categoria
-           FROM respuestasobjetivos ro
-           JOIN objetivos o ON ro.idobjetivos = o.idobjetivos
-           JOIN categoriasobjetivos c ON o.idcategoriasobjetivos = c.idcategoriasobjetivos
-           WHERE ro.idproyecto = $1`,
-        [idproyecto]
-      );
-  
-      return result.rows;
+        // Iniciar una transacción
+        await client.query('BEGIN');
+
+        const { respuestas, idproyecto, promedio } = req.body;
+
+        // Guardar respuestas
+        for (const respuesta of respuestas) {
+            const { idobjetivos, respuesta: valorRespuesta } = respuesta;
+
+            const selectQuery = `
+                SELECT idrespuestasobjetivos 
+                FROM respuestasobjetivos 
+                WHERE idproyecto = $1 AND idobjetivos = $2
+            `;
+            const selectResult = await client.query(selectQuery, [idproyecto, idobjetivos]);
+
+            if (selectResult.rows.length > 0) {
+                const idrespuestasobjetivos = selectResult.rows[0].idrespuestasobjetivos;
+                const updateQuery = `
+                    UPDATE respuestasobjetivos 
+                    SET respuesta = $1 
+                    WHERE idrespuestasobjetivos = $2
+                `;
+                await client.query(updateQuery, [valorRespuesta, idrespuestasobjetivos]);
+            } else {
+                const insertQuery = `
+                    INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta) 
+                    VALUES ($1, $2, $3) RETURNING idrespuestasobjetivos
+                `;
+                const insertResult = await client.query(insertQuery, [idproyecto, idobjetivos, valorRespuesta]);
+
+                const idrespuestasobjetivos = insertResult.rows[0].idrespuestasobjetivos;
+
+                const updateProyectoQuery = `
+                    UPDATE proyecto 
+                    SET idrespuestaobjetivos = $1 
+                    WHERE idproyecto = $2
+                `;
+                await client.query(updateProyectoQuery, [idrespuestasobjetivos, idproyecto]);
+            }
+        }
+
+        // Actualizar puntos de objetivos
+        const promedioNumber = parseFloat(promedio);
+        if (isNaN(promedioNumber)) {
+            throw new Error('El promedio proporcionado no es un número válido');
+        }
+
+        const updatePuntosQuery = 'UPDATE proyecto SET puntosobjetivos = $1 WHERE idproyecto = $2';
+        await client.query(updatePuntosQuery, [promedioNumber, idproyecto]);
+
+        // Finalizar la transacción
+        await client.query('COMMIT');
+
+        res.status(200).json({ message: 'Respuestas guardadas y puntos de objetivos actualizados correctamente' });
     } catch (error) {
-      console.error('Error al obtener las respuestas de la base de datos:', error);
-      throw error; // Lanzar el error para que sea manejado en las rutas
+        await client.query('ROLLBACK');
+        console.error('Error al guardar respuestas y actualizar puntos:', error);
+        res.status(500).json({ error: 'Error al procesar la solicitud' });
+    } finally {
+        client.release();
     }
-  };
+};
 
 
-  // Controlador para guardar las respuestas y calcular el promedio
-  const guardarPuntosObjetivos = async (req, res) => {
-    try {
-      const { idproyecto, promedio, ...respuestas } = req.body;
-  
-      // Guarda las respuestas en la base de datos
-      const queryGuardarRespuestas = `
-        INSERT INTO respuestasobjetivos (idproyecto, idobjetivos, respuesta)
-        VALUES ($1, $2, $3)
-      `;
-  
-      for (const [preguntaId, respuesta] of Object.entries(respuestas)) {
-        const idobjetivos = preguntaId.replace('pregunta', ''); // Extraer el número del id
-        await pool.query(queryGuardarRespuestas, [idproyecto, idobjetivos, respuesta]);
-      }
-  
-      // Actualiza el campo 'puntosobjetivos' en la tabla Proyecto
-      const queryActualizarProyecto = `
-        UPDATE proyecto
-        SET puntosobjetivos = $1
-        WHERE idproyecto = $2
-      `;
-      await pool.query(queryActualizarProyecto, [promedio, idproyecto]);
-  
-      res.status(200).json({ message: 'Respuestas y promedio guardados correctamente' });
-    } catch (error) {
-      console.error('Error al guardar respuestas:', error);
-      res.status(500).json({ error: 'Error al guardar respuestas' });
-    }
-  };
+//obtener respuestas de alcance
 
-  const getRespuestasAlcanceByProyecto = async (idproyecto) => {
+const getRespuestasAlcanceByProyecto = async (idproyecto) => {
     try {
       const result = await pool.query(
         `SELECT ra.idrespuesta, ra.idproyecto, ra.idalcance, ra.respuesta, 
@@ -564,79 +606,7 @@ const getProyectosUsuario = async (req, res) => {
   };
   
 
-//   const guardarPuntosAlcance = async (req, res) => {
-//     try {
-//       const { idproyecto, respuestas, promedio } = req.body;
-  
-//       // Verifica que el promedio sea un número
-//       if (isNaN(promedio) || promedio === undefined || promedio === null) {
-//         return res.status(400).json({ error: 'Promedio inválido' });
-//       }
-  
-//       // Calcula el puntaje total basado en respuestas verdaderas
-//       const respuestasValues = Object.values(respuestas);
-//       const respuestasTrue = respuestasValues.filter(respuesta => respuesta === true).length;
-//       const totalRespuestas = respuestasValues.length;
-  
-//       // Calcula el promedio en base a respuestas verdaderas
-//       const nuevoPromedio = (respuestasTrue / totalRespuestas) * 100;
-  
-//       // Guarda las respuestas en la base de datos
-//       const queryGuardarRespuestas = `
-//         INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta)
-//         VALUES ($1, $2, $3)
-//       `;
-  
-//       for (const [alcanceId, respuesta] of Object.entries(respuestas)) {
-//         await pool.query(queryGuardarRespuestas, [idproyecto, alcanceId, respuesta]);
-//       }
-  
-//       // Actualiza el campo 'puntosalcance' en la tabla Proyecto
-//       const queryActualizarProyecto = `
-//         UPDATE proyecto
-//         SET puntosalcance = $1
-//         WHERE idproyecto = $2
-//       `;
-//       await pool.query(queryActualizarProyecto, [parseFloat(nuevoPromedio), idproyecto]);
-  
-//       res.status(200).json({ message: 'Respuestas y promedio guardados correctamente' });
-//     } catch (error) {
-//       console.error('Error al guardar respuestas:', error);
-//       res.status(500).json({ error: 'Error al guardar respuestas' });
-//     }
-//   };
-  
-  const guardarPuntosAlcance = async (req, res) => {
-    try {
-      const { idproyecto, promedio, ...respuestas } = req.body;
-  
-      // Guarda las respuestas en la base de datos
-      const queryGuardarRespuestas = `
-        INSERT INTO respuestasalcance (idproyecto, idalcance, respuesta)
-        VALUES ($1, $2, $3)
-      `;
-  
-      for (const [preguntaId, respuesta] of Object.entries(respuestas)) {
-        const idalcance = preguntaId.replace('pregunta', ''); // Extraer el número del id
-        await pool.query(queryGuardarRespuestas, [idproyecto, idalcance, respuesta]);
-      }
-  
-      // Actualiza el campo 'puntosobjetivos' en la tabla Proyecto
-      const queryActualizarProyecto = `
-        UPDATE proyecto
-        SET puntosalcance = $1
-        WHERE idproyecto = $2
-      `;
-      await pool.query(queryActualizarProyecto, [promedio, idproyecto]);
-  
-      res.status(200).json({ message: 'Respuestas y promedio guardados correctamente' });
-    } catch (error) {
-      console.error('Error al guardar respuestas:', error);
-      res.status(500).json({ error: 'Error al guardar respuestas' });
-    }
-  };
-  
-  
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -653,7 +623,6 @@ export {
     updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos,
     checkEmailExists,
     agregarPersona,
     getUserNameById,
@@ -662,7 +631,6 @@ export {
     getProyectosUsuario,
     updateProject,
     getRespuestasByProyecto,
-    guardarPuntosObjetivos,
-    getRespuestasAlcanceByProyecto,
-    guardarPuntosAlcance
+    guardarRespuestasYActualizarPuntos,
+    getRespuestasAlcanceByProyecto
 };

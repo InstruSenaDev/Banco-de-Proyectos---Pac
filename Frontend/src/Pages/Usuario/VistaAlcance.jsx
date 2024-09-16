@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Grid from '../../Components/Grid';
 import BotonPrincipal from '../../Components/BotonPrincipal';
 import BotonSegundo from '../../Components/BotonSegundo';
-import Loader from '../../Components/Loader'; // Importa el componente Loader
+import Loader from '../../Components/Loader';
 
 const VistaAlcance = () => {
   const [alcances, setAlcances] = useState([]);
   const [groupedAlcances, setGroupedAlcances] = useState({});
   const [selectedValues, setSelectedValues] = useState({});
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  const [loading, setLoading] = useState(true);
   const idproyecto = new URLSearchParams(window.location.search).get('idproyecto') || '';
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/alcances');
-        if (!response.ok) {
+        const responseAlcances = await fetch('http://localhost:4000/api/alcances');
+        if (!responseAlcances.ok) {
           throw new Error('La respuesta de la red no fue correcta');
         }
-        const data = await response.json();
-        setAlcances(data);
+        const dataAlcances = await responseAlcances.json();
+        setAlcances(dataAlcances);
       } catch (error) {
         console.error('No se han podido recuperar los alcances:', error);
       } finally {
-        setLoading(false); // Desactiva el estado de carga cuando los datos se han cargado
+        setLoading(false);
       }
     };
     fetchData();
@@ -49,6 +49,19 @@ const VistaAlcance = () => {
       ...prevValues,
       [idalcance]: value,
     }));
+  };
+
+  const calculatePromedio = (respuestas) => {
+    const totalAlcances = respuestas.length;
+    const totalTrue = respuestas.filter(respuesta => respuesta.respuesta === true).length;
+    const promedio = totalAlcances > 0 ? (totalTrue / totalAlcances) * 100 : 0;
+
+    // Imprimir los datos en la consola
+    console.log(`Total de respuestas: ${totalAlcances}`);
+    console.log(`Respuestas TRUE: ${totalTrue}`);
+    console.log(`Promedio: ${promedio}%`);
+
+    return promedio;
   };
 
   const handleSubmit = async (event) => {
@@ -94,7 +107,17 @@ const VistaAlcance = () => {
       }
 
       console.log('Respuestas guardadas correctamente:', result);
-      
+
+      // Obtener respuestas después de guardar
+      const respuestasResponse = await fetch(`http://localhost:4000/api/respuestasalcance/${idproyecto}`);
+      if (!respuestasResponse.ok) {
+        throw new Error('La respuesta de la red no fue correcta');
+      }
+      const respuestasData = await respuestasResponse.json();
+      const promedio = calculatePromedio(respuestasData.respuestasAlcance);
+
+      console.log(`Promedio calculado después de guardar: ${promedio}%`);
+
       // Redirigir al obtener una respuesta exitosa
       navigate('/Usuario/VistaUsuario');
     } catch (error) {
@@ -105,12 +128,10 @@ const VistaAlcance = () => {
   };
 
   const handleBackClick = () => {
-    // Recupera la URL de retorno desde localStorage
     const returnUrl = localStorage.getItem('objetivosReturnUrl') || '/VistaObjetivos';
     navigate(returnUrl);
   };
 
-  // Muestra el loader mientras los datos se están cargando
   if (loading) {
     return <Loader />;
   }
@@ -132,6 +153,7 @@ const VistaAlcance = () => {
               <i className="fas fa-arrow-left w-5 h-5 mr-2 "></i>
               Volver
             </button>
+
             {error && (
               <div className="text-red-500 mb-4">
                 {error}
@@ -193,4 +215,3 @@ const VistaAlcance = () => {
 };
 
 export default VistaAlcance;
-

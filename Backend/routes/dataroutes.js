@@ -16,7 +16,6 @@ import {
     updateProjectWithArea,
     updateProjectTipo,
     updateProyectoItem,
-    guardarRespuestasObjetivos,
     agregarPersona,
     getUserNameById,
     getFichas,
@@ -24,9 +23,9 @@ import {
     getProyectosUsuario,
     updateProject,
     getRespuestasByProyecto,
-    guardarPuntosObjetivos,
-    guardarPuntosAlcance
-
+    getRespuestasAlcanceByProyecto,
+    guardarRespuestasYActualizarPuntos
+   
 
 } from '../controllers/datacontroler.js';
 
@@ -63,6 +62,8 @@ router.post('/check-email', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+
 
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
@@ -387,33 +388,33 @@ router.post('/update-proyecto-item', async (req, res) => {
     }
   });
   
-// Ruta para guardar las respuestas de objetivos
-router.post('/guardarRespuestasObjetivos', async (req, res) => {
-    const idproyecto = parseInt(req.body.idproyecto, 10);
-    console.log('ID Proyecto recibido:', idproyecto);
+// // Ruta para guardar las respuestas de objetivos
+// router.post('/guardarRespuestasObjetivos', async (req, res) => {
+//     const idproyecto = parseInt(req.body.idproyecto, 10);
+//     console.log('ID Proyecto recibido:', idproyecto);
   
-    if (isNaN(idproyecto)) {
-      return res.status(400).json({ error: 'ID del proyecto inválido' });
-    }
+//     if (isNaN(idproyecto)) {
+//       return res.status(400).json({ error: 'ID del proyecto inválido' });
+//     }
   
-    try {
-      const respuestas = req.body;
-      const respuestasObjetivos = [];
+//     try {
+//       const respuestas = req.body;
+//       const respuestasObjetivos = [];
   
-      for (const [key, value] of Object.entries(respuestas)) {
-        if (key !== 'idproyecto') {
-          const idobjetivos = key.replace('pregunta', ''); // Obtener el id de objetivo de la pregunta
-          respuestasObjetivos.push({ idproyecto, idobjetivos, respuesta: value === 'true' });
-        }
-      }
+//       for (const [key, value] of Object.entries(respuestas)) {
+//         if (key !== 'idproyecto') {
+//           const idobjetivos = key.replace('pregunta', ''); // Obtener el id de objetivo de la pregunta
+//           respuestasObjetivos.push({ idproyecto, idobjetivos, respuesta: value === 'true' });
+//         }
+//       }
   
-      await guardarRespuestasObjetivos(respuestasObjetivos);
-      res.redirect(`http://localhost:4321/VistaAlcance?idproyecto=${idproyecto}`);
-    } catch (error) {
-      console.error('Error al guardar respuestas:', error);
-      res.status(500).json({ error: 'Error interno del servidor', details: error.message });
-    }
-});
+//       await guardarRespuestasObjetivos(respuestasObjetivos);
+//       res.redirect(`http://localhost:4321/VistaAlcance?idproyecto=${idproyecto}`);
+//     } catch (error) {
+//       console.error('Error al guardar respuestas:', error);
+//       res.status(500).json({ error: 'Error interno del servidor', details: error.message });
+//     }
+// });
 
 router.post('/agregarpersona', async (req, res) => {
     try {
@@ -442,9 +443,6 @@ router.get('/aprendices/:idficha', getAprendicesByFicha);
 
 router.get('/proyectos', getProyectosUsuario);
 
-
-
-
 router.get('/respuestas/:idproyecto', async (req, res) => {
     try {
         const { idproyecto } = req.params;
@@ -463,7 +461,7 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
                     id: respuesta.idrespuestasobjetivos,
                     descripcion: respuesta.descripcion,
                     respuesta: respuesta.respuesta,
-                    categoria: respuesta.categoria, 
+                    categoria: respuesta.categoria,  // Incluye la categoría en la respuesta
                 })),
             });
         } else {
@@ -475,10 +473,9 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
     }
   });
 
-  // Ruta para guardar respuestas y promedio
-router.post('/guardarPuntosObjetivos', guardarPuntosObjetivos);
-export default router;
+  router.post('/guardarRespuestasYActualizarPuntos', guardarRespuestasYActualizarPuntos);
 
+//obtener respuestas de alcance 
 
 router.get('/respuestasalcance/:idproyecto', async (req, res) => {
     try {
@@ -503,5 +500,6 @@ router.get('/respuestasalcance/:idproyecto', async (req, res) => {
       res.status(500).json({ error: 'Error interno del servidor', details: error.message });
     }
   });
+  
 
-  router.post('/guardarPuntosAlcance', guardarPuntosAlcance);
+export default router;
