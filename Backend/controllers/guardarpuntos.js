@@ -1,32 +1,31 @@
-// import { pool } from '../config/db.js';
+import { pool } from '../config/db.js';
 
-// const actualizarPuntosObjetivos = async (req, res) => {
-//     let { promedio } = req.body; // Tomamos el promedio del cuerpo
-//     const { idproyecto } = req.params; // Tomamos idproyecto desde los parámetros de la URL
+ // Controlador para actualizar el promedio de alcance
+ const actualizarPuntosAlcance = async (req, res) => {
+    const { idproyecto } = req.params;
+    const { puntosalcance } = req.body;
+  
+    if (!idproyecto || typeof puntosalcance !== 'number') {
+      return res.status(400).json({ error: 'Datos inválidos proporcionados.' });
+    }
+  
+    try {
+      // Actualización del campo puntosalcance en la tabla proyecto
+      const result = await pool.query(
+        'UPDATE proyecto SET puntosalcance = $1 WHERE idproyecto = $2 RETURNING *',
+        [puntosalcance, idproyecto]
+      );
+  
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: 'Proyecto no encontrado.' });
+      }
+  
+      res.status(200).json({ message: 'Promedio de alcance actualizado correctamente', proyecto: result.rows[0] });
+    } catch (error) {
+      console.error('Error al actualizar el promedio de alcance:', error);
+      res.status(500).json({ error: 'Error al actualizar el promedio de alcance.' });
+    }
+  };
+  
 
-//     // Convertir promedio a número (asegurarse de que es un número)
-//     promedio = parseFloat(promedio);
-
-//     // Verificamos que idproyecto y promedio estén presentes y que promedio sea un número válido
-//     if (!idproyecto || isNaN(promedio)) {
-//       return res.status(400).json({ error: 'Datos incompletos o incorrectos' });
-//     }
-
-//     try {
-//       console.log('Actualizando promedio para proyecto:', idproyecto);
-//       console.log('Nuevo promedio:', promedio);
-
-//       // Actualizar el campo puntosobjetivos en la tabla proyecto
-//       const query = 'UPDATE proyecto SET puntosobjetivos = $1 WHERE idproyecto = $2';
-//       const result = await pool.query(query, [promedio, idproyecto]);
-
-//       console.log('Resultado de la consulta:', result);
-
-//       return res.status(200).json({ message: 'Puntos de objetivos actualizados correctamente' });
-//     } catch (error) {
-//       console.error('Error al actualizar puntosobjetivos:', error);
-//       return res.status(500).json({ error: 'Error al actualizar puntosobjetivos' });
-//     }
-// };
-
-// export { actualizarPuntosObjetivos };
+export { actualizarPuntosAlcance };

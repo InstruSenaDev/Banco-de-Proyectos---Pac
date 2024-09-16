@@ -1,14 +1,14 @@
-// import express from 'express';
-// import { 
-//     actualizarPuntosObjetivos
+import express from 'express';
+import { 
+    actualizarPuntosAlcance
 
-// } from '../controllers/guardarpuntos.js';
+} from '../controllers/guardarpuntos.js';
 
-// const router = express.Router();
-
-
-
-// router.post('/proyectos/:idproyecto/actualizar-puntos', actualizarPuntosObjetivos);
+const router = express.Router();
 
 
-// export default router;
+
+router.put('/proyectos/:idproyecto', actualizarPuntosAlcance);
+
+
+export default router;

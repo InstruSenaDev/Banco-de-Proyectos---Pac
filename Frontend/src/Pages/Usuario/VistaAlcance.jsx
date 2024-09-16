@@ -67,25 +67,25 @@ const VistaAlcance = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log("handleSubmit ejecutado");
-
+  
     const allQuestionsAnswered = Object.keys(groupedAlcances).every((categoria) => {
       return groupedAlcances[categoria].every((alcance) => {
         return selectedValues[alcance.idalcance] !== undefined;
       });
     });
-
+  
     if (!allQuestionsAnswered) {
       setError("Por favor, responda todas las preguntas antes de continuar.");
       return;
     }
-
+  
     setError(null);
-
+  
     const data = {
       ...selectedValues,
       idproyecto: idproyecto,
     };
-
+  
     try {
       console.log("Antes de realizar fetch...");
       const response = await fetch('http://localhost:4000/api/guardarRespuestas', {
@@ -95,19 +95,19 @@ const VistaAlcance = () => {
         },
         body: JSON.stringify(data),
       });
-
+  
       console.log("Fetch completado.");
-
+  
       const result = await response.json();
       console.log('Response status:', response.status);
-
+  
       if (!response.ok) {
         console.log('Error en la respuesta:', result.error || 'Error desconocido');
         throw new Error(`Error al guardar respuestas: ${result.error || 'Error desconocido'}`);
       }
-
+  
       console.log('Respuestas guardadas correctamente:', result);
-
+  
       // Obtener respuestas después de guardar
       const respuestasResponse = await fetch(`http://localhost:4000/api/respuestasalcance/${idproyecto}`);
       if (!respuestasResponse.ok) {
@@ -115,17 +115,35 @@ const VistaAlcance = () => {
       }
       const respuestasData = await respuestasResponse.json();
       const promedio = calculatePromedio(respuestasData.respuestasAlcance);
-
+  
       console.log(`Promedio calculado después de guardar: ${promedio}%`);
-
+  
+      // Guardar el promedio en la base de datos
+      const updateResponse = await fetch(`http://localhost:4000/api/user/proyectos/${idproyecto}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          puntosalcance: promedio,
+        }),
+      });
+  
+      if (!updateResponse.ok) {
+        throw new Error('Error al actualizar el promedio de alcance.');
+      }
+  
+      console.log('Promedio de alcance actualizado correctamente.');
+  
       // Redirigir al obtener una respuesta exitosa
       navigate('/Usuario/VistaUsuario');
     } catch (error) {
-      console.error('Error al guardar respuestas:', error);
+      console.error('Error al guardar respuestas o actualizar promedio:', error);
     } finally {
       console.log('Finalmente, redirigiendo...');
     }
   };
+  
 
   const handleBackClick = () => {
     const returnUrl = localStorage.getItem('objetivosReturnUrl') || '/VistaObjetivos';
