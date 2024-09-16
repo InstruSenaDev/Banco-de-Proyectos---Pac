@@ -32,40 +32,28 @@ const actualizarEstadoRespuestas = async (req, res) => {
     }
   };
 
-  // Controlador para actualizar el estado de las respuestas de alcance
+// Actualizar el estado de respuestasalcance
 const actualizarEstadoRespuestasAlcance = async (req, res) => {
-    const detalles = req.body;
-    console.log('Datos recibidos para actualizar:', detalles);
-  
-    try {
-      const queries = detalles.map((detalle) => {
+  const { detallesAlcance } = req.body;
+
+  try {
+      // Iterar sobre cada respuesta y actualizar su estado en la base de datos
+      const queries = detallesAlcance.map((detalle) => {
         const { idproyecto, idrespuesta, estado } = detalle;
-        
-        // Validación de datos
-        if (!idproyecto || !idrespuesta) {
-          throw new Error(`Datos incompletos: idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}`);
-        }
-  
-        const estadoFinal = estado || "No aceptado";
-        console.log(`Actualizando estado para idproyecto: ${idproyecto}, idrespuesta: ${idrespuesta}, estado: ${estadoFinal}`);
-        
         return pool.query(
-          `UPDATE respuestasalcance
-           SET estado = $1
-           WHERE idproyecto = $2 AND idrespuesta = $3
-           RETURNING *`,
-          [estadoFinal, idproyecto, idrespuesta]
+          'UPDATE respuestasalcance SET estado = $1 WHERE idproyecto = $2 AND idalcance = $3',
+          [estado, idproyecto, idrespuesta]
         );
       });
-  
-      const results = await Promise.all(queries);
-      const updatedRows = results.map(result => result.rows[0]);
-      res.status(200).json({ message: 'Estados actualizados correctamente', updatedData: updatedRows });
-    } catch (error) {
-      console.error('Error al actualizar estados:', error);
-      res.status(400).json({ message: 'Error al actualizar estados', error: error.message });
-    }
-  };
+
+      await Promise.all(queries);
+
+      return res.status(200).json({ message: 'Estado actualizado correctamente' });
+  } catch (error) {
+      console.error('Error actualizando el estado:', error);
+      return res.status(500).json({ error: 'Error al actualizar el estado' });
+  }
+};
 
   const getAprobacionesAdmin = async (req, res) => {
     const { idproyecto } = req.params;
