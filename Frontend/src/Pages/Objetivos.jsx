@@ -13,7 +13,6 @@ import useFetchRespuestas from "../../hooks/Admin/useFetchRespuestas";
 const Objetivos = () => {
   const { idproyecto } = useParams();
 
-  // Uso de key para forzar la remonción del componente al cambiar de proyecto
   return <ObjetivosComponent key={idproyecto} idproyecto={idproyecto} />;
 };
 
@@ -21,14 +20,19 @@ const ObjetivosComponent = ({ idproyecto }) => {
   const [promedio, setPromedio] = useState(0);
   const navigate = useNavigate();
 
-  const { guardarDetalleCalificacion, loading: loadingGuardar, error: errorGuardar } = useDetalleCalificacion(idproyecto);
-  const { aprobaciones, loading: loadingAprobaciones, error: errorAprobaciones } = useAprobacionesAdmin(idproyecto);
+  const { 
+    guardarDetalleCalificacion, 
+    actualizarPuntosObjetivos, 
+    obtenerPuntosObjetivos, 
+    puntosObjetivos, 
+    loading: loadingGuardar, 
+    error: errorGuardar 
+  } = useDetalleCalificacion(idproyecto);
 
-  // Usa el hook personalizado
+  const { aprobaciones, loading: loadingAprobaciones, error: errorAprobaciones } = useAprobacionesAdmin(idproyecto);
   const { respuestas, selecciones, setSelecciones, calificaciones, setCalificaciones } = useFetchRespuestas(idproyecto);
 
   useEffect(() => {
-    // Recargar aprobaciones al montar el componente
     if (aprobaciones.length > 0) {
       const calificacionesActualizadas = aprobaciones.reduce((acc, aprobacion) => {
         acc[aprobacion.idrespuestasobjetivos] = aprobacion.estado;
@@ -43,6 +47,12 @@ const ObjetivosComponent = ({ idproyecto }) => {
     const promedioCalculado = respuestas.length > 0 ? (aprobados / respuestas.length) * 100 : 0;
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestas.length]);
+
+  useEffect(() => {
+    if (puntosObjetivos !== null) {
+      setPromedio(Number(puntosObjetivos)); // Aseguramos que puntosObjetivos se trate como número
+    }
+  }, [puntosObjetivos]);
 
   const handleSelectionChange = (id, value) => {
     setSelecciones((prev) => ({
@@ -62,7 +72,7 @@ const ObjetivosComponent = ({ idproyecto }) => {
     const allAnswered = respuestas.every((respuesta) => selecciones[respuesta.id] && calificaciones[respuesta.id]);
 
     if (!allAnswered) {
-      alert("Debes selecionar todas las opciones de calificar para poder avanzar");
+      alert("Debes seleccionar todas las opciones de calificar para poder avanzar");
       return;
     }
 
@@ -75,7 +85,10 @@ const ObjetivosComponent = ({ idproyecto }) => {
     try {
       await guardarDetalleCalificacion(detalles);
 
-      // No se necesita actualizar el estado de respuestas aquí, solo navega a la siguiente pantalla
+      // Actualiza los puntos objetivos en la base de datos
+      await actualizarPuntosObjetivos(promedio);
+
+      // Navega a la siguiente pantalla
       navigate(`/alcance/${idproyecto}`, {
         state: {
           promedioObjetivos: promedio,
@@ -98,7 +111,6 @@ const ObjetivosComponent = ({ idproyecto }) => {
     return acc;
   }, {});
 
-  // Muestra el loader mientras los datos están cargando
   if (loadingGuardar || loadingAprobaciones) {
     return <Loader />;
   }
@@ -140,7 +152,7 @@ const ObjetivosComponent = ({ idproyecto }) => {
             ))}
 
             <div className="text-right mt-4">
-              <h2 className="text-xl font-bold">Promedio de Calificaciones: {promedio.toFixed(2)}</h2>
+              <h2 className="text-xl font-bold">Promedio de Calificaciones: {promedio !== null ? promedio.toFixed(2) : "N/A"}</h2>
             </div>
 
             <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">

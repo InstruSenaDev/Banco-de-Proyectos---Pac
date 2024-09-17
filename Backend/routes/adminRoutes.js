@@ -16,7 +16,9 @@ import {
    actualizarIdCalificacion,
    getProyectosAsignados,
    getSearch,
-   enviarCorreo
+   enviarCorreo,
+   actualizarPuntosObjetivos,
+   obtenerPuntosObjetivos
  
   } from '../controllers/adminControler.js';
 
@@ -131,6 +133,13 @@ router.put('/actualizar-idcalificacion', actualizarIdCalificacion);
 router.get('/search', getSearch);
 
 router.post('/enviocorreo', enviarCorreo);
+
+// Ruta para actualizar puntos objetivos
+router.put('/proyecto/:idproyecto/actualizarPuntosObjetivos', actualizarPuntosObjetivos);
+
+// Ruta para obtener puntos objetivos
+router.get('/proyecto/:idproyecto/puntosObjetivos', obtenerPuntosObjetivos);
+
 
 
 export default router;

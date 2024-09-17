@@ -352,6 +352,57 @@ export const enviarCorreo = async (req, res) => {
   }
 };
 
+// controlador para actualizar el puntaje de objetivos
+const actualizarPuntosObjetivos = async (req, res) => {
+  const { idproyecto } = req.params;
+  const { puntosobjetivos } = req.body;
+
+  if (!idproyecto || puntosobjetivos === undefined) {
+    return res.status(400).json({ error: 'Faltan datos requeridos' });
+  }
+
+  try {
+    const result = await pool.query(
+      'UPDATE proyecto SET puntosobjetivos = $1 WHERE idproyecto = $2 RETURNING *',
+      [puntosobjetivos, idproyecto]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Proyecto no encontrado' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al actualizar puntos objetivos:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+// Este se encarga de volver a mostrar el puntaje de objetivos
+
+const obtenerPuntosObjetivos = async (req, res) => {
+  const { idproyecto } = req.params;
+
+  if (!idproyecto) {
+    return res.status(400).json({ error: 'Falta el id del proyecto' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT puntosobjetivos FROM proyecto WHERE idproyecto = $1',
+      [idproyecto]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Proyecto no encontrado' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al obtener puntos objetivos:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
 
 
 export {
@@ -365,6 +416,8 @@ export {
   asignarProyecto,
   actualizarIdCalificacion,
   getProyectosAsignados,
-  getSearch
+  getSearch,
+  actualizarPuntosObjetivos,
+  obtenerPuntosObjetivos
 
 };
