@@ -6,30 +6,24 @@ import BotonSegundo from '../../Components/BotonSegundo';
 import Loader from '../../Components/Loader';
 import { useNavigate } from 'react-router-dom';
 import { CalloutA } from '../../Components/Callout';
-import { ModalR } from '../../Components/ModalR';
-import useValidation from '../../../hooks/useRegistroC'; // Importa el hook
+import { ModalR } from '../../Components/ModalR'; 
+import useRegistroC from '../../../hooks/useRegistroC';
 
 const RegistroProyecto = () => {
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(1);
   const [inputsTipoArea, setInputsTipoArea] = useState([{ id: 1, value: '' }]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [inputsObjetivos, setInputsObjetivos] = useState([{ id: 1, value: '' }]);
+  const [inputsAlcance, setInputsAlcance] = useState([{ id: 1, value: '' }]);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
   const navigate = useNavigate();
 
-  const initialValues = {
+  const { values, errors, handleInputChange, validateAll } = useRegistroC({
     area: '',
-    categoriaObjetivos: '',
-    categoriaAlcance: '',
-    ...inputsTipoArea.reduce((acc, input) => ({ ...acc, [`tipoArea-${input.id}`]: '' }), {})
-  };
-
-  const {
-    values,
-    errors,
-    handleInputChange,
-    validateAll,
-    resetValues,
-  } = useValidation(initialValues);
+    tipoArea: inputsTipoArea.map(input => input.value),
+    objetivos: inputsObjetivos.map(input => input.value),
+    alcance: inputsAlcance.map(input => input.value),
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -51,16 +45,27 @@ const RegistroProyecto = () => {
     }
   };
 
+  const handleInputChangeMultiple = (index, event, setInputs, inputs) => {
+    const newInputs = [...inputs];
+    newInputs[index].value = event.target.value;
+    setInputs(newInputs);
+  };
+
+  const handleNextStep = () => {
+    if (validateAll()) {
+      setStep(step + 1);
+    }
+  };
+
   const handleFinalize = () => {
     if (validateAll()) {
-      setIsModalOpen(true); // Si todos los campos son válidos, abre el modal
+      setIsModalOpen(true); // Abre el modal al finalizar
     }
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setStep(1);
-    resetValues(); // Resetea los valores cuando cierras el modal
   };
 
   return (
@@ -72,10 +77,7 @@ const RegistroProyecto = () => {
       ) : (
         <>
           <div className="flex justify-between px-4">
-            <button
-              onClick={handleGoBack}
-              className="self-start text-black hover:text-Verde"
-            >
+            <button onClick={handleGoBack} className="self-start text-black hover:text-Verde">
               <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
               Volver
             </button>
@@ -99,6 +101,7 @@ const RegistroProyecto = () => {
                       placeholder="Ingrese Área"
                       value={values.area}
                       onChange={handleInputChange}
+                      name="area"
                       error={errors.area}
                     />
                     {inputsTipoArea.map((input, index) => (
@@ -108,9 +111,10 @@ const RegistroProyecto = () => {
                           Text={`Tipo de Área ${input.id}`}
                           type="text"
                           placeholder="Ingrese Tipo de Área"
-                          value={values[`tipoArea-${input.id}`]}
-                          onChange={handleInputChange}
-                          error={errors[`tipoArea-${input.id}`]}
+                          value={input.value}
+                          onChange={(e) =>
+                            handleInputChangeMultiple(index, e, setInputsTipoArea, inputsTipoArea)
+                          }
                         />
                         {index === inputsTipoArea.length - 1 && inputsTipoArea.length < 5 && (
                           <div className="flex justify-end">
@@ -129,46 +133,75 @@ const RegistroProyecto = () => {
 
                 {step === 2 && (
                   <div className="space-y-4">
-                    <Input2
-                      id="categoriaObjetivos"
-                      Text="Ingrese Categoria"
-                      type="text"
-                      placeholder="Ingrese Objetivo"
-                      value={values.categoriaObjetivos}
-                      onChange={handleInputChange}
-                      error={errors.categoriaObjetivos}
-                    />
+                    {inputsObjetivos.map((input, index) => (
+                      <div key={input.id} className="space-y-2">
+                        <Input2
+                          id={`objetivo-${input.id}`}
+                          Text={`Objetivo ${input.id}`}
+                          type="text"
+                          placeholder="Ingrese Objetivo"
+                          value={input.value}
+                          onChange={(e) =>
+                            handleInputChangeMultiple(index, e, setInputsObjetivos, inputsObjetivos)
+                          }
+                        />
+                        {index === inputsObjetivos.length - 1 && inputsObjetivos.length < 5 && (
+                          <div className="flex justify-end">
+                            <span
+                              className="text-sm text-blue-500 underline cursor-pointer"
+                              onClick={() => handleAddInput(setInputsObjetivos, inputsObjetivos)}
+                            >
+                              + Añadir más
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
 
                 {step === 3 && (
                   <div className="space-y-4">
-                    <Input2
-                      id="categoriaAlcance"
-                      Text="Ingrese Categoria"
-                      type="text"
-                      placeholder="Ingrese Alcance"
-                      value={values.categoriaAlcance}
-                      onChange={handleInputChange}
-                      error={errors.categoriaAlcance}
-                    />
+                    {inputsAlcance.map((input, index) => (
+                      <div key={input.id} className="space-y-2">
+                        <Input2
+                          id={`alcance-${input.id}`}
+                          Text={`Alcance ${input.id}`}
+                          type="text"
+                          placeholder="Ingrese Alcance"
+                          value={input.value}
+                          onChange={(e) =>
+                            handleInputChangeMultiple(index, e, setInputsAlcance, inputsAlcance)
+                          }
+                        />
+                        {index === inputsAlcance.length - 1 && inputsAlcance.length < 5 && (
+                          <div className="flex justify-end">
+                            <span
+                              className="text-sm text-blue-500 underline cursor-pointer"
+                              onClick={() => handleAddInput(setInputsAlcance, inputsAlcance)}
+                            >
+                              + Añadir más
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
-              </div>
 
-              <div className="flex justify-between mt-2 px-9">
-                {step > 1 && (
-                  <BotonSegundo Text="Anterior" onClick={() => setStep(step - 1)} />
-                )}
                 {step < 3 ? (
-                  <BotonSegundo Text="Siguiente" onClick={() => setStep(step + 1)} />
+                  <BotonSegundo Text="Siguiente" onClick={handleNextStep} />
                 ) : (
                   <BotonSegundo Text="Finalizar" onClick={handleFinalize} />
                 )}
               </div>
             </div>
+
+            <ModalR isOpen={isModalOpen} onClose={closeModal}>
+              <p>¡Registro completado con éxito!</p>
+              <button onClick={closeModal}>Cerrar</button>
+            </ModalR>
           </Layoutcontenido>
-          <ModalR isOpen={isModalOpen} closeDialog={closeModal} />
         </>
       )}
     </Layoutprincipal>
