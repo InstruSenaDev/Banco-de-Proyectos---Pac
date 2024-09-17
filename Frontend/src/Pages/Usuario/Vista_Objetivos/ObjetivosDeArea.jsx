@@ -199,7 +199,7 @@ const ObjetivosDeArea = () => {
                   <BotonPrincipal Text="Volver" />
                 </button>
                 <button type="submit" className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                  <BotonSegundo Text="Guardar y Finalizar" />
+                  <BotonSegundo Text="Siguiente" />
                 </button>
               </div>
             </form>
