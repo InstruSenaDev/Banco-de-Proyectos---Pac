@@ -26,10 +26,36 @@ const useActualizarEstadoRespuestasAlcance = () => {
         } catch (error) {
             setError(error.message);
             setLoading(false);
+            throw error; // Asegúrate de lanzar el error para que se maneje correctamente en la llamada
         }
     };
 
-    return { actualizarEstadoRespuestasAlcance, loading, error };
+    const actualizarPuntosAlcance = async (idproyecto, puntos) => {
+        setLoading(true);
+        try {
+            const response = await fetch(`http://localhost:4000/api/admin/proyecto/${idproyecto}/actualizarPuntosAlcance`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ puntosalcance: puntos }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al actualizar los puntos de alcance');
+            }
+
+            const data = await response.json();
+            setLoading(false);
+            return data;
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+            throw error; // Asegúrate de lanzar el error para que se maneje correctamente en la llamada
+        }
+    };
+
+    return { actualizarEstadoRespuestasAlcance, actualizarPuntosAlcance, loading, error };
 };
 
 export default useActualizarEstadoRespuestasAlcance;

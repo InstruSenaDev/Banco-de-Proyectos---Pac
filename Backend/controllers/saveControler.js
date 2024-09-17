@@ -76,13 +76,36 @@ const actualizarEstadoRespuestasAlcance = async (req, res) => {
       res.status(500).json({ message: 'Error al obtener las aprobaciones', error: error.message });
     }
   };
+
+  const getAprobacionesAlcance = async (req, res) => {
+    const { idproyecto } = req.params;
   
+    try {
+      const result = await pool.query(
+        `SELECT idrespuesta, idalcance, estado
+         FROM respuestasalcance
+         WHERE idproyecto = $1 AND estado IN ('Aprobado', 'No aceptado')`,
+        [idproyecto]
+      );
+  
+      if (result.rows.length > 0) {
+        res.status(200).json({ aprobaciones: result.rows });
+      } else {
+        res.status(404).json({ message: 'No se encontraron aprobaciones para este proyecto' });
+      }
+    } catch (error) {
+      console.error('Error al obtener las aprobaciones del alcance:', error);
+      res.status(500).json({ message: 'Error al obtener las aprobaciones', error: error.message });
+    }
+  };
   
 
+
+  
 
 export {
     actualizarEstadoRespuestas,
     actualizarEstadoRespuestasAlcance,
-    getAprobacionesAdmin
-
+    getAprobacionesAdmin,
+    getAprobacionesAlcance
 };

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+// guarda el estado de la asignacion, aprobado o no aceptado
 const useDetalleCalificacion = (idproyecto) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,6 +30,7 @@ const useDetalleCalificacion = (idproyecto) => {
     }
   };
 
+  // actualizar el campo de la tabla proyecto "puntaje"
   const actualizarPuntosObjetivos = async (puntos) => {
     setLoading(true);
     try {
@@ -55,6 +56,7 @@ const useDetalleCalificacion = (idproyecto) => {
     }
   };
 
+  // obtiene el promedio final
   const obtenerPuntosObjetivos = async () => {
     setLoading(true);
     try {

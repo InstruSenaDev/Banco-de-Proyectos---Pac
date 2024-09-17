@@ -404,6 +404,28 @@ const obtenerPuntosObjetivos = async (req, res) => {
   }
 };
 
+// Función para actualizar puntosalcance en la tabla proyecto
+const actualizarPuntosAlcance = async (req, res) => {
+  const { idproyecto } = req.params;
+  const { puntosalcance } = req.body;
+
+  try {
+      const result = await pool.query(
+          'UPDATE proyecto SET puntosalcance = $1 WHERE idproyecto = $2',
+          [puntosalcance, idproyecto]
+      );
+
+      if (result.rowCount === 0) {
+          return res.status(404).json({ message: 'Proyecto no encontrado' });
+      }
+
+      res.status(200).json({ message: 'Puntos de alcance actualizados correctamente' });
+  } catch (err) {
+      console.error('Error al actualizar puntos de alcance', err);
+      res.status(500).json({ message: 'Error al actualizar puntos de alcance' });
+  }
+};
+
 
 export {
   getProyectos,
@@ -418,6 +440,7 @@ export {
   getProyectosAsignados,
   getSearch,
   actualizarPuntosObjetivos,
-  obtenerPuntosObjetivos
+  obtenerPuntosObjetivos,
+  actualizarPuntosAlcance
 
 };

@@ -18,7 +18,8 @@ import {
    getSearch,
    enviarCorreo,
    actualizarPuntosObjetivos,
-   obtenerPuntosObjetivos
+   obtenerPuntosObjetivos,
+   actualizarPuntosAlcance
  
   } from '../controllers/adminControler.js';
 
@@ -139,6 +140,9 @@ router.put('/proyecto/:idproyecto/actualizarPuntosObjetivos', actualizarPuntosOb
 
 // Ruta para obtener puntos objetivos
 router.get('/proyecto/:idproyecto/puntosObjetivos', obtenerPuntosObjetivos);
+
+// Ruta para actualizar puntos de alcance en la tabla proyecto
+router.put('/proyecto/:idproyecto/actualizarPuntosAlcance', actualizarPuntosAlcance);
 
 
 

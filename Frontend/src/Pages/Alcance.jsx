@@ -8,6 +8,7 @@ import BotonSegundo from '../Components/BotonSegundo';
 import Loader from '../Components/Loader';
 import useFetchRespuestasAlcance from '../../hooks/Admin/useFetchRespuestasAlcance';
 import useActualizarEstadoRespuestasAlcance from '../../hooks/Admin/useActualizarEstadoRespuestasAlcance';
+import useAprobacionesAlcance from '../../hooks/Admin/useAprobacionesAlcance';
 
 const Alcance = () => {
   const { idproyecto } = useParams();
@@ -15,14 +16,26 @@ const Alcance = () => {
   const navigate = useNavigate();
 
   const { respuestasAlcance, selecciones, calificaciones, isLoading, setSelecciones, setCalificaciones } = useFetchRespuestasAlcance(idproyecto);
+  const { aprobaciones: asignaciones, loading: loadingAsignaciones, error: errorAsignaciones } = useAprobacionesAlcance(idproyecto);
   const [promedio, setPromedio] = useState(0);
-  const { actualizarEstadoRespuestasAlcance, loading: loadingActualizar, error: errorActualizar } = useActualizarEstadoRespuestasAlcance();
+  const { actualizarEstadoRespuestasAlcance, actualizarPuntosAlcance, loading: loadingActualizar, error: errorActualizar } = useActualizarEstadoRespuestasAlcance();
 
   useEffect(() => {
     const aprobados = Object.values(calificaciones).filter(cal => cal === "Aprobado").length;
     const promedioCalculado = respuestasAlcance.length > 0 ? (aprobados / respuestasAlcance.length) * 100 : 0;
     setPromedio(promedioCalculado);
   }, [calificaciones, respuestasAlcance.length]);
+
+  // Cargar las asignaciones de "Aprobado" y "No aceptado" cuando se cargue la vista
+  useEffect(() => {
+    if (asignaciones.length > 0) {
+      const nuevasCalificaciones = {};
+      asignaciones.forEach(asignacion => {
+        nuevasCalificaciones[asignacion.idalcance] = asignacion.estado;
+      });
+      setCalificaciones(nuevasCalificaciones);
+    }
+  }, [asignaciones]);
 
   const handleSelectionChange = (id, value) => {
     setSelecciones((prev) => ({
@@ -40,12 +53,12 @@ const Alcance = () => {
 
   const handleNextClick = async () => {
     const allAnswered = respuestasAlcance.every((respuesta) => selecciones[respuesta.idalcance] && calificaciones[respuesta.idalcance]);
-  
+
     if (!allAnswered) {
       alert("Debes seleccionar todas las opciones de calificar para poder avanzar");
       return;
     }
-  
+
     const detallesAlcance = respuestasAlcance
       .filter(respuesta => respuesta.idalcance !== undefined && calificaciones[respuesta.idalcance] !== undefined)
       .map((respuesta) => ({
@@ -53,13 +66,17 @@ const Alcance = () => {
         idrespuesta: Number(respuesta.idalcance),
         estado: String(calificaciones[respuesta.idalcance]),
       }));
-  
+
     console.log('Detalles que se enviarán:', detallesAlcance);  // Verifica los datos antes de enviarlos
-  
+
     try {
-      const response = await actualizarEstadoRespuestasAlcance(detallesAlcance);
-      console.log('Respuesta del servidor:', response);
-  
+      // Actualizar el estado de las respuestas de alcance
+      await actualizarEstadoRespuestasAlcance(detallesAlcance);
+
+      // Actualizar los puntos de alcance en la base de datos
+      await actualizarPuntosAlcance(idproyecto, promedio);
+
+      // Navegar a la siguiente página
       navigate(`/calificacion/${idproyecto}`, {
         state: {
           promedio: promedio,
@@ -72,7 +89,6 @@ const Alcance = () => {
       console.error('Error al guardar los detalles:', err);
     }
   };
-  
 
   const preguntasAgrupadas = respuestasAlcance.reduce((acc, respuesta) => {
     if (!respuesta.categoria) {
@@ -87,7 +103,7 @@ const Alcance = () => {
 
   return (
     <LayoutPrincipal title="">
-      {isLoading ? (
+      {isLoading || loadingAsignaciones ? (
         <Loader />
       ) : (
         <div className="flex justify-center min-h-screen">
@@ -126,6 +142,10 @@ const Alcance = () => {
                 </div>
               ))}
 
+              <div className="text-right mt-4">
+                <h2 className="text-xl font-bold">Promedio de Calificaciones: {promedio !== null ? promedio.toFixed(2) : "N/A"}</h2>
+              </div>
+
               <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
                 <Link to={`/respuestas/${idproyecto}`}>
                   <BotonPrincipal Text="Volver" />
@@ -134,6 +154,7 @@ const Alcance = () => {
               </div>
 
               {errorActualizar && <p style={{ color: 'red' }}>Error: {errorActualizar}</p>}
+              {errorAsignaciones && <p style={{ color: 'red' }}>Error cargando asignaciones: {errorAsignaciones.message}</p>}
             </div>
           </div>
         </div>

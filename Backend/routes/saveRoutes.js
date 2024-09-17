@@ -8,7 +8,8 @@ import {
 
     actualizarEstadoRespuestas,
     actualizarEstadoRespuestasAlcance,
-    getAprobacionesAdmin
+    getAprobacionesAdmin,
+    getAprobacionesAlcance
 
 } from '../controllers/saveControler.js';
 
@@ -22,6 +23,8 @@ router.post('/actualizar-estado', actualizarEstadoRespuestasAlcance);
 
 // Ruta para obtener las aprobaciones del administrador
 router.get('/aprobaciones/:idproyecto', getAprobacionesAdmin);
+
+router.get('/aprobaciones-alcance/:idproyecto', getAprobacionesAlcance);
 
 
 export default router;
