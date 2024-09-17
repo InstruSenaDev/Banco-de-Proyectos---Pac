@@ -14,17 +14,15 @@ const getProyectos = async (req, res) => {
     if (estado === 'Recibidos') {
       // Filtrar para obtener proyectos que no están aceptados, devueltos o rechazados
       query = `
-        SELECT p.*, c.estado 
-        FROM proyecto p 
-        LEFT JOIN calificacion c ON p.idproyecto = c.idproyecto
-        WHERE c.estado IS NULL OR c.estado NOT IN ('Aceptado', 'Rechazado', 'Devuelto')`;
+        SELECT * 
+        FROM proyecto 
+        WHERE estado IS NULL OR estado NOT IN ('Aceptado', 'Rechazado', 'Devuelto')`;
     } else {
       // Filtrar por el estado específico
       query = `
-        SELECT p.*, c.estado 
-        FROM proyecto p 
-        INNER JOIN calificacion c ON p.idproyecto = c.idproyecto
-        WHERE c.estado = $1`;
+        SELECT * 
+        FROM proyecto 
+        WHERE estado = $1`;
       values.push(estado);
     }
 

@@ -16,17 +16,16 @@ const Calificar = () => {
       // Limpiar el estado antes de realizar la nueva petición
       setData([]);
       
+      // Construir la URL con el filtro de estado
       let url = `http://localhost:4000/api/admin/proyectos?estado=${estado}`;
-      if (estado === 'Asignados') {
-        url = 'http://localhost:4000/api/admin/proyectos/asignados';
-      }
+      
+      // Llamada a la API para obtener proyectos según el estado seleccionado
       console.log('Fetching URL:', url);
       const response = await fetch(url);
       if (response.ok) {
         const proyectos = await response.json();
         console.log('Proyectos obtenidos:', proyectos);
         setData(proyectos);
-        
       } else {
         console.error("Error al obtener los proyectos:", response.statusText);
       }
@@ -46,7 +45,7 @@ const Calificar = () => {
         <div className="">
           <div className="w-full">
              <div className="w-auto">
-              <div className="flex flex-wrap justify-start gap-y-4 lg:px-40 gap-x-8 lg:gap-y-4 mt-4 w-auto max-h-full  mb-10 "> 
+              <div className="flex flex-wrap justify-start gap-y-4 lg:px-40 gap-x-8 lg:gap-y-4 mt-4 w-auto max-h-full mb-10"> 
                 <RadioButton
                   Text="Recibidos"
                   onClick={() => setFilter('Recibidos')}
@@ -62,10 +61,6 @@ const Calificar = () => {
                 <RadioButton
                   Text="Devueltos"
                   onClick={() => setFilter('Devuelto')}
-                />
-                <RadioButton
-                  Text="Asignados"
-                  onClick={() => setFilter('Asignados')}
                 />
               </div>
             </div> 
