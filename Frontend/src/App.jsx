@@ -17,7 +17,7 @@ import Prueba from './Pages/Usuario/Prueba';
 import CrearArea from './Pages/SuperAdmin/CrearArea';
 import AsignarProyectos from './pages/Administrador/AsignarProyectos'
 
-import Estado from './Pages/Usuario/Estado'
+
 
 const App = () => {
   return (
@@ -34,7 +34,7 @@ const App = () => {
           <Route path="/Usuario/VistaAlcance" element={<VistaAlcance />} />
           <Route path="/Usuario/VistaMisProyectos" element={<VistaMisProyectos />} />
           <Route path="/Usuario/Prueba" element={<Prueba />} />
-          <Route path="/Usuario/Estado" element={<Estado/>} />
+      
 
           <Route path="/" element={<Home />} />
           <Route path="/Principal/Inicio" element={<Inicio />} />

@@ -26,8 +26,7 @@ import {
     getRespuestasAlcanceByProyecto,
     guardarRespuestasYActualizarPuntos,
     actualizarPuntosAlcance,
-    // obtenerPromedioFinalProyecto,
-    // guardarPromedioFinal
+    actualizarEstadoProyecto
    
 
 } from '../controllers/datacontroler.js';
@@ -507,9 +506,7 @@ router.get('/respuestasalcance/:idproyecto', async (req, res) => {
 
   router.put('/proyectos/:idproyecto', actualizarPuntosAlcance);
 
-//   router.get('/proyectos/:idproyecto/promediofinal', obtenerPromedioFinalProyecto);
-
-//   router.put('/proyectos/:idproyecto/proyectofinal', guardarPromedioFinal);
+  router.put('/proyectos/:idproyecto/estado', actualizarEstadoProyecto);
 
 
 export default router;
