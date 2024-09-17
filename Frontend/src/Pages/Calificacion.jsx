@@ -38,9 +38,8 @@ const Calificacion = () => {
     };
 
     const handleConfirmClose = async () => {
-        const detalles = [...(location.state.detallesObjetivos || []), ...(location.state.detallesAlcance || [])];
         try {
-            await postCalificacion(idproyecto, promedioFinal, estado, comentario, detalles);
+            await postCalificacion(idproyecto, promedioFinal, estado, comentario);
             if (estado === "Aceptado") {
                 navigate(`/asignar-proyectos/${idproyecto}`); // Reemplaza con la ruta de la siguiente vista
             } else {
@@ -50,7 +49,6 @@ const Calificacion = () => {
             console.error("Error al guardar la calificación:", error);
         }
     };
-
 
     const handleCancelConfirm = () => {
         setShowConfirmModal(false);
@@ -95,8 +93,6 @@ const Calificacion = () => {
                                 <ModalComent text="Devolver" buttonColor="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Devuelto", comentario)} />
                                 <ModalComent text="Aceptar" buttonColor="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Aceptado", comentario)} />
                             </div>
-
-
                         </div>
                     )}
 

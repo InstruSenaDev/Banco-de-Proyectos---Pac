@@ -123,34 +123,21 @@ const guardarCalificacion = async (req, res) => {
       return res.status(400).json({ message: "Todos los campos son obligatorios" });
     }
 
-    // Verifica si ya existe una calificación para este proyecto
-    const existingCalificacion = await pool.query(
-      "SELECT idcalificacion FROM calificacion WHERE idproyecto = $1",
-      [idproyecto]
+    // Actualiza el proyecto con el nuevo promedio final, estado y comentario
+    const updateProyecto = await pool.query(
+      "UPDATE proyecto SET promediofinal = $1, estado = $2, comentario = $3 WHERE idproyecto = $4",
+      [resultado, estado, comentario, idproyecto]
     );
 
-    let idcalificacion;
-    if (existingCalificacion.rows.length > 0) {
-      // Si ya existe, actualiza la calificación existente
-      idcalificacion = existingCalificacion.rows[0].idcalificacion;
-      await pool.query(
-        "UPDATE calificacion SET resultado = $1, estado = $2, comentario = $3 WHERE idcalificacion = $4",
-        [resultado, estado, comentario, idcalificacion]
-      );
+    // Si la actualización afecta alguna fila (es decir, si el proyecto existía y fue actualizado)
+    if (updateProyecto.rowCount > 0) {
+      res.status(200).json({ message: "Proyecto actualizado exitosamente" });
     } else {
-      // Si no existe, inserta una nueva calificación
-      const result = await pool.query(
-        "INSERT INTO calificacion (resultado, estado, idproyecto, comentario) VALUES ($1, $2, $3, $4) RETURNING idcalificacion",
-        [resultado, estado, idproyecto, comentario]
-      );
-
-      idcalificacion = result.rows[0].idcalificacion;
+      res.status(404).json({ message: "Proyecto no encontrado" });
     }
-
-    res.status(201).json({ message: "Calificación guardada exitosamente", idcalificacion: idcalificacion });
   } catch (error) {
-    console.error("Error al guardar la calificación:", error);
-    res.status(500).json({ message: "Error al guardar la calificación" });
+    console.error("Error al actualizar el proyecto:", error);
+    res.status(500).json({ message: "Error al actualizar el proyecto" });
   }
 };
 

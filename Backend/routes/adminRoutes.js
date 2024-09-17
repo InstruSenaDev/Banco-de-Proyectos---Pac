@@ -105,7 +105,7 @@ router.get('/respuestas/:idproyecto', async (req, res) => {
   
 
   // Ruta para guardar la calificación
-router.post('/calificaciones', guardarCalificacion);
+  router.post('/proyectos/calificar', guardarCalificacion);
 
 // Ruta para obtener todas las fichas activas
 router.get('/fichas', getFichas);
