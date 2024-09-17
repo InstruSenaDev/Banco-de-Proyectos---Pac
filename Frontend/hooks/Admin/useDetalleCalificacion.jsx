@@ -21,7 +21,6 @@ const useDetalleCalificacion = (idproyecto) => {
       }
 
       const data = await response.json();
-      console.log('Respuesta del servidor:', data);
       setLoading(false);
       return data;
     } catch (error) {
@@ -47,7 +46,6 @@ const useDetalleCalificacion = (idproyecto) => {
       }
 
       const data = await response.json();
-      console.log('Puntos objetivos actualizados:', data);
       setLoading(false);
       return data;
     } catch (error) {
@@ -72,8 +70,7 @@ const useDetalleCalificacion = (idproyecto) => {
       }
 
       const data = await response.json();
-      console.log('Puntos objetivos obtenidos:', data);
-      setPuntosObjetivos(data.puntosobjetivos); // Asume que la respuesta es un objeto con un campo `puntosobjetivos`
+      setPuntosObjetivos(data.puntosobjetivos !== null ? Number(data.puntosobjetivos) : 0); // Asegúrate de que siempre sea un número
       setLoading(false);
       return data;
     } catch (error) {

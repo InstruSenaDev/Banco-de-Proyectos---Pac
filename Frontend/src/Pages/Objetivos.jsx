@@ -17,7 +17,7 @@ const Objetivos = () => {
 };
 
 const ObjetivosComponent = ({ idproyecto }) => {
-  const [promedio, setPromedio] = useState(0);
+  const [promedio, setPromedio] = useState(null);
   const navigate = useNavigate();
 
   const { 
@@ -50,7 +50,7 @@ const ObjetivosComponent = ({ idproyecto }) => {
 
   useEffect(() => {
     if (puntosObjetivos !== null) {
-      setPromedio(Number(puntosObjetivos)); // Aseguramos que puntosObjetivos se trate como número
+      setPromedio(puntosObjetivos);
     }
   }, [puntosObjetivos]);
 
