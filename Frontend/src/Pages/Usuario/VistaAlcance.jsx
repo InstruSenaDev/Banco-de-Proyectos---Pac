@@ -54,7 +54,7 @@ const VistaAlcance = () => {
   const calculatePromedio = (respuestas) => {
     const totalAlcances = respuestas.length;
     const totalTrue = respuestas.filter(respuesta => respuesta.respuesta === true).length;
-    const promedio = totalAlcances > 0 ? (totalTrue / totalAlcances) * 100 : 0;
+    const promedio = totalAlcances > 0 ? Math.round((totalTrue / totalAlcances) * 100) : 0;
 
     // Imprimir los datos en la consola
     console.log(`Total de respuestas: ${totalAlcances}`);
@@ -114,18 +114,18 @@ const VistaAlcance = () => {
         throw new Error('La respuesta de la red no fue correcta');
       }
       const respuestasData = await respuestasResponse.json();
-      const promedio = calculatePromedio(respuestasData.respuestasAlcance);
+      const promedioAlcance = calculatePromedio(respuestasData.respuestasAlcance);
   
-      console.log(`Promedio calculado después de guardar: ${promedio}%`);
+      console.log(`Promedio calculado después de guardar: ${promedioAlcance}%`);
   
       // Guardar el promedio en la base de datos
-      const updateResponse = await fetch(`http://localhost:4000/api/user/proyectos/${idproyecto}`, {
+      const updateResponse = await fetch(`http://localhost:4000/api/promedioFinal/proyectos/${idproyecto}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          puntosalcance: promedio,
+          puntosalcance: promedioAlcance,
         }),
       });
   
@@ -135,7 +135,45 @@ const VistaAlcance = () => {
   
       console.log('Promedio de alcance actualizado correctamente.');
   
-      // Redirigir al obtener una respuesta exitosa
+      // Obtener los puntos para calcular el promedio final
+      const promedioFinalResponse = await fetch(`http://localhost:4000/api/promedio/proyectos/${idproyecto}/promediofinal`);
+      if (!promedioFinalResponse.ok) {
+        throw new Error('Error al obtener el promedio final del proyecto');
+      }
+      const finalData = await promedioFinalResponse.json();
+  
+      // Convertir a números
+      const puntosObjetivos = parseFloat(finalData.puntosobjetivos) || 0;
+      const puntosAlcance = parseFloat(finalData.puntosalcance) || 0;
+  
+      // Verificar los valores antes de continuar
+      console.log(`Puntos Objetivos: ${puntosObjetivos}`);
+      console.log(`Puntos Alcance: ${puntosAlcance}`);
+  
+      // Calcular el promedio final
+      const promedioFinal = (puntosObjetivos + puntosAlcance) / 2;
+  
+      // Mostrar el promedio final en la consola
+      console.log(`Promedio final calculado: ${promedioFinal}%`);
+  
+      // Guardar el promedio final en la base de datos
+      const guardarFinalResponse = await fetch(`http://localhost:4000/api/promedioFinal/proyectos/${idproyecto}/proyectofinal`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          proyectofinal: promedioFinal,
+        }),
+      });
+
+      if (!guardarFinalResponse.ok) {
+        throw new Error('Error al guardar el promedio final del proyecto.');
+      }
+
+      console.log('Promedio final guardado correctamente en la base de datos.');
+  
+      // Redirigir o realizar alguna otra acción después
       navigate('/Usuario/VistaUsuario');
     } catch (error) {
       console.error('Error al guardar respuestas o actualizar promedio:', error);
@@ -143,7 +181,6 @@ const VistaAlcance = () => {
       console.log('Finalmente, redirigiendo...');
     }
   };
-  
 
   const handleBackClick = () => {
     const returnUrl = localStorage.getItem('objetivosReturnUrl') || '/VistaObjetivos';
@@ -153,6 +190,7 @@ const VistaAlcance = () => {
   if (loading) {
     return <Loader />;
   }
+
 
   return (
     <LayoutPrincipal title="">
