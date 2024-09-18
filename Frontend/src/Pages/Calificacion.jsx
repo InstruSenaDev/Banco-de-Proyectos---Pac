@@ -8,8 +8,7 @@ import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonBack from "../Components/BotonBack";
 import Loader from "../Components/Loader";
 import { ModalConfirm } from "../Components/ModalConfirm";
-import usePostCalificacion from "../../hooks/Admin/usePostCalificacion";
-import { useCorreoProyecto } from "../../hooks/Admin/useCorreoProyecto";
+import usePostCalificacion from "../../hooks/Admin/usePostCalificacion"
 import { Card, Text, Metric } from "@tremor/react";
 
 const Calificacion = () => {
@@ -25,7 +24,6 @@ const Calificacion = () => {
     const [estado, setEstado] = useState("");
 
     const { postCalificacion, loading } = usePostCalificacion();
-    const { correo, loading: correoLoading, error: correoError } = useCorreoProyecto(idproyecto);
 
     useEffect(() => {
         const promedioFinalCalculado = Math.round((promedioObjetivos + promedioAlcance) / 2);
@@ -62,7 +60,7 @@ const Calificacion = () => {
                 <Loader />
             ) : (
                 <Layoutcontenido2 title="" text1="Calificación del proyecto">
-                    {loading || correoLoading ? (
+                    {loading ? (
                         <Loader />
                     ) : (
                         <div className="w-full mx-auto ">
@@ -91,24 +89,9 @@ const Calificacion = () => {
                             </div>
 
                             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
-                                <ModalComent
-                                    text="Rechazar"
-                                    buttonColor="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                                    onSubmit={(comentario) => handleAction("Rechazado", comentario)}
-                                    email={correo} // Pasamos el correo al modal
-                                />
-                                <ModalComent
-                                    text="Devolver"
-                                    buttonColor="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded"
-                                    onSubmit={(comentario) => handleAction("Devuelto", comentario)}
-                                    email={correo} // Pasamos el correo al modal
-                                />
-                                <ModalComent
-                                    text="Aceptar"
-                                    buttonColor="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded"
-                                    onSubmit={(comentario) => handleAction("Aceptado", comentario)}
-                                    email={correo} // Pasamos el correo al modal
-                                />
+                                <ModalComent text="Rechazar" buttonColor="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Rechazado", comentario)} />
+                                <ModalComent text="Devolver" buttonColor="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Devuelto", comentario)} />
+                                <ModalComent text="Aceptar" buttonColor="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Aceptado", comentario)} />
                             </div>
                         </div>
                     )}
