@@ -4,86 +4,75 @@ const useRegistroC = (initialValues) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
 
-  // Función para contar las palabras en un texto
+  // Función para contar palabras en un string
   const countWords = (text) => text.trim().split(/\s+/).length;
 
-  // Función que realiza todas las validaciones
+  // Validación por campo o conjunto de campos (en caso de que sean arrays)
   const validate = (field, value) => {
     let error = '';
 
-    // Validación: campo obligatorio
-    if (!value.trim()) {
-      error = 'Este campo es obligatorio';
+    if (Array.isArray(value)) {
+      // Si el valor es un array (como los inputs dinámicos)
+      value.forEach((val, index) => {
+        if (!val.trim()) {
+          error = `El campo ${field} ${index + 1} es obligatorio`;
+        } else {
+          // Validación específica para los "tipos de área"
+          if (field.includes('tipoArea')) {
+            if (!/\d/.test(val)) {
+              error = `El tipo de área ${index + 1} debe contener al menos un número`;
+            } else if (countWords(val) > 30) {
+              error = `El tipo de área ${index + 1} no debe exceder las 30 palabras`;
+            }
+          }
+
+          // Validación específica para "áreas" (sin necesidad de contener un número)
+          if (field.includes('area')) {
+            if (countWords(val) > 30) {
+              error = `El área ${index + 1} no debe exceder las 30 palabras`;
+            }
+          }
+        }
+      });
     } else {
-      // Validación: si el campo es un área
-      if (field.includes('area')) {
-        if (!/\d/.test(value)) {
-          error = 'El área debe contener al menos un número';
-        } else if (countWords(value) > 30) {
-          error = 'El área no debe exceder las 30 palabras';
-        }
-      }
-
-      // Validación: si el campo es un objetivo
-      if (field.includes('objetivo')) {
-        if (countWords(value) !== 70) {
-          error = 'El objetivo debe tener exactamente 70 palabras';
-        }
-      }
-
-      // Validación: si el campo es un alcance
-      if (field.includes('alcance')) {
-        if (countWords(value) !== 300) {
-          error = 'El alcance debe tener exactamente 300 palabras';
-        }
+      if (!value.trim()) {
+        error = `El campo ${field} es obligatorio`;
+      } else if (countWords(value) > 30) {
+        error = `El campo ${field} no debe exceder las 30 palabras`;
       }
     }
 
-    // Actualiza los errores
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [field]: error,
-    }));
-
-    // Devuelve true si no hay error, es decir, si el campo es válido
+    setErrors((prevErrors) => ({ ...prevErrors, [field]: error }));
     return error === '';
   };
 
-  // Maneja cambios en los inputs y realiza validaciones
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-
-    // Valida el campo actual
-    validate(name, value);
-  };
-
-  // Reinicia los valores y errores del formulario
-  const resetValues = () => {
-    setValues(initialValues);
-    setErrors({});
-  };
-
-  // Valida todos los campos del formulario
   const validateAll = () => {
     let isValid = true;
-    for (const key in values) {
-      if (!validate(key, values[key])) {
+    Object.keys(values).forEach((field) => {
+      if (!validate(field, values[field])) {
         isValid = false;
       }
-    }
+    });
     return isValid;
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setValues((prevValues) => ({ ...prevValues, [name]: value }));
+  };
+
+  const handleArrayInputChange = (field, index, value) => {
+    const updatedValues = [...values[field]];
+    updatedValues[index] = value;
+    setValues((prevValues) => ({ ...prevValues, [field]: updatedValues }));
   };
 
   return {
     values,
     errors,
     handleInputChange,
+    handleArrayInputChange,
     validateAll,
-    resetValues,
   };
 };
 

@@ -14,9 +14,6 @@ import {
     registerArea,
     getTipoDeArea,
     registerTipoDeArea,
-    registerItemArea,
-    checkEmailExists,
-
     getItemsByAreaAndType,
     insertItem,
     addTipoDeArea,
@@ -281,6 +278,25 @@ router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
         res.status(500).json({ message: 'Error fetching items', error: error.message });
     }
 });
+
+
+// Ruta para agregar áreas
+router.post('/areas', dataController.addAreas);
+
+// Ruta para agregar tipos de área
+router.post('/types', dataController.addTypes);
+
+// Ruta para agregar ítems
+router.post('/items', dataController.addItems);
+
+// Ruta para agregar objetivos
+router.post('/objectives', dataController.addObjectives);
+
+// Ruta para agregar alcances
+router.post('/scopes', dataController.addScopes);
+
+// Ruta para registrar todo el formulario
+router.post('/registerAll', dataController.registerAll);
 
 
 export default router;

@@ -499,6 +499,86 @@ async function getItemsByAreaAndType(idarea, idtiposdearea) {
 }
 
 
+// Nueva función para crear un proyecto completo
+// Función para registrar todos los datos relacionados con el proyecto
+async function registerAll(proyectoData) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+
+        const { areas, items, categoriaObjetivos, objetivos, categoriaAlcance, alcances } = proyectoData;
+
+        // Insertar áreas
+        const areaIds = [];
+        for (const area of areas) {
+            const areaResult = await client.query(
+                'INSERT INTO area (nombre) VALUES ($1) RETURNING idarea',
+                [area]
+            );
+            areaIds.push(areaResult.rows[0].idarea);
+        }
+
+        // Insertar ítems
+        for (const item of items) {
+            await client.query(
+                'INSERT INTO items (nombre) VALUES ($1)',
+                [item]
+            );
+        }
+
+        // Insertar categoría de objetivos
+        let categoriaObjetivoId;
+        if (categoriaObjetivos) {
+            const categoriaObjetivoResult = await client.query(
+                'INSERT INTO categoriasobjetivos (nombre) VALUES ($1) RETURNING idcategoriaobjetivo',
+                [categoriaObjetivos]
+            );
+            categoriaObjetivoId = categoriaObjetivoResult.rows[0].idcategoriaobjetivo;
+        }
+
+        // Insertar objetivos
+        if (categoriaObjetivoId) {
+            for (const objetivo of objetivos) {
+                await client.query(
+                    'INSERT INTO objetivos (nombre, idcategoriaobjetivo) VALUES ($1, $2)',
+                    [objetivo, categoriaObjetivoId]
+                );
+            }
+        }
+
+        // Insertar categoría de alcance
+        let categoriaAlcanceId;
+        if (categoriaAlcance) {
+            const categoriaAlcanceResult = await client.query(
+                'INSERT INTO categoriasalcance (nombre) VALUES ($1) RETURNING idcategoriaalcance',
+                [categoriaAlcance]
+            );
+            categoriaAlcanceId = categoriaAlcanceResult.rows[0].idcategoriaalcance;
+        }
+
+        // Insertar alcances
+        if (categoriaAlcanceId) {
+            for (const alcance of alcances) {
+                await client.query(
+                    'INSERT INTO alcances (nombre, idcategoriaalcance) VALUES ($1, $2)',
+                    [alcance, categoriaAlcanceId]
+                );
+            }
+        }
+
+        await client.query('COMMIT');
+        return { message: 'Registro completo realizado con éxito' };
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error('Error al registrar datos:', error);
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+
+
 export {
     getAllPersonas,
     getAllUsuario,
@@ -511,7 +591,7 @@ export {
     obtenerTodosLosProyectos,
     getAllFicha,
     registerArea,
-
+    registerAll,
     getTipoDeArea,
     registerTipoDeArea,
     registerItemArea,
