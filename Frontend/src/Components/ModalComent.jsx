@@ -1,15 +1,21 @@
-import { Button, Dialog, DialogPanel, Title, Text } from '@tremor/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Button, Dialog, DialogPanel, Title, Text, TextInput } from '@tremor/react';
 
-export function ModalComent({ buttonColor = 'bg-[#A3E784]', text = 'Abrir comentario', onSubmit }) {
+export function ModalComent({ email: initialEmail = '', buttonColor = 'bg-[#A3E784]', text = 'Abrir comentario', onSubmit }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState(initialEmail);
   const [comentario, setComentario] = useState('');
+
+  useEffect(() => {
+    setEmail(initialEmail);
+  }, [initialEmail]);
 
   const handleOpenConfirm = () => {
     if (onSubmit) {
-      onSubmit(comentario);  // Llama a la función para abrir el modal de confirmación
+      onSubmit({ email, comentario }); // Envía tanto el email como el comentario
     }
     setIsOpen(false);
+    setEmail(''); // Resetea el email
     setComentario(''); // Resetea el comentario
   };
 
@@ -28,8 +34,15 @@ export function ModalComent({ buttonColor = 'bg-[#A3E784]', text = 'Abrir coment
             <Title>Añadir Comentario</Title>
           </div>
 
-          <Text className="mb-4">Por favor, ingrese su comentario a continuación:</Text>
+          <Text className="mb-2">Por favor, ingrese su correo electrónico:</Text>
+          <TextInput
+            className="mb-4"
+            placeholder="correo@ejemplo.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
+          <Text className="mb-2">Por favor, ingrese su comentario a continuación:</Text>
           <textarea
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 mb-4"
             rows="4"

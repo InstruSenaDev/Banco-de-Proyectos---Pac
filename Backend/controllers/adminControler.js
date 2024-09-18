@@ -426,6 +426,7 @@ export {
   getSearch,
   actualizarPuntosObjetivos,
   obtenerPuntosObjetivos,
-  actualizarPuntosAlcance
+  actualizarPuntosAlcance,
+
 
 };

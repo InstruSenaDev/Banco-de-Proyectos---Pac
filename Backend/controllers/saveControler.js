@@ -98,14 +98,40 @@ const actualizarEstadoRespuestasAlcance = async (req, res) => {
       res.status(500).json({ message: 'Error al obtener las aprobaciones', error: error.message });
     }
   };
+
+  const getCorreoByProyectoId = async (req, res) => {
+    try {
+        const { idproyecto } = req.params;
+        
+        // Consulta para obtener el idpersona del proyecto
+        const proyectoQuery = 'SELECT idpersona FROM proyecto WHERE idproyecto = $1';
+        const proyectoResult = await pool.query(proyectoQuery, [idproyecto]);
   
-
-
+        if (proyectoResult.rows.length === 0) {
+            return res.status(404).json({ message: 'Proyecto no encontrado' });
+        }
   
-
+        const idpersona = proyectoResult.rows[0].idpersona;
+  
+        // Consulta para obtener el correo de la persona
+        const personaQuery = 'SELECT correo FROM personas WHERE idpersonas = $1';
+        const personaResult = await pool.query(personaQuery, [idpersona]);
+  
+        if (personaResult.rows.length === 0) {
+            return res.status(404).json({ message: 'Persona no encontrada' });
+        }
+  
+        res.json(personaResult.rows[0]); // Devuelve el correo
+    } catch (error) {
+        console.error('Error al obtener el correo:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  };
+  
 export {
     actualizarEstadoRespuestas,
     actualizarEstadoRespuestasAlcance,
     getAprobacionesAdmin,
-    getAprobacionesAlcance
+    getAprobacionesAlcance,
+    getCorreoByProyectoId
 };

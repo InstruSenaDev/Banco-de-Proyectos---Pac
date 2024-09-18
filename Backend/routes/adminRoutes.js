@@ -19,7 +19,8 @@ import {
    enviarCorreo,
    actualizarPuntosObjetivos,
    obtenerPuntosObjetivos,
-   actualizarPuntosAlcance
+   actualizarPuntosAlcance,
+   
  
   } from '../controllers/adminControler.js';
 
@@ -143,7 +144,5 @@ router.get('/proyecto/:idproyecto/puntosObjetivos', obtenerPuntosObjetivos);
 
 // Ruta para actualizar puntos de alcance en la tabla proyecto
 router.put('/proyecto/:idproyecto/actualizarPuntosAlcance', actualizarPuntosAlcance);
-
-
 
 export default router;

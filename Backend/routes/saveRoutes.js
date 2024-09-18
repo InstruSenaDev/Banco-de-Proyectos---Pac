@@ -9,7 +9,8 @@ import {
     actualizarEstadoRespuestas,
     actualizarEstadoRespuestasAlcance,
     getAprobacionesAdmin,
-    getAprobacionesAlcance
+    getAprobacionesAlcance,
+    getCorreoByProyectoId
 
 } from '../controllers/saveControler.js';
 
@@ -25,6 +26,8 @@ router.post('/actualizar-estado', actualizarEstadoRespuestasAlcance);
 router.get('/aprobaciones/:idproyecto', getAprobacionesAdmin);
 
 router.get('/aprobaciones-alcance/:idproyecto', getAprobacionesAlcance);
+
+router.get('/correo/:idproyecto', getCorreoByProyectoId);
 
 
 export default router;
