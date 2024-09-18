@@ -1,35 +1,30 @@
-import React from 'react';
+// Input2.jsx
 import PropTypes from 'prop-types';
 
-const Input2 = ({ placeholder, type, Text, id, value, onChange, error }) => {
+const Input2 = ({ id, value, onChange, placeholder, type, Text, error }) => {
   return (
-    <div className="space-y-2 w-full">
-      <label htmlFor={id} className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-        {Text}
-      </label>
+    <div>
+      {Text && <label htmlFor={id} className="block text-sm font-medium text-gray-700">{Text}</label>}
       <input
         id={id}
-        name={id}
         type={type}
-        placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong transition-transform transform outline-none focus:translate-y-[-5px]"
+        placeholder={placeholder}
+        className={`block w-full mt-1 ${error ? 'border-red-500' : 'border-gray-300'}`}
       />
-      {error && (
-        <p className="text-red-500 text-sm">{error}</p>
-      )}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>
   );
 };
 
 Input2.propTypes = {
-  placeholder: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  Text: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  Text: PropTypes.string,
   error: PropTypes.string,
 };
 

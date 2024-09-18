@@ -1,6 +1,72 @@
 import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
+async function registerObjetivo({ descripcion }) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO objetivos (descripcion) VALUES ($1) RETURNING *',
+            [descripcion.trim()]
+        );
+        client.release();
+        console.log('Objetivo registrado con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar el objetivo:', error);
+        throw error;
+    }
+}
+
+async function registerCategoriaObjetivo({ nombre }) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO categoriasobjetivos (nombre) VALUES ($1) RETURNING *',
+            [nombre.trim()]
+        );
+        client.release();
+        console.log('Categoría de objetivo registrada con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar la categoría de objetivo:', error);
+        throw error;
+    }
+}
+
+async function registerAlcance({ descripcion }) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO alcance (descripcion) VALUES ($1) RETURNING *',
+            [descripcion.trim()]
+        );
+        client.release();
+        console.log('Alcance registrado con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar el alcance:', error);
+        throw error;
+    }
+}
+
+async function registerCategoriaAlcance({ nombre }) {
+    try {
+        const client = await pool.connect();
+        const result = await client.query(
+            'INSERT INTO categoriasalcance (nombre) VALUES ($1) RETURNING *',
+            [nombre.trim()]
+        );
+        client.release();
+        console.log('Categoría de alcance registrada con éxito:', result.rows[0]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error al registrar la categoría de alcance:', error);
+        throw error;
+    }
+}
+
+
+
 
 export async function insertItem(req, res) {
     const { tipoArea, itemName } = req.body;
@@ -597,6 +663,7 @@ export {
     registerItemArea,
     checkEmailExists,
     getItemsPorAreaYTipo,
-    getItemsByAreaAndType
+    getItemsByAreaAndType,
+    registerCategoriaAlcance, registerAlcance, registerCategoriaObjetivo, registerObjetivo
 
 };

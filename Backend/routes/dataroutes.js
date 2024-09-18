@@ -19,12 +19,94 @@ import {
     addTipoDeArea,
     getItemsByTipoDeArea,
     registerFicha,
-    getTiposDeArea
+    getTiposDeArea, registerCategoriaAlcance, registerAlcance, registerCategoriaObjetivo, registerObjetivo
 
 } from '../controllers/datacontroler.js';
 
 
 const router = express.Router();
+
+
+// Ruta para registrar objetivos
+router.post('/objetivos', async (req, res) => {
+    try {
+        const { descripcion } = req.body;
+
+        // Verificar que se haya enviado la descripción
+        if (!descripcion) {
+            return res.status(400).json({ message: 'El campo "descripcion" es obligatorio.' });
+        }
+
+        const newObjetivo = await registerObjetivo({ descripcion });
+        res.status(201).json({
+            message: 'Objetivo registrado exitosamente',
+            objetivo: newObjetivo
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al registrar el objetivo', error: error.message });
+    }
+});
+
+// Ruta para registrar categorias de objetivos
+router.post('/categoriasobjetivos', async (req, res) => {
+    try {
+        const { nombre } = req.body;
+
+        // Verificar que se haya enviado el nombre
+        if (!nombre) {
+            return res.status(400).json({ message: 'El campo "nombre" es obligatorio.' });
+        }
+
+        const newCategoriaObjetivo = await registerCategoriaObjetivo({ nombre });
+        res.status(201).json({
+            message: 'Categoría de objetivo registrada exitosamente',
+            categoriaObjetivo: newCategoriaObjetivo
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al registrar la categoría de objetivo', error: error.message });
+    }
+});
+
+// Ruta para registrar alcance
+router.post('/alcance', async (req, res) => {
+    try {
+        const { descripcion } = req.body;
+
+        // Verificar que se haya enviado la descripción
+        if (!descripcion) {
+            return res.status(400).json({ message: 'El campo "descripcion" es obligatorio.' });
+        }
+
+        const newAlcance = await registerAlcance({ descripcion });
+        res.status(201).json({
+            message: 'Alcance registrado exitosamente',
+            alcance: newAlcance
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al registrar el alcance', error: error.message });
+    }
+});
+
+
+// Ruta para registrar categorias de alcance
+router.post('/categoriasalcance', async (req, res) => {
+    try {
+        const { nombre } = req.body;
+
+        // Verificar que se haya enviado el nombre
+        if (!nombre) {
+            return res.status(400).json({ message: 'El campo "nombre" es obligatorio.' });
+        }
+
+        const newCategoriaAlcance = await registerCategoriaAlcance({ nombre });
+        res.status(201).json({
+            message: 'Categoría de alcance registrada exitosamente',
+            categoriaAlcance: newCategoriaAlcance
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al registrar la categoría de alcance', error: error.message });
+    }
+});
 
 
 router.post('/insertItem', insertItem);
@@ -280,23 +362,7 @@ router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
 });
 
 
-// Ruta para agregar áreas
-router.post('/areas', dataController.addAreas);
 
-// Ruta para agregar tipos de área
-router.post('/types', dataController.addTypes);
-
-// Ruta para agregar ítems
-router.post('/items', dataController.addItems);
-
-// Ruta para agregar objetivos
-router.post('/objectives', dataController.addObjectives);
-
-// Ruta para agregar alcances
-router.post('/scopes', dataController.addScopes);
-
-// Ruta para registrar todo el formulario
-router.post('/registerAll', dataController.registerAll);
 
 
 export default router;
