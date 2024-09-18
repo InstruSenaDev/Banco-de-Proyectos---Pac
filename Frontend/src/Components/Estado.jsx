@@ -9,7 +9,7 @@ const Estado = ({ estado, idproyecto }) => {
   };
 
   return (
-    <div className="flex space-x-4">
+    <div className="grid grid-cols-2 gap-2">
       {estado === 'Aceptado' && (
         <button className="flex items-center px-3 py-1 bg-green-100 text-green-600 rounded-full">
           <span className="inline-block w-2.5 h-2.5 bg-green-500 rounded-full"></span>
@@ -29,6 +29,22 @@ const Estado = ({ estado, idproyecto }) => {
           <button className="flex items-center px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full">
             <span className="inline-block w-2.5 h-2.5 bg-yellow-500 rounded-full"></span>
             Devuelto
+          </button>
+          <button
+            className="flex items-center px-3 py-1 bg-blue-100 text-blue-600 rounded-full"
+            onClick={handleEditClick}
+          >
+            <span className="inline-block w-2.5 h-2.5 bg-blue-500 rounded-full"></span>
+            Editar
+          </button>
+        </>
+      )}
+
+      {estado === 'En proceso' && (
+        <>
+          <button className="flex items-center px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full">
+            <span className="inline-block w-2.5 h-2.5 bg-yellow-500 rounded-full"></span>
+            En proceso
           </button>
           <button
             className="flex items-center px-3 py-1 bg-blue-100 text-blue-600 rounded-full"

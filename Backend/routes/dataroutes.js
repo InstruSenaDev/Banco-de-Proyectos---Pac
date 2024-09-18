@@ -153,14 +153,12 @@ router.get('/ruta-protegida', (req, res) => {
 router.post('/proyectos', async (req, res) => {
     try {
         console.log('Solicitud recibida:', req.body);
-        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
+        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea, estado } = req.body;
 
-        // Asegúrate de que el idpersona está presente y es válido
         if (!idpersona) {
             return res.status(400).json({ error: 'Id de usuario no disponible. El usuario debe estar autenticado.' });
         }
 
-        // Convertir cadenas vacías a null
         idarea = idarea || null;
         idficha = idficha || null;
         idrespuestaobjetivos = idrespuestaobjetivos || null;
@@ -176,11 +174,12 @@ router.post('/proyectos', async (req, res) => {
             dia, 
             idarea, 
             idficha, 
-            idpersona,  // Aquí asegúrate de usar idpersona
+            idpersona, 
             idrespuestaobjetivos, 
             idrespuestaalcance, 
             iditems, 
-            idtiposdearea 
+            idtiposdearea, 
+            estado  // Asegúrate de pasar el estado aquí
         });
         res.status(201).json(newProject);
     } catch (error) {
@@ -194,14 +193,12 @@ router.post('/proyectos', async (req, res) => {
 router.put('/proyectos/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea } = req.body;
+        let { nombre, impacto, responsable, disponibilidad, dia, idarea, idficha, idpersona, idrespuestaobjetivos, idrespuestaalcance, iditems, idtiposdearea, estado } = req.body;
 
-        // Asegúrate de que el idpersona está presente y es válido
         if (!idpersona) {
             return res.status(400).json({ error: 'Id de usuario no disponible. El usuario debe estar autenticado.' });
         }
 
-        // Convertir cadenas vacías a null
         idarea = idarea || null;
         idficha = idficha || null;
         idrespuestaobjetivos = idrespuestaobjetivos || null;
@@ -223,6 +220,7 @@ router.put('/proyectos/:id', async (req, res) => {
             idrespuestaalcance,
             iditems,
             idtiposdearea,
+            estado  // Asegúrate de pasar el estado aquí
         });
 
         res.status(200).json(updatedProject);

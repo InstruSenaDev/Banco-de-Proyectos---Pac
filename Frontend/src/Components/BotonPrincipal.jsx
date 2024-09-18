@@ -1,4 +1,4 @@
-const BotonPrincipal = ({ Text, className = '', onClick, isSelected, size = 'md' }) => {
+const BotonPrincipal = ({ Text, className = '', onClick, isSelected, size = 'md', type = 'button' }) => {
   const sizeClasses = {
     sm: 'w-[120px] h-[36px] text-[14px]',
     md: 'w-[150px] h-[44px] text-[16px]',
@@ -8,6 +8,7 @@ const BotonPrincipal = ({ Text, className = '', onClick, isSelected, size = 'md'
   return (
     <div className="flex justify-center sm:justify-end">
       <button
+        type={type}  // Asegura que el tipo sea 'button' por defecto
         className={`boton-principal relative cursor-pointer font-semibold overflow-hidden z-10 border border-[#A3E784] group 
           ${sizeClasses[size]} rounded-[5px] mt-3 self-center ${className} ${isSelected ? 'bg-[#A3E784]' : ''}`}
         onClick={onClick}
