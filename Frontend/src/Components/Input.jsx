@@ -11,7 +11,7 @@ const Input2 = ({ id, value, onChange, placeholder, type, Text, error }) => {
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`block w-full mt-1 ${error ? 'border-red-500' : 'border-gray-300'}`}
+         className="bg-[#F5F6FA] w-full min-h-11 mt-3 rounded-[4px] border border-[#D5D5D5] px-[20px] py-[7px] mb-2 text-[15px] transition-transform transform outline-none focus:translate-y-[-5px]"
       />
       {error && <p className="text-red-500 text-sm">{error}</p>}
     </div>

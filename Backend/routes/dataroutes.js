@@ -19,7 +19,11 @@ import {
     addTipoDeArea,
     getItemsByTipoDeArea,
     registerFicha,
-    getTiposDeArea, registerCategoriaAlcance, registerAlcance, registerCategoriaObjetivo, registerObjetivo
+    getTiposDeArea,
+    registerCategoriaAlcance,
+    registerAlcance,
+    registerCategoriaObjetivo,
+    registerObjetivo
 
 } from '../controllers/datacontroler.js';
 

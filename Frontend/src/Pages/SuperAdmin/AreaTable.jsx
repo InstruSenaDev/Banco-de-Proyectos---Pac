@@ -241,7 +241,7 @@ export default function Example() {
                 </div>
 
                 <div className="flex justify-center items-center mt-12">
-                  <BotonSegundo type="submit" />
+                  <BotonSegundo type="submit" Text="Crear"/>
                 </div>
               </form>
             </div>

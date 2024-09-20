@@ -664,6 +664,9 @@ export {
     checkEmailExists,
     getItemsPorAreaYTipo,
     getItemsByAreaAndType,
-    registerCategoriaAlcance, registerAlcance, registerCategoriaObjetivo, registerObjetivo
+    registerCategoriaAlcance,
+    registerAlcance,
+    registerCategoriaObjetivo,
+    registerObjetivo
 
 };
