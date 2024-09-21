@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardAprendiz.jsx";
 import BotonSegundo from "../../Components/BotonSegundo";
-import LayoutPrincipal from "../../Layouts/Layoutprincipal.jsx";
+import Layoutprincipal from "../../layouts/LayoutPrincipal.jsx";
 import Layoutcontenido from "../../Layouts/Layoutcontenido3";
 import ModalAsignaciones from "../../Components/Modales/Modal";
 
@@ -48,7 +48,7 @@ const Calificar = () => {
   };
 
   return (
-    <LayoutPrincipal title="Proyectos">
+    <Layoutprincipal title="Proyectos">
       <Layoutcontenido title="Proyectos Asignados">
         {loading ? (
           <p className="text-center">Cargando proyectos...</p>
@@ -78,7 +78,7 @@ const Calificar = () => {
           people={selectedProjectPeople}
         />
       </Layoutcontenido>
-    </LayoutPrincipal>
+    </Layoutprincipal>
   );
 };
 
