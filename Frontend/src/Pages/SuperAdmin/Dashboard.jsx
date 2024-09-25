@@ -107,7 +107,7 @@ const Dashboard = () => {
               metricValue={20}
               progressText="Registro de proyecto"
               buttonTex="Ver detalle"
-              route="/SuperAdmin/areatable"
+              route="/SuperAdmin/registrocompleto"
             />
           </div>
 

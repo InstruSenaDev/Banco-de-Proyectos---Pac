@@ -11,7 +11,7 @@ import Objetivos from './Pages//SuperAdmin/Objetivos'
 import Alcance from './Pages//SuperAdmin/Alcance';
 import Items from './Pages//SuperAdmin/Items'
 import Ficha from './Pages//SuperAdmin/Ficha';
-import AreaTable from './Pages/SuperAdmin/AreaTable';
+import RegistroCompleto from './Pages/SuperAdmin/RegistroCompleto';
 
 
 const App = () => {
@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/SuperAdmin/alcance" element={<Alcance />} />
         <Route path="/SuperAdmin/items" element={<Items />} />
         <Route path="/SuperAdmin/ficha" element={<Ficha />} />
-        <Route path="/SuperAdmin/areatable" element={<AreaTable />} />
+        <Route path="/SuperAdmin/registrocompleto" element={<RegistroCompleto />} />
       </Routes>
     </Router>
   );

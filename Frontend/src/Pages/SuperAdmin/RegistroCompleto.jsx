@@ -9,7 +9,7 @@ import axios from 'axios';
 import { ModalR } from '../../Components/ModalR';
 
 // Componente principal para la tabla de áreas
-export default function AreaTable() {
+export default function RegistroCompleto() {
   // Estados para manejar la carga, reinicio, modal y datos del formulario
   const [loading, setLoading] = useState(true);
   const [resetting, setResetting] = useState(false);
