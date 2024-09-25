@@ -8,8 +8,11 @@ import Loader from '../../Components/Loader';
 import axios from 'axios';
 import { ModalR } from '../../Components/ModalR';
 
+// Componente principal para la tabla de áreas
 export default function AreaTable() {
+  // Estados para manejar la carga, reinicio, modal y datos del formulario
   const [loading, setLoading] = useState(true);
+  const [resetting, setResetting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     area: '',
@@ -22,6 +25,7 @@ export default function AreaTable() {
   });
   const [errors, setErrors] = useState({});
 
+  // Función para validar campos
   const validateField = (name, value) => {
     if (value.length < 2) {
       return 'Debe contener al menos 2 caracteres';
@@ -35,6 +39,7 @@ export default function AreaTable() {
     return '';
   };
 
+  // Manejador de cambios en los campos del formulario
   const handleChange = (e, field, index = null) => {
     const { value } = e.target;
     setFormData(prevData => {
@@ -58,6 +63,7 @@ export default function AreaTable() {
     });
   };
 
+  // Función para agregar un nuevo campo a un array en el formulario
   const addField = (field) => {
     setFormData(prevData => ({
       ...prevData,
@@ -65,6 +71,7 @@ export default function AreaTable() {
     }));
   };
 
+  // Manejador de envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -101,13 +108,33 @@ export default function AreaTable() {
     }
   };
 
-  const closeModal = (shouldReload = false) => {
+  // Función para reiniciar el formulario
+  const resetForm = () => {
+    setResetting(true);
+    setTimeout(() => {
+      setFormData({
+        area: '',
+        tiposDeArea: [''],
+        items: [''],
+        categoriaObjetivos: '',
+        objetivos: [''],
+        categoriaAlcance: '',
+        alcances: ['']
+      });
+      setErrors({});
+      setResetting(false);
+    }, 1000); // Muestra el loader por 1 segundo
+  };
+
+  // Función para cerrar el modal
+  const closeModal = (shouldReset = false) => {
     setIsModalOpen(false);
-    if (shouldReload) {
-      window.location.reload();
+    if (shouldReset) {
+      resetForm();
     }
   };
 
+  // Efecto para simular carga inicial
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -116,125 +143,159 @@ export default function AreaTable() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Renderizado condicional para mostrar el loader
+  if (loading || resetting) {
+    return (
+      <div id="loader" className="flex items-center justify-center min-h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
+  // Renderizado principal del componente
   return (
     <Layoutprincipal title="Registro proyecto">
-      <div className="flex justify-center items-center my-4">
+      <div className="flex justify-center items-center my-4 px-4 sm:px-6 lg:px-8">
         <CalloutA variant="warning" title="Important Notice">
           POR FAVOR LLENE TODOS LOS DATOS PARA REALIZAR UN REGISTRO COMPLETO
         </CalloutA>
       </div>
-      {loading ? (
-        <div id="loader" className="flex items-center justify-center min-h-screen">
-          <Loader />
-        </div>
-      ) : (
-        <Layoutcontenido5 title="Registro completo">
-          <div className="sm:mx-auto sm:max-w-x5">
-            <form className="mt-8" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2">
-                <div className="col-span-1">
-                  <Input2
-                    placeholder="Área"
-                    type="text"
-                    Text="Área"
-                    value={formData.area}
-                    onChange={(e) => handleChange(e, 'area')}
-                    error={errors.area}
-                  />
-                </div>
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">Tipo de área</label>
-                  {formData.tiposDeArea.map((tipo, index) => (
+      <Layoutcontenido5 title="Registro completo">
+        <div className="sm:mx-auto sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="col-span-1">
+                <Input2
+                  placeholder="Área"
+                  type="text"
+                  Text="Área"
+                  value={formData.area}
+                  onChange={(e) => handleChange(e, 'area')}
+                  error={errors.area}
+                />
+              </div>
+              <div className="col-span-1">
+                <label className="block text-sm font-medium text-gray-700">Tipo de área</label>
+                {formData.tiposDeArea.map((tipo, index) => (
+                  <div key={index} className="mb-2">
                     <Input2
-                      key={index}
                       placeholder={`Tipo de área ${index + 1}`}
                       type="text"
                       value={tipo}
                       onChange={(e) => handleChange(e, 'tiposDeArea', index)}
                       error={errors[`tiposDeArea[${index}]`]}
                     />
-                  ))}
-                  <button type="button" onClick={() => addField('tiposDeArea')} className="text-tremor-brand hover:underline text-sm text-gray-500 ">Agregar tipo de área</button>
-                </div>
+                  </div>
+                ))}
+                <button 
+                  type="button" 
+                  onClick={() => addField('tiposDeArea')} 
+                  className="text-tremor-brand hover:underline text-sm text-gray-500"
+                >
+                  Agregar tipo de área
+                </button>
+              </div>
 
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">Items</label>
-                  {formData.items.map((item, index) => (
+              <div className="col-span-1 sm:col-span-1">
+                <label className="block text-sm font-medium text-gray-700 ">Items</label>
+                {formData.items.map((item, index) => (
+                  <div key={index} className="mb-2">
                     <Input2
-                      key={index}
                       placeholder={`Item ${index + 1}`}
                       type="text"
                       value={item}
                       onChange={(e) => handleChange(e, 'items', index)}
                       error={errors[`items[${index}]`]}
                     />
-                  ))}
-                  <button type="button" onClick={() => addField('items')} className="text-tremor-brand hover:underline text-sm text-gray-500 ">Agregar item</button>
-                </div>
+                  </div>
+                ))}
+                <button 
+                  type="button" 
+                  onClick={() => addField('items')} 
+                  className="text-tremor-brand hover:underline text-sm text-gray-500"
+                >
+                  Agregar item
+                </button>
+              </div>
+            </div>
+
+            <div className="border-t border-gray-300 my-6"></div>
+
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="col-span-1">
+                <Input2
+                  placeholder="Categoría Objetivos"
+                  type="text"
+                  Text="Categoría Objetivos"
+                  value={formData.categoriaObjetivos}
+                  onChange={(e) => handleChange(e, 'categoriaObjetivos')}
+                  error={errors.categoriaObjetivos}
+                />
               </div>
 
-              <div className="my-8 border-t border-gray-300"></div>
-
-              <div className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2">
-                <div className="col-span-1">
-                  <Input2
-                    placeholder="Categoría Objetivos"
-                    type="text"
-                    Text="Categoría Objetivos"
-                    value={formData.categoriaObjetivos}
-                    onChange={(e) => handleChange(e, 'categoriaObjetivos')}
-                    error={errors.categoriaObjetivos}
-                  />
-                </div>
-
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">Objetivos</label>
-                  {formData.objetivos.map((objetivo, index) => (
+              <div className="col-span-1">
+                <label className="block text-sm font-medium text-gray-700 ">Objetivos</label>
+                {formData.objetivos.map((objetivo, index) => (
+                  <div key={index} className="mb-2">
                     <Input2
-                      key={index}
                       placeholder={`Objetivo ${index + 1}`}
                       type="text"
                       value={objetivo}
                       onChange={(e) => handleChange(e, 'objetivos', index)}
                       error={errors[`objetivos[${index}]`]}
                     />
-                  ))}
-                  <button type="button" onClick={() => addField('objetivos')} className="text-tremor-brand hover:underline text-sm text-gray-500 ">Agregar objetivo</button>
-                </div>
+                  </div>
+                ))}
+                <button 
+                  type="button" 
+                  onClick={() => addField('objetivos')} 
+                  className="text-tremor-brand hover:underline text-sm text-gray-500"
+                >
+                  Agregar objetivo
+                </button>
+              </div>
 
-                <div className="col-span-1">
-                  <Input2
-                    placeholder="Categoría Alcance"
-                    type="text"
-                    Text="Categoría Alcance"
-                    value={formData.categoriaAlcance}
-                    onChange={(e) => handleChange(e, 'categoriaAlcance')}
-                    error={errors.categoriaAlcance}
-                  />
-                </div>
-                <div className="col-span-1">
-                  <label className="block text-sm font-medium text-gray-700">Alcance</label>
-                  {formData.alcances.map((alcance, index) => (
+              <div className="col-span-1">
+                <Input2
+                  placeholder="Categoría Alcance"
+                  type="text"
+                  Text="Categoría Alcance"
+                  value={formData.categoriaAlcance}
+                  onChange={(e) => handleChange(e, 'categoriaAlcance')}
+                  error={errors.categoriaAlcance}
+                />
+              </div>
+              <div className="col-span-1">
+                <label className="block text-sm font-medium text-gray-700">Alcance</label>
+                {formData.alcances.map((alcance, index) => (
+                  <div key={index} className="mb-2">
                     <Input2
-                      key={index}
                       placeholder={`Alcance ${index + 1}`}
                       type="text"
                       value={alcance}
                       onChange={(e) => handleChange(e, 'alcances', index)}
                       error={errors[`alcances[${index}]`]}
                     />
-                  ))}
-                  <button type="button" onClick={() => addField('alcances')} className="text-tremor-brand hover:underline text-sm text-gray-500 ">Agregar alcance</button>
-                </div>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => addField('alcances')}
+                  className="text-tremor-brand hover:underline text-sm text-gray-500"
+                >
+                  Agregar alcance
+                </button>
               </div>
+            </div>
 
+            <div className="flex justify-center mt-6">
               <BotonSegundo type="submit" Text="Añadir" />
-            </form>
-          </div>
-        </Layoutcontenido5>
-      )}
-      <ModalR
-        isOpen={isModalOpen}
+            </div>
+          </form>
+        </div>
+      </Layoutcontenido5>
+      <ModalR 
+        isOpen={isModalOpen} 
         closeDialog={() => closeModal(false)}
         onOkClick={() => closeModal(true)}
       />

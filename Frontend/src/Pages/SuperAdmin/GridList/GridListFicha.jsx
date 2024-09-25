@@ -4,7 +4,7 @@ import Loader from '../../../Components/Loader';
 const GridListFicha = ({ fichas, setFichas }) => {
   const Badge = ({ variant, children }) => {
     const bgColor = variant === 'active' ? 'bg-green-200' : 'bg-red-200';
-    return <span className={`px-2 py-1 text-sm ${bgColor} rounded-lg`}>{children}</span>;
+    return <span className={`px-2 py-1 text-xs sm:text-sm ${bgColor} rounded-lg`}>{children}</span>;
   };
 
   useEffect(() => {
@@ -26,25 +26,25 @@ const GridListFicha = ({ fichas, setFichas }) => {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-      <table className="min-w-full divide-y divide-gray-200">
+    <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-x-auto sm:overflow-hidden">
+      <table className="min-w-full divide-y divide-gray-200 table-auto">
         <thead className="bg-[#A3E784]">
           <tr>
-            <th className="px-6 py-3 text-left text-gray-900">Nombre del Ficha</th>
-            <th className="px-6 py-3 text-left text-gray-900">Estado</th>
-            <th className="px-6 py-3 text-left text-gray-900">Número ficha</th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Nombre del Ficha</th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Estado</th>
+            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Número ficha</th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200 overflow-hidden">
+        <tbody className="bg-white divide-y divide-gray-200">
           {fichas.map((item) => (
             <tr key={item.idficha}>
-              <td className="px-6 py-4 whitespace-nowrap">{item.nombre}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
+              <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">{item.nombre}</td>
+              <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                 <Badge variant={item.estado ? 'active' : 'inactive'}>
                   {item.estado ? 'Activo' : 'Inactivo'}
                 </Badge>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap">{item.numeroficha}</td>
+              <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">{item.numeroficha}</td>
             </tr>
           ))}
         </tbody>
@@ -54,4 +54,3 @@ const GridListFicha = ({ fichas, setFichas }) => {
 };
 
 export default GridListFicha;
-

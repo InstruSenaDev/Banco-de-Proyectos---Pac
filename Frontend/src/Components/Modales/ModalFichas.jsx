@@ -6,25 +6,27 @@ import { useFichaForm } from '../../../hooks/useFichaForm';
 import { useState } from 'react';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
-  const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm((data) => {
-    onAddFicha(data);
-    onClose();
-  });
-
-  // Estado para controlar el envío
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm(); // No se pasa el callback aquí
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar el envío
 
   // Función de envío personalizada para controlar el estado de envío
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    if (!isSubmitting) {  // Evita enviar varias veces
-      setIsSubmitting(true); // Desactiva el botón
-      await handleSubmit(e); // Llama al envío del formulario
-      setIsSubmitting(false); // Reactiva el botón después del envío
+  
+    if (isSubmitting) return; // Evita enviar varias veces
+  
+    setIsSubmitting(true); // Desactiva el botón
+  
+    const isValid = await handleSubmit(e); // Llama al envío del formulario y espera la validación
+  
+    if (isValid) {
+      onAddFicha(formValues); // Agrega la ficha solo si el formulario es válido
+      onClose(); // Cierra el modal solo después de agregar la ficha
     }
+  
+    setIsSubmitting(false); // Reactiva el botón después del envío
   };
-
+  
   return (
     <Dialog
       open={true}

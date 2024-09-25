@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal';
@@ -6,33 +5,37 @@ import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalFicha from '../../Components/Modales/ModalFichas'; // Cambiado para coincidir con el nombre correcto
+import ModalFicha from '../../Components/Modales/ModalFichas';
+import Modal from '../../Components/Modal'; // Importa tu nuevo modal de confirmación
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false); // Estado para el modal de confirmación
   const [currentFicha, setCurrentFicha] = useState(null);
   const [fichas, setFichas] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchFichas = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/fichas');
-        if (!response.ok) {
-          throw new Error('Error al cargar las fichas');
-        }
-        const data = await response.json();
-        setFichas(data);
-      } catch (error) {
-        console.error('Error al cargar fichas:', error);
-      } finally {
-        setLoading(false);
+  const fetchFichas = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:4000/api/fichas');
+      if (!response.ok) {
+        throw new Error('Error al cargar las fichas');
       }
-    };
+      const data = await response.json();
+      setFichas(data);
+    } catch (error) {
+      console.error('Error al cargar fichas:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchFichas();
   }, []);
 
@@ -46,10 +49,14 @@ const Fichas = () => {
     setCurrentFicha(null);
   };
 
+  // Manejador para agregar una nueva ficha
   const handleAddFicha = async (newFicha) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setLoading(true);
+
     try {
-      console.log('Intentando registrar nueva ficha:', newFicha);
-      const response = await fetch('http://localhost:4000/api/fichas', { // URL corregida
+      const response = await fetch('http://localhost:4000/api/fichas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,13 +69,14 @@ const Fichas = () => {
         throw new Error(`Error al registrar la ficha: ${errorData.message || response.statusText}`);
       }
 
-      const addedFicha = await response.json();
-      console.log('Ficha registrada exitosamente:', addedFicha);
-      setFichas(prevFichas => [...prevFichas, addedFicha]);
-      handleCloseModal();
+      await fetchFichas(); // Recarga la lista de fichas
+      setIsConfirmationOpen(true); // Abre el modal de confirmación
+      handleCloseModal(); // Cierra el modal de agregar ficha
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
-      // Aquí podrías mostrar un mensaje de error al usuario
+    } finally {
+      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
@@ -84,7 +92,7 @@ const Fichas = () => {
         </div>
       ) : (
         <Layoutcontenido title="Fichas">
-          <div className="flex flex-col w-full p-10 mb-10">
+          <div className="flex flex-col w-full p-4 md:p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
               <button
                 onClick={handleGoBack}
@@ -102,9 +110,16 @@ const Fichas = () => {
               <ModalFicha
                 onClose={handleCloseModal}
                 onAddFicha={handleAddFicha}
-                ficha={currentFicha} // Ajustado para coincidir con el nombre del prop en ModalFicha
+                ficha={currentFicha}
+                isSubmitting={isSubmitting}
               />
             )}
+            {/* Modal de confirmación */}
+            <Modal
+              Text="Ficha registrada exitosamente."
+              isOpen={isConfirmationOpen} // Usa el estado del modal de confirmación
+              onClose={() => setIsConfirmationOpen(false)} // Cierra el modal
+            />
           </div>
         </Layoutcontenido>
       )}
