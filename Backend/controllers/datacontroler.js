@@ -493,181 +493,86 @@ async function getItemsByAreaAndType(idarea, idtiposdearea) {
     }
 }
 
-//  async function registerComplete(req, res) {
-//   const client = await pool.connect();
-//   try {
-//     await client.query('BEGIN');
 
-//     const { area, tiposDeArea, items, categoriaObjetivos, objetivos, categoriaAlcance, alcances } = req.body;
-
-//     // Registrar área
-//     const areaResult = await client.query('INSERT INTO area (area) VALUES ($1) RETURNING idarea', [area]);
-//     const areaId = areaResult.rows[0].idarea;
-
-//     // Registrar tipos de área
-//     for (const tipoArea of tiposDeArea) {
-//       await client.query('INSERT INTO tipodearea (tiposdearea, idarea) VALUES ($1, $2)', [tipoArea, areaId]);
-//     }
-
-//     // Registrar ítems
-//     for (const item of items) {
-//       await client.query('INSERT INTO items (items, idarea) VALUES ($1, $2)', [item, areaId]);
-//     }
-
-//     // Registrar categoría de objetivos
-//     const catObjResult = await client.query('INSERT INTO categoriasobjetivos (nombre) VALUES ($1) RETURNING idcategoriasobjetivos', [categoriaObjetivos]);
-//     const catObjId = catObjResult.rows[0].idcategoriasobjetivos;
-
-//     // Registrar objetivos
-//     for (const objetivo of objetivos) {
-//       await client.query('INSERT INTO objetivos (descripcion, idcategoriasobjetivos) VALUES ($1, $2)', [objetivo, catObjId]);
-//     }
-
-//     // Registrar categoría de alcance
-//     const catAlcResult = await client.query('INSERT INTO categoriasalcance (nombre) VALUES ($1) RETURNING idcategoriasalcance', [categoriaAlcance]);
-//     const catAlcId = catAlcResult.rows[0].idcategoriasalcance;
-
-//     // Registrar alcances
-//     for (const alcance of alcances) {
-//       await client.query('INSERT INTO alcance (descripcion, idcategoriasalcance) VALUES ($1, $2)', [alcance, catAlcId]);
-//     }
-
-//     await client.query('COMMIT');
-//     res.status(201).json({ message: 'Registro completo realizado con éxito' });
-//   } catch (error) {
-//     await client.query('ROLLBACK');
-//     console.error('Error en el registro completo:', error);
-//     res.status(500).json({ message: 'Error al realizar el registro completo', error: error.message });
-//   } finally {
-//     client.release();
-//   }
-// }
-
-
-const startTransaction = async (req, res) => {
-    try {
-      await pool.query('BEGIN');
-      res.status(200).send({ message: 'Transacción iniciada' });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al iniciar la transacción' });
-    }
-  };
+export async function registerComplete(req, res) {
+    console.log('Received registerComplete request');
+    console.log('Request body:', req.body);
   
-  const commitTransaction = async (req, res) => {
+    const client = await pool.connect();
     try {
-      await pool.query('COMMIT');
-      res.status(200).send({ message: 'Transacción confirmada' });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al confirmar la transacción' });
-    }
-  };
+      await client.query('BEGIN');
   
-  const rollbackTransaction = async (req, res) => {
-    try {
-      await pool.query('ROLLBACK');
-      res.status(200).send({ message: 'Transacción cancelada' });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al cancelar la transacción' });
-    }
-  };
+      const { area, tiposDeArea, items, categoriaObjetivos, objetivos, categoriaAlcance, alcances } = req.body;
   
-  const registerArea = async (req, res) => {
-    const { area } = req.body;
+      // Registrar área
+      const areaResult = await client.query('INSERT INTO area (area) VALUES ($1) RETURNING idarea', [area]);
+      const areaId = areaResult.rows[0].idarea;
   
-    try {
-      const result = await pool.query(
-        'INSERT INTO area (nombre) VALUES ($1) RETURNING *',
-        [area]
+      // Registrar tipos de área y obtener sus IDs
+      const tiposDeAreaIds = [];
+      for (const tipoArea of tiposDeArea) {
+        const tipoAreaResult = await client.query(
+          'INSERT INTO tipodearea (tiposdearea, idarea) VALUES ($1, $2) RETURNING idtiposdearea',
+          [tipoArea, areaId]
+        );
+        tiposDeAreaIds.push(tipoAreaResult.rows[0].idtiposdearea);
+      }
+  
+      // Registrar ítems asociados con área y tipo de área
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        // Asumimos que cada item corresponde a un tipo de área en el mismo orden
+        // Si hay más items que tipos de área, se repite cíclicamente
+        const tipoAreaId = tiposDeAreaIds[i % tiposDeAreaIds.length];
+        await client.query(
+          'INSERT INTO items (items, idarea, idtiposdearea) VALUES ($1, $2, $3)',
+          [item, areaId, tipoAreaId]
+        );
+      }
+  
+      // Registrar categoría de objetivos
+      const catObjResult = await client.query(
+        'INSERT INTO categoriasobjetivos (nombre) VALUES ($1) RETURNING idcategoriasobjetivos',
+        [categoriaObjetivos]
       );
-      res.status(200).send({ message: 'Área registrada', area: result.rows[0] });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al registrar el área' });
-    }
-  };
+      const catObjId = catObjResult.rows[0].idcategoriasobjetivos;
   
-  const registerTipoArea = async (req, res) => {
-    const { descripcion } = req.body;
+      // Registrar objetivos
+      for (const objetivo of objetivos) {
+        await client.query(
+          'INSERT INTO objetivos (descripcion, idcategoriasobjetivos) VALUES ($1, $2)',
+          [objetivo, catObjId]
+        );
+      }
   
-    try {
-      const result = await pool.query(
-        'INSERT INTO tipo_area (descripcion) VALUES ($1) RETURNING *',
-        [descripcion]
+      // Registrar categoría de alcance
+      const catAlcResult = await client.query(
+        'INSERT INTO categoriasalcance (nombre) VALUES ($1) RETURNING idcategoriasalcance',
+        [categoriaAlcance]
       );
-      res.status(200).send({ message: 'Tipo de área registrado', tipoArea: result.rows[0] });
+      const catAlcId = catAlcResult.rows[0].idcategoriasalcance;
+  
+      // Registrar alcances
+      for (const alcance of alcances) {
+        await client.query(
+          'INSERT INTO alcance (descripcion, idcategoriasalcance) VALUES ($1, $2)',
+          [alcance, catAlcId]
+        );
+      }
+  
+      await client.query('COMMIT');
+      res.status(201).json({ message: 'Registro completo realizado con éxito' });
     } catch (error) {
-      res.status(500).send({ error: 'Error al registrar el tipo de área' });
+      await client.query('ROLLBACK');
+      console.error('Error en el registro completo:', error);
+      res.status(500).json({ message: 'Error al realizar el registro completo', error: error.message });
+    } finally {
+      client.release();
     }
-  };
-  
-  const registerItem = async (req, res) => {
-    const { tipoArea, itemName } = req.body;
-  
-    try {
-      const result = await pool.query(
-        'INSERT INTO items (tipo_area, nombre) VALUES ($1, $2) RETURNING *',
-        [tipoArea, itemName]
-      );
-      res.status(200).send({ message: 'Item registrado', item: result.rows[0] });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al registrar el item' });
-    }
-  };
-  
-  const registerCategoriaObjetivos = async (req, res) => {
-    const { nombre } = req.body;
-  
-    try {
-      const result = await pool.query(
-        'INSERT INTO categoria_objetivos (nombre) VALUES ($1) RETURNING *',
-        [nombre]
-      );
-      res.status(200).send({ message: 'Categoría de objetivos registrada', categoriaObjetivos: result.rows[0] });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al registrar la categoría de objetivos' });
-    }
-  };
-  
-  const registerObjetivo = async (req, res) => {
-    const { descripcion } = req.body;
-  
-    try {
-      const result = await pool.query(
-        'INSERT INTO objetivos (descripcion) VALUES ($1) RETURNING *',
-        [descripcion]
-      );
-      res.status(200).send({ message: 'Objetivo registrado', objetivo: result.rows[0] });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al registrar el objetivo' });
-    }
-  };
-  
-  const registerCategoriaAlcance = async (req, res) => {
-    const { nombre } = req.body;
-  
-    try {
-      const result = await pool.query(
-        'INSERT INTO categoria_alcance (nombre) VALUES ($1) RETURNING *',
-        [nombre]
-      );
-      res.status(200).send({ message: 'Categoría de alcance registrada', categoriaAlcance: result.rows[0] });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al registrar la categoría de alcance' });
-    }
-  };
-  
-  const registerAlcance = async (req, res) => {
-    const { descripcion } = req.body;
-  
-    try {
-      const result = await pool.query(
-        'INSERT INTO alcance (descripcion) VALUES ($1) RETURNING *',
-        [descripcion]
-      );
-      res.status(200).send({ message: 'Alcance registrado', alcance: result.rows[0] });
-    } catch (error) {
-      res.status(500).send({ error: 'Error al registrar el alcance' });
-    }
-  };
+  }
+
+
+
 
 
 export {
@@ -688,16 +593,4 @@ export {
     checkEmailExists,
     getItemsPorAreaYTipo,
     getItemsByAreaAndType,
-    // registerComplete,
-    startTransaction,
-  commitTransaction,
-  rollbackTransaction,
-  registerArea,
-  registerTipoArea,
-  registerItem,
-  registerCategoriaObjetivos,
-  registerObjetivo,
-  registerCategoriaAlcance,
-  registerAlcance
-
 };

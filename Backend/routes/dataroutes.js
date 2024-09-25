@@ -20,39 +20,16 @@ import {
     getItemsByTipoDeArea,
     registerFicha,
     getTiposDeArea,
-    // registerComplete,
-    startTransaction,
-    commitTransaction,
-    rollbackTransaction,
-    registerArea,
-    registerTipoArea,
-    registerItem,
-    registerCategoriaObjetivos,
-    registerObjetivo,
-    registerCategoriaAlcance,
-    registerAlcance
+    registerComplete
 
+  
 } from '../controllers/datacontroler.js';
 
 
 const router = express.Router();
 
-// Rutas para la transacción
-router.post('/api/startTransaction', startTransaction);
-router.post('/api/commitTransaction', commitTransaction);
-router.post('/api/rollbackTransaction', rollbackTransaction);
 
-// Rutas para registros
-router.post('/api/registerArea', registerArea);
-router.post('/api/tipos-de-area', registerTipoArea);
-router.post('/api/insertItem', registerItem);
-router.post('/api/categoriasobjetivos', registerCategoriaObjetivos);
-router.post('/api/objetivos', registerObjetivo);
-router.post('/api/categoriasalcance', registerCategoriaAlcance);
-router.post('/api/alcance', registerAlcance);
-
-// router.post('/registerComplete', registerComplete);
-
+router.post('/registerComplete', registerComplete);
 
 router.post('/insertItem', insertItem);
 router.get('/tipos-de-area', getTiposDeArea);

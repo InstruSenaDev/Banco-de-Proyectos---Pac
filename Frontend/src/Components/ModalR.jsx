@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export const ModalR = ({ isOpen, closeDialog }) => {
+export const ModalR = ({ isOpen, closeDialog, onOkClick }) => {
   return (
     <>
       {isOpen && (
@@ -21,7 +21,7 @@ export const ModalR = ({ isOpen, closeDialog }) => {
               </button>
               <button
                 className="bg-Verde text-white py-2 px-4 rounded"
-                onClick={closeDialog}
+                onClick={onOkClick}
               >
                 Ok, entendido
               </button>

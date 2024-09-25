@@ -17,6 +17,9 @@ app.use('/api', dataRoutes); // Prefijo de ruta para las rutas de datos
 
 // Manejo de errores
 app.use((err, req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+       next();
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });
