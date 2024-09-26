@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridList from './GridList/GridListU';
@@ -8,15 +8,16 @@ import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import ModalUsuario from '../../Components/Modales/ModalUsuario';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-const Usuarios = () => {
+export default function Usuarios() {
+  // Estados para manejar la carga, el modal y el usuario actual
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [actionType, setActionType] = useState('');
 
-
   const navigate = useNavigate();
 
+  // Efecto para simular una carga de 2 segundos
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -25,26 +26,28 @@ const Usuarios = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Manejador para abrir el modal de agregar usuario
   const handleAddClick = () => {
     setCurrentUser(null);
     setActionType('add');
     setIsModalOpen(true);
   };
 
-
+  // Manejador para cerrar el modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setCurrentUser(null);
   };
 
+  // Manejador para agregar un nuevo usuario
   const handleAddMember = (user) => {
     // Lógica para agregar un usuario
     console.log('Agregar', user);
   };
 
-
+  // Manejador para volver al dashboard
   const handleGoBack = () => {
-    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
+    navigate('/SuperAdmin/dashboard');
   };
 
   return (
@@ -55,20 +58,23 @@ const Usuarios = () => {
         </div>
       ) : (
         <Layoutcontenido title="Usuarios">
-        <div className="flex flex-col w-full p-10 mb-10">
-            <div className="flex justify-between items-center mb-4">
-              <p className="mt-4 text-lg leading-6 text-gray-600 text-left">
+          <div className="flex flex-col w-full p-4 sm:p-6 md:p-8 lg:p-10 mb-10">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-4 sm:space-y-0">
               <button
                 onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
+                className="flex items-center text-black hover:text-Verde transition-colors duration-200"
               >
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
-                Volver
+                <span className="text-sm sm:text-base">Volver</span>
               </button>
-              </p>
-              <BotonSegundoModal text="Agregar Usuario" id="addUserBtn" onClick={handleAddClick}/>
+              <BotonSegundoModal 
+                text="Agregar Usuario" 
+                id="addUserBtn" 
+                onClick={handleAddClick}
+                className="w-full sm:w-auto"
+              />
             </div>
-            <div >
+            <div className="mt-4">
               <GridList />
             </div>
             {isModalOpen && (
@@ -84,6 +90,4 @@ const Usuarios = () => {
       )}
     </LayoutPrincipal>
   );
-};
-
-export default Usuarios;
+}

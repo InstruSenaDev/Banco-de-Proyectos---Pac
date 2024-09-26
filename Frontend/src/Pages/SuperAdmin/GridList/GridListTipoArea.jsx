@@ -126,15 +126,10 @@ const GridListTipoArea = () => {
                                 {openAreas[area.idarea] && tipos[area.idarea] && tipos[area.idarea].map((tipo) => (
                                     <React.Fragment key={tipo.idtipoarea}>
                                         <tr>
-                                            <td 
+                                            <td
                                                 className="px-6 py-4 whitespace-nowrap pl-8 w-full cursor-pointer" 
                                                 onClick={() => handleToggleTipo(area.idarea, tipo.idtipoarea)}
                                             >
-                                                {openTipos[`${area.idarea}-${tipo.idtipoarea}`] ? (
-                                                    <i className="fas fa-chevron-up w-5 h-5 mr-2" />
-                                                ) : (
-                                                    <i className="fas fa-chevron-down w-5 h-5 mr-2" />
-                                                )}
                                                 <span className="font-medium text-gray-900">{tipo.tiposdearea}</span>
                                             </td>
                                         </tr>
