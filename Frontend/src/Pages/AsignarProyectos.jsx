@@ -62,14 +62,6 @@ const AsignarProyectos = () => {
   return (
     <Layoutprincipal title="Asignación de Proyecto">
       <Layoutcontenido2 text1="Asignar Proyecto">
-        <div className="flex justify-start pb-4 w-full">
-          <BotonBack 
-            Text="Atrás" 
-            textColor="text-white" 
-            className="bg-[#A3E784] hover:bg-lime-500 font-bold py-2 px-4 rounded" 
-            onClick={handleBackClick} // Usamos el manejador de clic para regresar
-          />
-        </div>
         <Card className='h-auto'>
           <div className="flex items-center mb-6">
             <Button variant="light" color="gray" className="mr-4">
@@ -96,7 +88,7 @@ const AsignarProyectos = () => {
               </Select>
             </div>
 
-            <div>
+            <div className='w-auto'>
               <Title className="mb-2">Listado de Aprendices</Title>
               <Table>
                 <TableHead>
