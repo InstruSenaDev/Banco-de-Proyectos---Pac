@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
 import Loader from '../../Components/Loader';
@@ -63,7 +63,7 @@ const Area = () => {
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal text="Agregar Tipo Area" id="addUserBtn" onClick={handleAddClick} />
+              <BotonSegundoModal text="Agregar Objetivos" id="addUserBtn" onClick={handleAddClick} />
             </div>
             <div>
               <GridListObjetivos />

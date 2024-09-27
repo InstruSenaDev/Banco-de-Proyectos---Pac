@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../../../Components/Loader';
 
-const GridListTipoArea = () => {
+const GridListItems  = () => {
   const [tiposDeArea, setTiposDeArea] = useState([]);
   const [itemsByTipoDeArea, setItemsByTipoDeArea] = useState({});
   const [loading, setLoading] = useState(true);
@@ -116,5 +116,5 @@ const GridListTipoArea = () => {
   );
 };
 
-export default GridListTipoArea;
+export default GridListItems ;
 

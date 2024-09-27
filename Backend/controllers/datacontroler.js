@@ -2,6 +2,77 @@ import { pool } from '../config/db.js';
 import bcrypt from 'bcrypt';
 
 
+export async function getAllCategorias() {
+    try {
+        const client = await pool.connect();
+        const query = `
+          SELECT idcategoriasalcance, nombre
+          FROM categoriasalcance;
+        `;
+        const result = await client.query(query);
+        client.release();
+        return result.rows;
+    } catch (error) {
+        console.error('Error al obtener categorías:', error);
+        throw error;
+    }
+}
+
+
+export const insertAlcance = async (req, res) => {
+    const { descripcion, idcategoriasalcance } = req.body;
+  
+    // Validar si los datos requeridos están presentes
+    if (!descripcion || !idcategoriasalcance) {
+      console.log('Faltan datos requeridos:', { descripcion, idcategoriasalcance });
+      return res.status(400).json({ message: 'Faltan datos requeridos.' });
+    }
+  
+    const query = `
+      INSERT INTO alcance (descripcion, idcategoriasalcance)
+      VALUES ($1, $2)
+      RETURNING *;
+    `;
+  
+    const values = [descripcion, idcategoriasalcance];
+  
+    try {
+      const result = await pool.query(query, values); // pool.query para ejecutar la consulta
+      console.log('Alcance insertado:', result.rows[0]);
+      res.status(201).json(result.rows[0]); // Retorna el alcance insertado
+    } catch (error) {
+      console.error('Error al insertar alcance:', error);
+      res.status(500).json({ message: 'No se pudo insertar el alcance' });
+    }
+  };
+
+export const insertObjetivo = async (req, res) => {
+    const { descripcion, idcategoriasobjetivos } = req.body;
+
+    // Validar si los datos requeridos están presentes
+    if (!descripcion || !idcategoriasobjetivos) {
+        console.log('Faltan datos requeridos:', { descripcion, idcategoriasobjetivos });
+        return res.status(400).json({ message: 'Faltan datos requeridos.' });
+    }
+
+    const query = `
+        INSERT INTO objetivos (descripcion, idcategoriasobjetivos)
+        VALUES ($1, $2)
+        RETURNING *;
+    `;
+
+    const values = [descripcion, idcategoriasobjetivos];
+
+    try {
+        const result = await pool.query(query, values); // Use pool.query here
+        console.log('Objetivo insertado:', result.rows[0]);
+        res.status(201).json(result.rows[0]); // Retorna el objetivo insertado
+    } catch (error) {
+        console.error('Error al insertar objetivo:', error);
+        res.status(500).json({ message: 'No se pudo insertar el objetivo' });
+    }
+}; 
+
 export async function insertItem(req, res) {
     const { tipoArea, itemName } = req.body;
 
@@ -29,10 +100,10 @@ export async function insertItem(req, res) {
 export async function getTiposDeArea(req, res) {
     try {
         const query = `
-            SELECT 
-                idtiposdearea, 
+            SELECT
+                idtiposdearea,
                 tiposdearea
-            FROM 
+            FROM
                 tipodearea;
         `;
         const result = await pool.query(query); // Ejecutamos la consulta
@@ -66,8 +137,6 @@ export async function getItemsByTipoDeArea(req, res) {
         res.status(500).json({ message: 'Error al obtener los items por tipo de área' });
     }
 }
-
-
 
 
 // Función asincrónica para agregar un nuevo tipo de área
@@ -120,32 +189,6 @@ export async function registerFicha(req, res) {
 }
 
 
-export const addUser = async (req, res) => {
-    const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha } = req.body;
-
-    try {
-        // Verificar si el rol es 'Aprendiz' (puedes cambiar '4' por el id correcto según tu tabla)
-        if (idrol === 4 && !idficha) {
-            return res.status(400).json({ message: 'El campo idficha es requerido para los aprendices.' });
-        }
-
-        // Encriptar la contraseña
-        const hashedPassword = await bcrypt.hash(contraseña, 10);
-
-        // Insertar el nuevo usuario en la tabla 'personas'
-        const result = await pool.query(
-            `INSERT INTO personas (nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING idpersonas`,
-            [nombre, tipodocumento, numerodocumento, telefono, correo, hashedPassword, idrol, estado, idficha]
-        );
-
-        res.status(201).json({ message: 'Usuario creado exitosamente', userId: result.rows[0].idpersonas });
-    } catch (error) {
-        console.error('Error al registrar usuario:', error.message);
-        res.status(500).json({ message: 'Error al crear el usuario' });
-    }
-};
-
 async function checkEmailExists(correo) {
     if (!correo) {
         throw new Error('El correo electrónico es requerido.');
@@ -183,20 +226,6 @@ async function getAllPersonas() {
 }
 
 
-// Función para obtener todos los usuarios
-async function getAllUsuario() {
-    try {
-        console.log('Obteniendo todos los usuarios...');
-        const client = await pool.connect();
-        const result = await client.query('SELECT * FROM usuario');
-        client.release();
-        console.log('Usuarios obtenidos con éxito:', result.rows);
-        return result.rows;
-    } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        throw error;
-    }
-}
 
 // Función para obtener todas las preguntas junto con sus categorías
 async function getAllAlcances() {
@@ -339,35 +368,6 @@ async function getAllFicha() {
 }
 
 
-// Función para registrar Área
-// async function registerArea({ area }) {
-//     try {
-//         console.log('Datos recibidos en registerArea:', { area });
-
-//         const client = await pool.connect();
-
-//         // Verificar si el área ya existe
-//         const checkQuery = 'SELECT COUNT(*) FROM area WHERE area = $1';
-//         const checkResult = await client.query(checkQuery, [area]);
-
-//         if (parseInt(checkResult.rows[0].count) > 0) {
-//             console.log('El área ya existe.');
-//             client.release();
-//             return { error: 'El área ya existe.' };
-//         } else {
-//             // Insertar el área si no existe
-//             const insertQuery = 'INSERT INTO area (area) VALUES ($1) RETURNING *';
-//             const result = await client.query(insertQuery, [area]);
-//             client.release();
-//             console.log('Área registrada con éxito:', result.rows[0]);
-//             return result.rows[0];
-//         }
-//     } catch (error) {
-//         console.error('Error al registrar área:', error.message, error.stack);
-//         throw error;
-//     }
-// }
-
 // Controlador para registrar un área
 async function registerArea({ area }) {
     try {
@@ -392,7 +392,6 @@ async function registerArea({ area }) {
 
 
 
-
 // Función para obtener todos los tipos de área por un área específica
 async function getTipoDeArea(idarea) {
     try {
@@ -408,36 +407,6 @@ async function getTipoDeArea(idarea) {
     }
 }
 
-// Función para registrar un nuevo tipo de área
-async function registerTipoDeArea({ tiposdearea, estado, idarea }) {
-    const client = await pool.connect();
-    console.log("aaaaaaaaaaaaaaa  ", tiposdearea);
-    console.log("aaaaaaaaaaaaaaa  ", estado);
-    console.log("aaaaaaaaaaaaaaa  ", idarea);
-
-    try {
-        const condi = 0;
-        const checkQuery = 'SELECT MAX(idtiposdearea) FROM tipodearea WHERE idtiposdearea != $1';
-        const checkResult = await client.query(checkQuery, [condi]);
-
-        console.error('>>>>>>>>>>>> ', checkResult);
-
-        if (parseInt(checkResult.rows[0].max) > 0) {
-            const cont = checkResult.rows[0].max + 1;
-            console.error('>>>>>>>>>>>> ', cont);
-            const insertQuery = 'INSERT INTO tipodearea (idtiposdearea,tiposdearea, estado, idarea) VALUES ($1, $2, $3,$4) RETURNING *';
-            const result = await client.query(insertQuery, [cont, tiposdearea, estado, idarea]);
-            client.release();
-            return result.rows[0];
-        } else {
-            console.error('Error al registrar tipo de área:aaaaa');
-
-        }
-    } catch (error) {
-        console.error('Error al registrar tipo de área:', error.message);
-        // throw error;
-    }
-}
 
 // Función para registrar un nuevo item en itemsarea
 async function registerItemArea({ items, estado, idtiposdearea, idarea }) {
@@ -577,7 +546,6 @@ export async function registerComplete(req, res) {
 
 export {
     getAllPersonas,
-    getAllUsuario,
     getAllAlcances,
     getAllAreas,
     getTiposDeAreaPorArea,
@@ -588,7 +556,6 @@ export {
     getAllFicha,
     registerArea,
     getTipoDeArea,
-    registerTipoDeArea,
     registerItemArea,
     checkEmailExists,
     getItemsPorAreaYTipo,

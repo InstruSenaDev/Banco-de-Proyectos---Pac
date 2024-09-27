@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import Loader from '../../../Components/Loader';
 import PropTypes from 'prop-types';
 
-// Objeto que mapea los IDs de roles a sus nombres
 const roleNames = {
   1: 'Administrador',
   2: 'Usuario',
@@ -10,7 +9,6 @@ const roleNames = {
   4: 'Aprendiz',
 };
 
-// Componente Badge para mostrar el estado del usuario
 const Badge = ({ variant, children }) => {
   const bgColor = variant === 'active' ? 'bg-green-200' : 'bg-red-200';
   return <span className={`px-2 py-1 text-xs sm:text-sm ${bgColor} rounded-lg`}>{children}</span>;
@@ -21,18 +19,17 @@ Badge.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-// Componente principal GridList
-const GridList = ({ setUserCount }) => {
+const GridList = ({ setUserCount, fetchUsers }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Función para obtener los usuarios de la API
-  const fetchUsers = async () => {
+  const fetchUsersLocal = async () => {
+    setLoading(true);
     try {
       const response = await fetch('http://localhost:4000/api/personas');
       const users = await response.json();
       setData(users);
-      setUserCount(users.length);
+      setUserCount(users.length); // Actualizar el conteo
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
     } finally {
@@ -40,10 +37,9 @@ const GridList = ({ setUserCount }) => {
     }
   };
 
-  // Efecto para cargar los usuarios al montar el componente
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    fetchUsersLocal();
+  }, [fetchUsers]); // Se vuelve a ejecutar cuando se agregan usuarios
 
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-x-auto">
@@ -89,6 +85,7 @@ const GridList = ({ setUserCount }) => {
 
 GridList.propTypes = {
   setUserCount: PropTypes.func.isRequired,
+  fetchUsers: PropTypes.func.isRequired,
 };
 
 export default GridList;

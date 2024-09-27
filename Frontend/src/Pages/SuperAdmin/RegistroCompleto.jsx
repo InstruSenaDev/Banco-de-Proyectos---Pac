@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layoutprincipal from '../../layouts/LayoutPrincipal';
+import Layoutprincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido5 from '../../Layouts/Layoutcontenido5';
 import Input2 from '../../Components/Input';
 import { CalloutA } from '../../Components/Callout';

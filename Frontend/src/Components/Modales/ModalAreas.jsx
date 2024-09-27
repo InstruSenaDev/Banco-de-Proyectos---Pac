@@ -1,7 +1,7 @@
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import PropTypes from 'prop-types';
-import { useAreaForm } from '../../../hooks/useAreaForm';
+import { useAreaForm } from '../../../hooks/SuperAdmin/useAreaForm';
 
 export default function Areas({ onClose, onAddArea }) {
     const { formValues, errors, handleInputChange, handleSubmit } = useAreaForm((data) => {

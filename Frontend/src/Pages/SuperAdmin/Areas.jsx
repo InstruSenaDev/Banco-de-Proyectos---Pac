@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListArea from './GridList/GridListArea';
 import Loader from '../../Components/Loader';

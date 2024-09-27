@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import RadioButton3 from '../RadioButton3';
-import { useFichaForm } from '../../../hooks/useFichaForm';
+import { useFichaForm } from '../../../hooks/SuperAdmin/useFichaForm';
 import { useState } from 'react';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
@@ -87,10 +87,10 @@ export default function ModalFicha({ onClose, onAddFicha }) {
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-blue-500 text-white px-4 py-2 rounded flex justify-end"
+            className="bg-Verde text-black px-4 py-2 rounded flex justify-start"
             disabled={isSubmitting} // Desactiva el botón si está enviando
           >
-            {isSubmitting ? 'Guardando...' : 'Agregar'}
+            {isSubmitting ? '' : 'Agregar'}
           </button>
         </form>
       </DialogPanel>

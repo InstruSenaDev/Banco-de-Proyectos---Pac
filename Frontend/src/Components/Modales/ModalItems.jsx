@@ -5,7 +5,7 @@ import Input2 from '../Input2';
 import BotonSegundo from '../BotonSegundoModal';
 import SelectBoxArea from '../SelectBoxItems';
 import PropTypes from 'prop-types';
-import { useItemForm } from '../../../hooks/useItemForm';
+import { useItemForm } from '../../../hooks/SuperAdmin/useItemForm';
 
 const fetchArea = async () => {
     try {
