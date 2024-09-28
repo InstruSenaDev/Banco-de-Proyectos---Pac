@@ -1,96 +1,84 @@
+'use client'
+
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import RadioButton3 from '../RadioButton3';
 import { useFichaForm } from '../../../hooks/SuperAdmin/useFichaForm';
-import { useState } from 'react';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
-  const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm(); // No se pasa el callback aquí
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar el envío
+  // Obtiene los valores del formulario, errores y funciones de manejo del formulario desde el hook useFichaForm
+  const { formValues, errors, handleInputChange, handleSubmit } = useFichaForm((data) => {
+    onAddFicha(data);  // Llama al callback para actualizar la vista cuando se registra una ficha
+    setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+    setTimeout(() => {
+      onClose();  // Cierra el modal después de un breve período
+    }, 2000); // Espera 2 segundos antes de cerrar el modal, puedes ajustar este tiempo según sea necesario
+  });
 
-  // Función de envío personalizada para controlar el estado de envío
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-  
-    if (isSubmitting) return; // Evita enviar varias veces
-  
-    setIsSubmitting(true); // Desactiva el botón
-  
-    const isValid = await handleSubmit(e); // Llama al envío del formulario y espera la validación
-  
-    if (isValid) {
-      onAddFicha(formValues); // Agrega la ficha solo si el formulario es válido
-      onClose(); // Cierra el modal solo después de agregar la ficha
-    }
-  
-    setIsSubmitting(false); // Reactiva el botón después del envío
-  };
-  
+  const [successMessage, setSuccessMessage] = useState('');  // Estado que maneja el mensaje de éxito
+
   return (
-    <Dialog
-      open={true}
-      onClose={onClose}
-      static={true}
-      className="z-[100]"
-    >
-      <DialogPanel className="w-full max-w-2xl p-6 sm:mx-auto relative">
+    <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
+      <DialogPanel className="sm:max-w-md">
+        {/* Botón para cerrar el modal */}
         <button
           type="button"
           className="absolute right-4 top-4 p-2 bg-transparent border-none"
           onClick={onClose}
-          aria-label="Close"
+          aria-label="Cerrar"
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        <form onSubmit={handleFormSubmit} className="space-y-4">
+
+        {/* Formulario para agregar una nueva ficha */}
+        <form onSubmit={handleSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade nueva ficha</h4>
+
           <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
+              {/* Campo de entrada para el nombre del programa */}
               <div className="relative">
                 <Input2
                   id="nombre"
                   type="text"
                   placeholder="Sistemas"
                   Text="Nombre del programa:"
-                  value={formValues.nombre}
-                  onChange={handleInputChange}
-                  error={errors.nombre}
+                  value={formValues.nombre}  // Valor controlado del input
+                  onChange={handleInputChange}  // Maneja el cambio de valor
+                  error={errors.nombre}  // Muestra error si existe
                 />
               </div>
+
+              {/* Campo de entrada para el número de ficha */}
               <div className="relative">
                 <Input2
                   id="numeroficha"
                   type="text"
                   placeholder="2694265"
                   Text="Número de ficha:"
-                  value={formValues.numeroficha}
-                  onChange={handleInputChange}
-                  error={errors.numeroficha}
+                  value={formValues.numeroficha}  // Valor controlado del input
+                  onChange={handleInputChange}  // Maneja el cambio de valor
+                  error={errors.numeroficha}  // Muestra error si existe
                 />
-              </div>
-              <div className="space-y-4">
-                <div className="flex">
-                  <RadioButton3
-                    Text="Activo"
-                    Text2="Inactivo"
-                    id="estadoActivo"
-                    value="Activo"
-                    checked={formValues.estado === true}
-                    onChange={() => handleInputChange({ target: { id: 'estado', value: true } })}
-                    error={errors.estado}
-                  />
-                </div>
               </div>
             </div>
           </div>
+
+          {/* Muestra el mensaje de éxito si existe */}
+          {successMessage && (
+            <div className="mt-4 text-green-600">
+              {successMessage}
+            </div>
+          )}
+
+          {/* Botón para agregar la nueva ficha */}
           <button
             type="submit"
             id="guardarBtn"
-            className="bg-Verde text-black px-4 py-2 rounded flex justify-start"
-            disabled={isSubmitting} // Desactiva el botón si está enviando
+            className="bg-blue-500 text-white px-4 py-2 rounded justify-end"
           >
-            {isSubmitting ? '' : 'Agregar'}
+            Agregar
           </button>
         </form>
       </DialogPanel>
@@ -98,7 +86,8 @@ export default function ModalFicha({ onClose, onAddFicha }) {
   );
 }
 
+// Definición de los tipos de propiedades requeridas para el componente
 ModalFicha.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onAddFicha: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,  // Función para cerrar el modal
+  onAddFicha: PropTypes.func.isRequired,  // Función que se llama al agregar la ficha
 };

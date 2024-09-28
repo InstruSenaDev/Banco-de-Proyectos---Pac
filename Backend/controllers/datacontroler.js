@@ -164,17 +164,17 @@ export const addTipoDeArea = async (req, res) => {
 
 // Función para registrar una nueva ficha
 export async function registerFicha(req, res) {
-    const { nombre, numeroficha, estado } = req.body;
+    const { nombre, numeroficha } = req.body;
 
     try {
-        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha, estado });
+        console.log('Datos recibidos en registerFicha:', { nombre, numeroficha });
 
         const client = await pool.connect();
 
         // Insertar la ficha en la tabla fichas
         const result = await client.query(
-            'INSERT INTO ficha (nombre, numeroficha, estado) VALUES ($1, $2, $3) RETURNING *',
-            [nombre, numeroficha, estado]
+            'INSERT INTO ficha (nombre, numeroficha) VALUES ($1, $2) RETURNING *',
+            [nombre, numeroficha]
         );
 
         client.release();
@@ -358,7 +358,7 @@ async function obtenerTodosLosProyectos() {
 async function getAllFicha() {
     try {
         const client = await pool.connect();
-        const result = await client.query('SELECT idficha, nombre, estado, numeroficha FROM ficha');
+        const result = await client.query('SELECT idficha, nombre, numeroficha FROM ficha');
         client.release();
         return result.rows;
     } catch (error) {
@@ -443,7 +443,7 @@ async function getItemsPorAreaYTipo(idArea, idTiposDeArea) {
 }
 
 
-async function getItemsByAreaAndType(idarea, idtiposdearea) {
+export async function getItemsByAreaAndType(idarea, idtiposdearea) {
     try {
         const client = await pool.connect();
         const query = `
@@ -559,5 +559,4 @@ export {
     registerItemArea,
     checkEmailExists,
     getItemsPorAreaYTipo,
-    getItemsByAreaAndType,
 };

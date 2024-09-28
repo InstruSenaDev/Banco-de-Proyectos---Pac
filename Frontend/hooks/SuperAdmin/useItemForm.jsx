@@ -95,16 +95,18 @@ export function useItemForm(onSuccess) {
                 if (!response.ok) {
                     const error = await response.json();
                     console.error('Error en la respuesta del servidor:', error);
-                    alert('Error al registrar el ítem: ' + (error.message || 'Error desconocido'));
+                    // Reemplaza alert con manejo de error en tu UI
+                    console.error('Error al registrar el ítem:', error.message || 'Error desconocido');
                     return;
                 }
 
                 const data = await response.json();
-                alert('Ítem registrado con éxito: ' + JSON.stringify(data));
+                console.log('Ítem registrado con éxito:', data);
                 onSuccess(data);
             } catch (error) {
                 console.error('Error al registrar el ítem:', error);
-                alert('Error al registrar el ítem: ' + error.message);
+                // Reemplaza alert con manejo de error en tu UI
+                console.error('Error al registrar el ítem:', error.message);
             }
         }
     };
@@ -119,4 +121,3 @@ export function useItemForm(onSuccess) {
         items
     };
 }
-

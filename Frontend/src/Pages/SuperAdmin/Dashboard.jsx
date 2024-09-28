@@ -3,21 +3,23 @@ import { useEffect, useState } from 'react';
 import Layoutprincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
-import { ChartDonut } from '../../Components/ChartDonut';
 import Loader from '../../Components/Loader';
 
 const Dashboard = () => {
+  // Estado para controlar la carga de la página
   const [loading, setLoading] = useState(true);
 
   // Estados para cada tabla
-  const [userCount, setUserCount] = useState(0);
-  const [fichaCount, setFichaCount] = useState(0);
-  const [proyectoCount, setProyectoCount] = useState(0);
-  const [areaCount, setAreaCount] = useState(0);
-  const [tipoAreaCount, setTipoAreaCount] = useState(0);
-  const [itemCount, setItemCount] = useState(0);
-  const [objetivoCount, setObjetivoCount] = useState(0);
-  const [alcanceCount, setAlcanceCount] = useState(0);
+  const [counts, setCounts] = useState({
+    users: 0,
+    fichas: 0,
+    proyectos: 0,
+    areas: 0,
+    tiposArea: 0,
+    items: 0,
+    objetivos: 0,
+    alcances: 0
+  });
 
   useEffect(() => {
     // Simula un tiempo de carga de 2 segundos
@@ -25,8 +27,9 @@ const Dashboard = () => {
       setLoading(false);
     }, 2000);
 
-    // Fetch de cada tabla
+    // Función para obtener los datos de todas las tablas
     const fetchCounts = async () => {
+      setLoading(true);
       try {
         const [personasRes, fichasRes, proyectosRes, areasRes, tiposAreaRes, itemsRes, objetivosRes, alcancesRes] = await Promise.all([
           fetch('http://localhost:4000/api/personas'),
@@ -38,115 +41,125 @@ const Dashboard = () => {
           fetch('http://localhost:4000/api/objetivos'),
           fetch('http://localhost:4000/api/alcances')
         ]);
+        
 
-        const personasData = await personasRes.json();
-        const fichasData = await fichasRes.json();
-        const proyectosData = await proyectosRes.json();
-        const areasData = await areasRes.json();
-        const tiposAreaData = await tiposAreaRes.json();
-        const itemsData = await itemsRes.json();
-        const objetivosData = await objetivosRes.json();
-        const alcancesData = await alcancesRes.json();
+
+        // Procesa todas las respuestas
+        const [personas, fichas, proyectos, areas, tiposArea, items, objetivos, alcances] = await Promise.all([
+          personasRes.json(),
+          fichasRes.json(),
+          proyectosRes.json(),
+          areasRes.json(),
+          tiposAreaRes.json(),
+          itemsRes.json(),
+          objetivosRes.json(),
+          alcancesRes.json()
+        ]);
 
         // Actualiza los estados con las cantidades
-        setUserCount(personasData.length);
-        setFichaCount(fichasData.length);
-        setProyectoCount(proyectosData.length);
-        setAreaCount(areasData.length);
-        setTipoAreaCount(tiposAreaData.length);
-        setItemCount(itemsData.length);
-        setObjetivoCount(objetivosData.length);
-        setAlcanceCount(alcancesData.length);
+        setCounts({
+          users: personas.length,
+          fichas: fichas.length,
+          proyectos: proyectos.length,
+          areas: areas.length,
+          tiposArea: tiposArea.length,
+          items: items.length,
+          objetivos: objetivos.length,
+          alcances: alcances.length
+        });
       } catch (error) {
         console.error('Error al obtener los datos:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCounts();
 
+    // Limpia el temporizador al desmontar el componente
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <Layoutprincipal title="Proyectos">
       {loading ? (
+        // Muestra el loader mientras se cargan los datos
         <div id="loader" className="flex items-center justify-center h-screen">
           <Loader />
         </div>
       ) : (
         <Layoutcontenido title="">
-          <div className="bg-Verde p-6 sm:p-10 rounded">
-            <Title className="text-white text-lg font-extrabold">Bienvenido SuperAdmin</Title>
-            <Text className="text-white font-extrabold">Banco de Proyectos</Text>
+          {/* Encabezado */}
+          <div className="bg-Verde p-4 sm:p-6 md:p-8 lg:p-10 rounded">
+            <Title className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold">Bienvenido SuperAdmin</Title>
+            <Text className="text-white font-extrabold text-sm sm:text-base md:text-lg">Banco de Proyectos</Text>
           </div>
 
-          <div className="flex flex-wrap gap-3 justify-center mt-16 z-0 w-full">
+          {/* Contenedor de tarjetas */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 sm:mt-12 md:mt-16 z-0 w-full">
             <CardBase
               title="Usuarios"
-              metricValue={userCount}
+              metricValue={counts.users}
               progressText="Usuarios Registrados"
               buttonTex="Ver detalle"
               route="/SuperAdmin/usuarios"
             />
             <CardBase
               title="Fichas"
-              metricValue={fichaCount}
+              metricValue={counts.fichas}
               progressText="Aprendices"
               buttonTex="Ver detalle"
               route="/SuperAdmin/ficha"
             />
             <CardBase
               title="Proyectos"
-              metricValue={proyectoCount}
+              metricValue={counts.proyectos}
               progressText="Proyectos creados"
               buttonTex="Ver detalle"
               route="/SuperAdmin/proyectos"
             />
             <CardBase
               title="Areas"
-              metricValue={areaCount}
+              metricValue={counts.areas}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/areas"
             />
             <CardBase
               title="Tipos de Area"
-              metricValue={tipoAreaCount}
+              metricValue={counts.tiposArea}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/tipodearea"
             />
             <CardBase
               title="Items"
-              metricValue={itemCount}
+              metricValue={counts.items}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/items"
             />
             <CardBase
               title="Objetivo"
-              metricValue={objetivoCount}
+              metricValue={counts.objetivos}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/objetivos"
             />
             <CardBase
               title="Alcance"
-              metricValue={alcanceCount}
+              metricValue={counts.alcances}
               progressText="Registro proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/alcance"
             />
             <CardBase
               title="CREAR REGISTRO"
+              metricValue={0}
               progressText="Registro de proyecto"
               buttonTex="Ver detalle"
               route="/SuperAdmin/registrocompleto"
             />
-          </div>
-
-          <div className="border-[1px] rounded-t-lg mt-10">
-            <ChartDonut />
           </div>
         </Layoutcontenido>
       )}

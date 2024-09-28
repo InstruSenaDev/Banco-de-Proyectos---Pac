@@ -4,7 +4,7 @@ import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListItems from './GridList/GridListItems';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import ModalItems from '../../Components/Modales/ModalItems'; // Importar el modal
 

@@ -4,7 +4,7 @@ import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import ModalObjetivos from '../../Components/Modales/ModalObjetivos';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
@@ -36,15 +36,23 @@ const Area = () => {
   };
 
   const handleAddMember = (user) => {
-    // Lógica para agregar un usuario
+    // Lógica para agregar un objetivo (o usuario)
     console.log('Agregar ', user);
+
+    // Aquí puedes llamar a tu función de agregar objetivo
+    // Por ejemplo, si tienes una función para enviar datos a la API:
+    // agregarObjetivo(user).then(() => {
+    //   // Recargar la página después de agregar
+    //   window.location.reload();
+    // });
+
+    // Recarga la página directamente como ejemplo
+    window.location.reload(); // Recargar la página
   };
 
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
-
-  
 
   return (
     <LayoutPrincipal title="Objetivos">

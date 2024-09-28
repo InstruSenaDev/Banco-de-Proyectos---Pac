@@ -4,18 +4,17 @@ import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import ModalFicha from '../../Components/Modales/ModalFichas';
-import Modal from '../../Components/Modal'; // Importa tu nuevo modal de confirmación
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false); // Estado para el modal de confirmación
   const [currentFicha, setCurrentFicha] = useState(null);
   const [fichas, setFichas] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -47,9 +46,9 @@ const Fichas = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setCurrentFicha(null);
+    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
-  // Manejador para agregar una nueva ficha
   const handleAddFicha = async (newFicha) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -69,9 +68,9 @@ const Fichas = () => {
         throw new Error(`Error al registrar la ficha: ${errorData.message || response.statusText}`);
       }
 
-      await fetchFichas(); // Recarga la lista de fichas
-      setIsConfirmationOpen(true); // Abre el modal de confirmación
-      handleCloseModal(); // Cierra el modal de agregar ficha
+      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
+      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
+      fetchFichas(); // Recargar solo la lista de fichas
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
     } finally {
@@ -101,8 +100,17 @@ const Fichas = () => {
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal text="Agregar Ficha" id="addFichaBtn" onClick={handleAddClick} />
+              <BotonSegundoModal
+                text="Agregar Ficha"
+                id="addFichaBtn"
+                onClick={handleAddClick}
+              />
             </div>
+            {successMessage && (
+              <div className="mb-4 text-green-500">
+                {successMessage}
+              </div>
+            )}
             <div>
               <GridListFicha fichas={fichas} setFichas={setFichas} />
             </div>
@@ -114,12 +122,6 @@ const Fichas = () => {
                 isSubmitting={isSubmitting}
               />
             )}
-            {/* Modal de confirmación */}
-            <Modal
-              Text="Ficha registrada exitosamente."
-              isOpen={isConfirmationOpen} // Usa el estado del modal de confirmación
-              onClose={() => setIsConfirmationOpen(false)} // Cierra el modal
-            />
           </div>
         </Layoutcontenido>
       )}

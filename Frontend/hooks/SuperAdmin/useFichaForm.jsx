@@ -31,12 +31,8 @@ export function useFichaForm(onSuccess) {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    if (id === 'estado') {
-      setFormValues(prevValues => ({ ...prevValues, [id]: value === 'true' }));
-    } else {
       setFormValues(prevValues => ({ ...prevValues, [id]: value }));
-    }
-  };
+    };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

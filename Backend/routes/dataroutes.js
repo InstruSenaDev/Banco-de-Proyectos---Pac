@@ -47,6 +47,16 @@ router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
 
 router.post('/fichas', registerFicha);
 
+router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
+    try {
+        const { idarea, idtiposdearea } = req.params;
+        const items = await getItemsByAreaAndType(idarea, idtiposdearea);
+        res.json(items);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching items', error: error.message });
+    }
+});
+
 router.post('/check-email', async (req, res) => {
     const { correo } = req.body;
 
@@ -237,15 +247,6 @@ router.post('/api/registerItemArea', async (req, res) => {
 });
 
 
-router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
-    try {
-        const { idarea, idtiposdearea } = req.params;
-        const items = await getItemsByAreaAndType(idarea, idtiposdearea);
-        res.json(items);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching items', error: error.message });
-    }
-});
 
 
 

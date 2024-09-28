@@ -4,7 +4,7 @@ import LayoutPrincipal from '../../layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridList from './GridList/GridListU';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Usuarios = () => {

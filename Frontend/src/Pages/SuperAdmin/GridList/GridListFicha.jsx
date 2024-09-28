@@ -1,27 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Loader from '../../../Components/Loader';
 
-const GridListFicha = ({ fichas, setFichas }) => {
-  const Badge = ({ variant, children }) => {
-    const bgColor = variant === 'active' ? 'bg-green-200' : 'bg-red-200';
-    return <span className={`px-2 py-1 text-xs sm:text-sm ${bgColor} rounded-lg`}>{children}</span>;
+const GridListFicha = () => {
+  const [fichas, setFichas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+
+  // Función para obtener las fichas del servidor
+  const fetchFichas = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('http://localhost:4000/api/ficha');
+      const fichasData = await response.json();
+      setFichas(fichasData);
+    } catch (error) {
+      console.error('Error al obtener las fichas:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
+  // Efecto para cargar las fichas al montar el componente
   useEffect(() => {
-    const fetchFichas = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/ficha');
-        const fichasData = await response.json();
-        setFichas(fichasData);
-      } catch (error) {
-        console.error('Error al obtener las fichas:', error);
-      }
-    };
-
     fetchFichas();
-  }, [setFichas]);
+  }, []);
 
-  if (fichas.length === 0) {
+  // Mostrar el loader mientras se cargan los datos
+  if (isLoading) {
     return <Loader />;
   }
 
@@ -31,7 +36,6 @@ const GridListFicha = ({ fichas, setFichas }) => {
         <thead className="bg-[#A3E784]">
           <tr>
             <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Nombre del Ficha</th>
-            <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Estado</th>
             <th className="px-4 sm:px-6 py-3 text-left text-xs sm:text-sm md:text-base text-gray-900">Número ficha</th>
           </tr>
         </thead>
@@ -39,11 +43,6 @@ const GridListFicha = ({ fichas, setFichas }) => {
           {fichas.map((item) => (
             <tr key={item.idficha}>
               <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">{item.nombre}</td>
-              <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
-                <Badge variant={item.estado ? 'active' : 'inactive'}>
-                  {item.estado ? 'Activo' : 'Inactivo'}
-                </Badge>
-              </td>
               <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm md:text-base">{item.numeroficha}</td>
             </tr>
           ))}

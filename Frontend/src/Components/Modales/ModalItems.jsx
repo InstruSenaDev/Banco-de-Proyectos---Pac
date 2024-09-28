@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import BotonSegundo from '../BotonSegundoModal';
-import SelectBoxArea from '../SelectBoxItems';
+import SelectBoxItems from '../SelectBoxItems';
 import PropTypes from 'prop-types';
 import { useItemForm } from '../../../hooks/SuperAdmin/useItemForm';
 
@@ -24,14 +23,22 @@ const fetchArea = async () => {
 export default function TipoArea({ onClose }) {
     const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit } = useItemForm(onClose);
     const [areaOptions, setAreaOptions] = useState([]);
+    const [isClient, setIsClient] = useState(false); // Estado para verificar si está en el cliente
+
+    useEffect(() => {
+        setIsClient(true); // Cambiar a true una vez que el componente se monte
+    }, []);
 
     useEffect(() => {
         const loadAreas = async () => {
             const areas = await fetchArea();
             setAreaOptions(areas);
         };
-        loadAreas();
-    }, []);
+
+        if (isClient) {
+            loadAreas();
+        }
+    }, [isClient]);
 
     useEffect(() => {
         if (formValues.tipoArea) {
@@ -55,13 +62,12 @@ export default function TipoArea({ onClose }) {
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
-                                <SelectBoxArea
+                                <SelectBoxItems
                                     id="tipoArea"
                                     Text="Seleccione un Tipo de Área"
                                     options={areaOptions}
                                     value={formValues.tipoArea}
                                     onChange={handleSelectChange}
-
                                 />
                                 {<p className="text-red-500 text-sm mt-1">{errors.tipoArea}</p>}
                             </div>
@@ -78,7 +84,14 @@ export default function TipoArea({ onClose }) {
                             </div>
                         </div>
                     </div>
-                    <BotonSegundo text="Agregar" id="guardarBtn" />
+                    {/* Botón para enviar el formulario */}
+                    <button
+                        type="submit"
+                        id="guardarBtn"
+                        className="bg-blue-500 text-white px-4 py-2 rounded justify-end" // Estilos del botón con clases Tailwind
+                    >
+                        Agregar
+                    </button>
                 </form>
             </DialogPanel>
         </Dialog>
@@ -88,5 +101,3 @@ export default function TipoArea({ onClose }) {
 TipoArea.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
-
-
