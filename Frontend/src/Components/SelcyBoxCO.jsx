@@ -61,7 +61,7 @@ const SelectBoxObjetivos = ({ id, text, value, onChange, error }) => {
   );
 };
 
-SelectBoxFicha.propTypes = {
+SelectBoxObjetivos.propTypes = {
   id: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
