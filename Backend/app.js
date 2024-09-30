@@ -10,6 +10,9 @@ import promedioFinal from './routes/routesUser/promedioFinal.js'
 import obtenerPromedio from './routes/routesUser/obtenerPromedio.js'
 import { cookieMiddleware } from './middleware/cookieMiddleware.js';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const app = express();
 const PORT = 4000;
 
