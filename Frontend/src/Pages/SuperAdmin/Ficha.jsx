@@ -18,23 +18,23 @@ const Fichas = () => {
 
   const navigate = useNavigate();
 
-  const fetchFichas = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('http://localhost:4000/api/fichas');
-      if (!response.ok) {
-        throw new Error('Error al cargar las fichas');
-      }
-      const data = await response.json();
-      setFichas(data);
-    } catch (error) {
-      console.error('Error al cargar fichas:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchFichas = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:4000/api/fichas');
+        if (!response.ok) {
+          throw new Error('Error al cargar las fichas');
+        }
+        const data = await response.json();
+        setFichas(data);
+      } catch (error) {
+        console.error('Error al cargar fichas:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchFichas();
   }, []);
 
@@ -70,7 +70,7 @@ const Fichas = () => {
 
       handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
       setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      fetchFichas(); // Recargar solo la lista de fichas
+      setFichas((prevFichas) => [...prevFichas, newFicha]); // Añade la nueva ficha a la lista
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
     } finally {

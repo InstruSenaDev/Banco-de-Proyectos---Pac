@@ -10,19 +10,17 @@ export function CardBase({ title, metricValue, progressText, buttonTex, route })
   };
 
   return (
-    <Card className='max-w-sm 2xl:w-full 2xl:h-full md:w-44'>
+    <Card className='max-w-sm 2xl:w-full 2xl:h-full md:w-57'>
       <Text>{title}</Text>
-      <Metric>{metricValue}</Metric>
-      <Flex className='mt-4'>
         <Text>{progressText}</Text>
-        <button
+      <Flex className='mt-4'>
+      <button
           className='text-Verde bg-transparent border-none cursor-pointer'
           onClick={handleClick}
         >
           <u>{buttonTex}</u>
         </button>
       </Flex>
-      <ProgressBar value={20} color='transparent' className="hidden" />
     </Card>
   );
 }

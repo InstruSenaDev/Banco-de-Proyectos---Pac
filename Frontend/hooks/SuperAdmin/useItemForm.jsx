@@ -31,6 +31,7 @@ export function useItemForm(onSuccess) {
     useEffect(() => {
         const fetchItems = async () => {
             if (formValues.tipoArea) {
+                console.log(`Fetching items for tipoArea: ${formValues.tipoArea}`);
                 try {
                     const response = await fetch(`http://localhost:4000/api/items/${formValues.tipoArea}`);
                     if (!response.ok) {
@@ -95,8 +96,6 @@ export function useItemForm(onSuccess) {
                 if (!response.ok) {
                     const error = await response.json();
                     console.error('Error en la respuesta del servidor:', error);
-                    // Reemplaza alert con manejo de error en tu UI
-                    console.error('Error al registrar el ítem:', error.message || 'Error desconocido');
                     return;
                 }
 
@@ -105,8 +104,6 @@ export function useItemForm(onSuccess) {
                 onSuccess(data);
             } catch (error) {
                 console.error('Error al registrar el ítem:', error);
-                // Reemplaza alert con manejo de error en tu UI
-                console.error('Error al registrar el ítem:', error.message);
             }
         }
     };

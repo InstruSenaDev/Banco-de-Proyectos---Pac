@@ -174,15 +174,15 @@ router.post('/agregarpersona', async (req, res) => {
 
 
 // Ruta para obtener todos los proyectos
-router.get('/proyecto', async (req, res) => {
+app.get('/api/proyecto', async (req, res) => {
     try {
         const proyectos = await obtenerTodosLosProyectos();
         res.json(proyectos);
     } catch (error) {
-        console.error('Error al obtener proyectos:', error);
-        res.status(500).json({ error: 'Error al obtener proyectos' });
+        res.status(500).json({ message: 'Error al obtener proyectos' });
     }
 });
+
 
 
 router.get('/ficha', async (req, res) => {
