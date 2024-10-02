@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardProyect from "../../Components/CardAprendiz.jsx";
 import BotonSegundo from "../../Components/BotonSegundo";
-import LayoutPrincipal from "../../Layouts/Layoutprincipal.jsx";
+import LayoutPrincipal1 from "../../Layouts/LayoutPrincipal1.jsx";
 import Layoutcontenido from "../../Layouts/Layoutcontenido3";
-import ModalAsignaciones from "../../Components/Modales/Modal";
+import ModalAsignaciones from "../../Components/ModalesUser/Modal";
 
 const Calificar = () => {
   const [projects, setProjects] = useState([]);
@@ -17,6 +17,7 @@ const Calificar = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+
         const response = await fetch('http://localhost:4000/api/aprendiz/assigned-projects');
         if (!response.ok) {
           throw new Error('Error al obtener los proyectos');
@@ -48,7 +49,7 @@ const Calificar = () => {
   };
 
   return (
-    <LayoutPrincipal title="Proyectos">
+    <LayoutPrincipal1 title="Proyectos">
       <Layoutcontenido title="Proyectos Asignados">
         {loading ? (
           <p className="text-center">Cargando proyectos...</p>
@@ -78,7 +79,7 @@ const Calificar = () => {
           people={selectedProjectPeople}
         />
       </Layoutcontenido>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 
