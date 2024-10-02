@@ -1,85 +1,91 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../../public/Img/Logo.png'; // Asegúrate de que la ruta sea correcta
-import '../css/Sidebar.css'; // Asegúrate de incluir tu archivo CSS para estilos
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../public/Img/Logo.png';
+import '../css/Sidebar.css';
+
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
-  const userRole = parseInt(localStorage.getItem('userRole'), 10);
+  const [userRole, setUserRole] = useState(null);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const parsedUser = JSON.parse(user);
+        if (parsedUser && parsedUser.rol) {
+          setUserRole(parsedUser.rol);
+          console.log('User role set:', parsedUser.rol);
+        } else {
+          setError('Invalid user data in localStorage');
+          console.error('Invalid user data:', parsedUser);
+        }
+      } catch (e) {
+        setError('Error parsing user data from localStorage');
+        console.error('Error parsing user data:', e);
+      }
+    } else {
+      setError('No user data found in localStorage');
+      console.error('No user data found in localStorage');
+    }
+  }, []);
 
   const menuItems = {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      // { icon: 'fas fa-user', to: '/VistaAprobados', label: 'Vista Aprobados' },
-      // { icon: 'fas fa-cog', to: '/AsignarProyecto', label: 'Asignar Proyecto' },
-    ],
-    4: [
-      { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
-      { icon: 'fas fa-tachometer-alt', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
-      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
-    ],
-    3: [
-      { icon: 'fas fa-user-plus', to: '/CrearFichas', label: 'Crear Usuario' },
-      { icon: 'fas fa-folder-open', to: '/CrearUsuario', label: 'Crear Fichas' },
-      { icon: 'fas fa-edit', to: '/EditarRegistro', label: 'Editar Registro' },
-      { icon: 'fas fa-upload', to: '/CargaMasiva', label: 'Cargar Aprendices' },
+      { icon: 'fas fa-user', to: '/Asignados', label: 'Proyectos Asignados' },
     ],
     2: [
       { icon: 'fas fa-home', to: '/Usuario/VistaUsuario', label: 'Home' },
       { icon: 'fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
-      { icon: 'fas fa-project-diagram', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
+      { icon: 'fas fa-project-diagram', to: '/Usuario/EditarPerfil', label: 'Editar Perfil' },
+    ],
+    3: [
+      { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/usuarios', label: 'Crear Fichas' },
+      // ... other SuperAdmin menu items ...
+    ],
+    4: [
+      { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
+      { icon: 'fas fa-tachometer-alt', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
+      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
   };
 
-  const roleMenuItems = menuItems[userRole] || [];
+  const roleMenuItems = userRole && menuItems[userRole] ? menuItems[userRole] : [];
 
   const handleLogout = () => {
-    localStorage.clear(); // Limpia el localStorage
-    window.location.href = '/'; // Redirige a la página de login
+    localStorage.clear();
+    navigate('/');
   };
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  // Escucha los cambios de tamaño de pantalla para actualizar el estado
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
       if (window.innerWidth >= 768) {
-        setIsOpen(false); // Mantiene el sidebar cerrado si cambia a pantalla grande
+        setIsOpen(false);
       }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  if (error) {
+    console.error('Sidebar Error:', error);
+    // You might want to render an error message or redirect to login
+    return <div>Error: {error}. Please <Link to="/">login again</Link>.</div>;
+  }
   return (
     <div>
-      {/* Botón de menú para pantallas pequeñas */}
-      <button
-        className="md:hidden p-4 fixed top-0 left-0 z-50"
-        onClick={toggleSidebar}
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16m-7 6h7"
-          ></path>
-        </svg>
-      </button>
-
-      {/* Sidebar */}
+      {/* ... existing code ... */}
       <aside
         id="sidebar"
         className={`sidebar fixed top-0 left-0 z-40 h-full bg-gray-50 transition-all duration-300 transform ${
