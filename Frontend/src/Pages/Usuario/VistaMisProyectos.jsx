@@ -10,7 +10,7 @@ const Prueba = () => {
 
   useEffect(() => {
     const fetchProyectos = async () => {
-      const userId = localStorage.getItem('userId');
+      const userId = JSON.parse(localStorage.getItem('user'));
 
       if (!userId) {
         console.error('Error: idpersona no encontrado en localStorage');
@@ -18,7 +18,7 @@ const Prueba = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/api/user/proyectos?userId=${userId}`);
+        const response = await fetch(`http://localhost:4000/api/user/proyectos?userId=${userId.id}`);
         if (response.ok) {
           const data = await response.json();
           setProyectos(data);

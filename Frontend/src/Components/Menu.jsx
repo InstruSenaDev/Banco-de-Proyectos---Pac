@@ -37,28 +37,35 @@ const Sidebar = () => {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      { icon: 'fas fa-user', to: '/Asignados', label: 'Proyectos Asignados' },
-    ],
-    2: [
-      { icon: 'fas fa-home', to: '/Usuario/VistaUsuario', label: 'Home' },
-      { icon: 'fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
-      { icon: 'fas fa-project-diagram', to: '/Usuario/EditarPerfil', label: 'Editar Perfil' },
-    ],
-    3: [
-      { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/usuarios', label: 'Crear Fichas' },
-      // ... other SuperAdmin menu items ...
+      { icon: 'fas fa-user', to: '/asignar', label: 'Proyectos Asignados' },
     ],
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
       { icon: 'fas fa-tachometer-alt', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
-      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
+      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
+    ],
+    3: [
+      { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/usuarios', label: 'Crear Fichas' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/areas', label: 'Crear Areas' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/tipodearea', label: 'Crear Tipos de area' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/items', label: 'Crear Items' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/objetivos', label: 'Crear Objetivos' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/alcance', label: 'Crear Alcances' },
+      { icon: 'fas fa-folder-open', to: '/SuperAdmin/registrocompleto', label: 'Registro completo' },
+      { icon: 'fas fa-upload', to: '/SuperAdmin/proyectos', label: 'Ver proyectos' },
+    ],
+    2: [
+      { icon: 'fas fa-home', to: '/Usuario/VistaUsuario', label: 'Home' },
+      { icon: 'fa-solid fa-folder-plus', to: '/Usuario/VistaMisProyectos', label: 'Mis Proyectos' },
+      { icon: 'fas fa-project-diagram', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
   };
 
   const roleMenuItems = userRole && menuItems[userRole] ? menuItems[userRole] : [];
 
   const handleLogout = () => {
+    console.log('User logged out');
     localStorage.clear();
     navigate('/');
   };
@@ -80,9 +87,11 @@ const Sidebar = () => {
 
   if (error) {
     console.error('Sidebar Error:', error);
-    // You might want to render an error message or redirect to login
     return <div>Error: {error}. Please <Link to="/">login again</Link>.</div>;
   }
+  
+  console.log('Role Menu Items:', roleMenuItems);
+
   return (
     <div>
       {/* ... existing code ... */}
@@ -114,10 +123,12 @@ const Sidebar = () => {
           <ul className="space-y-3 font-medium mt-5">
             {roleMenuItems.map((item, index) => (
               <li key={index} className="w-full">
-                <Link
-                  to={item.to}
-                  className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
-                >
+               <Link
+                to={item.to}
+                className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
+                onClick={() => console.log('Navigating to:', item.to)}
+              >
+
                   <i className={`${item.icon} static-icon text-black`} aria-hidden="true"></i>
                   <span
                     className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${

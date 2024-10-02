@@ -1,12 +1,12 @@
 const BotonRegistro = ({ Text, className = '', onClick, isSelected, size = 'md', type = 'button' }) => {
     const sizeClasses = {
-      sm: 'w-[120px] h-[36px] text-[14px]',
-      md: 'w-[150px] h-[44px] text-[16px]',
+      sm: 'w-[80px] h-[36px] text-[14px]',
+      md: 'w-[140px] h-[44px] text-[16px]',
       lg: 'w-[180px] h-[48px] text-[18px]',
     };
   
     return (
-      <div className="flex justify-center sm:justify-end">
+      <div className="w-full h-full">
         <button
           type={type}  // Asegura que el tipo sea 'button' por defecto
           className={`boton-principal relative cursor-pointer font-semibold overflow-hidden z-10 border border-[#A3E784] group 

@@ -204,22 +204,22 @@ const RegistroProyecto = () => {
                     </label>
                   </div>
 
-                  <div className="grid xl:grid-cols-1 2xl:grid-cols-3 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 grid-cols-1 gap-4">
-                    <div className="flex justify-center">
+                  <div className="w-full flex justify-center items-center flex-row flex-wrap gap-x-1 ">
+                    <div className="w-auto">
                       <BotonRegistro
                         Text="Semanal"
                         isSelected={frecuencia === 'Semanal'}
                         onClick={() => handleFrecuenciaClick('Semanal')}
                       />
                     </div>
-                    <div className="flex justify-center">
+                    <div className="w-auto">
                       <BotonRegistro
                         Text="Quincenal"
                         isSelected={frecuencia === 'Quincenal'}
                         onClick={() => handleFrecuenciaClick('Quincenal')}
                       />
                     </div>
-                    <div className="flex justify-center">
+                    <div className="w-auto">
                       <BotonRegistro
                         Text="Mensual"
                         isSelected={frecuencia === 'Mensual'}
@@ -231,7 +231,7 @@ const RegistroProyecto = () => {
                     </span>
                   </div>
 
-                  <div className="grid sm:grid-cols-3 gap-x-8 sm:gap-y-4 mt-4">
+                  <div className="w-full h-full flex flex-row justify-start items-center flex-wrap gap-y-4">
                     <RadioButton2
                       id="checkboxLunes"
                       name="dias"
@@ -285,16 +285,16 @@ const RegistroProyecto = () => {
                     </span>
                   </div>
                   
-                  <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                  <div className="w-full h-full flex flex-row items-center flex-wrap">
                     <button
                       type="button"
                       onClick={handleVolver}
                     >
-                      <BotonPrincipal Text="Volver" />
                     </button>
 
-                    <div className="flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
-                      <BotonSegundo Text="Siguiente" type="submit" />
+                    <div className="w-full flex justify-center items-center flex-wrap gap-x-4">
+                    <BotonPrincipal Text="Volver" />
+                    <BotonSegundo Text="Siguiente" type="submit" />
                     </div>
                   </div>
                 </div>

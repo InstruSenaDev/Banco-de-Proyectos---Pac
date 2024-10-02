@@ -23,7 +23,7 @@ import React from 'react';
 
 const RadioButton2 = ({ id, name, value, checked, onChange, label, Text, disabled, readOnly }) => {
   return (
-    <div className="flex items-center">
+    <div className="w-24">
       <input
         type="radio"
         id={id}

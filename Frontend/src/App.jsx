@@ -59,17 +59,18 @@ const App = () => {
           <Route path="/OlvidarContraseña" element={<OlvidarContraseña />} />
           <Route path="/UpdatePassword" element={<UpdatePassword />} />
 
-          {/* Rutas de Usuario */}
+          {/* Rutas de Usuario protegida*/}
           <Route element={<RutaProtegida allowedRoles={['2']} />}> {/* Rol de Usuario */}
-          <Route path="/Usuario/RegistroProyecto" element={<RegistroProyecto />} />
-          <Route path="/Usuario/RegistroProyecto/:idproyecto" element={<RegistroProyecto />} />
-          <Route path="/Usuario/Services/TiposDeArea/:id" element={<TiposDeArea />} />
-          <Route path="/Usuario/Services/ItemsDeArea/:idarea/:idtiposdearea" element={<ItemsDeArea />} />
-          <Route path="/Usuario/Vista_Objetivos/ObjetivosDeArea/:idarea/:idtiposdearea" element={<ObjetivosDeArea />} />
-          <Route path="/Usuario/VistaAreas1" element={<VistaAreas1 />} />
-          <Route path="/Usuario/VistaUsuario" element={<VistaUsuario />} />
-          <Route path="/Usuario/VistaAlcance" element={<VistaAlcance />} />
-          <Route path="/Usuario/VistaMisProyectos" element={<VistaMisProyectos />} />
+            <Route path="/Usuario/RegistroProyecto" element={<RegistroProyecto />} />
+            <Route path="/Usuario/RegistroProyecto/:idproyecto" element={<RegistroProyecto />} />
+            <Route path="/Usuario/Services/TiposDeArea/:id" element={<TiposDeArea />} />
+            <Route path="/Usuario/Services/ItemsDeArea/:idarea/:idtiposdearea" element={<ItemsDeArea />} />
+            <Route path="/Usuario/Vista_Objetivos/ObjetivosDeArea/:idarea/:idtiposdearea" element={<ObjetivosDeArea />} />
+            <Route path="/Usuario/VistaAreas1" element={<VistaAreas1 />} />
+            <Route path="/Usuario/VistaUsuario" element={<VistaUsuario />} />
+            <Route path="/Usuario/VistaAlcance" element={<VistaAlcance />} />
+            <Route path="/Usuario/VistaMisProyectos" element={<VistaMisProyectos />} />
+            <Route path="/Aprendiz/EditarPerfil" element={<EditarPerfil />} />
           </Route>
 
           {/* Rutas protegidas */}
@@ -85,17 +86,16 @@ const App = () => {
             <Route path="/SuperAdmin/items" element={<AdminItems />} />
             <Route path="/SuperAdmin/ficha" element={<AdminFicha />} />
             <Route path="/SuperAdmin/areatable" element={<AreaTable />} />
-            </Route>
+          </Route>
 
-            <Route element={<RutaProtegida allowedRoles={['4']} />}> {/* Rol de Aprendiz */}
+          <Route element={<RutaProtegida allowedRoles={['4']} />}> {/* Rol de Aprendiz */}
             <Route path="/Aprendiz/VistaAprendiz" element={<VistaAprendiz />} />
             <Route path="/Aprendiz/Reporte" element={<Reporte />} />
             <Route path="/Aprendiz/VistaProyectos" element={<VistaProyectos />} />
-            <Route path="/Aprendiz/EditarPerfil" element={<EditarPerfil />} />
             <Route path="/Aprendiz/Formulario" element={<Formulario />} />
-            </Route>
+          </Route>
 
-            <Route element={<RutaProtegida allowedRoles={['1']} />}> {/* Rol de Administrador*/}
+          <Route element={<RutaProtegida allowedRoles={['1']} />}> {/* Rol de Administrador*/}
             <Route path="/Calificar" element={<Calificar />} />
             <Route path="/Detalle/:id" element={<Detalle />} />
             <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
@@ -103,7 +103,7 @@ const App = () => {
             <Route path="/calificacion" element={<Calificacion />} />
             <Route path="/asignar" element={<AsignarProyectos />} />
             <Route path="/VistaAdmin" element={<VistaAdmin />} />
-            </Route>
+          </Route>
 
           {/* Ruta de acceso denegado */}
           <Route path="/403" element={<div>No tienes acceso a esta página.</div>} />
