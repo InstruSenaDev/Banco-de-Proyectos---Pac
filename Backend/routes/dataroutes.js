@@ -21,6 +21,7 @@ import {
     insertAlcance,
     insertObjetivo,
     getAllCategorias,
+    checkEmailExists
 
   
 } from '../controllers/datacontroler.js';
@@ -54,22 +55,6 @@ router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
         res.json(items);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching items', error: error.message });
-    }
-});
-
-router.post('/check-email', async (req, res) => {
-    const { correo } = req.body;
-
-    if (!correo) {
-        return res.status(400).json({ error: 'Correo electrónico es requerido.' });
-    }
-
-    try {
-        const exists = await checkEmailExists(correo);
-        res.json({ exists });
-    } catch (error) {
-        console.error('Error en el endpoint check-email:', error);
-        res.status(500).json({ error: error.message });
     }
 });
 
@@ -174,7 +159,7 @@ router.post('/agregarpersona', async (req, res) => {
 
 
 // Ruta para obtener todos los proyectos
-app.get('/api/proyecto', async (req, res) => {
+router.get('/api/proyecto', async (req, res) => {
     try {
         const proyectos = await obtenerTodosLosProyectos();
         res.json(proyectos);

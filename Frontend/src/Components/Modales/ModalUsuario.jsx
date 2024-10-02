@@ -3,19 +3,16 @@ import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
 import SelectBoxFicha from '../SelectBoxFicha';
 import SelectBoxTi from '../SelectBoxTI2';
-import RadioButton3 from '../RadioButton3';
 import PropTypes from 'prop-types';
 import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
-  const { formValues, errors, handleInputChange, handleSubmit } = useForm(async (data) => {
-    onAddMember(data);
+  const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {
+    const { estado, ...datosSinEstado } = data;
+    onAddMember(datosSinEstado);
     onClose();
   });
 
-  const handleRolChange = (value) => {
-    handleInputChange({ target: { id: 'tipoRol', value } });
-  };
 
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -33,34 +30,35 @@ export default function ModalUsuario({ onClose, onAddMember }) {
           <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div className="space-y-4">
               <Input2
-                id="nombreUsu"
-                Text="Nombre"
+                id="nombre"
                 type="text"
+                Text="Nombre"
                 placeholder="Nombre del usuario"
-                value={formValues.nombreUsu}
+                value={formValues.nombre}
                 onChange={handleInputChange}
-                error={errors.nombreUsu}
+                error={errors.nombre}
               />
               <SelectBoxTi
-                id="tipoDocumento"
+                id="tipodocumento"
                 text="Tipo de documento"
-                value={formValues.tipoDocumento}
-                onChange={(value) => handleInputChange({ target: { id: 'tipoDocumento', value } })}
-                error={errors.tipoDocumento}
+                Text="Tipo de documento"
+                value={formValues.tipodocumento}
+                onChange={(value) => handleInputChange({ target: { id: 'tipodocumento', value } })}
+                error={errors.tipodocumento}
               />
               <Input2
-                id="numeroDoc"
-                Text="Numero Documento"
+                id="numerodocumento"
                 type="text"
+                Text="Numero de documento"
                 placeholder="Número de documento"
-                value={formValues.numeroDoc}
+                value={formValues.numerodocumento}
                 onChange={handleInputChange}
-                error={errors.numeroDoc}
+                error={errors.numerodocumento}
               />
               <Input2
                 id="correo"
-                Text="Correo"
                 type="email"
+                Text="Correo:"
                 placeholder="Correo"
                 value={formValues.correo}
                 onChange={handleInputChange}
@@ -69,66 +67,53 @@ export default function ModalUsuario({ onClose, onAddMember }) {
             </div>
             <div className="space-y-4">
               <Input2
-                id="contrasena"
-                Text="Contraseña"
+                id="contraseña"
                 type="password"
+                Text="Contraseña"
                 placeholder="Contraseña"
-                value={formValues.contrasena}
+                value={formValues.contraseña}
                 onChange={handleInputChange}
-                error={errors.contrasena}
+                error={errors.contraseña}
               />
               <SelectBoxRol2
-                id="tipoRol"
+                id="idrol"
                 text="Seleccione un rol:"
-                value={formValues.tipoRol}
+                value={formValues.idrol}
                 onChange={handleRolChange}
-                error={errors.tipoRol}
+                error={errors.idrol}
               />
-              {formValues.tipoRol.toLowerCase() === 'aprendiz' && (
+              {formValues.idrol === '4' && (
                 <SelectBoxFicha
-                  id="fichaSeleccionada"
-                  text="Seleccione una ficha:"
-                  value={formValues.fichaSeleccionada}
-                  onChange={(value) => handleInputChange({ target: { id: 'fichaSeleccionada', value } })}
-                  error={errors.fichaSeleccionada}
-                />
+                id="idficha"
+                text="Seleccione una ficha:"
+                value={formValues.idficha}
+                onChange={(value) => {
+                  console.log('Ficha seleccionada:', value);  // Verificar idficha
+                  handleSelectChange('idficha', value);
+                }}
+                error={errors.idficha}
+              />
               )}
-              <div className="space-y-7">
-              <div className='space-y-7'>
-              <h1 className='text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong'>Seleccione una opcion</h1>
-                <div className="flex">
-                  <RadioButton3
-                    Text="Activo"
-                    Text2="inactivo"
-                    id="estadoActivo"
-                    value="Activo"
-                    checked={formValues.estado === 'Activo'}
-                    onChange={() => handleInputChange({ target: { id: 'estado', value: 'Activo' } })}
-                    error={errors.estado}
-                  />
-                </div>
-                </div>
-              </div>
               <Input2
                 id="celular"
-                Text="Celular"
                 type="text"
+                Text="Celular"
                 placeholder="Celular"
                 value={formValues.celular}
                 onChange={handleInputChange}
                 error={errors.celular}
               />
-              </div>
             </div>
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                id="guardarBtn"
-                className="bg-Verde text-black px-14 py-2 rounded"
-              >
-                Agregar
-              </button>
-            </div>
+          </div>
+          <div className='flex justify-end'>
+          <button
+            type="submit"
+            id="guardarBtn"
+            className="bg-verde text-black px-8 py-2 rounded"
+          >
+            Agregar
+          </button>
+          </div>
         </form>
       </DialogPanel>
     </Dialog>

@@ -307,31 +307,32 @@ async function getObjetivos() {
 
 // datacontroler.js
 const agregarPersona = async (req, res) => {
-    const { nombre, tipodocumento, numerodocumento, correo, contrasena, idrol, celular, estado, idficha } = req.body;
+    const { nombre, tipodocumento, numerodocumento, correo, contraseña, idrol, telefono, estado, idficha } = req.body;
 
     try {
-        // Ajuste: asegurarse de que idrol se use correctamente
         const nuevaPersona = {
             nombre,
             tipodocumento,
             numerodocumento,
             correo,
-            contrasena,
+            contraseña,
             idrol,
-            celular,
-            idficha: idrol === 'Aprendiz' ? idficha : null, // Verifica el valor de idrol
-            estado,
+            telefono, // Asegúrate de usar el nombre correcto del campo
+            idficha: idrol === '4' ? idficha : null, // Asigna idficha si es rol aprendiz
+            nombreempresa: null, // Establece nombreempresa como null
+            estado, // Asegúrate de que el estado también esté incluido
         };
 
-        // Simulación de inserción en la base de datos
+        // Inserción en la base de datos
         const resultado = await db.query('INSERT INTO personas SET ?', nuevaPersona);
 
         res.status(201).json({ message: 'Usuario registrado exitosamente' });
     } catch (error) {
         console.error('Error al registrar persona:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(500).json({ error: 'Internal server error', details: error.message });
     }
 };
+
 
 
 // Función para obtener todos los proyectos de la base de datos

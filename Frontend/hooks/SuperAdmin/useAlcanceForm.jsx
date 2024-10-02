@@ -3,8 +3,8 @@ import axios from 'axios';
 
 const useAlcanceForm = (onSubmitSuccess) => {
     const [formValues, setFormValues] = useState({
-        descripcion: '',          
-        categoria: '',     
+        descripcion: '',
+        categoria: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
