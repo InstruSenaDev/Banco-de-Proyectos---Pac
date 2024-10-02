@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export function useFichaForm(onSuccess) {
   const [formValues, setFormValues] = useState({
@@ -6,41 +6,41 @@ export function useFichaForm(onSuccess) {
     numeroficha: ''
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para evitar doble envío
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateForm = () => {
-    const errors = {};
+  const validateForm = useCallback(() => {
+    const newErrors = {};
     let isValid = true;
 
     const nombrePattern = /^[A-Za-zÀ-ÿ\s.,]{2,50}$/;
     if (!nombrePattern.test(formValues.nombre.trim())) {
-      errors.nombre = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
+      newErrors.nombre = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
       isValid = false;
     }
 
     const numerofichaPattern = /^[0-9]{7}$/;
     if (!numerofichaPattern.test(formValues.numeroficha.trim())) {
-      errors.numeroficha = 'Debe contener solo números, exactamente 7 dígitos';
+      newErrors.numeroficha = 'Debe contener solo números, exactamente 7 dígitos';
       isValid = false;
     }
 
-    setErrors(errors);
+    setErrors(newErrors);
     return isValid;
-  };
+  }, [formValues]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { id, value } = e.target;
     setFormValues((prevValues) => ({ ...prevValues, [id]: value }));
-  };
+  }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    if (isSubmitting) return; // Evitar envío si ya está en proceso
+    if (isSubmitting) return;
     setIsSubmitting(true);
 
     if (validateForm()) {
       try {
-        const response = await fetch('http://localhost:4000/api/fichas', {
+        const response = await fetch('http://localhost:4000/api/ficha', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -58,18 +58,18 @@ export function useFichaForm(onSuccess) {
       } catch (error) {
         setErrors((prevErrors) => ({ ...prevErrors, submit: error.message }));
       } finally {
-        setIsSubmitting(false); // Reactiva el botón de envío
+        setIsSubmitting(false);
       }
     } else {
       setIsSubmitting(false);
     }
-  };
+  }, [formValues, isSubmitting, validateForm, onSuccess]);
 
   return {
     formValues,
     errors,
     handleInputChange,
     handleSubmit,
-    isSubmitting, // Devuelve este estado para controlar el botón en el componente
+    isSubmitting,
   };
 }

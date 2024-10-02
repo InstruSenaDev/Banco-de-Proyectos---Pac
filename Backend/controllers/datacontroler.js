@@ -167,6 +167,7 @@ export async function registerFicha(req, res) {
     const { nombre, numeroficha } = req.body;
 
     try {
+        const client = await pool.connect();
         // Insertar la ficha en la tabla fichas
         const result = await client.query(
             'INSERT INTO ficha (nombre, numeroficha) VALUES ($1, $2) RETURNING *',
@@ -539,6 +540,33 @@ export async function registerComplete(req, res) {
     }
   }
 
+
+
+
+// Controlador para crear una ficha
+export const createFicha = async (req, res) => {
+    const { nombre, numeroficha } = req.body;
+  
+    // Validar los datos
+    if (!nombre || !numeroficha) {
+      return res.status(400).json({ error: 'El nombre y el número de ficha son obligatorios.' });
+    }
+  
+    try {
+      // Lógica para guardar la ficha en la base de datos
+      const nuevaFicha = await registerFicha({ nombre, numeroficha });
+  
+      // Respuesta de éxito
+      res.status(201).json({
+        message: 'Ficha registrada exitosamente',
+        ficha: nuevaFicha,
+      });
+    } catch (error) {
+      // Manejo de errores
+      res.status(500).json({ error: 'Error al registrar la ficha', details: error.message });
+    }
+  };
+  
 
 
 

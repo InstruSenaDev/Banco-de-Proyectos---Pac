@@ -22,7 +22,7 @@ const Fichas = () => {
     const fetchFichas = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:4000/api/fichas');
+        const response = await fetch('http://localhost:4000/api/ficha');
         if (!response.ok) {
           throw new Error('Error al cargar las fichas');
         }
@@ -55,7 +55,7 @@ const Fichas = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/fichas', {
+      const response = await fetch('http://localhost:4000/api/ficha', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
