@@ -166,25 +166,22 @@ export const addTipoDeArea = async (req, res) => {
 export async function registerFicha(req, res) {
     const { nombre, numeroficha } = req.body;
 
+    if (!nombre || !numeroficha) {
+        return res.status(400).json({ error: 'Nombre y número de ficha son requeridos' });
+    }
+
     try {
         const client = await pool.connect();
-        // Insertar la ficha en la tabla fichas
         const result = await client.query(
             'INSERT INTO ficha (nombre, numeroficha) VALUES ($1, $2) RETURNING *',
             [nombre, numeroficha]
         );
-
         client.release();
-        console.log('Ficha registrada con éxito:', result.rows[0]);
-
-        // Enviar la respuesta al cliente con la ficha registrada
-        return res.status(201).json(result.rows[0]);
-    } catch (error) {
-        console.error('Error al registrar ficha:', error);
-        return res.status(500).json({ error: 'Error al registrar ficha' });
-    }
-}
-
+        res.json({ success: true, message: 'Ficha registrada con éxito' });
+            } catch (error) {
+                res.status(500).json({ success: false, message: 'Error al registrar ficha' });
+            }
+        }
 
 async function checkEmailExists(correo) {
     if (!correo) {
@@ -540,33 +537,6 @@ export async function registerComplete(req, res) {
     }
   }
 
-
-
-
-// Controlador para crear una ficha
-export const createFicha = async (req, res) => {
-    const { nombre, numeroficha } = req.body;
-  
-    // Validar los datos
-    if (!nombre || !numeroficha) {
-      return res.status(400).json({ error: 'El nombre y el número de ficha son obligatorios.' });
-    }
-  
-    try {
-      // Lógica para guardar la ficha en la base de datos
-      const nuevaFicha = await registerFicha({ nombre, numeroficha });
-  
-      // Respuesta de éxito
-      res.status(201).json({
-        message: 'Ficha registrada exitosamente',
-        ficha: nuevaFicha,
-      });
-    } catch (error) {
-      // Manejo de errores
-      res.status(500).json({ error: 'Error al registrar la ficha', details: error.message });
-    }
-  };
-  
 
 
 

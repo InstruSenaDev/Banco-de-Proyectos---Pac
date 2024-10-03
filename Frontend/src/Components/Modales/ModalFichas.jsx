@@ -1,26 +1,26 @@
 import PropTypes from 'prop-types';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import { useFichaForm } from '../../../hooks/SuperAdmin/useFichaForm';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
-  const [successMessage, setSuccessMessage] = useState('');
-
-  const handleSuccess = useCallback((data) => {
-    onAddFicha(data);
-    setSuccessMessage('Registro exitoso');
+  const { formValues, errors, handleInputChange, handleSubmit, isSubmitting } = useFichaForm((data) => {
+    onAddFicha(data); // Actualizar vista con la nueva ficha
+    setSuccessMessage('Registro exitoso'); // Mensaje de éxito
     setTimeout(() => {
-      onClose();
+      onClose(); // Cerrar modal después de 2 segundos
     }, 2000);
-  }, [onAddFicha, onClose]);
+  });
 
-  const { formValues, errors, handleInputChange, handleSubmit, isSubmitting } = useFichaForm(handleSuccess);
+  const [successMessage, setSuccessMessage] = useState(''); // Manejo del mensaje de éxito
 
-  const handleFormSubmit = useCallback((e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!isSubmitting) handleSubmit(e);
-  }, [handleSubmit, isSubmitting]);
+    if (!isSubmitting) {
+      handleSubmit(e);
+    }
+  };
 
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -39,6 +39,7 @@ export default function ModalFicha({ onClose, onAddFicha }) {
 
           <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
+              {/* Campo para el nombre del programa */}
               <div className="relative">
                 <Input2
                   id="nombre"
@@ -51,6 +52,7 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                 />
               </div>
 
+              {/* Campo para el número de ficha */}
               <div className="relative">
                 <Input2
                   id="numeroficha"
@@ -63,23 +65,23 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                 />
               </div>
             </div>
-          </div>
 
-          {successMessage && (
-            <div className="mt-4 text-green-600">
-              {successMessage}
+            {successMessage && (
+              <div className="text-green-600">
+                {successMessage}
+              </div>
+            )}
+
+            <div className="flex justify-end mt-8">
+              <button
+                type="submit"
+                id="guardarBtn"
+                className="bg-Verde text-white px-4 py-2 rounded"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Registrando...' : 'Agregar'}
+              </button>
             </div>
-          )}
-
-          <div className='flex justify-end mt-8'>
-            <button
-              type="submit"
-              id="guardarBtn"
-              className="bg-Verde text-white px-4 py-2 rounded justify-end"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Registrando...' : 'Agregar'}
-            </button>
           </div>
         </form>
       </DialogPanel>

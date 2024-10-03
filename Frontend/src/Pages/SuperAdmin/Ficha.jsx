@@ -1,28 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal1';
+import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import ModalFicha from '../../Components/Modales/ModalFichas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentFicha, setCurrentFicha] = useState(null);
   const [fichas, setFichas] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFichas = async () => {
       setLoading(true);
       try {
-        const response = await fetch('http://localhost:4000/api/ficha');
+        const response = await fetch('http://localhost:4000/api/fichas');
         if (!response.ok) {
           throw new Error('Error al cargar las fichas');
         }
@@ -39,14 +35,12 @@ const Fichas = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentFicha(null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentFicha(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
+    setSuccessMessage('');
   };
 
   const handleAddFicha = async (newFicha) => {
@@ -55,12 +49,12 @@ const Fichas = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:4000/api/ficha', {
+      const response = await fetch('http://localhost:4000/api/fichas', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newFicha)
+        body: JSON.stringify(newFicha),
       });
 
       if (!response.ok) {
@@ -68,9 +62,11 @@ const Fichas = () => {
         throw new Error(`Error al registrar la ficha: ${errorData.message || response.statusText}`);
       }
 
-      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      setFichas((prevFichas) => [...prevFichas, newFicha]); // Añade la nueva ficha a la lista
+      setSuccessMessage('Registro exitoso');
+      handleCloseModal(); // Cerrar modal al éxito
+      const updatedResponse = await fetch('http://localhost:4000/api/fichas');
+      const updatedData = await updatedResponse.json();
+      setFichas(updatedData);
     } catch (error) {
       console.error('Error detallado al agregar ficha:', error);
     } finally {
@@ -79,48 +75,34 @@ const Fichas = () => {
     }
   };
 
-  const handleGoBack = () => {
-    navigate('/SuperAdmin/dashboard');
-  };
-
   return (
     <LayoutPrincipal title="Fichas">
       {loading ? (
-        <div id="loader" className="flex items-center justify-center min-h-screen">
-          <Loader />
-        </div>
+        <Loader />
       ) : (
         <Layoutcontenido title="Fichas">
-          <div className="flex flex-col w-full p-4 md:p-10 mb-10">
+          <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
-              <button
-                onClick={handleGoBack}
-                className="flex items-center text-black hover:text-Verde"
-              >
+              <button className="flex items-center text-black hover:text-Verde" onClick={() => navigate('/SuperAdmin/dashboard')}>
                 <ArrowLeftIcon className="w-5 h-5 mr-2" />
                 Volver
               </button>
-              <BotonSegundoModal
-                text="Agregar Ficha"
-                id="addFichaBtn"
-                onClick={handleAddClick}
-              />
+              <BotonSegundoModal text="Agregar Ficha" onClick={handleAddClick} />
             </div>
+
             {successMessage && (
               <div className="mb-4 text-green-500">
                 {successMessage}
               </div>
             )}
-            <div>
-              <GridListFicha fichas={fichas} setFichas={setFichas} />
-            </div>
+
+            <GridListFicha fichas={fichas} setFichas={setFichas} />
+            
             {isModalOpen && (
-              <ModalFicha
-                onClose={handleCloseModal}
-                onAddFicha={handleAddFicha}
-                ficha={currentFicha}
-                isSubmitting={isSubmitting}
-              />
+              <ModalFicha 
+              onClose={handleCloseModal} 
+              onAddFicha={handleAddFicha}
+              isSubmitting={isSubmitting} />
             )}
           </div>
         </Layoutcontenido>
