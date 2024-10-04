@@ -121,41 +121,40 @@ const Sidebar = () => {
             </span>
           </div>
           <ul className="space-y-3 font-medium mt-5">
-            {roleMenuItems.map((item, index) => (
-              <li key={index} className="w-full">
-               <Link
-                to={item.to}
-                className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
-                onClick={() => console.log('Navigating to:', item.to)}
-              >
-
-                  <i className={`${item.icon} static-icon text-black`} aria-hidden="true"></i>
-                  <span
-                    className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
-                      isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-                    }`}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              </li>
-            ))}
-            <li className="w-full">
-              <button
-                onClick={handleLogout}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
-              >
-                <i className="fas fa-sign-out-alt static-icon text-black" aria-hidden="true"></i>
-                <span
-                  className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
-                    isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  Salir
-                </span>
-              </button>
-            </li>
-          </ul>
+  {roleMenuItems.map((item, index) => (
+    <li key={index} className="w-full">
+      <Link
+        to={item.to}
+        className="flex items-center p-2 text-black rounded-lg dark:text-black group w-full hover:bg-gray-200"
+        onClick={() => console.log('Navigating to:', item.to)}
+      >
+        <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
+        <span
+          className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+            isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          {item.label}
+        </span>
+      </Link>
+    </li>
+  ))}
+  <li className="w-full">
+    <button
+      onClick={handleLogout}
+      className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group w-full hover:bg-gray-200"
+    >
+      <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
+      <span
+        className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+          isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        Salir
+      </span>
+    </button>
+  </li>
+</ul>
         </div>
       </aside>
 
