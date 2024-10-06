@@ -3,7 +3,7 @@ import React from 'react';
 const Items1 = ({ href, label, icon }) => {
   return (
     <li>
-      <a href={href} className="flex items-center p-2 text-gray-900 rounded-lg dark:text-black group">
+      <a href={href} className="flex items-center p-2 text-white rounded-lg dark:text-black group">
         <div>
           {icon ? (
             <i className={`${icon} flex-shrink-0 w-5 h-5 dark:text-black`} aria-hidden="true"></i>

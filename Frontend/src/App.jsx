@@ -12,6 +12,8 @@ import Alcance from './Pages//SuperAdmin/Alcance';
 import Items from './Pages//SuperAdmin/Items'
 import Ficha from './Pages//SuperAdmin/Ficha';
 import RegistroCompleto from './Pages/SuperAdmin/RegistroCompleto';
+import Ejemplo from './Pages/SuperAdmin/Ejemplo'
+import Graficos from './Pages/SuperAdmin/Graficos'
 
 
 const App = () => {
@@ -29,6 +31,8 @@ const App = () => {
         <Route path="/SuperAdmin/items" element={<Items />} />
         <Route path="/SuperAdmin/ficha" element={<Ficha />} />
         <Route path="/SuperAdmin/registrocompleto" element={<RegistroCompleto />} />
+        <Route path="/" element={<Ejemplo />} />
+        <Route path="/SuperAdmin/graficos" element={<Graficos />} />
       </Routes>
     </Router>
   );

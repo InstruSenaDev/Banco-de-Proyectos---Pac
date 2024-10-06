@@ -21,7 +21,6 @@ import {
     insertAlcance,
     insertObjetivo,
     getAllCategorias,
-    createFicha,
     checkEmailExists,
 
   

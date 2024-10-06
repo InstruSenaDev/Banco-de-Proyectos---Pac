@@ -4,6 +4,10 @@ import Layoutprincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
+import BarChartExample from '../../Components/BarChart'; 
+import ComboChartExample from '../../Components/ComboChart';
+
+
 
 const Dashboard = () => {
   // Estado para controlar la carga de la página
@@ -21,6 +25,8 @@ const Dashboard = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  
+
   return (
     <Layoutprincipal title="Proyectos">
       {loading ? (
@@ -34,6 +40,14 @@ const Dashboard = () => {
           <div className="bg-Verde p-4 sm:p-6 md:p-8 lg:p-10 rounded">
             <Title className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold">Bienvenido SuperAdmin</Title>
             <Text className="text-white font-extrabold text-sm sm:text-base md:text-lg">Banco de Proyectos</Text>
+          </div>
+
+        {/* Gráficos */}
+        <div className="mt-8">
+            <h2 className="text-xl font-bold">Resumen de Estado</h2>
+            <BarChartExample />
+            <h2 className="text-xl font-bold mt-8">Combinación de Gráficos</h2>
+            <ComboChartExample />
           </div>
 
           {/* Contenedor de tarjetas */}
@@ -93,6 +107,7 @@ const Dashboard = () => {
               route="/SuperAdmin/registrocompleto"
             />
           </div>
+
         </Layoutcontenido>
       )}
     </Layoutprincipal>

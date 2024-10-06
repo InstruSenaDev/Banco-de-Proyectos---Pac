@@ -51,12 +51,12 @@ const GridList = () => {
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-[#A3E784] font-bold">
+        <thead className="bg-[#2eb694] font-bold">
           <tr>
-            <th className="px-6 py-3 text-left text-gray-900">Nombre</th>
-            <th className="px-6 py-3 text-left text-gray-900">Correo</th>
-            <th className="px-6 py-3 text-left text-gray-900">Estado</th>
-            <th className="px-6 py-3 text-left text-gray-900">Rol</th>
+            <th className="px-6 py-3 text-left text-white">Nombre</th>
+            <th className="px-6 py-3 text-left text-white">Correo</th>
+            <th className="px-6 py-3 text-left text-white">Estado</th>
+            <th className="px-6 py-3 text-left text-white">Rol</th>
           </tr>
         </thead>
         {loading ? (

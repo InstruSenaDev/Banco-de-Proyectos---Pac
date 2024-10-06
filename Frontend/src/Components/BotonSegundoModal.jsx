@@ -7,12 +7,12 @@ const BotonSegundoModal = ({ text, id, onClick }) => {
         id={id}
         type="button" // Cambiado a "button" para evitar el envío por defecto
         onClick={onClick} // Llama a la función de envío
-        className="w-[147px] h-[40px] z-30 bg-[#A3E784] rounded-[5px] text-white relative font-semibold font-sans border border-[#A3E784]
-          after:-z-20 after:absolute after:h-1 after:w-1 after:bg-[#90cc74] after:left-5 overflow-hidden after:bottom-0 after:translate-y-full
+        className="w-[147px] h-[40px] z-30 bg-[#2eb694] rounded-[5px] text-white relative font-semibold font-sans border border-[#2eb694]
+          after:-z-20 after:absolute after:h-1 after:w-1 after:bg-[#2eb694] after:left-5 overflow-hidden after:bottom-0 after:translate-y-full
           after:rounded-md after:hover:scale-[300] after:hover:transition-all after:hover:duration-700 after:transition-all after:duration-700
           transition-all duration-700 mt-3"
       >
-        <span className="relative z-10 text-black text-[16px] duration-500">
+        <span className="relative z-10 text-white text-[16px] duration-500">
           {text}
         </span>
       </button>

@@ -23,19 +23,19 @@ const Menu = () => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-[#2eb694]">
           <div className="flex items-center">
-            <img src="/img/logo.svg" alt="Logo" className="w-10 h-10 pb-2" />
+          <img src="/img/Logo-DfgaWop5.png" alt="Logo" className="w-10 h-10 pb-2" />
             {isOpen && (
-              <span className="text-xl font-semibold whitespace-nowrap dark:text-black ml-2 pl-2">
+              <span className="text-xl font-semibold whitespace-nowrap dark:text-black text-white ml-2 pl-2">
                 PAC
               </span>
             )}
           </div>
-          <ul className="space-y-3 font-medium mt-5">
+          <ul className="space-y-3 font-medium mt-5 text-white">
             <Items1 icon="fas fa-home" href="#" label={isOpen ? 'Proyecto' : ''} />
-            <Items1 icon="fa-solid fa-user" href="#" label={isOpen ? 'Proyecto' : ''} />
-            <Items1 icon="fas fa-cog" href="#" label={isOpen ? 'Configuración' : ''} />
+            <Items1 icon="fa-solid fa-user" href="/SuperAdmin/dashboard" label={isOpen ? 'Dashboard' : ''} />
+            <Items1 icon="fas fa-cog" href="/SuperAdmin/graficos" label={isOpen ? 'Graficos' : ''} />
             <Items1 icon="fas fa-sign-out-alt" href="#" label={isOpen ? 'Salir' : ''} />
           </ul>
         </div>
