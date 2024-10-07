@@ -1,8 +1,8 @@
-import { Card, Metric, Text, Flex, ProgressBar } from '@tremor/react';
+import { Card, Text, Flex } from '@tremor/react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export function CardBase({ title, metricValue, progressText, buttonTex, route }) {
+export function CardBase({ title, progressText, buttonTex, route }) {
   const navigate = useNavigate();
 
   const handleClick = () => {

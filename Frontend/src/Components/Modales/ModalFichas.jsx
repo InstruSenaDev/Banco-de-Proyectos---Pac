@@ -6,20 +6,18 @@ import { useFichaForm } from '../../../hooks/SuperAdmin/useFichaForm';
 
 export default function ModalFicha({ onClose, onAddFicha }) {
   const { formValues, errors, handleInputChange, handleSubmit, isSubmitting } = useFichaForm((data) => {
-    onAddFicha(data); // Actualizar vista con la nueva ficha
-    setSuccessMessage('Registro exitoso'); // Mensaje de éxito
+    onAddFicha(data); // Actualiza la vista cuando se registra una ficha
+    setSuccessMessage('Registro exitoso'); // Establece el mensaje de éxito
     setTimeout(() => {
-      onClose(); // Cerrar modal después de 2 segundos
+      onClose(); // Cierra el modal después de 2 segundos
     }, 2000);
   });
 
-  const [successMessage, setSuccessMessage] = useState(''); // Manejo del mensaje de éxito
+  const [successMessage, setSuccessMessage] = useState(''); // Estado que maneja el mensaje de éxito
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (!isSubmitting) {
-      handleSubmit(e);
-    }
+    if (!isSubmitting) handleSubmit(e); // Llama a handleSubmit solo si no se está enviando
   };
 
   return (
@@ -39,7 +37,6 @@ export default function ModalFicha({ onClose, onAddFicha }) {
 
           <div className="flex flex-col p-[5%] space-y-4">
             <div className="col-span-full sm:col-span-3 space-y-2">
-              {/* Campo para el nombre del programa */}
               <div className="relative">
                 <Input2
                   id="nombre"
@@ -50,9 +47,9 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   onChange={handleInputChange}
                   error={errors.nombre}
                 />
+
               </div>
 
-              {/* Campo para el número de ficha */}
               <div className="relative">
                 <Input2
                   id="numeroficha"
@@ -63,25 +60,25 @@ export default function ModalFicha({ onClose, onAddFicha }) {
                   onChange={handleInputChange}
                   error={errors.numeroficha}
                 />
+
               </div>
             </div>
+          </div>
 
-            {successMessage && (
-              <div className="text-green-600">
-                {successMessage}
-              </div>
-            )}
-
-            <div className="flex justify-end mt-8">
-              <button
-                type="submit"
-                id="guardarBtn"
-                className="bg-Verde text-white px-4 py-2 rounded"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Registrando...' : 'Agregar'}
-              </button>
+          {successMessage && (
+            <div className="mt-4 text-green-600">
+              {successMessage}
             </div>
+          )}
+          <div className='flex justify-end mt-8'>
+          <button
+            type="submit"
+            id="guardarBtn"
+            className="bg-Verde text-white px-4 py-2 rounded justify-end"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Registrando...' : 'Agregar'}
+          </button>
           </div>
         </form>
       </DialogPanel>

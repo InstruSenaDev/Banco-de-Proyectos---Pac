@@ -15,14 +15,13 @@ import {
     insertItem,
     addTipoDeArea,
     getItemsByTipoDeArea,
-    registerFicha,
     getTiposDeArea,
     registerComplete,
     insertAlcance,
     insertObjetivo,
     getAllCategorias,
     checkEmailExists,
-
+    registerFicha,
   
 } from '../controllers/datacontroler.js';
 
@@ -30,6 +29,7 @@ import {
 const router = express.Router();
 
 
+router.post('/registerFicha', registerFicha);
 
 // Ruta para obtener todas las categorías
 router.get('/categorias', getAllCategorias);
@@ -48,7 +48,7 @@ router.get('/tipos-de-area', getTiposDeArea);
 router.post('/tipos-de-area', addTipoDeArea);
 router.get('/items/:idtiposdearea', getItemsByTipoDeArea);
 
-router.post('/registerFicha', registerFicha);
+
 
 router.get('/items/:idarea/:idtiposdearea', async (req, res) => {
     try {

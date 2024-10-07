@@ -4,28 +4,38 @@ import Layoutprincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
-import BarChartExample from '../../Components/BarChart'; 
-import ComboChartExample from '../../Components/ComboChart';
-
-
+import { BarChartGroupExample } from '../../Components/BarChartGroupExample'; // Asegúrate de que la ruta sea correcta
+import  AreaDonutChart  from '../../Components/AreaDonutChart'
 
 const Dashboard = () => {
   // Estado para controlar la carga de la página
   const [loading, setLoading] = useState(true);
-
+  const [chartData, setDataByMonth] = useState([]); // Estado para almacenar datos por meses
 
   useEffect(() => {
-    // Simula un tiempo de carga de 2 segundos
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchData = async () => {
+      try {
+        // Simula la obtención de datos desde el backend
+        const response = await fetch('http://localhost:4000/datos'); // Cambia la URL por tu API real
+        const data = await response.json();
 
+        // Procesa los datos para crear el formato que necesitas para el gráfico
+        const chartData = data.map(item => ({
+          name: item.mes, // Asumiendo que tu API devuelve un campo "mes"
+          Usuarios: item.usuarios, // Campo de usuarios desde la API
+          Proyectos: item.proyectos, // Campo de proyectos desde la API
+        }));
 
-    // Limpia el temporizador al desmontar el componente
-    return () => clearTimeout(timer);
+        setDataByMonth(chartData);
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
-
-  
 
   return (
     <Layoutprincipal title="Proyectos">
@@ -42,13 +52,16 @@ const Dashboard = () => {
             <Text className="text-white font-extrabold text-sm sm:text-base md:text-lg">Banco de Proyectos</Text>
           </div>
 
-        {/* Gráficos */}
-        <div className="mt-8">
-            <h2 className="text-xl font-bold">Resumen de Estado</h2>
-            <BarChartExample />
-            <h2 className="text-xl font-bold mt-8">Combinación de Gráficos</h2>
-            <ComboChartExample />
+          {/* Gráfico de barras para mostrar datos por mes */}
+          <div className="mt-8">
+            <Title className="text-lg font-bold">Resumen por Mes</Title>
+            <BarChartGroupExample data={chartData} />
           </div>
+
+          <div>
+      {/* Otros componentes y contenido */}
+      <AreaDonutChart />
+    </div>
 
           {/* Contenedor de tarjetas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 sm:mt-12 md:mt-16 z-0 w-full">
@@ -107,7 +120,6 @@ const Dashboard = () => {
               route="/SuperAdmin/registrocompleto"
             />
           </div>
-
         </Layoutcontenido>
       )}
     </Layoutprincipal>

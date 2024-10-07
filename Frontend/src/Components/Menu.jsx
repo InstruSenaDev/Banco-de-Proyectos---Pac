@@ -35,7 +35,6 @@ const Menu = () => {
           <ul className="space-y-3 font-medium mt-5 text-white">
             <Items1 icon="fas fa-home" href="#" label={isOpen ? 'Proyecto' : ''} />
             <Items1 icon="fa-solid fa-user" href="/SuperAdmin/dashboard" label={isOpen ? 'Dashboard' : ''} />
-            <Items1 icon="fas fa-cog" href="/SuperAdmin/graficos" label={isOpen ? 'Graficos' : ''} />
             <Items1 icon="fas fa-sign-out-alt" href="#" label={isOpen ? 'Salir' : ''} />
           </ul>
         </div>

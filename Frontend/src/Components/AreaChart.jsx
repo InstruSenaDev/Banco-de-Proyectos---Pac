@@ -1,13 +1,20 @@
-// src/Components/AreaChart.jsx
-import { AreaChart } from '@tremor/react';
+import React from 'react';
+import { AreaChart as RechartsAreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from 'recharts';
 
-const CustomAreaChart = ({ data }) => {
+const AreaChart = ({ data, index, categories, showLegend }) => {
   return (
-    <AreaChart
-      data={data}
-      // Configura las propiedades que necesites
-    />
+    <ResponsiveContainer width="100%" height="100%">
+      <RechartsAreaChart data={data}>
+        <XAxis dataKey={index} />
+        <YAxis />
+        <Tooltip />
+        <CartesianGrid strokeDasharray="3 3" />
+        {categories.map((category, index) => (
+          <Area key={index} type="monotone" dataKey={category} fill={`url(#color${index})`} stroke={`#${Math.floor(Math.random()*16777215).toString(16)}`} />
+        ))}
+      </RechartsAreaChart>
+    </ResponsiveContainer>
   );
 };
 
-export default CustomAreaChart;
+export default AreaChart;

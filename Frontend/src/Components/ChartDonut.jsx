@@ -1,36 +1,33 @@
 import { DonutChart } from '@tremor/react';
-
-
-const datahero = [
-  { name: 'Proyectos recibidos', value: 980 },
-  { name: 'Proyectos rechazados', value: 4567 },
-  { name: 'Proyectos aceptados', value: 3908 },
-  { name: 'Proyectos devueltos', value: 2400 },
-  { name: 'Proyectos por revisar', value: 2174 },
-];
+import PropTypes from 'prop-types'; // Asegúrate de importar PropTypes si usas validación de props.
 
 const dataFormatter = (number) => `$ ${Intl.NumberFormat('us').format(number)}`;
 
-export const ChartDonut = () => {
+const ChartDonut = ({ data }) => {
   return (
     <div className="mx-auto space-y-12">
       {/* Donut Chart */}
-      <div className="space-y-3">
-        <span className="text-center block font-mono text-tremor-default text-tremor-content dark:text-dark-tremor-content">
-          Donut Variant
-        </span>
-        <div className="flex justify-center">
+        <div className="flex justify-center py-2">
           <DonutChart
-            data={datahero}
+            data={data}
             variant="donut"
             valueFormatter={dataFormatter}
             onValueChange={(value) => console.log(value)}
-            colors={["yellow", "red" , "indigo" , "blue" , "green"]}
+            colors={["yellow", "red", "indigo", "blue", "green"]}
           />
         </div>
       </div>
-      {/* Pie Chart */}
-
-    </div>
   );
 };
+
+// Validación de las props
+ChartDonut.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      value: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+};
+
+export default ChartDonut;

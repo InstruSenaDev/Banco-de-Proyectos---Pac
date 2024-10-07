@@ -5,25 +5,22 @@ export function useFichaForm(onSuccess) {
     nombre: '',
     numeroficha: ''
   });
-
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false); // Control de envío del formulario
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = () => {
     const errors = {};
     let isValid = true;
 
-    // Validar nombre (solo letras y espacios)
     const nombrePattern = /^[A-Za-zÀ-ÿ\s.,]{2,50}$/;
     if (!nombrePattern.test(formValues.nombre.trim())) {
       errors.nombre = 'El nombre debe contener solo letras y tener entre 2 y 50 caracteres.';
       isValid = false;
     }
 
-    // Validar número de ficha (solo 7 dígitos)
     const numerofichaPattern = /^[0-9]{7}$/;
     if (!numerofichaPattern.test(formValues.numeroficha.trim())) {
-      errors.numeroficha = 'Debe contener solo números, exactamente 7 dígitos.';
+      errors.numeroficha = 'Debe contener solo números, exactamente 7 dígitos';
       isValid = false;
     }
 
@@ -33,15 +30,17 @@ export function useFichaForm(onSuccess) {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormValues(prevValues => ({ ...prevValues, [id]: value }));
+    setFormValues((prevValues) => ({ ...prevValues, [id]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isSubmitting && validateForm()) {
-      setIsSubmitting(true); // Control del estado de envío
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    if (validateForm()) {
       try {
-        const response = await fetch('http://localhost:4000/api/ficha', {
+        const response = await fetch('http://localhost:4000/api/registerFicha', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -50,18 +49,19 @@ export function useFichaForm(onSuccess) {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Error desconocido');
+          const error = await response.json();
+          throw new Error(error.error || 'Error desconocido');
         }
 
         const data = await response.json();
-        onSuccess(data); // Acción al registrar con éxito
+        onSuccess(data);
       } catch (error) {
-        console.error('Error al registrar ficha:', error);
         setErrors((prevErrors) => ({ ...prevErrors, submit: error.message }));
       } finally {
-        setIsSubmitting(false); // Finaliza el estado de envío
+        setIsSubmitting(false);
       }
+    } else {
+      setIsSubmitting(false);
     }
   };
 
