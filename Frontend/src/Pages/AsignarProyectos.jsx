@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom'; // useLocation para obtener el estado previo
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
 import Layoutprincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
 import BotonSegundo from '../Components/BotonSegundo';
 import useFichasYAprendices from '../../hooks/Admin/useFichasYAprendices';
-import { useAsignarProyecto } from '../../hooks/Admin/useAsignarProyecto';
+import useAsignarProyecto from '../../hooks/Admin/useAsignarProyecto'; // Asegúrate de importar el hook correctamente
 import BotonBack from '../Components/BotonBack';
 
 const AsignarProyectos = () => {
@@ -40,6 +40,7 @@ const AsignarProyectos = () => {
         return;
       }
 
+      // Actualiza todos los aprendices seleccionados
       for (const idpersona of selectedAprendices) {
         await asignarProyecto(idproyecto, idpersona);
       }
@@ -64,9 +65,10 @@ const AsignarProyectos = () => {
       <Layoutcontenido2 text1="Asignar Proyecto">
         <Card className='h-auto'>
           <div className="flex items-center mb-6">
-            <Button variant="light" color="gray" className="mr-4">
-              Asignación de proyecto
+            <Button variant="light" color="gray" className="mr-4" onClick={handleBackClick}>
+              <BotonBack /> {/* Botón para volver */}
             </Button>
+            <Title className="text-lg">Asignación de Proyecto</Title>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

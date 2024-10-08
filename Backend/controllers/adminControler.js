@@ -173,37 +173,30 @@ const asignarProyecto = async (req, res) => {
   console.log('Datos recibidos:', { idproyecto, idpersona });
 
   try {
-    let result;
-
+    // Si no se envía idpersona, eliminar todas las asignaciones
     if (!idpersona) {
-      // Si no se envía ningún aprendiz, eliminar todas las asignaciones del proyecto
-      result = await pool.query(
-        `DELETE FROM asignaciones_proyectos 
-         WHERE idproyecto = $1
-         RETURNING *`,
+      await pool.query(
+        `UPDATE asignaciones_proyectos 
+         SET estado = false 
+         WHERE idproyecto = $1`,
         [idproyecto]
       );
-
-      if (result.rows.length > 0) {
-        console.log('Todas las asignaciones del proyecto eliminadas:', result.rows);
-        return res.status(200).json({ success: true, message: 'Todas las asignaciones del proyecto eliminadas' });
-      } else {
-        console.log('No se encontró ningún proyecto con ese id para eliminar.');
-        return res.status(404).json({ success: false, message: 'Proyecto no encontrado para eliminar asignaciones.' });
-      }
+      return res.status(200).json({ success: true, message: 'Todas las asignaciones actualizadas a false.' });
     }
 
-    // Eliminar todas las asignaciones previas para este proyecto
+    // Actualizar el estado de todos los aprendices asignados a false
     await pool.query(
-      `DELETE FROM asignaciones_proyectos 
+      `UPDATE asignaciones_proyectos 
+       SET estado = false 
        WHERE idproyecto = $1`,
       [idproyecto]
     );
 
-    // Insertar la nueva asignación
-    result = await pool.query(
-      `INSERT INTO asignaciones_proyectos (idproyecto, idpersona)
-       VALUES ($1, $2)
+    // Asignar el nuevo aprendiz y establecer su estado como true
+    const result = await pool.query(
+      `INSERT INTO asignaciones_proyectos (idproyecto, idpersona, estado)
+       VALUES ($1, $2, true)
+       ON CONFLICT (idproyecto, idpersona) DO UPDATE SET estado = true 
        RETURNING *`,
       [idproyecto, idpersona]
     );
@@ -215,6 +208,31 @@ const asignarProyecto = async (req, res) => {
     res.status(500).json({ success: false, message: 'Error al asignar proyecto', error: error.message });
   }
 };
+
+
+// Controlador para ver a los aprendices asignados
+const getPersonasAsignadas = async (req, res) => {
+  const { idproyecto } = req.params;
+  try {
+    const query = `
+      SELECT p.nombre AS nombre_persona 
+      FROM personas p
+      JOIN asignaciones_proyectos ap ON p.idpersonas = ap.idpersona
+      WHERE ap.idproyecto = $1 AND ap.estado = true
+    `;
+    const result = await pool.query(query, [idproyecto]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'No hay personas asignadas a este proyecto.' });
+    }
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error al obtener las personas asignadas:', error);
+    res.status(500).json({ message: 'Error en el servidor.' });
+  }
+};
+
 
 const actualizarIdCalificacion = async (req, res) => {
   const { idproyecto, idcalificacion } = req.body;
@@ -257,29 +275,6 @@ const getProyectosAsignados = async (req, res) => {
   } catch (error) {
     console.error('Error al obtener proyectos asignados:', error);
     res.status(500).json({ message: 'Error al obtener proyectos asignados' });
-  }
-};
-
-// Controlador para ver a los aprendices asignados
-const getPersonasAsignadas = async (req, res) => {
-  const { idproyecto } = req.params;
-  try {
-    const query = `
-      SELECT p.nombre AS nombre_persona 
-      FROM personas p
-      JOIN asignaciones_proyectos ap ON p.idpersonas = ap.idpersona
-      WHERE ap.idproyecto = $1
-    `;
-    const result = await pool.query(query, [idproyecto]);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'No hay personas asignadas a este proyecto.' });
-    }
-
-    res.json(result.rows);
-  } catch (error) {
-    console.error('Error al obtener las personas asignadas:', error);
-    res.status(500).json({ message: 'Error en el servidor.' });
   }
 };
 

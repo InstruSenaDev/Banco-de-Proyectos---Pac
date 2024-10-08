@@ -1,12 +1,14 @@
 import { useState } from 'react';
 
-export const useAsignarProyecto = () => {
+const useAsignarProyecto = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const asignarProyecto = async (idproyecto, idpersona) => {
     setLoading(true);
     setError(null);
+    setSuccess(null);
 
     try {
       const response = await fetch('http://localhost:4000/api/admin/asignar-proyectos', {
@@ -18,22 +20,21 @@ export const useAsignarProyecto = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al asignar proyecto');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error en la asignación del proyecto');
       }
 
       const data = await response.json();
-      setLoading(false);
+      setSuccess(data);
       return data;
-    } catch (err) {
+    } catch (error) {
+      setError(error.message);
+    } finally {
       setLoading(false);
-      setError(err.message);
-      console.error(err);
     }
   };
 
-  return {
-    asignarProyecto,
-    loading,
-    error,
-  };
+  return { asignarProyecto, loading, error, success };
 };
+
+export default useAsignarProyecto;
