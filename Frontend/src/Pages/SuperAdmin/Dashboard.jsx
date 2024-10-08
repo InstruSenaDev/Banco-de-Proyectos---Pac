@@ -4,8 +4,8 @@ import Layoutprincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
-import { BarChartGroupExample } from '../../Components/BarChartGroupExample'; // Asegúrate de que la ruta sea correcta
-import  AreaDonutChart  from '../../Components/AreaDonutChart'
+// import { BarChartGroupExample } from '../../Components/BarChartGroupExample'; // Asegúrate de que la ruta sea correcta
+// import  AreaDonutChart  from '../../Components/AreaDonutChart'
 
 const Dashboard = () => {
   // Estado para controlar la carga de la página
@@ -53,15 +53,14 @@ const Dashboard = () => {
           </div>
 
           {/* Gráfico de barras para mostrar datos por mes */}
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <Title className="text-lg font-bold">Resumen por Mes</Title>
             <BarChartGroupExample data={chartData} />
           </div>
 
           <div>
-      {/* Otros componentes y contenido */}
       <AreaDonutChart />
-    </div>
+    </div> */}
 
           {/* Contenedor de tarjetas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 sm:mt-12 md:mt-16 z-0 w-full">

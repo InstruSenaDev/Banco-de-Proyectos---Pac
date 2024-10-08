@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
@@ -8,14 +8,10 @@ import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import ModalObjetivos from '../../Components/Modales/ModalObjetivos';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
-const Area = () => {
+const Objetivo = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentObjetivo, setCurrentObjetivo] = useState(null);
   const [objetivos, setObjetivos] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,21 +35,14 @@ const Area = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentObjetivo(null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentObjetivo(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
   const handleAddObjetivo = async (newObjetivo) => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setLoading(true);
-
     try {
       const response = await fetch('http://localhost:4000/api/objetivos', {
         method: 'POST',
@@ -68,14 +57,11 @@ const Area = () => {
         throw new Error(`Error al registrar el objetivo: ${errorData.message || response.statusText}`);
       }
 
-      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      setObjetivos((prevObjetivos) => [...prevObjetivos, newObjetivo]); // Añade el nuevo objetivo a la lista
+      const addedObjetivo = await response.json();
+      setObjetivos(prevObjetivo => [...prevObjetivo, addedObjetivo]); // Actualizar la lista de items
+      handleCloseModal(); // Cerrar el modal
     } catch (error) {
-      console.error('Error detallado al agregar objetivo:', error);
-    } finally {
-      setIsSubmitting(false);
-      setLoading(false);
+      console.error('Error al agregar item:', error);
     }
   };
 
@@ -102,11 +88,6 @@ const Area = () => {
               </button>
               <BotonSegundoModal text="Agregar Objetivo" id="addObjetivoBtn" onClick={handleAddClick} />
             </div>
-            {successMessage && (
-              <div className="mb-4 text-green-500">
-                {successMessage}
-              </div>
-            )}
             <div>
               <GridListObjetivos objetivos={objetivos} setObjetivos={setObjetivos} />
             </div>
@@ -114,8 +95,6 @@ const Area = () => {
               <ModalObjetivos
                 onClose={handleCloseModal}
                 onAddObjetivo={handleAddObjetivo}
-                objetivo={currentObjetivo}
-                isSubmitting={isSubmitting}
               />
             )}
           </div>
@@ -125,4 +104,4 @@ const Area = () => {
   );
 };
 
-export default Area;
+export default Objetivo;

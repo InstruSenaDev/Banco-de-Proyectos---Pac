@@ -8,36 +8,42 @@ import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import ModalItems from '../../Components/Modales/ModalItems'; // Importar el modal
 
-const Area = () => {
+const Items = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null); // Para manejar el item actual
-  const [successMessage, setSuccessMessage] = useState(''); // Mensaje de éxito
-  const [isSubmitting, setIsSubmitting] = useState(false); // Estado de envío
-
+  const [items, setItems] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch para obtener los items desde la API
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchItems = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/items');
+        if (!response.ok) {
+          throw new Error('Error al cargar los items');
+        }
+        const data = await response.json();
+        setItems(data);
+      } catch (error) {
+        console.error('Error al cargar items:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchItems();
   }, []);
 
   const handleAddClick = () => {
-    setCurrentItem(null);
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleGoBack = () => {
-    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Cerrar el modal
   };
 
+  // Lógica para agregar un nuevo item
   const handleAddItem = async (newItem) => {
-    if (isSubmitting) return; // Evitar múltiples envíos
-    setIsSubmitting(true);
-
     try {
       const response = await fetch('http://localhost:4000/api/items', {
         method: 'POST',
@@ -48,26 +54,20 @@ const Area = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Error al agregar el item');
+        const errorData = await response.json();
+        throw new Error(`Error al registrar el item: ${errorData.message || response.statusText}`);
       }
 
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      handleCloseModal(); // Cierra el modal
-      // Recargar la lista de items
-      const updatedResponse = await fetch('http://localhost:4000/api/items');
-      const updatedData = await updatedResponse.json();
-      setItems(updatedData); // Asegúrate de definir `setItems` en tu estado
+      const addedItem = await response.json();
+      setItems(prevItems => [...prevItems, addedItem]); // Actualizar la lista de items
+      handleCloseModal(); // Cerrar el modal
     } catch (error) {
       console.error('Error al agregar item:', error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setCurrentItem(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
+  const handleGoBack = () => {
+    navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
   };
 
   return (
@@ -89,26 +89,24 @@ const Area = () => {
               </button>
               <BotonSegundoModal text="Agregar Items" id="addItemBtn" onClick={handleAddClick} />
             </div>
-            {successMessage && (
-              <div className="mb-4 text-green-500">
-                {successMessage}
-              </div>
-            )}
+
+            {/* Tabla de items */}
             <div>
-              <GridListItems />
+              <GridListItems items={items} setItems={setItems} />
             </div>
+
+            {/* Modal para agregar un nuevo item */}
+            {isModalOpen && (
+              <ModalItems
+                onClose={handleCloseModal}
+                onAddItem={handleAddItem} // Asegúrate de que ModalItems acepte esta prop
+              />
+            )}
           </div>
-          {isModalOpen && (
-            <ModalItems
-              item={currentItem}
-              onClose={handleCloseModal}
-              onAddItem={handleAddItem} // Asegúrate de que ModalItems acepte esta prop
-            />
-          )}
         </Layoutcontenido>
       )}
     </LayoutPrincipal>
   );
 };
 
-export default Area;
+export default Items;

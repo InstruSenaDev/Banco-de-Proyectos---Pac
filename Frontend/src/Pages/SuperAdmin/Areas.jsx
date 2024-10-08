@@ -11,11 +11,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentArea, setCurrentArea] = useState(null);
   const [areas, setAreas] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,21 +35,14 @@ const Area = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentArea(null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentArea(null);
-    setSuccessMessage(''); // Reiniciar mensaje de éxito al cerrar el modal
   };
 
   const handleAddArea = async (newArea) => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
-    setLoading(true);
-
     try {
       const response = await fetch('http://localhost:4000/api/areas', {
         method: 'POST',
@@ -68,17 +57,12 @@ const Area = () => {
         throw new Error(`Error al registrar el área: ${errorData.message || response.statusText}`);
       }
 
-      setSuccessMessage('Registro exitoso'); // Mostrar mensaje de éxito
-      handleCloseModal(); // Cierra el modal inmediatamente después de un registro exitoso
-      // Recarga solo la lista de áreas después de agregar
-      const updatedResponse = await fetch('http://localhost:4000/api/areas');
-      const updatedData = await updatedResponse.json();
-      setAreas(updatedData);
+      const addedArea = await response.json();
+      setAreas(prevAreas => [...prevAreas, addedArea]);
+      handleCloseModal();
     } catch (error) {
-      console.error('Error detallado al agregar área:', error);
-    } finally {
-      setIsSubmitting(false);
-      setLoading(false);
+      console.error('Error al agregar areas:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario
     }
   };
 
@@ -105,11 +89,6 @@ const Area = () => {
               </button>
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
             </div>
-            {successMessage && (
-              <div className="mb-4 text-green-500">
-                {successMessage}
-              </div>
-            )}
             <div>
               <GridListArea areas={areas} setAreas={setAreas} />
             </div>
@@ -117,8 +96,6 @@ const Area = () => {
               <Areas
                 onClose={handleCloseModal}
                 onAddArea={handleAddArea}
-                area={currentArea}
-                isSubmitting={isSubmitting}
               />
             )}
           </div>

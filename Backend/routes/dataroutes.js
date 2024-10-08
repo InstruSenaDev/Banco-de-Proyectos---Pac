@@ -20,7 +20,6 @@ import {
     insertAlcance,
     insertObjetivo,
     getAllCategorias,
-    checkEmailExists,
     registerFicha,
   
 } from '../controllers/datacontroler.js';
@@ -128,36 +127,8 @@ router.get('/objetivos/:idarea', async (req, res) => {
     }
 });
 
-router.post('/agregarpersona', async (req, res) => {
-    try {
-        const { nombre, tipodocumento, numerodocumento, telefono, correo, contraseña, idrol, estado, idficha } = req.body;
-
-        // Verificar si el correo ya existe
-        const emailExists = await checkEmailExists(correo);
-        if (emailExists) {
-            return res.status(409).json({ error: 'El correo electrónico ya está registrado.' });
-        }
-
-        // Registrar la nueva persona incluyendo idficha si el rol es Aprendiz
-        const newPerson = await agregarPersona({
-            nombre,
-            tipodocumento,
-            numerodocumento,
-            telefono,
-            correo,
-            contraseña,
-            idrol,
-            estado,
-            idficha: idrol === 'Aprendiz' ? idficha : null
-        });
-
-        res.status(201).json(newPerson);
-    } catch (error) {
-        console.error('Error al registrar persona:', error);
-        res.status(500).json({ error: 'Internal server error', details: error.message });
-    }
-});
-
+// Ruta para agregar una persona
+router.post('/agregarpersona', agregarPersona);
 
 
 // Ruta para obtener todos los proyectos
