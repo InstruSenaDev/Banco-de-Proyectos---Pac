@@ -60,6 +60,7 @@ const Alcance = () => {
       const addedAlcances = await response.json();
       setAlcances(prevAlcances => [...prevAlcances, addedAlcances]);
       handleCloseModal();
+      window.location.reload();
     } catch (error) {
       console.error('Error al agregar Alcances:', error);
       // Aquí podrías mostrar un mensaje de error al usuario

@@ -59,6 +59,7 @@ const Fichas = () => {
       const addedFicha = await response.json();
       setFichas(prevFichas => [...prevFichas, addedFicha]);
       handleCloseModal();
+      window.location.reload();
     } catch (error) {
       console.error('Error al agregar ficha:', error);
       // Aquí podrías mostrar un mensaje de error al usuario

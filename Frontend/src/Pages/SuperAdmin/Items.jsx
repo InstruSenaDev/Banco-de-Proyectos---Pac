@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListItems from './GridList/GridListItems';
 import Loader from '../../Components/Loader';
@@ -61,6 +61,7 @@ const Items = () => {
       const addedItem = await response.json();
       setItems(prevItems => [...prevItems, addedItem]); // Actualizar la lista de items
       handleCloseModal(); // Cerrar el modal
+      window.location.reload();
     } catch (error) {
       console.error('Error al agregar item:', error);
     }

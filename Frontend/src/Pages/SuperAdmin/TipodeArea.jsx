@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListTipoArea from './GridList/GridListTipoArea';
 import Loader from '../../Components/Loader';
@@ -60,6 +60,7 @@ const TipoArea = () => {
       const addedTipoArea = await response.json();
       setTipoAreas(prevTipoAreas => [...prevTipoAreas, addedTipoArea]);
       handleCloseModal();
+      window.location.reload();
     } catch (error) {
       console.error('Error al agregar tipo de área:', error);
       // Aquí podrías mostrar un mensaje de error al usuario

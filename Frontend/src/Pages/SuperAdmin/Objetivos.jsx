@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal1';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListObjetivos from './GridList/GridListObjetivos';
 import Loader from '../../Components/Loader';
@@ -60,6 +60,7 @@ const Objetivo = () => {
       const addedObjetivo = await response.json();
       setObjetivos(prevObjetivo => [...prevObjetivo, addedObjetivo]); // Actualizar la lista de items
       handleCloseModal(); // Cerrar el modal
+      window.location.reload();
     } catch (error) {
       console.error('Error al agregar item:', error);
     }
