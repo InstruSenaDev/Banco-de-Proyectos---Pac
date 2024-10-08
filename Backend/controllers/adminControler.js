@@ -166,15 +166,14 @@ const getAprendicesByFicha = async (req, res) => {
   }
 };
 
-// Controlador para asignar proyectos
 const asignarProyecto = async (req, res) => {
   const { idproyecto, idpersona } = req.body;
 
   console.log('Datos recibidos:', { idproyecto, idpersona });
 
   try {
-    // Si no se envía idpersona, eliminar todas las asignaciones
-    if (!idpersona) {
+    // Si no se envían aprendices (idpersona), eliminamos todas las asignaciones
+    if (!idpersona || idpersona.length === 0) {
       await pool.query(
         `UPDATE asignaciones_proyectos 
          SET estado = false 
@@ -184,7 +183,7 @@ const asignarProyecto = async (req, res) => {
       return res.status(200).json({ success: true, message: 'Todas las asignaciones actualizadas a false.' });
     }
 
-    // Actualizar el estado de todos los aprendices asignados a false
+    // Actualiza el estado de todos los aprendices asignados a false
     await pool.query(
       `UPDATE asignaciones_proyectos 
        SET estado = false 
@@ -192,22 +191,23 @@ const asignarProyecto = async (req, res) => {
       [idproyecto]
     );
 
-    // Asignar el nuevo aprendiz y establecer su estado como true
-    const result = await pool.query(
-      `INSERT INTO asignaciones_proyectos (idproyecto, idpersona, estado)
-       VALUES ($1, $2, true)
-       ON CONFLICT (idproyecto, idpersona) DO UPDATE SET estado = true 
-       RETURNING *`,
-      [idproyecto, idpersona]
-    );
+    // Asigna los nuevos aprendices o actualiza si ya existen
+    for (const id of idpersona) {
+      await pool.query(
+        `INSERT INTO asignaciones_proyectos (idproyecto, idpersona, estado)
+         VALUES ($1, $2, true)
+         ON CONFLICT (idproyecto, idpersona) DO UPDATE SET estado = true`,
+        [idproyecto, id]
+      );
+    }
 
-    console.log('Asignación creada:', result.rows[0]);
-    return res.status(201).json({ success: true, message: 'Asignación creada', data: result.rows[0] });
+    return res.status(201).json({ success: true, message: 'Asignaciones creadas o actualizadas' });
   } catch (error) {
     console.error('Error al asignar proyecto:', error.message);
     res.status(500).json({ success: false, message: 'Error al asignar proyecto', error: error.message });
   }
 };
+
 
 
 // Controlador para ver a los aprendices asignados

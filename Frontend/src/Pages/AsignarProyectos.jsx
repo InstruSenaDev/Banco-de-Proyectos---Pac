@@ -39,17 +39,17 @@ const AsignarProyectos = () => {
         alert('No se seleccionó ningún aprendiz, la asignación se actualizó a NULL.');
         return;
       }
-
-      // Actualiza todos los aprendices seleccionados
-      for (const idpersona of selectedAprendices) {
-        await asignarProyecto(idproyecto, idpersona);
-      }
-
+  
+      // Aquí envía los ids de los aprendices seleccionados en un array
+      await asignarProyecto(idproyecto, selectedAprendices); // Enviar el arreglo de ids de aprendices
+  
       alert('Asignación guardada correctamente');
     } catch (error) {
       alert('Hubo un error al guardar la asignación');
     }
   };
+  
+  
 
   // Maneja el clic en el botón "Atrás" y reabre el modal si es necesario
   const handleBackClick = () => {

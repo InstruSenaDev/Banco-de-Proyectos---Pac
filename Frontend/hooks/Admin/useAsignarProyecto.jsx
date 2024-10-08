@@ -5,25 +5,25 @@ const useAsignarProyecto = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const asignarProyecto = async (idproyecto, idpersona) => {
+  const asignarProyecto = async (idproyecto, idpersonaArray) => {
     setLoading(true);
     setError(null);
     setSuccess(null);
-
+  
     try {
       const response = await fetch('http://localhost:4000/api/admin/asignar-proyectos', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ idproyecto, idpersona }),
+        body: JSON.stringify({ idproyecto, idpersona: idpersonaArray }), // Enviar un arreglo de ids
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Error en la asignación del proyecto');
       }
-
+  
       const data = await response.json();
       setSuccess(data);
       return data;
@@ -33,6 +33,7 @@ const useAsignarProyecto = () => {
       setLoading(false);
     }
   };
+  
 
   return { asignarProyecto, loading, error, success };
 };
