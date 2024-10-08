@@ -4,7 +4,7 @@ import Layoutprincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
 import Loader from '../../Components/Loader';
-import ChartDonut from '../../Components/ChartDonut';
+import { ChartDonut } from '../../Components/ChartDonut';
 
 const Dashboard = () => {
   // Estado para controlar la carga de la página
@@ -33,7 +33,7 @@ const Dashboard = () => {
           <div className="bg-Verde p-4 sm:p-6 md:p-8 lg:p-10 rounded">
             <Title className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold">Bienvenido SuperAdmin</Title>
             <Text className="text-white font-extrabold text-sm sm:text-base md:text-lg">Banco de Proyectos</Text>
-          </div> 
+          </div>
 
           {/* Contenedor de tarjetas */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 sm:mt-12 md:mt-16 z-0 w-full">
@@ -92,10 +92,10 @@ const Dashboard = () => {
               route="/SuperAdmin/registrocompleto"
             />
           </div>
-          <div> 
-             <ChartDonut/>
+          <div className="border-[1px] rounded-t-lg mt-10">
+          <ChartDonut />
           </div>
-         
+
         </Layoutcontenido>
       )}
     </Layoutprincipal>
