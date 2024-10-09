@@ -28,19 +28,19 @@ const VistaAdmin = () => {
       <div id="content" className="">
         <div className="flex flex-col items-center justify-center min-h-screen overflow-hidden">
           <div className="w-full max-w-7xl flex-grow px-4 sm:px-8 md:px-0">
-            <div className="flex flex-col md:flex-row items-start">
-              <div className="w-full md:w-1/2 p-4 md:p-8">
-                <span className="text-4xl sm:text-6xl md:text-9xl font-josefin-slab mb-4 block">Bienvenido</span>
-                <span className="text-3xl sm:text-5xl md:text-8xl text-verde font-inter mb-4 block">Instructor</span>
-                <p className="text-base sm:text-lg md:text-3xl font-josefin-slab mb-8 mt-4 md:mt-20">
+            <div className="flex flex-col md:flex-row items-start lg:px-10 2xl:px-0 gap-x-36">
+              <div className="w-full md:w-1/2 p-4 md:p-8 lg:">
+                <span className="text-4xl sm:text-6xl md:text-7xl font-josefin-slab mb-4 block lg:ps-12 2xl:text-9xl 2xl:ps-0">Bienvenido</span>
+                <span className="text-3xl sm:text-5xl md:text-5xl text-verde font-inter mb-4 block lg:ps-12 2xl:text-9xl 2xl:ps-0">Instructor</span>
+                <p className="text-base sm:text-lg md:text-3xl lg:text-2xl font-josefin-slab mb-8 mt-4 md:mt-20 lg:ps-12 2xl:text-4xl 2xl:ps-0">
                   ¡Hola! querido Instructor, aquí podrás ver los proyectos registradros por parte de las empresas o usuarios. ¡Ten una buena experiencia en el aplicativo!
                 </p>
               </div>
-              <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8">
-                <img className="w-full max-w-md h-auto" src="/Img/usuario.png" alt="Imagen Principal" />
+              <div className="w-full md:w-1/2 flex justify-center items-center p-4 md:p-8 lg:w-2/3 ">
+                <img className="w-full max-w-md h-auto 2xl:w-[1000px] 2xl:h-[600px]" src="/Img/usuario.png" alt="Imagen Principal" />
               </div>
             </div>
-            <div className="flex justify-start gap-x-7  mt-8 mx-7">
+            <div className="flex justify-start gap-x-7  mt-8 mx-7 sm:mt-0 lg:ps-12">
               
                 {/* <a href="/">
                   <BotonPrincipal Text="Atras" />
