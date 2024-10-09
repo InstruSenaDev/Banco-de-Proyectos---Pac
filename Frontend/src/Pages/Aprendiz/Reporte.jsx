@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import TextArea from '../../Components/TextArea.jsx';
-import LayoutPrincipal from '../../Layouts/Layoutprincipal.jsx';
+import Layoutprincipal from '../../layouts/LayoutPrincipal.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import Input from '../../Components/Input.jsx';
@@ -95,7 +95,7 @@ const EmailForm = () => {
     };
 
     return (
-        <LayoutPrincipal title="Enviar Correo Electronico">
+        <Layoutprincipal title="Enviar Correo Electronico">
             <Layoutcontenido3 title="Enviar Correo Electronico">
                 <form onSubmit={handleSubmit} className="w-[50%]">
                     <div className="mb-4">
@@ -147,12 +147,12 @@ const EmailForm = () => {
                             className="hidden"
                         />
                     </div>
-                    <ButtonComponent type="submit" Text="Enviar Correo" className="w-full text-white py-2 rounded hover:bg-[#7EBA5D]" />
+                    <ButtonComponent type="submit" Text="Enviar Correo" className="w-full text-white py-2 rounded hover:bg-verde" />
                     <ButtonComponent
                         type="button"
                         Text="Volver"
                         onClick={() => navigate('/Aprendiz/Formulario')}
-                        className="w-full text-white py-2 rounded hover:bg-[#7EBA5D]"
+                        className="w-full text-white py-2 rounded hover:bg-verde"
                     />
                 </form>
                 
@@ -162,7 +162,7 @@ const EmailForm = () => {
                     message={modalMessage}
                 />
             </Layoutcontenido3>
-        </LayoutPrincipal>
+        </Layoutprincipal>
     );
 };
 

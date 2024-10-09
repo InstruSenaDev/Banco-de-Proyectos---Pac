@@ -149,13 +149,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         successMessage.textContent = '¡Registro exitoso!';
 
                         setTimeout(() => {
-<<<<<<< HEAD:Frontend/src/js/Principal/Registro.js
                             window.location.href = '/Principal/Inicio';
                         }, 2000);
-=======
-                            window.location.href = '/Inicio';
-                        }, 2000); // Ajusta el tiempo según sea necesario
->>>>>>> Jessica-react:Frontend/src/js/Registro.js
                     } else {
                         console.error('Error en el registro');
                     }

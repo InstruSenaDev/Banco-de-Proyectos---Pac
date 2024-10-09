@@ -104,7 +104,7 @@ const AsignarProyectos = () => {
                       <TableCell>
                         <input
                           type="checkbox"
-                          className="form-checkbox h-5 w-5 text-green-500"
+                          className="form-checkbox h-5 w-5 text-verde"
                           checked={selectedAprendices.includes(aprendiz.idpersonas)}
                           onChange={() => handleCheckboxChange(aprendiz.idpersonas)}
                         />
