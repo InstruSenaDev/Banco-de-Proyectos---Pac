@@ -8,8 +8,9 @@ import BotonPrincipal from "../Components/BotonPrincipal";
 import BotonBack from "../Components/BotonBack";
 import Loader from "../Components/Loader";
 import { ModalConfirm } from "../Components/ModalConfirm";
-import usePostCalificacion from "../../hooks/Admin/usePostCalificacion"
+import usePostCalificacion from "../../hooks/Admin/usePostCalificacion";
 import { Card, Text, Metric } from "@tremor/react";
+import { useSendEmail } from '../../hooks/Admin/useSendEmail'; // Importar el hook para enviar correos
 
 const Calificacion = () => {
     const { idproyecto } = useParams();
@@ -22,8 +23,11 @@ const Calificacion = () => {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [comentario, setComentario] = useState("");
     const [estado, setEstado] = useState("");
+    const [email, setEmail] = useState(""); // Estado para el correo electrónico
+    const [showModalComent, setShowModalComent] = useState(false); // Para manejar el ModalComent
 
     const { postCalificacion, loading } = usePostCalificacion();
+    const { sendEmail, loading: sendingEmail, error } = useSendEmail();
 
     useEffect(() => {
         const promedioFinalCalculado = Math.round((promedioObjetivos + promedioAlcance) / 2);
@@ -31,19 +35,24 @@ const Calificacion = () => {
         setViewLoading(false);
     }, [promedioAlcance, promedioObjetivos]);
 
-    const handleAction = (action, comentario) => {
+    const handleAction = (action) => {
         setEstado(action);
-        setComentario(comentario);
-        setShowConfirmModal(true);
+        setShowModalComent(true); // Abrir el modal de comentario
     };
 
     const handleConfirmClose = async () => {
         try {
+            // Guardar comentario en la base de datos
             await postCalificacion(idproyecto, promedioFinal, estado, comentario);
+            
+            // Enviar el correo después de guardar la calificación
+            await sendEmail(email, comentario);
+
+            // Redirección según el estado
             if (estado === "Aceptado") {
-                navigate(`/asignar-proyectos/${idproyecto}`); // Reemplaza con la ruta de la siguiente vista
+                navigate(`/asignar-proyectos/${idproyecto}`);
             } else {
-                navigate(`/Detalle/${idproyecto}`); // Reemplaza con la ruta de la vista de inicio
+                navigate(`/Detalle/${idproyecto}`);
             }
         } catch (error) {
             console.error("Error al guardar la calificación:", error);
@@ -52,6 +61,7 @@ const Calificacion = () => {
 
     const handleCancelConfirm = () => {
         setShowConfirmModal(false);
+        setShowModalComent(false);
     };
 
     return (
@@ -69,6 +79,7 @@ const Calificacion = () => {
                                     <BotonBack Text="Atrás" textColor="text-white" className="bg-[#A3E784] hover:bg-lime-500 font-bold py-2 px-4 rounded" />
                                 </Link>
                             </div>
+                            <div className="md:w-full px-2">
                             <Card className="mb-8 p-6">
                                 <Text className="text-center text-xl font-semibold mb-2">Promedio Final</Text>
                                 <Metric className="text-center text-4xl font-bold mb-4">{promedioFinal.toFixed(2)}</Metric>
@@ -76,8 +87,9 @@ const Calificacion = () => {
                                     <BarState promedioFinal={promedioFinal} />
                                 </div>
                             </Card>
+                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 px-5">
                                 <Card decoration="top" decorationColor="emerald">
                                     <Text>Objetivos</Text>
                                     <Metric>{promedioObjetivos.toFixed(2)}</Metric>
@@ -88,10 +100,37 @@ const Calificacion = () => {
                                 </Card>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
-                                <ModalComent text="Rechazar" buttonColor="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Rechazado", comentario)} />
-                                <ModalComent text="Devolver" buttonColor="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Devuelto", comentario)} />
-                                <ModalComent text="Aceptar" buttonColor="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded" onSubmit={(comentario) => handleAction("Aceptado", comentario)} />
+                            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8 px-5">
+                                <ModalComent 
+                                    text="Rechazar" 
+                                    buttonColor="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" 
+                                    onSubmit={(comentario, email) => { 
+                                        setComentario(comentario); 
+                                        setEmail(email); 
+                                        setEstado("Rechazado"); 
+                                        setShowConfirmModal(true);
+                                    }} 
+                                />
+                                <ModalComent 
+                                    text="Devolver" 
+                                    buttonColor="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded" 
+                                    onSubmit={(comentario, email) => { 
+                                        setComentario(comentario); 
+                                        setEmail(email); 
+                                        setEstado("Devuelto"); 
+                                        setShowConfirmModal(true);
+                                    }} 
+                                />
+                                <ModalComent 
+                                    text="Aceptar" 
+                                    buttonColor="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded" 
+                                    onSubmit={(comentario, email) => { 
+                                        setComentario(comentario); 
+                                        setEmail(email); 
+                                        setEstado("Aceptado"); 
+                                        setShowConfirmModal(true);
+                                    }} 
+                                />
                             </div>
                         </div>
                     )}

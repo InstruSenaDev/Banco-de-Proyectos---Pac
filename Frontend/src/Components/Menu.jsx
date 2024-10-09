@@ -37,21 +37,15 @@ const Sidebar = () => {
     1: [
       { icon: 'fas fa-home', to: '/VistaAdmin', label: 'Home' },
       { icon: 'fas fa-folder-open', to: '/calificar', label: 'Proyectos' },
-      { icon: 'fas fa-user', to: '/asignar', label: 'Proyectos Asignados' },
+      { icon: 'fa-solid  fa-users', to: '/Asignados', label: 'Proyectos Asignados' },
     ],
     4: [
       { icon: 'fas fa-home', to: '/Aprendiz/VistaAprendiz', label: 'Home' },
-      { icon: 'fas fa-tachometer-alt', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
-      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPefil', label: 'Editar Perfil' },
+      { icon: 'fa-solid  fa-users', to: '/Aprendiz/VistaProyectos', label: 'Proyectos Asignados' },
+      { icon: 'fas fa-user-edit', to: '/Aprendiz/EditarPerfil', label: 'Editar Perfil' },
     ],
     3: [
-      { icon: 'fas fa-user-plus', to: '/SuperAdmin/ficha', label: 'Crear Usuario' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/usuarios', label: 'Crear Fichas' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/areas', label: 'Crear Areas' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/tipodearea', label: 'Crear Tipos de area' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/items', label: 'Crear Items' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/objetivos', label: 'Crear Objetivos' },
-      { icon: 'fas fa-folder-open', to: '/SuperAdmin/alcance', label: 'Crear Alcances' },
+      { icon: 'fas fa-user-plus', to: '/SuperAdmin/usuarios', label: 'Crear Usuario' },
       { icon: 'fas fa-folder-open', to: '/SuperAdmin/registrocompleto', label: 'Registro completo' },
       { icon: 'fas fa-upload', to: '/SuperAdmin/proyectos', label: 'Ver proyectos' },
     ],
@@ -109,11 +103,11 @@ const Sidebar = () => {
         onMouseEnter={() => !isSmallScreen && setIsOpen(true)}
         onMouseLeave={() => !isSmallScreen && setIsOpen(false)}
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-[#A3E784]">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-[#2eb694]">
           <div className="flex items-center space-x-3">
             <img src={logo} alt="Logo" className="w-10 h-10" />
             <span
-              className={`text-xl font-semibold whitespace-nowrap dark:text-black transition-opacity duration-300 ${
+              className={`text-xl font-semibold whitespace-nowrap text-white transition-opacity duration-300 ${
                 isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
               }`}
             >
@@ -130,7 +124,7 @@ const Sidebar = () => {
       >
         <i className={`${item.icon} static-icon text-white`} aria-hidden="true"></i>
         <span
-          className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+          className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
             isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -146,7 +140,7 @@ const Sidebar = () => {
     >
       <i className="fas fa-sign-out-alt static-icon text-white" aria-hidden="true"></i>
       <span
-        className={`ml-3 whitespace-nowrap text-black transition-opacity duration-300 ${
+        className={`ml-3 whitespace-nowrap text-white transition-opacity duration-300 ${
           isOpen || !isSmallScreen ? 'opacity-100' : 'opacity-0'
         }`}
       >

@@ -37,6 +37,7 @@ import Alcance from './Pages/Alcance';
 import Calificacion from './Pages/Calificacion';
 import AsignarProyectos from './Pages/AsignarProyectos';
 import VistaAdmin from './Pages/VistaAdmin';
+import Asignados from './Pages/Asignados';
 
 /* Aprendiz */
 import VistaAprendiz from './Pages/Aprendiz/VistaAprendiz';
@@ -96,13 +97,16 @@ const App = () => {
           </Route>
 
           <Route element={<RutaProtegida allowedRoles={['1']} />}> {/* Rol de Administrador*/}
-            <Route path="/Calificar" element={<Calificar />} />
-            <Route path="/Detalle/:id" element={<Detalle />} />
-            <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
-            <Route path="/alcance/:idproyecto" element={<Alcance />} />
-            <Route path="/calificacion" element={<Calificacion />} />
-            <Route path="/asignar" element={<AsignarProyectos />} />
-            <Route path="/VistaAdmin" element={<VistaAdmin />} />
+          <Route path="/Calificar" element={<Calificar />} />
+          <Route path="/Detalle/:id" element={<Detalle />} />
+          <Route path="/respuestas/:idproyecto" element={<Objetivos />} />
+          <Route path="/alcance/:idproyecto" element={<Alcance />} />
+          <Route path="/calificacion/:idproyecto" element={<Calificacion />} />
+          <Route path="/asignar-proyectos" element={<AsignarProyectos />} />
+          <Route path="/asignar-proyectos/:idproyecto" element={<AsignarProyectos />} />
+          <Route path="/calificar/:idproyecto" element={<Calificacion />} />
+          <Route path="/VistaAdmin" element={<VistaAdmin />} />
+          <Route path="/Asignados" element={<Asignados/>} /> 
           </Route>
 
           {/* Ruta de acceso denegado */}

@@ -1,14 +1,16 @@
-
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Card, Title, Select, SelectItem, Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Button } from '@tremor/react';
 import Layoutprincipal from '../layouts/LayoutPrincipal';
 import Layoutcontenido2 from '../Layouts/Layoutcontenido2';
 import BotonSegundo from '../Components/BotonSegundo';
-import useFichasYAprendices from '../../hooks/Admin/useFichasYAprendices'; //hook para mostrar las fichas y aprendices disponibles
-import { useAsignarProyecto } from '../../hooks/Admin/useAsignarProyecto'; //hooks para la funcionalidad de guardar en la bd 
+import useFichasYAprendices from '../../hooks/Admin/useFichasYAprendices';
+import useAsignarProyecto from '../../hooks/Admin/useAsignarProyecto'; // Asegúrate de importar el hook correctamente
+
 
 const AsignarProyectos = () => {
+  const navigate = useNavigate();
+  const location = useLocation(); // Hook para obtener el estado previo
   const { idproyecto } = useParams();
   const {
     fichas,
@@ -20,7 +22,7 @@ const AsignarProyectos = () => {
   } = useFichasYAprendices();
 
   const [selectedAprendices, setSelectedAprendices] = useState([]);
-  const { asignarProyecto, loading: saving, error: assignError } = useAsignarProyecto(); // Usa el hook
+  const { asignarProyecto, loading: saving, error: assignError } = useAsignarProyecto();
 
   const handleCheckboxChange = (idpersona) => {
     setSelectedAprendices(prevState =>
@@ -30,33 +32,41 @@ const AsignarProyectos = () => {
     );
   };
 
-const handleGuardarClick = async () => {
-  try {
-    if (selectedAprendices.length === 0) {
-      await asignarProyecto(idproyecto, null); // Envía null si no hay aprendices seleccionados
-      alert('No se seleccionó ningún aprendiz, la asignación se actualizó a NULL.');
-      return;
+  const handleGuardarClick = async () => {
+    try {
+      if (selectedAprendices.length === 0) {
+        await asignarProyecto(idproyecto, null);
+        alert('No se seleccionó ningún aprendiz, la asignación se actualizó a NULL.');
+        return;
+      }
+  
+      // Aquí envía los ids de los aprendices seleccionados en un array
+      await asignarProyecto(idproyecto, selectedAprendices); // Enviar el arreglo de ids de aprendices
+  
+      alert('Asignación guardada correctamente');
+    } catch (error) {
+      alert('Hubo un error al guardar la asignación');
     }
+  };
+  
+  
 
-    for (const idpersona of selectedAprendices) {
-      await asignarProyecto(idproyecto, idpersona); // Llama al hook para cada aprendiz seleccionado
+  // Maneja el clic en el botón "Atrás" y reabre el modal si es necesario
+  const handleBackClick = () => {
+    if (location.state && location.state.fromModal) {
+      navigate(-1); // Navegar hacia atrás
+    } else {
+      navigate('/proyectos'); // Si no venimos del modal, volvemos a la lista de proyectos
     }
-
-    alert('Asignación guardada correctamente');
-  } catch (error) {
-    alert('Hubo un error al guardar la asignación');
-  }
-};
-
+  };
 
   return (
     <Layoutprincipal title="Asignación de Proyecto">
       <Layoutcontenido2 text1="Asignar Proyecto">
         <Card className='h-auto'>
           <div className="flex items-center mb-6">
-            <Button variant="light" color="gray" className="mr-4">
-              Asignación de proyecto
-            </Button>
+
+            <Title className="text-lg">Asignación de Proyecto</Title>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -78,7 +88,7 @@ const handleGuardarClick = async () => {
               </Select>
             </div>
 
-            <div>
+            <div className='w-auto'>
               <Title className="mb-2">Listado de Aprendices</Title>
               <Table>
                 <TableHead>
