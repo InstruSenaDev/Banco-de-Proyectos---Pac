@@ -71,7 +71,7 @@ const App = () => {
             <Route path="/Usuario/VistaUsuario" element={<VistaUsuario />} />
             <Route path="/Usuario/VistaAlcance" element={<VistaAlcance />} />
             <Route path="/Usuario/VistaMisProyectos" element={<VistaMisProyectos />} />
-            <Route path="/Aprendiz/EditarPerfil" element={<EditarPerfil />} />
+
           </Route>
 
           {/* Rutas protegidas */}
@@ -94,6 +94,7 @@ const App = () => {
             <Route path="/Aprendiz/Reporte" element={<Reporte />} />
             <Route path="/Aprendiz/VistaProyectos" element={<VistaProyectos />} />
             <Route path="/Aprendiz/Formulario" element={<Formulario />} />
+            <Route path="/Aprendiz/EditarPerfil" element={<EditarPerfil />} />
           </Route>
 
           <Route element={<RutaProtegida allowedRoles={['1']} />}> {/* Rol de Administrador*/}

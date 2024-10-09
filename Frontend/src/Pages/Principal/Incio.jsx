@@ -37,20 +37,19 @@ const Inicio = () => {
       const result = await response.json();
 
       if (response.ok) {
-        if (result.id && result.nombre && result.token) {
+        if (result.id && result.nombre && result.token && result.rol) {
           const userData = { id: result.id, nombre: result.nombre, rol: result.rol };
           setUser(userData);
-
+        
           // Almacena la información del usuario en localStorage
           localStorage.setItem('user', JSON.stringify(userData));
           localStorage.setItem('token', result.token);
-
+        
           console.log('Token guardado en localStorage:', result.token); 
-
           console.log('User data guardado en localStorage:', userData); // Console log
-
           setSuccessMessage('Inicio de sesión exitoso');
-
+        
+          // Redirección basada en el rol
           setTimeout(() => {
             switch (result.rol) {
               case 1:

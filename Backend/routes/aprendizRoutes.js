@@ -109,8 +109,7 @@ router.get('/get-cookie', (req, res) => {
 });
 
 router.post('/update-profile', async (req, res) => {
-  const { id, nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo, contraseña } = req.body;
-
+  const { id, nombre, tipodocumento, numerodocumento, telefono, correo, contraseña } = req.body;
   const idPersona = parseInt(id, 10);  // Convertir id a número
   console.log('ID de persona recibido:', idPersona); // Verifica el ID recibido
 
@@ -119,16 +118,16 @@ router.post('/update-profile', async (req, res) => {
   }
 
   try {
-    let updateQuery = 'UPDATE personas SET nombre = $1, tipodocumento = $2, numerodocumento = $3, nombreempresa = $4, telefono = $5, correo = $6';
-    let values = [nombre, tipodocumento, numerodocumento, nombreempresa, telefono, correo];
+    let updateQuery = 'UPDATE personas SET nombre = $1, tipodocumento = $2, numerodocumento = $3, telefono = $4, correo = $5';
+    let values = [nombre, tipodocumento, numerodocumento, telefono, correo];
 
     if (contraseña) {
       const hashedPassword = await bcrypt.hash(contraseña, 10);
-      updateQuery += ', contraseña = $7';
+      updateQuery += ', contraseña = $6';
       values.push(hashedPassword);
     }
 
-    updateQuery += ' WHERE idpersonas = $8 RETURNING *';
+    updateQuery += ' WHERE idpersonas = $' + (values.length + 1) + ' RETURNING *';
     values.push(id);
 
     const result = await pool.query(updateQuery, values);
@@ -143,7 +142,6 @@ router.post('/update-profile', async (req, res) => {
     res.status(500).json({ error: 'Error al actualizar el perfil', details: error.message });
   }
 });
-
 
 // Ruta para obtener todas las personas
 router.get('/personas', async (req, res) => {
