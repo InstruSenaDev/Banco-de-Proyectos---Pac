@@ -1,29 +1,30 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListArea from './GridList/GridListArea';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import Areas from '../../Components/Modales/ModalAreas';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+
 
 const Area = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [areas, setAreas] = useState([]); // Estado para almacenar las áreas
-  const [currentArea, setCurrentArea] = useState(null);
-  const [actionType, setActionType] = useState('');
+  const [areas, setAreas] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAreas = async () => {
       try {
         const response = await fetch('http://localhost:4000/api/superAdmin/areas');
+        if (!response.ok) {
+          throw new Error('Error al cargar las áreas');
+        }
         const data = await response.json();
         setAreas(data);
       } catch (error) {
-        console.error('Error al obtener las áreas:', error);
+        console.error('Error al cargar áreas:', error);
       } finally {
         setLoading(false);
       }
@@ -33,19 +34,36 @@ const Area = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentArea(null);
-    setActionType('add');
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentArea(null);
   };
 
-  const handleAddArea = (newArea) => {
-    // Actualiza el estado con la nueva área
-    setAreas((prevAreas) => [...prevAreas, newArea]);
+  const handleAddArea = async (newArea) => {
+    try {
+      const response = await fetch('http://localhost:4000/api/superAdmin/areas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newArea),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error al registrar el área: ${errorData.message || response.statusText}`);
+      }
+
+      const addedArea = await response.json();
+      setAreas(prevAreas => [...prevAreas, addedArea]);
+      handleCloseModal();
+      window.location.reload();
+    } catch (error) {
+      console.error('Error al agregar areas:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    }
   };
 
   const handleGoBack = () => {
@@ -66,20 +84,18 @@ const Area = () => {
                 onClick={handleGoBack}
                 className="flex items-center text-black hover:text-Verde"
               >
-                <ArrowLeftIcon className="w-5 h-5 mr-2" />
+                <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
                 Volver
               </button>
               <BotonSegundoModal text="Agregar Area" id="addUserBtn" onClick={handleAddClick}/>
             </div>
             <div>
-              <GridListArea areas={areas} /> {/* Pasa el estado de las áreas */}
+              <GridListArea areas={areas} setAreas={setAreas} />
             </div>
             {isModalOpen && (
               <Areas
                 onClose={handleCloseModal}
                 onAddArea={handleAddArea}
-                Area={currentArea}
-                actionType={actionType}
               />
             )}
           </div>

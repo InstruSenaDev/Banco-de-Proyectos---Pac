@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import Loader from '../../../Components/Loader';
+
 
 const GridListArea = () => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [ setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAreas = async () => {
@@ -25,20 +25,11 @@ const GridListArea = () => {
   return (
     <div className="w-full max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-verde">
+        <thead className="bg-[#2eb694]">
           <tr>
-            <th className="px-6 py-3 text-left text-gray-900">Nombre del Área</th>
+            <th className="px-6 py-3 text-left text-white">Nombre del Área</th>
           </tr>
         </thead>
-        {loading ? (
-        <div id="loader" className="flex items-center justify-center h-screen absolute inset-0">
-          <div className="flex flex-col items-center justify-center h-full">
-            <div className="flex-grow" /> {/* Espaciador superior */}
-            <Loader />
-            <div className="flex-grow" /> {/* Espaciador inferior */}
-          </div>
-        </div>
-      ) : (
         <tbody className="bg-white divide-y divide-gray-200 overflow-hidden">
         {data.map((item) => (
               <tr key={item.idarea}>
@@ -46,7 +37,6 @@ const GridListArea = () => {
               </tr>
           ))}
         </tbody>
-      )}
       </table>
     </div>
   );

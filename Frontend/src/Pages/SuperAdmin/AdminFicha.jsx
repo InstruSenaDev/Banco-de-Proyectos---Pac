@@ -1,26 +1,23 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListFicha from './GridList/GridListFicha';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
-import ModalFicha from '../../Components/Modales/ModalFichas'; // Cambiado para coincidir con el nombre correcto
+import ModalFicha from '../../Components/Modales/ModalFichas';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const Fichas = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentFicha, setCurrentFicha] = useState(null);
   const [fichas, setFichas] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFichas = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/superAdmin/fichas');
+        const response = await fetch('http://localhost:4000/api/superAdmin/ficha');
         if (!response.ok) {
           throw new Error('Error al cargar las fichas');
         }
@@ -37,19 +34,16 @@ const Fichas = () => {
   }, []);
 
   const handleAddClick = () => {
-    setCurrentFicha(null);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentFicha(null);
   };
 
   const handleAddFicha = async (newFicha) => {
     try {
-      console.log('Intentando registrar nueva ficha:', newFicha);
-      const response = await fetch('http://localhost:4000/api/superAdmin/fichas', { // URL corregida
+      const response = await fetch('http://localhost:4000/api/superAdmin/ficha', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,11 +57,11 @@ const Fichas = () => {
       }
 
       const addedFicha = await response.json();
-      console.log('Ficha registrada exitosamente:', addedFicha);
       setFichas(prevFichas => [...prevFichas, addedFicha]);
       handleCloseModal();
+      window.location.reload();
     } catch (error) {
-      console.error('Error detallado al agregar ficha:', error);
+      console.error('Error al agregar ficha:', error);
       // Aquí podrías mostrar un mensaje de error al usuario
     }
   };
@@ -102,7 +96,6 @@ const Fichas = () => {
               <ModalFicha
                 onClose={handleCloseModal}
                 onAddFicha={handleAddFicha}
-                ficha={currentFicha} // Ajustado para coincidir con el nombre del prop en ModalFicha
               />
             )}
           </div>
@@ -113,3 +106,4 @@ const Fichas = () => {
 };
 
 export default Fichas;
+

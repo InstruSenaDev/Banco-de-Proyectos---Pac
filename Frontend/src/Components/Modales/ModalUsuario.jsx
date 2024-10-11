@@ -1,18 +1,31 @@
+import { useState } from 'react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
 import SelectBoxRol2 from '../SelectBoxRol2';
 import SelectBoxFicha from '../SelectBoxFicha';
 import SelectBoxTi from '../SelectBoxTI2';
 import PropTypes from 'prop-types';
-import { useForm } from '../../../hooks/useForm';
+import { useForm } from '../../../hooks/SuperAdmin/useForm';
 
 export default function ModalUsuario({ onClose, onAddMember }) {
   const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit, handleRolChange } = useForm(async (data) => {
-    const { estado, ...datosSinEstado } = data;
-    onAddMember(datosSinEstado);
-    onClose();
+    const userData = {
+      ...data,
+      estado: true,
+    };
+    onAddMember(userData);
+    setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+    setTimeout(() => {
+      onClose();  // Cierra el modal automáticamente después de 2 segundos
+    }, 2000);  // Temporizador antes de cerrar el modal
   });
 
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSubmit(e);  // Llama a handleSubmit sin comprobar isSubmitting
+  };
 
   return (
     <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -21,11 +34,11 @@ export default function ModalUsuario({ onClose, onAddMember }) {
           type="button"
           className="absolute right-4 top-4 p-2 bg-transparent border-none"
           onClick={onClose}
-          aria-label="Close"
+          aria-label="Cerrar"
         >
           <i className="fas fa-times size-5" aria-hidden={true}></i>
         </button>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4">
           <h4 className="font-semibold">Añade nuevo usuario</h4>
           <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div className="space-y-4">
@@ -84,15 +97,15 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
               {formValues.idrol === '4' && (
                 <SelectBoxFicha
-                id="idficha"
-                text="Seleccione una ficha:"
-                value={formValues.idficha}
-                onChange={(value) => {
-                  console.log('Ficha seleccionada:', value);  // Verificar idficha
-                  handleSelectChange('idficha', value);
-                }}
-                error={errors.idficha}
-              />
+                  id="idficha"
+                  text="Seleccione una ficha:"
+                  value={formValues.idficha}
+                  onChange={(value) => {
+                    console.log('Ficha seleccionada:', value);  // Verificar idficha
+                    handleSelectChange('idficha', value);
+                  }}
+                  error={errors.idficha}
+                />
               )}
               <Input2
                 id="celular"
@@ -105,14 +118,21 @@ export default function ModalUsuario({ onClose, onAddMember }) {
               />
             </div>
           </div>
-          <div className='flex justify-end'> 
-          <button
-            type="submit"
-            id="guardarBtn"
-            className="bg-verde text-black px-8 py-2 rounded"
-          >
-            Agregar
-          </button>
+
+          {successMessage && (
+            <div className="mt-4 text-green-600">
+              {successMessage}
+            </div>
+          )}
+
+          <div className='flex justify-end'>
+            <button
+              type="submit"
+              id="guardarBtn"
+              className="bg-verde text-white px-8 py-2 rounded"
+            >
+              Agregar
+            </button>
           </div>
         </form>
       </DialogPanel>

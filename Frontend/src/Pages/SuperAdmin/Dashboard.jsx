@@ -1,14 +1,15 @@
 import { Title, Text } from '@tremor/react';
 import { useEffect, useState } from 'react';
-import Layoutprincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido';
 import { CardBase } from '../../Components/CardBase';
-import { ChartDonut } from '../../Components/ChartDonut';
 import Loader from '../../Components/Loader';
+import { ChartDonut } from '../../Components/ChartDonut';
+
 
 const Dashboard = () => {
+  // Estado para controlar la carga de la página
   const [loading, setLoading] = useState(true);
-  const [, setUserCount] = useState(0);
 
   useEffect(() => {
     // Simula un tiempo de carga de 2 segundos
@@ -16,107 +17,91 @@ const Dashboard = () => {
       setLoading(false);
     }, 2000);
 
-    // Aquí puedes mover la lógica de contar los usuarios sin renderizar la tabla
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/usuarios');
-        const usersData = await response.json();
-        setUserCount(usersData.length); // Actualiza el conteo de usuarios
-      } catch (error) {
-        console.error('Error al obtener los usuarios:', error);
-      }
-    };
-
-    fetchUsers();
-
+    // Limpia el temporizador al desmontar el componente
     return () => clearTimeout(timer);
   }, []);
 
+
   return (
-    <Layoutprincipal title="Proyectos">
+    <LayoutPrincipal title="Proyectos">
       {loading ? (
+        // Muestra el loader mientras se cargan los datos
         <div id="loader" className="flex items-center justify-center h-screen">
           <Loader />
         </div>
       ) : (
-        <Layoutcontenido title="">
-          <div className="bg-Verde p-6 sm:p-10 rounded">
-            <Title className="text-white text-lg font-extrabold">Bienvenido SuperAdmin</Title>
-            <Text className="text-white font-extrabold">Banco de Proyectos</Text>
-          </div>
+          <Layoutcontenido title="">
+            {/* Encabezado */}
+            <div className="bg-verde p-4 sm:p-6 md:p-8 lg:p-10 rounded">
+              <Title className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-extrabold">Bienvenido SuperAdmin</Title>
+              <Text className="text-white font-extrabold text-sm sm:text-base md:text-lg">Banco de Proyectos</Text>
+            </div>
 
-          <div className="flex flex-wrap gap-3 justify-center mt-16 z-0 w-full">
-            <CardBase
-              title="Usuarios"
-              metricValue={40}
-              progressText="Usuarios Registrados"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/usuarios"
-            />
-            <CardBase
-              title="Fichas"
-              metricValue={20}
-              progressText="Aprendices"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/ficha"
-            />
-            <CardBase
-              title="Proyectos"
-              metricValue={50}
-              progressText="Proyectos creados"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/proyectos"
-            />
-            <CardBase
-              title="Areas"
-              metricValue={20}
-              progressText="Registro proyecto"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/areas"
-            />
-            <CardBase
-              title="Tipos de Area"
-              metricValue={20}
-              progressText="Registro proyecto"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/tipodearea"
-            />
-            <CardBase
-              title="Items"
-              metricValue={20}
-              progressText="Registro proyecto"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/items"
-            />
-            <CardBase
-              title="Objetivo"
-              metricValue={20}
-              progressText="Registro proyecto"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/objetivos"
-            />
-            <CardBase
-              title="Alcance"
-              metricValue={20}
-              progressText="Registro proyecto"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/alcance"
-            />
-            <CardBase
-              title="CREAR REGISTRO"
-              metricValue={20}
-              progressText="Registro de proyecto"
-              buttonTex="Ver detalle"
-              route="/SuperAdmin/areatable"
-            />
+            {/* Contenedor de tarjetas */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 sm:mt-12 md:mt-16 z-0 w-full">
+              <CardBase
+                title="Usuarios"
+                progressText="Usuarios Registrados"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/usuarios"
+              />
+              <CardBase
+                title="Fichas"
+                progressText="Aprendices"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/ficha"
+              />
+              <CardBase
+                title="Proyectos"
+                progressText="Proyectos creados"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/proyectos"
+              />
+              <CardBase
+                title="Areas"
+                progressText="Registro proyecto"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/areas"
+              />
+              <CardBase
+                title="Tipos de Area"
+                progressText="Registro proyecto"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/tipodearea"
+              />
+              <CardBase
+                title="Items"
+                progressText="Registro proyecto"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/items"
+              />
+              <CardBase
+                title="Objetivo"
+                progressText="Registro proyecto"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/objetivos"
+              />
+              <CardBase
+                title="Alcance"
+                progressText="Registro proyecto"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/alcance"
+              />
+              <CardBase
+                title="CREAR REGISTRO"
+                progressText="Registro de proyecto"
+                buttonTex="Ver detalle"
+                route="/SuperAdmin/registrocompleto"
+              />
+            </div>
+            <div className="border-[1px] rounded-t-lg mt-10 ">
+              <ChartDonut />
           </div>
-
-          <div className="border-[1px] rounded-t-lg mt-10">
-            <ChartDonut />
-          </div>
-        </Layoutcontenido>
+        
+        
+          </Layoutcontenido>
       )}
-    </Layoutprincipal>
+    </LayoutPrincipal>
   );
 };
 

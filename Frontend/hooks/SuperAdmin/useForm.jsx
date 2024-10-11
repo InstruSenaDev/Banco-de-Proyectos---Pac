@@ -107,6 +107,7 @@ export function useForm(onSuccess) {
           celular: formValues.celular,
           idrol: parseInt(formValues.idrol, 10), // Asegúrate de que idrol sea un número
           idficha: formValues.idrol === '4' ? parseInt(formValues.idficha, 10) : null, // Si idrol es '4', convierte idficha a número
+          estado: true,
         };
 
         // Verifica la salida de los datos

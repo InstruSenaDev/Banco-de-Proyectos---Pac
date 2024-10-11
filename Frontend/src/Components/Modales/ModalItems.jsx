@@ -2,28 +2,42 @@ import { useState, useEffect } from 'react';
 import { RiCloseLine } from '@remixicon/react';
 import { Dialog, DialogPanel } from '@tremor/react';
 import Input2 from '../Input2';
-import BotonSegundo from '../BotonSegundoModal';
-import SelectBoxArea from '../SelectBoxItems';
+import SelectBoxItems from '../SelectBoxItems';
 import PropTypes from 'prop-types';
-import { useItemForm } from '../../../hooks/useItemForm';
+import { useItemForm } from '../../../hooks/SuperAdmin/useItemForm';
 
-const fetchArea = async () => {
-    try {
-        const response = await fetch("http://localhost:4000/api/superAdmin/tipos-de-area");
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        return data.map((area) => ({ id: area.idtiposdearea, nombre: area.tiposdearea }));
-    } catch (error) {
-        console.error("Error al obtener tipos de área:", error);
-        return [];
-    }
-};
 
-export default function TipoArea({ onClose }) {
-    const { formValues, errors, handleInputChange, handleSelectChange, handleSubmit } = useItemForm(onClose);
+export default function Items({ onClose, onAddItem}) {
     const [areaOptions, setAreaOptions] = useState([]);
+    const { formValues, errors, handleInputChange, isSubmitting, handleSubmit } = useItemForm(async (data) => {
+        onAddItem(data);  // Llama al callback para agregar un área y actualizar la vista en el componente padre
+        setSuccessMessage('Registro exitoso');  // Establece el mensaje de éxito
+        setTimeout(() => {
+          onClose();  // Cierra el modal automáticamente después de 2 segundos
+        }, 2000);  // Temporizador antes de cerrar el modal
+      })
+
+    const [successMessage, setSuccessMessage] = useState(''); // Estado para el mensaje de éxito
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (!isSubmitting) handleSubmit(e);  // Llama a handleSubmit solo si no se está enviando
+      };
+
+
+    const fetchArea = async () => {
+        try {
+            const response = await fetch("http://localhost:4000/api/superAdmin/tipos-de-area");
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json();
+            return data.map((area) => ({ id: area.idtiposdearea, nombre: area.tiposdearea }));
+        } catch (error) {
+            console.error("Error al obtener tipos de área:", error);
+            return [];
+        }
+    };
 
     useEffect(() => {
         const loadAreas = async () => {
@@ -33,12 +47,6 @@ export default function TipoArea({ onClose }) {
         loadAreas();
     }, []);
 
-    useEffect(() => {
-        if (formValues.tipoArea) {
-            console.log("Tipo de área en useEffect:", formValues.tipoArea);
-            handleSelectChange({ target: { id: 'tipoArea', value: formValues.tipoArea } });
-        }
-    }, [formValues.tipoArea]);
 
     return (
         <Dialog open={true} onClose={onClose} static={true} className="z-[100]">
@@ -51,41 +59,56 @@ export default function TipoArea({ onClose }) {
                 >
                     <RiCloseLine className="size-5" aria-hidden={true} />
                 </button>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div className="flex flex-col p-[5%] space-y-6">
                         <div className="col-span-full sm:col-span-3 space-y-2">
                             <div>
-                                <SelectBoxArea
+                                <SelectBoxItems
                                     id="tipoArea"
                                     Text="Seleccione un Tipo de Área"
                                     options={areaOptions}
                                     value={formValues.tipoArea}
-                                    onChange={handleSelectChange}
-
+                                    onChange={handleInputChange}
+                                    error={errors.tipoArea}
                                 />
-                                {<p className="text-red-500 text-sm mt-1">{errors.tipoArea}</p>}
                             </div>
                             <div>
                                 <Input2
-                                  Text="Área:"
                                     id="itemName" // Asegúrate de que este id coincide con el estado del formulario
                                     type="text"
-                                    placeholder="Nombre del Area"
+                                    placeholder="Placeholder"
+                                    Text="Items:"
                                     value={formValues.itemName} // Asegúrate de que este valor coincide con el estado del formulario
                                     onChange={handleInputChange}
-                                    required
-                                    className={`bg-[#F5F6FA] w-full min-h-6 mt-3 rounded-[4px] border px-[20px] py-[7px] mb-2 text-tremor-default text-tremor-content-strong dark:text-dark-tremor-content-strong ${errors.itemName ? 'border-red-500' : 'border-[#D5D5D5]'}`}
+                                    error={errors.itemName}
                                 />
                             </div>
                         </div>
                     </div>
-                    <BotonSegundo text="Agregar" id="guardarBtn" />
+
+                    {successMessage && (
+                        <div className="mt-4 text-green-600">
+                            {successMessage}
+                        </div>
+                    )}
+                    {/* Botón para enviar el formulario */}
+                    <div className='flex justify-end mt-8'>
+                        <button
+                            type="submit"
+                            id="guardarBtn"
+                            className="bg-verde text-white px-4 py-2 rounded justify-end"
+                            disabled={isSubmitting} // Deshabilita el botón mientras se envía el formulario
+                        >
+                            {isSubmitting ? 'Registrando...' : 'Agregar'}
+                        </button>
+                    </div>
                 </form>
             </DialogPanel>
         </Dialog>
     );
 }
 
-TipoArea.propTypes = {
+Items.propTypes = {
     onClose: PropTypes.func.isRequired,
+    onAddItem: PropTypes.func.isRequired,
 };

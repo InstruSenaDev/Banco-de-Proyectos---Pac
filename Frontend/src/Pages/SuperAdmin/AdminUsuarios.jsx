@@ -1,47 +1,69 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import { useNavigate } from 'react-router-dom';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridList from './GridList/GridListU';
 import Loader from '../../Components/Loader';
 import BotonSegundoModal from '../../Components/BotonSegundoModal';
 import ModalUsuario from '../../Components/Modales/ModalUsuario';
 
-
 const Usuarios = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [actionType, setActionType] = useState('');
-
-
+  const [usuarios, setUsuarios] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchUsuarios = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/superAdmin/usuarios');
+        if (!response.ok) {
+          throw new Error('Error al cargar los usuarios');
+        }
+        const data = await response.json();
+        setUsuarios(data);
+      } catch (error) {
+        console.error('Error al cargar usuarios:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchUsuarios();
   }, []);
 
   const handleAddClick = () => {
-    setCurrentUser(null);
-    setActionType('add');
     setIsModalOpen(true);
   };
 
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setCurrentUser(null);
   };
 
-  const handleAddMember = (user) => {
-    // Lógica para agregar un usuario
-    console.log('Agregar', user);
-  };
+  const handleAddMember = async (newUser) => {
+    try {
+      const response = await fetch('http://localhost:4000/api/superAdmin/usuarios', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
+      });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error al registrar el usuario: ${errorData.message || response.statusText}`);
+      }
+
+      const addedUser = await response.json();
+      setUsuarios(prevUsuarios => [...prevUsuarios, addedUser]);
+      handleCloseModal();
+      window.location.reload();
+    } catch (error) {
+      console.error('Error al agregar usuarios:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    }
+  };
 
   const handleGoBack = () => {
     navigate('/SuperAdmin/dashboard'); // Redirigir al dashboard
@@ -55,28 +77,24 @@ const Usuarios = () => {
         </div>
       ) : (
         <Layoutcontenido title="Usuarios">
-        <div className="flex flex-col w-full p-10 mb-10">
+          <div className="flex flex-col w-full p-10 mb-10">
             <div className="flex justify-between items-center mb-4">
-              <p className="mt-4 text-lg leading-6 text-gray-600 text-left">
-                <button
+              <button
                 onClick={handleGoBack}
                 className="flex items-center text-black hover:text-Verde"
               >
                 <i className="fas fa-arrow-left w-5 h-5 mr-2"></i>
                 Volver
               </button>
-              </p>
               <BotonSegundoModal text="Agregar Usuario" id="addUserBtn" onClick={handleAddClick}/>
             </div>
-            <div >
-              <GridList />
+            <div>
+              <GridList usuarios={usuarios} setUsuarios={setUsuarios} />
             </div>
             {isModalOpen && (
               <ModalUsuario
                 onClose={handleCloseModal}
                 onAddMember={handleAddMember}
-                user={currentUser}
-                actionType={actionType}
               />
             )}
           </div>
@@ -87,51 +105,3 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
-
-
-// // Controlador para agregar persona
-// async function agregarPersona(req, res) {
-//   try {
-//     console.log('Datos recibidos:', req.body);
-
-//     const { 
-//       nombre = '', 
-//       tipodocumento = '', 
-//       numerodocumento = '', 
-//       correo = '', 
-//       contraseña = '', 
-//       celular = '', 
-//       idrol = '', 
-//       idficha = null 
-//     } = req.body;
-
-//     // Verificar si faltan datos requeridos
-//     if (!nombre || !tipodocumento || !numerodocumento || !correo || !contraseña || !idrol || !celular) {
-//       return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
-//     }
-
-//     // Registrar a la persona en la base de datos
-//     const nuevaPersona = {
-//       nombre,
-//       tipodocumento,
-//       numerodocumento,
-//       correo,
-//       contraseña,
-//       telefono: celular,
-//       idrol,
-//       idficha: idrol === 4 ? idficha : null,  // Solo asigna idficha si el rol es '4' (Aprendiz)
-//       estado: true
-//     };
-    
-
-//     const resultado = await pool.query(
-//       'INSERT INTO personas (nombre, tipodocumento, numerodocumento, correo, contraseña, telefono, idrol, idficha, estado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-//       [nombre, tipodocumento, numerodocumento, correo, contraseña, celular, idrol, idficha, nuevaPersona.estado]  // Estado booleano
-//     );
-
-//     res.status(201).json({ message: 'Usuario registrado exitosamente', usuario: resultado.rows[0] });
-//   } catch (error) {
-//     console.error('Error al registrar persona:', error);
-//     res.status(500).json({ error: 'Internal server error', details: error.message });
-//   }
-// }

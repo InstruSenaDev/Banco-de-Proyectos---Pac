@@ -1,45 +1,70 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal';
+import LayoutPrincipal from '../../Layouts/LayoutPrincipal1';
 import Layoutcontenido from '../../Layouts/Layoutcontenido4';
 import GridListItems from './GridList/GridListItems';
 import Loader from '../../Components/Loader';
-import BotonSegundoModal from '../../Components/BotonSegundoModal';
+import BotonSegundoModal from '../../Components/BotonSegundoModal1';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import ModalItems from '../../Components/Modales/ModalItems'; // Importar el modal
 
-const Area = () => {
+const Items = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null); // Para manejar el item actual
-  const [actionType, setActionType] = useState(''); // Acción actual: 'add', 'edit', 'delete'
-
+  const [items, setItems] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch para obtener los items desde la API
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const fetchItems = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/superAdmin/items');
+        if (!response.ok) {
+          throw new Error('Error al cargar los items');
+        }
+        const data = await response.json();
+        setItems(data);
+      } catch (error) {
+        console.error('Error al cargar items:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchItems();
   }, []);
 
   const handleAddClick = () => {
-    setCurrentItem(null);
-    setActionType('add');
     setIsModalOpen(true); // Abrir el modal
   };
 
-  const handleEditClick = (item) => {
-    setCurrentItem(item);
-    setActionType('edit');
-    setIsModalOpen(true); // Abrir el modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Cerrar el modal
   };
 
-  const handleDeleteClick = (item) => {
-    setCurrentItem(item);
-    setActionType('delete');
-    setIsModalOpen(true); // Abrir el modal
+  // Lógica para agregar un nuevo item
+  const handleAddItem = async (newItem) => {
+    try {
+      const response = await fetch('http://localhost:4000/api/superAdmin/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newItem),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error al registrar el item: ${errorData.message || response.statusText}`);
+      }
+
+      const addedItem = await response.json();
+      setItems(prevItems => [...prevItems, addedItem]); // Actualizar la lista de items
+      handleCloseModal(); // Cerrar el modal
+      window.location.reload();
+    } catch (error) {
+      console.error('Error al agregar item:', error);
+    }
   };
 
   const handleGoBack = () => {
@@ -65,25 +90,24 @@ const Area = () => {
               </button>
               <BotonSegundoModal text="Agregar Items" id="addItemBtn" onClick={handleAddClick} />
             </div>
+
+            {/* Tabla de items */}
             <div>
-              <GridListItems onEdit={handleEditClick} onDelete={handleDeleteClick} />
+              <GridListItems items={items} setItems={setItems} />
             </div>
+
+            {/* Modal para agregar un nuevo item */}
+            {isModalOpen && (
+              <ModalItems
+                onClose={handleCloseModal}
+                onAddItem={handleAddItem} // Asegúrate de que ModalItems acepte esta prop
+              />
+            )}
           </div>
-          {isModalOpen && (
-            <ModalItems
-              actionType={actionType}
-              item={currentItem}
-              onClose={() => setIsModalOpen(false)}
-              onSuccess={() => {
-                setIsModalOpen(false);
-                // Aquí puedes hacer una actualización de la lista de items si es necesario
-              }}
-            />
-          )}
         </Layoutcontenido>
       )}
     </LayoutPrincipal>
   );
 };
 
-export default Area;
+export default Items;

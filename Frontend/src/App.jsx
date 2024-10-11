@@ -27,7 +27,9 @@ import AdminObjetivos from './Pages/SuperAdmin/AdminObjetivos';
 import AdminAlcance from './Pages/SuperAdmin/AdminAlcance';
 import AdminItems from './Pages/SuperAdmin/AdminItems';
 import AdminFicha from './Pages/SuperAdmin/AdminFicha';
-import AreaTable from './Pages/SuperAdmin/AreaTable';
+import RegistroCompleto from './Pages/SuperAdmin/RegistroCompleto';
+
+
 
 /* Administrador */
 import Calificar from './Pages/Calificar';
@@ -86,7 +88,7 @@ const App = () => {
             <Route path="/SuperAdmin/alcance" element={<AdminAlcance />} />
             <Route path="/SuperAdmin/items" element={<AdminItems />} />
             <Route path="/SuperAdmin/ficha" element={<AdminFicha />} />
-            <Route path="/SuperAdmin/areatable" element={<AreaTable />} />
+            <Route path="/SuperAdmin/registrocompleto" element={<RegistroCompleto />} />
           </Route>
 
           <Route element={<RutaProtegida allowedRoles={['4']} />}> {/* Rol de Aprendiz */}

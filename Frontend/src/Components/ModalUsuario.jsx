@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 // import { RiCloseLine } from 'react-icons/ri';
 import Input from './Input'; 
 import BotonSegundo from './BotonSegundo';
