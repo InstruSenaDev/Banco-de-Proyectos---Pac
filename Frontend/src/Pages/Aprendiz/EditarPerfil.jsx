@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../../Components/Input.jsx';
 import SelectBoxTI from '../../Components/SelectBoxTI.jsx';
-import LayoutPrincipal from '../../layouts/LayoutPrincipal.jsx';
+import LayoutPrincipal1 from '../../Layouts/LayoutPrincipal1.jsx';
 import Layoutcontenido3 from '../../Layouts/Layoutcontenido3.jsx';
 import BotonPrincipal from '../../Components/BotonPerfil.jsx';
 import ModalPerfil from '../../Components/Modal.jsx';
+
 import Navbar from '../../Components/Navbar'; // Ajusta la ruta si es necesario
 
 const EditarPerfil = () => {
@@ -186,8 +187,8 @@ const EditarPerfil = () => {
   };
 
   return (
-    <LayoutPrincipal title="Editar Perfil">
-      <Layoutcontenido3 title="Editar Perfil">
+    <LayoutPrincipal1 title="Editar Perfil">
+    <Layoutcontenido3 title="Editar Perfil">
         <div className="w-full md:w-1/2">
           <div className="flex flex-col p-[5%] Flex-box">
             <form onSubmit={handleSubmit} className="">
@@ -269,20 +270,24 @@ const EditarPerfil = () => {
                   onClick={() => togglePasswordVisibility('confiContraseña')}
                 ></i>
               </div>
-              <div className="text-red-500">{errors.confiContraseña}</div>
-              <div className="flex justify-center mt-5">
-                <BotonPrincipal Text="Guardar Cambios" />
+              <div className="col-span-2 flex flex-col items-center sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+                <div>
+                  
+                  <BotonPrincipal type="submit" Text="Guardar" />
+                </div>
               </div>
             </form>
           </div>
         </div>
+
         <ModalPerfil
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           Text="¡Perfil actualizado exitosamente!"
+
         />
       </Layoutcontenido3>
-    </LayoutPrincipal>
+    </LayoutPrincipal1>
   );
 };
 

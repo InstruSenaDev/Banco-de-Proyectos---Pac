@@ -1,29 +1,30 @@
 import React from 'react';
-import { useUser } from '../Context/UserContext'; // Importa el contexto del usuario
-import Buscador from '../Components/Buscador'; // Asegúrate de que la ruta es correcta
+import { useUser } from '../Context/UserContext';
 
-const Navbar = ({ Text }) => {
-  const { user } = useUser(); // Usa el contexto del usuario
+const Navbar = ({ text, toggleMenu }) => {
+  const { user } = useUser();
 
   if (user === null) {
-    return <div>Loading...</div>; // O cualquier indicador de carga
+    return <div>Loading...</div>;
   }
 
   return (
     <nav className="bg-Color_carta flex p-4 justify-between z-40">
-    <div className="flex items-start z-20">
-      {/* <Buscador type="search" /> */}
-    </div>
-    <div className="flex grid-cols-2 justify-center items-center mr-6">
+      <div className="flex items-center z-20">
+        <button onClick={toggleMenu} className="text-black mr-4">
+          <i className="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+      <div className="flex items-center">
         <img
           src="/Img/perfil.png"
           alt="User Avatar"
-          className="flex rounded-full w-12 h-12 mr-2 justify-end"
+          className="rounded-full w-12 h-12 mr-2"
         />
         <span className="text-black">
-          {user.nombre || 'Invitado'} {/* Mostrar el nombre del usuario o "Invitado" */}
+          {user.nombre || 'Invitado'}
           <br />
-          {Text}
+          {text}
         </span>
       </div>
     </nav>
