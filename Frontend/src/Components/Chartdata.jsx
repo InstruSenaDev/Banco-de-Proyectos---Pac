@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { DonutChart } from '@tremor/react';
+import { BarChart } from '@tremor/react';
 
-const dataFormatter = (number) => `$ ${Intl.NumberFormat('us').format(number)}`;
+const dataFormatter = (number) =>
+  Intl.NumberFormat('us').format(number).toString();
 
-export const ChartDonut = () => {
+export function Chartdata() {  // Aquí cambia el nombre a Chartdata
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -58,10 +59,10 @@ export const ChartDonut = () => {
       }
     });
 
-    // Convertir el objeto en un arreglo compatible con el DonutChart
+    // Convertir el objeto en un arreglo compatible con el BarChart
     return Object.entries(estados).map(([name, value]) => ({
       name,
-      value,
+      'Proyectos': value,
     }));
   };
 
@@ -70,18 +71,19 @@ export const ChartDonut = () => {
   }
 
   return (
-    <div className="mx-auto space-y-12">
-      <div className="space-y-3">
-        <div className="flex justify-center">
-          <DonutChart
-            data={data}
-            variant="donut"
-            valueFormatter={dataFormatter}
-            onValueChange={(value) => console.log(value)}
-            colors={["green", "red", "orange", "yellow"]}
-          />
-        </div>
-      </div>
-    </div>
+    <>
+      <p className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        Total de proyectos en el sistema
+      </p>
+      <BarChart
+        className="mt-6"
+        data={data}
+        index="name"
+        categories={['Proyectos']}
+        colors={['green']}
+        valueFormatter={dataFormatter}
+        yAxisWidth={48}
+      />
+    </>
   );
-};
+}
