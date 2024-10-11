@@ -15,7 +15,7 @@ import OlvidarContraseña from './Pages/Principal/OlvidarContraseña';
 import UpdatePassword from './Pages/Principal/UpdatePassword';
 import Inicio from './Pages/Principal/Incio';
 import Registro1 from './Pages/Principal/Registro1';
-import CrearArea from './Pages/SuperAdmin/CrearArea';
+
 
 /* SuperAdmin */
 import Dashboard from './Pages/SuperAdmin/Dashboard';
@@ -78,7 +78,6 @@ const App = () => {
 
           {/* Rutas protegidas */}
           <Route element={<RutaProtegida allowedRoles={['3']} />}> {/* Rol de SuperAdmin */}
-            <Route path="/SuperAdmin/CrearArea" element={<CrearArea />} />
             <Route path="/SuperAdmin/dashboard" element={<Dashboard />} />
             <Route path="/SuperAdmin/Adminusuarios" element={<AdminUsuarios />} />
             <Route path="/SuperAdmin/proyectos" element={<AdminProyectos />} />
