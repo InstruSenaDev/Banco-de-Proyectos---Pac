@@ -118,7 +118,7 @@ const config = {
   ],
   plugins: [
     require('@headlessui/tailwindcss'),
-    require('@tailwindcss/forms'),
+    // require('@tailwindcss/forms'),
   ],
 };
 
